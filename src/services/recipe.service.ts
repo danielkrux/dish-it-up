@@ -1,12 +1,14 @@
-import { Recipe } from "../../supabase/functions/recipe-parser/types/Recipe";
+import { Recipe } from "../../types/Recipe";
 import { supabase } from "../app/_layout";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
-  const result = await supabase.functions.invoke<Recipe>("recipe-parser", {
-    body: { url },
-  });
+  const result = await supabase.functions.invoke<Recipe>(
+    `recipe-parser?url=${encodeURI(url)}`,
+    { method: "GET" }
+  );
 
   if (result.error) {
+    console.error(result.error.message);
     throw new Error(result.error.message);
   }
 
@@ -23,7 +25,7 @@ export async function saveRecipe(recipe?: Recipe) {
     description: recipe?.description,
     ingredients: recipe?.ingredients,
     instructions: recipe?.instructions,
-    image_url: recipe?.imageUrl,
+    image_url: recipe?.image_url,
   });
 
   if (result.error) {

@@ -1,33 +1,20 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image as ExpoImage } from "expo-image";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import { Recipe } from "../../../../supabase/functions/recipe-parser/types/Recipe";
-import { parseRecipe, saveRecipe } from "../../../services/recipe.service";
+import { saveRecipe } from "../../../services/recipe.service";
 import Button from "../../../components/Button";
 import theme from "../../../theme";
 import useSafeAreaInsets from "../../../hooks/useSafeAreaInsets";
 import TextInput from "../../../components/Input";
 import Text from "../../../components/Text";
+import { Recipe } from "../../../../types/Recipe";
 
-export default function AddRecipe() {
+export default function EditRecipe({ recipe }: { recipe?: Recipe }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const insets = useSafeAreaInsets();
-  const [recipe, setRecipe] = useState<Recipe | undefined>();
-  const [url, setUrl] = useState(
-    "https://www.eefkooktzo.nl/makkelijke-moussaka"
-  );
-
-  const parseRecipeMutation = useMutation({
-    mutationFn: parseRecipe,
-    onSuccess: (data) => {
-      if (!data) return;
-      setRecipe(data);
-    },
-  });
 
   const saveRecipeMutation = useMutation({
     mutationFn: saveRecipe,
@@ -45,37 +32,28 @@ export default function AddRecipe() {
     setRecipe((prev) => ({ ...prev, [field]: text }));
   };
 
+  if (!recipe) return null;
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-        <TextInput
-          placeholder="Enter url"
-          value={url}
-          onChangeText={(text) => setUrl(text)}
-        />
-        <Button
-          style={styles.importButton}
-          onPress={() => parseRecipeMutation.mutate(url)}
-        >
-          Import recipe
-        </Button>
         {recipe && (
           <View style={styles.recipe}>
             <TextInput
-              defaultValue={recipe?.name}
+              defaultValue={recipe?.name ?? ""}
               onChangeText={(t) => handleTextChange(t, "name")}
             />
             <ExpoImage
               style={styles.image}
-              source={{ uri: recipe?.imageUrl }}
+              source={{ uri: recipe?.image_url ?? "" }}
             />
             <View>
               <TextInput
                 numberOfLines={4}
-                defaultValue={recipe?.description}
+                defaultValue={recipe?.description ?? ""}
                 onChangeText={(t) => handleTextChange(t, "description")}
                 multiline
               />

@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack as RouterStack, useLocalSearchParams } from "expo-router";
 
 import { getRecipe } from "../../services/recipe.service";
-import type { Recipe } from "../../types/Recipe";
+import type { Recipe } from "../../../types/Recipe";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();

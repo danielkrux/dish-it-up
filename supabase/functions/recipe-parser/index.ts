@@ -3,7 +3,8 @@ import parseHtmlToRecipeSchema from "./parseHtmlToRecipeSchema.ts";
 import parseSchemaToRecipe from "./parseSchemaToRecipe.ts";
 
 serve(async (req) => {
-  const { url } = await req.json();
+  const { searchParams } = new URL(req.url);
+  const url = searchParams.get("url");
 
   if (!url) {
     return new Response("URL is required", {
@@ -19,7 +20,6 @@ serve(async (req) => {
     const html = await response.text();
 
     const schema = parseHtmlToRecipeSchema(html);
-
     const recipe = parseSchemaToRecipe(schema);
 
     return new Response(JSON.stringify(recipe), {

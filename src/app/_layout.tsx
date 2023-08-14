@@ -1,5 +1,7 @@
 import "react-native-url-polyfill/auto";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { withLayoutContext } from "expo-router";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -10,9 +12,9 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from "@react-navigation/stack";
-
-import { withLayoutContext } from "expo-router";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { ThemeProvider, DefaultTheme, Theme } from "@react-navigation/native";
+import theme from "../theme";
+import Header from "../components/Header";
 
 const { Navigator } = createStackNavigator();
 
@@ -22,6 +24,14 @@ export const Stack = withLayoutContext<
 >(Navigator);
 
 export const supabase = initSupabase();
+
+const NavigationTheme: Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: theme.colors.white,
+  },
+};
 
 const Layout = () => {
   useOnlineManager();
@@ -37,17 +47,17 @@ const Layout = () => {
   // }
 
   return (
-    <BottomSheetModalProvider>
-      <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-      </QueryClientProvider>
-    </BottomSheetModalProvider>
+    <ThemeProvider value={NavigationTheme}>
+      <BottomSheetModalProvider>
+        <QueryClientProvider client={queryClient}>
+          <Stack
+            screenOptions={{
+              header: Header,
+            }}
+          />
+        </QueryClientProvider>
+      </BottomSheetModalProvider>
+    </ThemeProvider>
   );
 };
 

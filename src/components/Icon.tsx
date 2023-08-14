@@ -1,7 +1,9 @@
 import FeatherIcons from "@expo/vector-icons/Feather";
 
+export type IconName = keyof typeof FeatherIcons.glyphMap;
+
 export type IconProps = {
-  name: keyof typeof FeatherIcons.glyphMap;
+  name: IconName;
   color: string;
   size: number;
 };

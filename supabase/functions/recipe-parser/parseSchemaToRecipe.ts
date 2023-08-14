@@ -1,5 +1,5 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
-import { Recipe } from "./types/Recipe.ts";
+// import { Recipe } from "../../../types/Recipe.ts";
 
 const getImage = (image: string | string[]) => {
   if (typeof image === "string") return image;
@@ -9,7 +9,7 @@ const getImage = (image: string | string[]) => {
   );
 };
 
-function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>): Recipe {
+function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
   const instructions = schema.recipeInstructions?.map((instruction: any) => {
     if (typeof instruction === "string") return instruction;
 
@@ -18,12 +18,12 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>): Recipe {
 
   const image = getImage(schema.image);
 
-  const recipe: Recipe = {
+  const recipe = {
     name: schema.name,
     description: schema.description,
     ingredients: schema.recipeIngredient,
     instructions: instructions,
-    imageUrl: image,
+    image_url: image,
   };
 
   return recipe;

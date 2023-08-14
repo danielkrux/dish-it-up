@@ -5,8 +5,8 @@
       "path": "./"
     },
     {
-      "name": "supabase-functions",
-      "path": "supabase/functions"
+      "name": "supabase",
+      "path": "supabase"
     }
   ],
   "settings": {
