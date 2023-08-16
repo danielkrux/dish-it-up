@@ -15,7 +15,7 @@ export default function Recipe() {
 
   return (
     <View>
-      <RouterStack.Screen options={{ title: data?.name }} />
+      <RouterStack.Screen options={{ title: data?.name ?? "" }} />
       <Text>{data?.name}</Text>
     </View>
   );

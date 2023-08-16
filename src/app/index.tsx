@@ -18,6 +18,7 @@ import theme from "../theme";
 import EnterUrl from "../features/recipe/components/EnterUrl";
 import EditRecipe from "../features/recipe/components/EditRecipe";
 import { Recipe } from "../../types/Recipe";
+import { isValidUrl } from "./utils/url";
 
 const extractKey = (item: Recipe) => item.id;
 
@@ -30,12 +31,12 @@ export default function Home() {
   useRefreshOnFocus(refetch);
 
   const snapPoints = useMemo(
-    () => (addingStep === "enterUrl" ? ["20%"] : ["100%"]),
+    () => (addingStep === "enterUrl" ? ["20%"] : ["99%"]),
     [addingStep]
   );
 
   useQuery(["parse-recipe", url], () => parseRecipe(url), {
-    enabled: Boolean(url),
+    enabled: isValidUrl(url),
     onSuccess: (data) => {
       if (!data) return;
       setRecipe(data);
@@ -81,11 +82,13 @@ export default function Home() {
           keyboardBlurBehavior="restore"
           enablePanDownToClose
         >
-          <EnterUrl
-            value={url}
-            onChangeText={setUrl}
-            onSubmit={() => setAddingStep("editRecipe")}
-          />
+          {addingStep === "enterUrl" && (
+            <EnterUrl
+              value={url}
+              onChangeText={setUrl}
+              onSubmit={() => setAddingStep("editRecipe")}
+            />
+          )}
           {addingStep === "editRecipe" && <EditRecipe recipe={recipe} />}
         </BottomSheet>
       )}
