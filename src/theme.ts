@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export const pallettes = {
   black: {
     900: "#000000",
@@ -8,9 +10,12 @@ export const pallettes = {
     400: "#8D8D8D",
     300: "#AAAAAA",
     200: "#C6C6C6",
-    100: "#E2E2E2",
+    100: "#F4F4F4",
   },
 };
+
+export const SCREEN_WIDTH = Dimensions.get("window").width;
+export const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default {
   colors: {
@@ -30,6 +35,6 @@ export default {
     s: 12,
     m: 14,
     l: 16,
-    xl: 20,
+    xl: 30,
   } as const,
 };

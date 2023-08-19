@@ -3,7 +3,7 @@ import { Image as ExpoImage } from "expo-image";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import { saveRecipe } from "../../../services/recipe.service";
+import { saveRecipe } from "../recipe.service";
 import Button from "../../../components/Button";
 import theme from "../../../theme";
 import useSafeAreaInsets from "../../../hooks/useSafeAreaInsets";

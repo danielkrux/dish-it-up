@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
-import { Image } from "expo-image";
+import { useState } from "react";
 import {
   FlatList,
+  Image,
+  Keyboard,
   ListRenderItemInfo,
   Pressable,
   StyleSheet,
@@ -9,91 +10,139 @@ import {
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
-import BottomSheet from "@gorhom/bottom-sheet";
+import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
-import { getRecipes, parseRecipe } from "../services/recipe.service";
+import { getRecipes } from "../features/recipe/recipe.service";
 import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 import IconButton from "../components/IconButton";
-import theme from "../theme";
-import EnterUrl from "../features/recipe/components/EnterUrl";
-import EditRecipe from "../features/recipe/components/EditRecipe";
+import theme, { SCREEN_WIDTH } from "../theme";
 import { Recipe } from "../../types/Recipe";
-import { isValidUrl } from "./utils/url";
+import { AddRecipe } from "../features/recipe/components/AddRecipe";
+import { AnimatedText } from "../components/Text";
+import TextInput from "../components/Input";
+import Button from "../components/Button";
 
 const extractKey = (item: Recipe) => item.id;
 
+const AnimatedImage = Animated.createAnimatedComponent(Image);
+
 export default function Home() {
   const { push } = useRouter();
+  const [isSearching, setIsSearching] = useState(false);
+  const [step, setStep] = useState<"enterUrl" | "editRecipe">();
+
   const { data, refetch } = useQuery(["recipes"], getRecipes);
-  const [url, setUrl] = useState("");
-  const [recipe, setRecipe] = useState<Recipe | undefined>();
-  const [addingStep, setAddingStep] = useState<"enterUrl" | "editRecipe">();
   useRefreshOnFocus(refetch);
 
-  const snapPoints = useMemo(
-    () => (addingStep === "enterUrl" ? ["20%"] : ["99%"]),
-    [addingStep]
-  );
+  function cancelSearch() {
+    setIsSearching(false);
+    Keyboard.dismiss();
+  }
 
-  useQuery(["parse-recipe", url], () => parseRecipe(url), {
-    enabled: isValidUrl(url),
-    onSuccess: (data) => {
-      if (!data) return;
-      setRecipe(data);
-    },
-  });
-
-  function renderItem({ item }: ListRenderItemInfo<Recipe>) {
+  function renderItem({ item, index }: ListRenderItemInfo<Recipe>) {
     return (
-      <Pressable onPress={() => push(`/recipe/${item.id}`)}>
-        <Image
-          style={{ height: 120, width: 120 }}
-          source={{ uri: item.image_url ?? "" }}
-        />
+      <Pressable
+        style={styles.recipeCard}
+        onPress={() => push(`/recipe/${item.id}`)}
+      >
+        <Animated.View
+          style={{ flex: 1 }}
+          sharedTransitionTag={`${item.image_url}`}
+        >
+          <Image
+            style={styles.recipeImage}
+            source={{ uri: item.image_url ?? "" }}
+          />
+        </Animated.View>
       </Pressable>
     );
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <Stack.Screen
-        options={{
-          title: "Home",
-          headerRight: () => (
-            <IconButton
-              icon="plus"
-              size="medium"
-              onPress={() => setAddingStep("enterUrl")}
-              style={{ alignSelf: "flex-end", marginRight: theme.spacing.s }}
+    <>
+      <View style={styles.container}>
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <IconButton
+                icon="plus"
+                size="medium"
+                onPress={() => setStep("enterUrl")}
+                style={{ alignSelf: "flex-end", marginRight: theme.spacing.s }}
+              />
+            ),
+          }}
+        />
+        {!isSearching && (
+          <AnimatedText
+            exiting={FadeOut.duration(100)}
+            entering={FadeIn}
+            type="header"
+            style={styles.title}
+          >
+            Get cooking today!
+          </AnimatedText>
+        )}
+        <Animated.View style={{ flex: 1 }} layout={Layout.duration(200)}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              onFocus={() => setIsSearching(true)}
+              onBlur={() => setIsSearching(false)}
+              placeholder="Search recipes"
+              style={styles.search}
             />
-          ),
-        }}
-      />
-      <FlatList
-        data={data}
-        keyExtractor={extractKey}
-        numColumns={2}
-        renderItem={renderItem}
-      />
-      {addingStep && (
-        <BottomSheet
-          onClose={() => setAddingStep(undefined)}
-          snapPoints={snapPoints}
-          keyboardBlurBehavior="restore"
-          enablePanDownToClose
-        >
-          {addingStep === "enterUrl" && (
-            <EnterUrl
-              value={url}
-              onChangeText={setUrl}
-              onSubmit={() => setAddingStep("editRecipe")}
-            />
-          )}
-          {addingStep === "editRecipe" && <EditRecipe recipe={recipe} />}
-        </BottomSheet>
-      )}
-    </View>
+            {isSearching && (
+              <Button variant="ghost" onPress={cancelSearch}>
+                CANCEL
+              </Button>
+            )}
+          </View>
+          <FlatList
+            data={data}
+            keyExtractor={extractKey}
+            columnWrapperStyle={styles.recipeListContent}
+            renderItem={renderItem}
+            numColumns={2}
+            decelerationRate="fast"
+          />
+        </Animated.View>
+      </View>
+      <AddRecipe step={step} setStep={setStep} />
+    </>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  title: {
+    marginBottom: theme.spacing.m,
+    marginHorizontal: theme.spacing.s,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    marginHorizontal: theme.spacing.s,
+    alignItems: "center",
+  },
+  search: {
+    flex: 1,
+    marginBottom: theme.spacing.m,
+  },
+  recipeListContent: {
+    paddingHorizontal: theme.spacing.s,
+    justifyContent: "space-between",
+  },
+  recipeCard: {
+    aspectRatio: 1,
+    width: SCREEN_WIDTH / 2 - theme.spacing.s * 1.5,
+    borderRadius: 40,
+    marginBottom: theme.spacing.s,
+  },
+  recipeImage: {
+    flex: 1,
+    height: undefined,
+    width: undefined,
+    borderRadius: 40,
+  },
+});

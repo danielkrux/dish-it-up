@@ -1,5 +1,5 @@
-import { Recipe } from "../../types/Recipe";
-import { supabase } from "../app/_layout";
+import { Recipe } from "../../../types/Recipe";
+import { supabase } from "../../app/_layout";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(

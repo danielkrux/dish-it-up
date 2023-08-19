@@ -1,10 +1,11 @@
-import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
+import { Pressable, PressableProps, StyleSheet } from "react-native";
 import theme from "../theme";
 import Icon, { IconProps } from "./Icon";
+import Text from "./Text";
 
 export type ButtonProps = {
   size?: "small" | "large";
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
   children: string;
   icon?: IconProps["name"];
 } & PressableProps;
@@ -42,7 +43,7 @@ export default function Button({
       disabled={disabled}
       {...props}
     >
-      {icon && <Icon name="plus" size={16} color={theme.colors.white} />}
+      {icon && <Icon name={icon} size={16} color={theme.colors.white} />}
       <Text style={[textStyle, textSizeStyle]}>{children}</Text>
     </Pressable>
   );
@@ -72,6 +73,13 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white,
   },
   secondaryText: {
+    color: theme.colors.black,
+  },
+  ghost: {
+    backgroundColor: "transparent",
+    borderColor: "transparent",
+  },
+  ghostText: {
     color: theme.colors.black,
   },
   small: {

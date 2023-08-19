@@ -2,6 +2,11 @@ import "react-native-url-polyfill/auto";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { withLayoutContext } from "expo-router";
+import {
+  useFonts,
+  JosefinSans_700Bold,
+  Inter_400Regular,
+} from "@expo-google-fonts/dev";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -37,14 +42,14 @@ const Layout = () => {
   useOnlineManager();
   useAppState(onAppStateChange);
 
-  // const [loaded] = useFonts({
-  //   Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-  //   InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
-  // });
+  const [loaded] = useFonts({
+    JoseFinSansBold: JosefinSans_700Bold,
+    InterRegular: Inter_400Regular,
+  });
 
-  // if (!loaded) {
-  //   return null;
-  // }
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider value={NavigationTheme}>
