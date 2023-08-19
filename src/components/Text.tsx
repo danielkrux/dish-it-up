@@ -9,10 +9,14 @@ import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
   type?: "header" | "body";
+  light?: boolean;
 } & RNTextProps;
 
 export default function Text({ type = "body", style, ...props }: TextProps) {
-  return <RNText style={[styles.text, styles[type], style]} {...props} />;
+  const color = props.light ? theme.colors.white : theme.colors.text;
+  return (
+    <RNText style={[styles.text, styles[type], { color }, style]} {...props} />
+  );
 }
 
 export const AnimatedText = Animated.createAnimatedComponent(

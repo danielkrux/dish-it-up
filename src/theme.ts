@@ -19,17 +19,19 @@ export const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default {
   colors: {
-    primary: "#98D9C2",
-    secondary: "#ABEDC6",
-    grey: "#F4F4F4",
+    primary: "#BFCFBC",
+    secondary: "#30362F",
     black: pallettes.black[900],
     white: "#FFFFFF",
+    background: "#F1F1F1",
+    text: "#15140F",
   } as const,
   spacing: {
     xs: 8,
-    s: 16,
-    m: 24,
-    l: 32,
+    s: 12,
+    m: 16,
+    l: 20,
+    xl: 24,
   } as const,
   fontSize: {
     s: 12,

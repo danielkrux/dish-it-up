@@ -34,8 +34,8 @@ export default function Recipe() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: theme.spacing.s,
-    marginVertical: theme.spacing.s,
+    marginHorizontal: theme.spacing.m,
+    marginVertical: theme.spacing.m,
   },
   title: {
     marginBottom: theme.spacing.m,
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     width: "100%",
     aspectRatio: 1.8,
     borderRadius: 40,
-    marginBottom: theme.spacing.s,
+    marginBottom: theme.spacing.m,
   },
 });

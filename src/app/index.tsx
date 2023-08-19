@@ -8,19 +8,19 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
 import { getRecipes } from "../features/recipe/recipe.service";
 import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
-import IconButton from "../components/IconButton";
 import theme, { SCREEN_WIDTH } from "../theme";
 import { Recipe } from "../../types/Recipe";
 import { AddRecipe } from "../features/recipe/components/AddRecipe";
 import { AnimatedText } from "../components/Text";
 import TextInput from "../components/Input";
 import Button from "../components/Button";
+import FloatingButton from "../components/FloatingButton";
 
 const extractKey = (item: Recipe) => item.id;
 
@@ -61,18 +61,9 @@ export default function Home() {
   return (
     <>
       <View style={styles.container}>
-        <Stack.Screen
-          options={{
-            headerRight: () => (
-              <IconButton
-                icon="plus"
-                size="medium"
-                onPress={() => setStep("enterUrl")}
-                style={{ alignSelf: "flex-end", marginRight: theme.spacing.s }}
-              />
-            ),
-          }}
-        />
+        <FloatingButton onPress={() => setStep("enterUrl")}>
+          Add recipe
+        </FloatingButton>
         {!isSearching && (
           <AnimatedText
             exiting={FadeOut.duration(100)}
@@ -118,11 +109,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.m,
-    marginHorizontal: theme.spacing.s,
+    marginHorizontal: theme.spacing.m,
   },
   searchContainer: {
     flexDirection: "row",
-    marginHorizontal: theme.spacing.s,
+    marginHorizontal: theme.spacing.m,
     alignItems: "center",
   },
   search: {
@@ -130,14 +121,14 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.m,
   },
   recipeListContent: {
-    paddingHorizontal: theme.spacing.s,
+    paddingHorizontal: theme.spacing.m,
     justifyContent: "space-between",
   },
   recipeCard: {
     aspectRatio: 1,
-    width: SCREEN_WIDTH / 2 - theme.spacing.s * 1.5,
+    width: SCREEN_WIDTH / 2 - theme.spacing.m * 1.5,
     borderRadius: 40,
-    marginBottom: theme.spacing.s,
+    marginBottom: theme.spacing.m,
   },
   recipeImage: {
     flex: 1,

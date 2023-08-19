@@ -5,7 +5,7 @@ import { withLayoutContext } from "expo-router";
 import {
   useFonts,
   JosefinSans_700Bold,
-  Inter_400Regular,
+  Inter_500Medium,
 } from "@expo-google-fonts/dev";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
@@ -19,7 +19,6 @@ import {
 } from "@react-navigation/stack";
 import { ThemeProvider, DefaultTheme, Theme } from "@react-navigation/native";
 import theme from "../theme";
-import Header from "../components/Header";
 
 const { Navigator } = createStackNavigator();
 
@@ -34,7 +33,7 @@ const NavigationTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: theme.colors.white,
+    background: theme.colors.background,
   },
 };
 
@@ -44,7 +43,7 @@ const Layout = () => {
 
   const [loaded] = useFonts({
     JoseFinSansBold: JosefinSans_700Bold,
-    InterRegular: Inter_400Regular,
+    InterRegular: Inter_500Medium,
   });
 
   if (!loaded) {
@@ -57,7 +56,12 @@ const Layout = () => {
         <QueryClientProvider client={queryClient}>
           <Stack
             screenOptions={{
-              header: Header,
+              headerTitle: "",
+              headerShadowVisible: false,
+              headerTintColor: theme.colors.primary,
+              headerStyle: {
+                backgroundColor: theme.colors.background,
+              },
             }}
           />
         </QueryClientProvider>
