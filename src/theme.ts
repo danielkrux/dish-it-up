@@ -38,7 +38,8 @@ export default {
     xs: 10,
     s: 12,
     m: 14,
-    l: 22,
-    xl: 30,
+    l: 16,
+    xl: 22,
+    xxl: 30,
   } as const,
 };

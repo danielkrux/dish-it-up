@@ -25,7 +25,9 @@ export default function RecipeImageCard({ recipe }: { recipe: Recipe }) {
         style={styles.content}
         locations={[0.2, 1]}
       >
-        <Text light>{recipe.name}</Text>
+        <Text light type="header" size="l">
+          {recipe.name}
+        </Text>
       </LinearGradient>
     </Pressable>
   );

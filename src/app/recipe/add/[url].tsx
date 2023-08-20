@@ -12,7 +12,7 @@ import {
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 
-import { isValidUrl } from "../../utils/url";
+import { isValidUrl } from "../../../utils/url";
 import Text from "../../../components/Text";
 import theme from "../../../theme";
 import BlurButton from "../../../components/BlurButton";
@@ -55,7 +55,9 @@ export default function AddRecipeConfirmScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image style={styles.image} source={{ uri: data.image_url }} />
+      {data.image_url && (
+        <Image style={styles.image} source={{ uri: data.image_url }} />
+      )}
       <View
         style={[
           styles.actions,
@@ -99,7 +101,7 @@ export default function AddRecipeConfirmScreen() {
             <Text type="header" size="m">
               {i + 1}
             </Text>
-            <Text key={i} type="body">
+            <Text style={styles.instructionText} key={i} type="body">
               {instruction}
             </Text>
           </View>
@@ -140,5 +142,8 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.s,
     flexDirection: "row",
     gap: theme.spacing.s,
+  },
+  instructionText: {
+    flex: 1,
   },
 });

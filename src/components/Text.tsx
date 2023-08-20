@@ -23,7 +23,7 @@ export default function Text({
   const sizeStyle = size
     ? styles[size]
     : type === "header"
-    ? styles["xl"]
+    ? styles["xxl"]
     : styles["m"];
   return (
     <RNText style={[styles[type], sizeStyle, { color }, style]} {...props} />
@@ -60,5 +60,9 @@ const styles = StyleSheet.create({
   xl: {
     fontSize: theme.fontSize.xl,
     lineHeight: theme.fontSize.xl * 1.2,
+  },
+  xxl: {
+    fontSize: theme.fontSize.xxl,
+    lineHeight: theme.fontSize.xxl * 1.2,
   },
 });
