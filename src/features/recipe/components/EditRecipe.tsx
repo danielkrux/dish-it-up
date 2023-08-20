@@ -11,7 +11,13 @@ import TextInput from "../../../components/Input";
 import Text from "../../../components/Text";
 import { Recipe } from "../../../../types/Recipe";
 
-export default function EditRecipe({ recipe }: { recipe?: Recipe }) {
+export default function EditRecipe({
+  recipe,
+  onAddRecipe,
+}: {
+  recipe?: Recipe;
+  onAddRecipe?: () => void;
+}) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const insets = useSafeAreaInsets();
@@ -19,7 +25,7 @@ export default function EditRecipe({ recipe }: { recipe?: Recipe }) {
   const saveRecipeMutation = useMutation({
     mutationFn: saveRecipe,
     onSuccess: () => {
-      router.back();
+      onAddRecipe && onAddRecipe();
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
     },
     onError: (error) => {

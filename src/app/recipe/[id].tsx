@@ -1,7 +1,7 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack as RouterStack, useLocalSearchParams } from "expo-router";
-// import { Image } from "expo-image";
+import { Image } from "expo-image";
 
 import { getRecipe } from "../../features/recipe/recipe.service";
 import type { Recipe } from "../../../types/Recipe";
@@ -24,7 +24,7 @@ export default function Recipe() {
         {data?.name}
       </Text>
       <Animated.View sharedTransitionTag={`${data?.image_url}`} style={{}}>
-        <Image source={{ uri: data?.image_url ?? "" }} style={styles.image} />
+        <Image source={{ uri: data?.image_url }} style={styles.image} />
       </Animated.View>
       <Text>{data?.description}</Text>
     </View>

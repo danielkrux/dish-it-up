@@ -1,37 +1,50 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   FlatList,
-  Image,
   Keyboard,
   ListRenderItemInfo,
-  Pressable,
   StyleSheet,
   View,
 } from "react-native";
-import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
+import { router, useLocalSearchParams } from "expo-router";
 
 import { getRecipes } from "../features/recipe/recipe.service";
 import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
-import theme, { SCREEN_WIDTH } from "../theme";
+import theme from "../theme";
 import { Recipe } from "../../types/Recipe";
 import { AddRecipe } from "../features/recipe/components/AddRecipe";
 import { AnimatedText } from "../components/Text";
 import TextInput from "../components/Input";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
+import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
+import useDebounce from "../hooks/useDebounce";
+import ChipList from "../components/ChipList";
+import RecipeQuickFilter from "../features/home/components/RecipeFilters";
 
 const extractKey = (item: Recipe) => item.id;
 
-const AnimatedImage = Animated.createAnimatedComponent(Image);
+const searcRecipeByName = (recipes: Recipe[], query?: string) => {
+  if (!query) return recipes;
+  return recipes.filter((r) =>
+    r.name?.toLowerCase().includes(query.toLowerCase())
+  );
+};
 
 export default function Home() {
-  const { push } = useRouter();
   const [isSearching, setIsSearching] = useState(false);
-  const [step, setStep] = useState<"enterUrl" | "editRecipe">();
+  const [isAdding, setIsAdding] = useState(false);
+  const { q } = useLocalSearchParams<{ q?: string }>();
+  const query = useDebounce(q, 300);
 
-  const { data, refetch } = useQuery(["recipes"], getRecipes);
+  const { data, refetch } = useQuery(["recipes"], getRecipes, {
+    select: useCallback(
+      (data: Recipe[]) => searcRecipeByName(data, query),
+      [query]
+    ),
+  });
   useRefreshOnFocus(refetch);
 
   function cancelSearch() {
@@ -39,31 +52,14 @@ export default function Home() {
     Keyboard.dismiss();
   }
 
-  function renderItem({ item, index }: ListRenderItemInfo<Recipe>) {
-    return (
-      <Pressable
-        style={styles.recipeCard}
-        onPress={() => push(`/recipe/${item.id}`)}
-      >
-        <Animated.View
-          style={{ flex: 1 }}
-          sharedTransitionTag={`${item.image_url}`}
-        >
-          <Image
-            style={styles.recipeImage}
-            source={{ uri: item.image_url ?? "" }}
-          />
-        </Animated.View>
-      </Pressable>
-    );
-  }
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Recipe>) => <RecipeImageCard recipe={item} />,
+    []
+  );
 
   return (
     <>
       <View style={styles.container}>
-        <FloatingButton onPress={() => setStep("enterUrl")}>
-          Add recipe
-        </FloatingButton>
         {!isSearching && (
           <AnimatedText
             exiting={FadeOut.duration(100)}
@@ -77,6 +73,10 @@ export default function Home() {
         <Animated.View style={{ flex: 1 }} layout={Layout.duration(200)}>
           <View style={styles.searchContainer}>
             <TextInput
+              value={q}
+              onChangeText={(text) => {
+                router.setParams({ q: text });
+              }}
               onFocus={() => setIsSearching(true)}
               onBlur={() => setIsSearching(false)}
               placeholder="Search recipes"
@@ -88,17 +88,20 @@ export default function Home() {
               </Button>
             )}
           </View>
+          {/* <RecipeQuickFilter /> */}
           <FlatList
             data={data}
             keyExtractor={extractKey}
             columnWrapperStyle={styles.recipeListContent}
             renderItem={renderItem}
             numColumns={2}
-            decelerationRate="fast"
           />
         </Animated.View>
+        <FloatingButton onPress={() => setIsAdding(true)}>
+          Add recipe
+        </FloatingButton>
       </View>
-      <AddRecipe step={step} setStep={setStep} />
+      {isAdding && <AddRecipe onClose={() => setIsAdding(false)} />}
     </>
   );
 }
@@ -123,17 +126,5 @@ const styles = StyleSheet.create({
   recipeListContent: {
     paddingHorizontal: theme.spacing.m,
     justifyContent: "space-between",
-  },
-  recipeCard: {
-    aspectRatio: 1,
-    width: SCREEN_WIDTH / 2 - theme.spacing.m * 1.5,
-    borderRadius: 40,
-    marginBottom: theme.spacing.m,
-  },
-  recipeImage: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
-    borderRadius: 40,
   },
 });

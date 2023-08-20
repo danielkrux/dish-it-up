@@ -33,7 +33,7 @@ const NavigationTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: theme.colors.background,
+    background: theme.colors.white,
   },
 };
 
@@ -58,9 +58,9 @@ const Layout = () => {
             screenOptions={{
               headerTitle: "",
               headerShadowVisible: false,
-              headerTintColor: theme.colors.primary,
+              headerTintColor: theme.colors.text,
               headerStyle: {
-                backgroundColor: theme.colors.background,
+                backgroundColor: theme.colors.white,
               },
             }}
           />

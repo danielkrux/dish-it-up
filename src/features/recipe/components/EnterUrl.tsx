@@ -21,7 +21,7 @@ export default function EnterUrl({
         onChangeText={onChangeText}
         value={value}
       />
-      <Button size="large" onPress={onSubmit}>
+      <Button size="large" onPress={onSubmit} variant="primary">
         Import Recipe
       </Button>
     </View>

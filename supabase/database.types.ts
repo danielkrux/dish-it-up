@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       recipes: {
         Row: {
+          category: string | null
           created_at: string
           description: string | null
           id: string
@@ -18,8 +19,10 @@ export interface Database {
           ingredients: string[] | null
           instructions: string[] | null
           name: string | null
+          recipe_yield: number | null
         }
         Insert: {
+          category?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -27,8 +30,10 @@ export interface Database {
           ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
+          recipe_yield?: number | null
         }
         Update: {
+          category?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -36,6 +41,7 @@ export interface Database {
           ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
+          recipe_yield?: number | null
         }
         Relationships: []
       }

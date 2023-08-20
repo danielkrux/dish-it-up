@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 16,
   },
   iconContainer: {
     flexDirection: "row",
@@ -64,16 +64,17 @@ const styles = StyleSheet.create({
     gap: theme.spacing.xs,
   },
   primary: {
-    backgroundColor: theme.colors.black,
+    borderColor: theme.colors.primary,
+    backgroundColor: theme.colors.primary,
   },
   primaryText: {
-    color: theme.colors.white,
+    color: theme.colors.text,
   },
   secondary: {
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.secondary,
   },
   secondaryText: {
-    color: theme.colors.black,
+    color: theme.colors.textLight,
   },
   ghost: {
     backgroundColor: "transparent",

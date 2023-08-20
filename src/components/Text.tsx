@@ -13,7 +13,7 @@ export type TextProps = {
 } & RNTextProps;
 
 export default function Text({ type = "body", style, ...props }: TextProps) {
-  const color = props.light ? theme.colors.white : theme.colors.text;
+  const color = props.light ? theme.colors.textLight : theme.colors.text;
   return (
     <RNText style={[styles.text, styles[type], { color }, style]} {...props} />
   );

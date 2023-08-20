@@ -21,10 +21,11 @@ export default {
   colors: {
     primary: "#BFCFBC",
     secondary: "#30362F",
-    black: pallettes.black[900],
+    black: "#15140F",
     white: "#FFFFFF",
     background: "#F1F1F1",
     text: "#15140F",
+    textLight: "#F1F1F1",
   } as const,
   spacing: {
     xs: 8,

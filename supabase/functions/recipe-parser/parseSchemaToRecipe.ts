@@ -9,6 +9,23 @@ const getImage = (image: string | string[]) => {
   );
 };
 
+function getCategory(category: string | string[]) {
+  let result = "";
+  if (typeof category === "string") {
+    result = category.toLowerCase();
+  } else {
+    result = category[0].toLowerCase();
+  }
+
+  if (result === "hoofdgerecht") return "main";
+  if (result === "bijgerecht") return "side";
+  if (result === "nagerecht") return "dessert";
+  if (result === "ontbijt") return "breakfast";
+  if (result === "lunch") return "lunch";
+
+  return result;
+}
+
 function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
   const instructions = schema.recipeInstructions?.map((instruction: any) => {
     if (typeof instruction === "string") return instruction;
@@ -17,6 +34,7 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
   });
 
   const image = getImage(schema.image);
+  const category = getCategory(schema.recipeCategory);
 
   const recipe = {
     name: schema.name,
@@ -24,6 +42,13 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
     ingredients: schema.recipeIngredient,
     instructions: instructions,
     image_url: image,
+    // cook_time: schema.cookTime,
+    // prep_time: schema.prepTime,
+    // total_time: schema.totalTime,
+    recipe_yield: schema.recipeYield?.[0],
+    // date_published: schema.datePublished,
+    // date_modified: schema.dateModified,
+    category: category,
   };
 
   return recipe;

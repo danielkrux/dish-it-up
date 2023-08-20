@@ -7,18 +7,16 @@ import {
   TextInputFocusEventData,
 } from "react-native";
 import theme, { pallettes } from "../theme";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import createClassComponent from "../utils/createClassComponent";
 
 export type TextInputProps = { bottomSheet?: boolean } & RNTextInputProps;
 
-export default function TextInput({
-  bottomSheet,
-  onFocus,
-  onBlur,
-  ...props
-}: TextInputProps) {
+const TextInput = forwardRef(function TextInput(
+  { bottomSheet, onFocus, onBlur, ...props }: TextInputProps,
+  ref: any
+) {
   const [active, setActive] = useState(false);
   const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     onBlur?.(e);
@@ -33,14 +31,17 @@ export default function TextInput({
 
   return (
     <Input
+      ref={ref}
       {...props}
       style={[props.style, styles.input, active && styles.inputActive]}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      placeholderTextColor={pallettes.black[500]}
+      placeholderTextColor={pallettes.black[600]}
     />
   );
-}
+});
+
+export default TextInput;
 
 export const AnimatedTextInput = Animated.createAnimatedComponent(
   createClassComponent(TextInput)
@@ -51,10 +52,15 @@ const styles = StyleSheet.create({
     fontFamily: "InterRegular",
     alignSelf: "stretch",
     fontSize: theme.fontSize.m,
-    paddingVertical: 12,
-    paddingHorizontal: theme.spacing.s,
-    backgroundColor: pallettes.black[100],
-    borderRadius: 12,
+    paddingVertical: theme.spacing.s,
+    paddingHorizontal: theme.spacing.m,
+    borderRadius: 16,
+    backgroundColor: theme.colors.background,
+    borderWidth: 2,
+    borderColor: theme.colors.background,
   },
-  inputActive: {},
+  inputActive: {
+    backgroundColor: theme.colors.white,
+    borderColor: theme.colors.secondary,
+  },
 });
