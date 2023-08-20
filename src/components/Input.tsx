@@ -52,7 +52,7 @@ export const AnimatedTextInput = Animated.createAnimatedComponent(
 
 const styles = StyleSheet.create({
   input: {
-    fontFamily: "InterRegular",
+    fontFamily: "Body",
     alignSelf: "stretch",
     fontSize: theme.fontSize.m,
     paddingVertical: Platform.select({

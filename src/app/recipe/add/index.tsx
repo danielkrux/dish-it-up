@@ -7,7 +7,7 @@ import Button from "../../../components/Button";
 import TextInput from "../../../components/Input";
 
 export default function Add() {
-  const [url, setUrl] = useState("https://www.eefkooktzo.nl/pruimenjam/");
+  const [url, setUrl] = useState("");
   const router = useRouter();
 
   return (

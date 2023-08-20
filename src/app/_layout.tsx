@@ -1,10 +1,10 @@
 import "react-native-url-polyfill/auto";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Stack, withLayoutContext } from "expo-router";
+import { Stack } from "expo-router";
 import {
   useFonts,
   JosefinSans_700Bold,
-  Inter_500Medium,
+  NotoSans_400Regular,
 } from "@expo-google-fonts/dev";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
@@ -31,8 +31,8 @@ const Layout = () => {
   useAppState(onAppStateChange);
 
   const [loaded] = useFonts({
-    JoseFinSansBold: JosefinSans_700Bold,
-    InterRegular: Inter_500Medium,
+    Heading: JosefinSans_700Bold,
+    Body: NotoSans_400Regular,
   });
 
   if (!loaded) {

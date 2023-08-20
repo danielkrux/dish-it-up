@@ -36,10 +36,10 @@ export const AnimatedText = Animated.createAnimatedComponent(
 
 const styles = StyleSheet.create({
   body: {
-    fontFamily: "InterRegular",
+    fontFamily: "Body",
   },
   header: {
-    fontFamily: "JoseFinSansBold",
+    fontFamily: "Heading",
   },
   xs: {
     fontSize: theme.fontSize.xs,

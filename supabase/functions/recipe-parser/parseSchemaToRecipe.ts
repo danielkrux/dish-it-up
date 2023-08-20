@@ -17,24 +17,32 @@ function getCategory(category: string | string[]) {
     result = category[0].toLowerCase();
   }
 
-  if (result === "hoofdgerecht") return "main";
-  if (result === "bijgerecht") return "side";
-  if (result === "nagerecht") return "dessert";
-  if (result === "ontbijt") return "breakfast";
-  if (result === "lunch") return "lunch";
+  if (result.includes("hoofdgerecht")) return "main";
+  if (result.includes("bijgerecht")) return "side";
+  if (result.includes("nagerecht")) return "dessert";
+  if (result.includes("ontbijt")) return "breakfast";
 
   return result;
 }
 
-function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
-  const instructions = schema.recipeInstructions?.map((instruction: any) => {
+function getInstructions(instructions: any[]): string[] {
+  if (instructions[0].itemListElement) {
+    return getInstructions(instructions[0].itemListElement);
+  }
+
+  return instructions?.map((instruction) => {
     if (typeof instruction === "string") return instruction;
 
     return instruction.text;
   });
+}
 
+function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
+  const instructions = getInstructions(schema.recipeInstructions);
   const image = getImage(schema.image);
   const category = getCategory(schema.recipeCategory);
+
+  console.log(schema);
 
   const recipe = {
     name: schema.name,
