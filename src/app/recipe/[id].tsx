@@ -7,7 +7,6 @@ import { getRecipe } from "../../features/recipe/recipe.service";
 import type { Recipe } from "../../../types/Recipe";
 import Text from "../../components/Text";
 import theme from "../../theme";
-import Animated from "react-native-reanimated";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
@@ -23,13 +22,9 @@ export default function Recipe() {
       <Text style={styles.title} type="header">
         {data?.name}
       </Text>
-      <Animated.View sharedTransitionTag={`${data?.image_url}`} style={{}}>
-        <Animated.Image
-          sharedTransitionTag={`${data?.id}-image`}
-          source={{ uri: data?.image_url }}
-          style={styles.image}
-        />
-      </Animated.View>
+      {data?.image_url && (
+        <Image source={{ uri: data?.image_url }} style={styles.image} />
+      )}
       <Text>{data?.description}</Text>
     </View>
   );

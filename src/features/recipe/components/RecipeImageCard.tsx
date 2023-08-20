@@ -8,7 +8,6 @@ import theme, { SCREEN_WIDTH } from "../../../theme";
 import Text from "../../../components/Text";
 import { Recipe } from "../../../../types/Recipe";
 import { hexToRGBA } from "../../../utils/color";
-import Animated from "react-native-reanimated";
 
 export default function RecipeImageCard({ recipe }: { recipe: Recipe }) {
   const { push } = useRouter();
@@ -18,11 +17,9 @@ export default function RecipeImageCard({ recipe }: { recipe: Recipe }) {
       style={styles.container}
       onPress={() => push(`/recipe/${recipe.id}`)}
     >
-      <Animated.Image
-        // sharedTransitionTag={`${recipe.id}-image`}
-        style={styles.image}
-        source={{ uri: recipe.image_url }}
-      />
+      {recipe.image_url && (
+        <Image style={styles.image} source={{ uri: recipe.image_url }} />
+      )}
       <LinearGradient
         colors={["transparent", hexToRGBA("#000000", 0.9)]}
         style={styles.content}
