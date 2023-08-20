@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   small: {
-    paddingVertical: theme.spacing.xs,
-    paddingHorizontal: theme.spacing.s,
+    paddingVertical: 4,
+    paddingHorizontal: theme.spacing.xs,
     alignSelf: "flex-start",
   },
   large: {

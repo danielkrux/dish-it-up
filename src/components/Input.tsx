@@ -1,6 +1,7 @@
 import {
   Animated,
   NativeSyntheticEvent,
+  Platform,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   StyleSheet,
@@ -37,6 +38,8 @@ const TextInput = forwardRef(function TextInput(
       onBlur={handleBlur}
       onFocus={handleFocus}
       placeholderTextColor={pallettes.black[600]}
+      cursorColor={theme.colors.secondary}
+      selectionColor={theme.colors.secondary}
     />
   );
 });
@@ -52,7 +55,10 @@ const styles = StyleSheet.create({
     fontFamily: "InterRegular",
     alignSelf: "stretch",
     fontSize: theme.fontSize.m,
-    paddingVertical: theme.spacing.s,
+    paddingVertical: Platform.select({
+      ios: theme.spacing.s,
+      android: theme.spacing.xs,
+    }),
     paddingHorizontal: theme.spacing.m,
     borderRadius: 16,
     backgroundColor: theme.colors.background,

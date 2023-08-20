@@ -1,7 +1,6 @@
 import "react-native-url-polyfill/auto";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { withLayoutContext } from "expo-router";
+import { Stack, withLayoutContext } from "expo-router";
 import {
   useFonts,
   JosefinSans_700Bold,
@@ -13,19 +12,9 @@ import { initSupabase } from "../clients/supabase";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 import { useAppState } from "../hooks/useAppState";
 
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-} from "@react-navigation/stack";
 import { ThemeProvider, DefaultTheme, Theme } from "@react-navigation/native";
 import theme from "../theme";
-
-const { Navigator } = createStackNavigator();
-
-export const Stack = withLayoutContext<
-  StackNavigationOptions,
-  typeof Navigator
->(Navigator);
+import { Platform } from "react-native";
 
 export const supabase = initSupabase();
 
@@ -52,20 +41,37 @@ const Layout = () => {
 
   return (
     <ThemeProvider value={NavigationTheme}>
-      <BottomSheetModalProvider>
-        <QueryClientProvider client={queryClient}>
-          <Stack
-            screenOptions={{
+      <QueryClientProvider client={queryClient}>
+        <Stack
+          screenOptions={{
+            headerShadowVisible: false,
+            headerTintColor: theme.colors.text,
+            animation: Platform.select({
+              android: "fade",
+              ios: "default",
+            }),
+          }}
+        >
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: true,
               headerTitle: "",
-              headerShadowVisible: false,
-              headerTintColor: theme.colors.text,
-              headerStyle: {
-                backgroundColor: theme.colors.white,
-              },
             }}
           />
-        </QueryClientProvider>
-      </BottomSheetModalProvider>
+          <Stack.Screen
+            name="recipe/add"
+            options={{
+              presentation: "modal",
+              headerShown: false,
+              animation: Platform.select({
+                android: "fade_from_bottom",
+                ios: "default",
+              }),
+            }}
+          />
+        </Stack>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

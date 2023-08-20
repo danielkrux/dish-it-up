@@ -9,13 +9,24 @@ import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
   type?: "header" | "body";
+  size?: "xl" | "l" | "m" | "s" | "xs";
   light?: boolean;
 } & RNTextProps;
 
-export default function Text({ type = "body", style, ...props }: TextProps) {
+export default function Text({
+  type = "body",
+  size: size,
+  style,
+  ...props
+}: TextProps) {
   const color = props.light ? theme.colors.textLight : theme.colors.text;
+  const sizeStyle = size
+    ? styles[size]
+    : type === "header"
+    ? styles["xl"]
+    : styles["m"];
   return (
-    <RNText style={[styles.text, styles[type], { color }, style]} {...props} />
+    <RNText style={[styles[type], sizeStyle, { color }, style]} {...props} />
   );
 }
 
@@ -24,14 +35,30 @@ export const AnimatedText = Animated.createAnimatedComponent(
 );
 
 const styles = StyleSheet.create({
-  text: {},
   body: {
-    fontSize: 16,
-    lineHeight: 16 * 1.5,
     fontFamily: "InterRegular",
   },
   header: {
-    fontSize: theme.fontSize.xl,
     fontFamily: "JoseFinSansBold",
+  },
+  xs: {
+    fontSize: theme.fontSize.xs,
+    lineHeight: theme.fontSize.xs * 1.5,
+  },
+  s: {
+    fontSize: theme.fontSize.s,
+    lineHeight: theme.fontSize.s * 1.5,
+  },
+  m: {
+    fontSize: theme.fontSize.m,
+    lineHeight: theme.fontSize.m * 1.5,
+  },
+  l: {
+    fontSize: theme.fontSize.l,
+    lineHeight: theme.fontSize.l * 1.5,
+  },
+  xl: {
+    fontSize: theme.fontSize.xl,
+    lineHeight: theme.fontSize.xl * 1.2,
   },
 });

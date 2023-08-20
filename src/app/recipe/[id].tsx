@@ -24,7 +24,11 @@ export default function Recipe() {
         {data?.name}
       </Text>
       <Animated.View sharedTransitionTag={`${data?.image_url}`} style={{}}>
-        <Image source={{ uri: data?.image_url }} style={styles.image} />
+        <Animated.Image
+          sharedTransitionTag={`${data?.id}-image`}
+          source={{ uri: data?.image_url }}
+          style={styles.image}
+        />
       </Animated.View>
       <Text>{data?.description}</Text>
     </View>

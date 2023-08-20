@@ -35,9 +35,10 @@ export default {
     xl: 24,
   } as const,
   fontSize: {
+    xs: 10,
     s: 12,
     m: 14,
-    l: 16,
+    l: 22,
     xl: 30,
   } as const,
 };
