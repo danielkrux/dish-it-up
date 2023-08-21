@@ -40,13 +40,21 @@ export async function saveRecipe(recipe?: Recipe) {
   return result;
 }
 
-export async function getRecipes() {
+export async function getRecipes(searchQuery?: string) {
   let result = null;
 
-  result = await supabase
-    .from("recipes")
-    .select("*")
-    .order("created_at", { ascending: false });
+  if (searchQuery) {
+    result = await supabase
+      .from("recipes")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .ilike("name", `%${searchQuery}%`);
+  } else {
+    result = await supabase
+      .from("recipes")
+      .select("*")
+      .order("created_at", { ascending: false });
+  }
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -56,11 +64,15 @@ export async function getRecipes() {
 }
 
 export async function getRecipe(id: string) {
-  const result = await supabase.from("recipes").select("*").eq("id", id);
+  const result = await supabase
+    .from("recipes")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (result.error) {
     throw new Error(result.error.message);
   }
 
-  return result.data[0];
+  return result.data;
 }

@@ -89,7 +89,7 @@ export default function AddRecipeConfirmScreen() {
           </Text>
           {data?.ingredients?.map((ingredient, i) => (
             <Text key={i} type="body">
-              {ingredient}
+              • {ingredient}
             </Text>
           ))}
         </View>

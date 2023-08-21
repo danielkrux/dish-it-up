@@ -6,7 +6,7 @@ import { Image } from "expo-image";
 import { getRecipe } from "../../features/recipe/recipe.service";
 import type { Recipe } from "../../../types/Recipe";
 import Text from "../../components/Text";
-import theme from "../../theme";
+import theme, { SCREEN_WIDTH } from "../../theme";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
@@ -21,7 +21,6 @@ export default function Recipe() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}
-        contentContainerStyle={{ marginHorizontal: theme.spacing.m }}
       >
         <Stack.Screen options={{ title: "Recipe" }} />
         <View>
@@ -33,6 +32,24 @@ export default function Recipe() {
           )}
         </View>
         <Text style={styles.description}>{data?.description}</Text>
+        <View style={styles.recipeMeta}>
+          <View style={styles.metaEntry}>
+            <Text
+              style={{ color: theme.colors.secondary }}
+              type="header"
+              size="xl"
+            >
+              {data?.recipe_yield}
+            </Text>
+            <Text
+              type="body"
+              size="l"
+              style={{ color: theme.colors.secondary }}
+            >
+              Persons
+            </Text>
+          </View>
+        </View>
         <View style={styles.ingredients}>
           <Text type="header" size="l">
             Ingredients
@@ -43,7 +60,7 @@ export default function Recipe() {
             </Text>
           ))}
         </View>
-        <View>
+        <View style={styles.instructions}>
           <Text type="header" size="l">
             Instructions
           </Text>
@@ -70,18 +87,37 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.m,
+    marginHorizontal: theme.spacing.m,
   },
   description: {
     marginBottom: theme.spacing.m,
+    marginHorizontal: theme.spacing.m,
   },
   image: {
-    width: "100%",
-    aspectRatio: 1.8,
-    borderRadius: 40,
+    width: SCREEN_WIDTH - theme.spacing.m * 2,
+    aspectRatio: 1.7,
+    borderRadius: 20,
     marginBottom: theme.spacing.m,
+    marginHorizontal: theme.spacing.m,
+  },
+  recipeMeta: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.l,
+    paddingVertical: theme.spacing.l,
+    marginBottom: theme.spacing.m,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  metaEntry: {
+    alignItems: "center",
   },
   ingredients: {
     marginBottom: theme.spacing.l,
+    marginHorizontal: theme.spacing.m,
+  },
+  instructions: {
+    marginBottom: theme.spacing.l,
+    marginHorizontal: theme.spacing.m,
   },
   instruction: {
     marginBottom: theme.spacing.s,

@@ -4,6 +4,7 @@ import {
   Keyboard,
   ListRenderItemInfo,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
@@ -23,24 +24,16 @@ import useDebounce from "../hooks/useDebounce";
 
 const extractKey = (item: Recipe) => item.id;
 
-const searcRecipeByName = (recipes: Recipe[], query?: string) => {
-  if (!query) return recipes;
-  return recipes.filter((r) =>
-    r.name?.toLowerCase().includes(query.toLowerCase())
-  );
-};
+const AnimatedView = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function Home() {
   const [isSearching, setIsSearching] = useState(false);
   const { q } = useLocalSearchParams<{ q?: string }>();
   const query = useDebounce(q, 300);
 
-  const { data, refetch } = useQuery(["recipes"], getRecipes, {
-    select: useCallback(
-      (data: Recipe[]) => searcRecipeByName(data, query),
-      [query]
-    ),
-  });
+  const { data, refetch } = useQuery(["recipes", query], () =>
+    getRecipes(query)
+  );
   useRefreshOnFocus(refetch);
 
   function cancelSearch() {
@@ -65,7 +58,7 @@ export default function Home() {
           Get cooking today!
         </AnimatedText>
       )}
-      <Animated.View style={{ flex: 1 }} layout={Layout.duration(200)}>
+      <AnimatedView style={{ flex: 1 }} layout={Layout.duration(200)}>
         <View style={styles.searchContainer}>
           <TextInput
             value={q}
@@ -91,7 +84,7 @@ export default function Home() {
           renderItem={renderItem}
           numColumns={2}
         />
-      </Animated.View>
+      </AnimatedView>
       <FloatingButton onPress={() => router.push("/recipe/add")}>
         Add recipe
       </FloatingButton>

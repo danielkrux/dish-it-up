@@ -1,20 +1,23 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
 // import { Recipe } from "../../../types/Recipe.ts";
 
-const getImage = (image: string | string[]) => {
+function getImage(image?: string | string[]) {
+  if (!image) return null;
   if (typeof image === "string") return image;
 
   return (
     image.find((img) => img.includes(".jpg") || img.includes(".png")) ?? ""
   );
-};
+}
 
-function getCategory(category: string | string[]) {
+function getCategory(category?: string | string[]) {
   let result = "";
+  if (!category) return null;
+
   if (typeof category === "string") {
     result = category.toLowerCase();
   } else {
-    result = category[0].toLowerCase();
+    result = category?.[0].toLowerCase();
   }
 
   if (result.includes("hoofdgerecht")) return "main";
@@ -25,10 +28,13 @@ function getCategory(category: string | string[]) {
   return result;
 }
 
-function getInstructions(instructions: any[]): string[] {
+function getInstructions(instructions?: any[]) {
+  if (!instructions) return null;
   if (instructions[0].itemListElement) {
     return getInstructions(instructions[0].itemListElement);
   }
+
+  if (typeof instructions === "string") return instructions;
 
   return instructions?.map((instruction) => {
     if (typeof instruction === "string") return instruction;
@@ -37,12 +43,21 @@ function getInstructions(instructions: any[]): string[] {
   });
 }
 
+function getYield(yieldValue?: string | number | number[]) {
+  if (!yieldValue) return null;
+
+  if (typeof yieldValue === "string") return null;
+  if (typeof yieldValue === "number") return yieldValue;
+
+  return yieldValue[0];
+}
+
 function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
+  console.log(schema);
   const instructions = getInstructions(schema.recipeInstructions);
   const image = getImage(schema.image);
   const category = getCategory(schema.recipeCategory);
-
-  console.log(schema);
+  const recipeYield = getYield(schema.recipeYield);
 
   const recipe = {
     name: schema.name,
@@ -50,13 +65,13 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
     ingredients: schema.recipeIngredient,
     instructions: instructions,
     image_url: image,
+    category: category,
+    recipe_yield: recipeYield,
     // cook_time: schema.cookTime,
     // prep_time: schema.prepTime,
     // total_time: schema.totalTime,
-    recipe_yield: schema.recipeYield?.[0],
     // date_published: schema.datePublished,
     // date_modified: schema.dateModified,
-    category: category,
   };
 
   return recipe;
