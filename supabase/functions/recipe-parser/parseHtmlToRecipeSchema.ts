@@ -6,17 +6,19 @@ function parseHtmlToRecipeSchema(
   html: string
 ): Record<keyof RecipeSchema, any> {
   const root = parse(html);
-  const jsonld = root.querySelectorAll("script[type='application/ld+json']");
+  const jsonldItems = root.querySelectorAll(
+    "script[type='application/ld+json']"
+  );
 
-  const schemaStr = jsonld.find((item) =>
-    item.innerHTML.includes("Recipe")
-  )?.innerHTML;
+  const recipeSchemaStr = jsonldItems.find((jsonld) => {
+    return jsonld.innerHTML.search(new RegExp(`recipeIngredient`, "i")) !== -1;
+  })?.innerHTML;
 
-  if (!schemaStr) {
+  if (!recipeSchemaStr) {
     throw new Error("Recipe schema not found");
   }
 
-  const cleanSchema = clean(schemaStr);
+  const cleanSchema = clean(recipeSchemaStr);
 
   const schema = JSON.parse(cleanSchema);
 

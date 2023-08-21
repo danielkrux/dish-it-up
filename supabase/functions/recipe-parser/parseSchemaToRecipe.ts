@@ -67,9 +67,9 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
     image_url: image,
     category: category,
     recipe_yield: recipeYield,
+    total_time: schema.totalTime,
     // cook_time: schema.cookTime,
     // prep_time: schema.prepTime,
-    // total_time: schema.totalTime,
     // date_published: schema.datePublished,
     // date_modified: schema.dateModified,
   };
