@@ -1,4 +1,5 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
+import { formatDuration } from "./utils.ts";
 // import { Recipe } from "../../../types/Recipe.ts";
 
 function getImage(image?: string | string[]) {
@@ -53,11 +54,11 @@ function getYield(yieldValue?: string | number | number[]) {
 }
 
 function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
-  console.log(schema);
   const instructions = getInstructions(schema.recipeInstructions);
   const image = getImage(schema.image);
   const category = getCategory(schema.recipeCategory);
   const recipeYield = getYield(schema.recipeYield);
+  const totalTime = formatDuration(schema.totalTime);
 
   const recipe = {
     name: schema.name,
@@ -67,7 +68,7 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
     image_url: image,
     category: category,
     recipe_yield: recipeYield,
-    total_time: schema.totalTime,
+    total_time: totalTime,
     // cook_time: schema.cookTime,
     // prep_time: schema.prepTime,
     // date_published: schema.datePublished,

@@ -20,6 +20,7 @@ export interface Database {
           instructions: string[] | null
           name: string | null
           recipe_yield: number | null
+          total_time: string | null
         }
         Insert: {
           category?: string | null
@@ -31,6 +32,7 @@ export interface Database {
           instructions?: string[] | null
           name?: string | null
           recipe_yield?: number | null
+          total_time?: string | null
         }
         Update: {
           category?: string | null
@@ -42,6 +44,7 @@ export interface Database {
           instructions?: string[] | null
           name?: string | null
           recipe_yield?: number | null
+          total_time?: string | null
         }
         Relationships: []
       }

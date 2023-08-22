@@ -31,7 +31,9 @@ export default function Recipe() {
             <Image source={{ uri: data?.image_url }} style={styles.image} />
           )}
         </View>
-        <Text style={styles.description}>{data?.description}</Text>
+        {data?.description && (
+          <Text style={styles.description}>{data?.description}</Text>
+        )}
         <View style={styles.recipeMeta}>
           <View style={styles.metaEntry}>
             <Text
@@ -47,6 +49,22 @@ export default function Recipe() {
               style={{ color: theme.colors.secondary }}
             >
               Persons
+            </Text>
+          </View>
+          <View style={styles.metaEntry}>
+            <Text
+              style={{ color: theme.colors.secondary }}
+              type="header"
+              size="xl"
+            >
+              {data?.total_time}
+            </Text>
+            <Text
+              type="body"
+              size="l"
+              style={{ color: theme.colors.secondary }}
+            >
+              Total Time
             </Text>
           </View>
         </View>
