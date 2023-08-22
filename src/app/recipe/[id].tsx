@@ -48,7 +48,7 @@ export default function Recipe() {
               size="l"
               style={{ color: theme.colors.secondary }}
             >
-              Persons
+              Servings
             </Text>
           </View>
           <View style={styles.metaEntry}>
