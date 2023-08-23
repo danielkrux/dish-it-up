@@ -7,7 +7,7 @@ import { saveRecipe } from "../recipe.service";
 import Button from "../../../components/Button";
 import theme from "../../../theme";
 import useSafeAreaInsets from "../../../hooks/useSafeAreaInsets";
-import TextInput from "../../../components/Input";
+import InputBase from "../../../components/Inputs/TextInputBase";
 import Text from "../../../components/Text";
 import { Recipe } from "../../../../types/Recipe";
 
@@ -48,7 +48,7 @@ export default function EditRecipe({
       >
         {recipe && (
           <View style={styles.recipe}>
-            <TextInput
+            <InputBase
               defaultValue={recipe?.name ?? ""}
               onChangeText={(t) => handleTextChange(t, "name")}
             />
@@ -57,7 +57,7 @@ export default function EditRecipe({
               source={{ uri: recipe?.image_url ?? "" }}
             />
             <View>
-              <TextInput
+              <InputBase
                 numberOfLines={4}
                 defaultValue={recipe?.description ?? ""}
                 onChangeText={(t) => handleTextChange(t, "description")}
@@ -68,7 +68,7 @@ export default function EditRecipe({
                 {recipe?.ingredients?.map((ingredient, index) => (
                   <View style={styles.ingredient}>
                     <Text style={styles.ingredientCount}>{index + 1}.</Text>
-                    <TextInput
+                    <InputBase
                       style={styles.ingredientInput}
                       defaultValue={ingredient}
                     />

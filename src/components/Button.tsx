@@ -44,7 +44,9 @@ export default function Button({
       {...props}
     >
       {icon && <Icon name={icon} size={16} color={theme.colors.white} />}
-      <Text style={[textStyle, textSizeStyle]}>{children}</Text>
+      <Text type="header" style={[textStyle, textSizeStyle]}>
+        {children}
+      </Text>
     </Pressable>
   );
 }
@@ -84,8 +86,8 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   small: {
-    paddingVertical: 4,
-    paddingHorizontal: theme.spacing.xs,
+    paddingVertical: 0,
+    paddingHorizontal: theme.spacing.s,
     alignSelf: "flex-start",
   },
   large: {
@@ -96,6 +98,6 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSize.s,
   },
   largeText: {
-    fontSize: theme.fontSize.m,
+    fontSize: 18,
   },
 });

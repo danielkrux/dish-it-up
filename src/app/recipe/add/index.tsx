@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import theme from "../../../theme";
 import Text from "../../../components/Text";
 import Button from "../../../components/Button";
-import TextInput from "../../../components/Input";
+import InputBase from "../../../components/Inputs/TextInputBase";
 
 export default function Add() {
   const [url, setUrl] = useState("");
@@ -18,18 +18,24 @@ export default function Add() {
       <Text style={styles.description} type="body">
         Enter a URL to import a recipe from.
       </Text>
-      <TextInput
+      <InputBase
         style={styles.input}
         placeholder="Recipe URL"
         onChangeText={setUrl}
         value={url}
       />
       <Button
-        variant="primary"
         size="large"
         onPress={() => router.push(`/recipe/add/${encodeURIComponent(url)}`)}
       >
         Import Recipe
+      </Button>
+      <Button
+        variant="secondary"
+        size="large"
+        onPress={() => router.push(`/recipe/add/custom`)}
+      >
+        Custom recipe
       </Button>
     </View>
   );

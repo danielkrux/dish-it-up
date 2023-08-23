@@ -16,7 +16,7 @@ import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 import theme from "../theme";
 import { Recipe } from "../../types/Recipe";
 import { AnimatedText } from "../components/Text";
-import TextInput from "../components/Input";
+import InputBase from "../components/Inputs/TextInputBase";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
 import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
@@ -60,7 +60,7 @@ export default function Home() {
       )}
       <AnimatedView style={{ flex: 1 }} layout={Layout.duration(200)}>
         <View style={styles.searchContainer}>
-          <TextInput
+          <InputBase
             value={q}
             onChangeText={(text) => {
               router.setParams({ q: text });

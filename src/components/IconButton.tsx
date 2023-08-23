@@ -5,12 +5,14 @@ import theme, { pallettes } from "../theme";
 export type IconButtonProps = {
   icon: IconName;
   size?: "small" | "medium" | "large";
+  ghost?: boolean;
 } & PressableProps;
 
 export default function IconButton({
   icon,
   size = "small",
   style,
+  ghost,
   ...props
 }: IconButtonProps) {
   const sizeMap = {
@@ -18,8 +20,21 @@ export default function IconButton({
     medium: theme.spacing.m,
     large: theme.spacing.l,
   };
+
   return (
-    <Pressable style={[styles.container, style]} {...props}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.container,
+        {
+          opacity: ghost ? 1 : pressed ? 0.7 : 1,
+          backgroundColor: ghost
+            ? "transparent"
+            : styles.container.backgroundColor,
+        },
+        style as any,
+      ]}
+      {...props}
+    >
       <Icon name={icon} color="black" size={sizeMap[size]} />
     </Pressable>
   );
@@ -32,6 +47,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: pallettes.black[100],
-    alignSelf: "flex-start",
   },
 });

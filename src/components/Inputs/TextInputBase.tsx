@@ -7,15 +7,18 @@ import {
   StyleSheet,
   TextInputFocusEventData,
 } from "react-native";
-import theme, { pallettes } from "../theme";
+import theme, { pallettes } from "../../theme";
 import { forwardRef, useState } from "react";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import createClassComponent from "../utils/createClassComponent";
+import createClassComponent from "../../utils/createClassComponent";
 
-export type TextInputProps = { bottomSheet?: boolean } & RNTextInputProps;
+export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
+  bottomSheet?: boolean;
+  value?: string | null;
+};
 
-const TextInput = forwardRef(function TextInput(
-  { bottomSheet, onFocus, onBlur, ...props }: TextInputProps,
+const InputBase = forwardRef(function TextInput(
+  { bottomSheet, value, onFocus, onBlur, ...props }: InputBaseProps,
   ref: any
 ) {
   const [active, setActive] = useState(false);
@@ -33,6 +36,7 @@ const TextInput = forwardRef(function TextInput(
   return (
     <Input
       ref={ref}
+      value={value ?? undefined}
       {...props}
       style={[props.style, styles.input, active && styles.inputActive]}
       onBlur={handleBlur}
@@ -44,16 +48,15 @@ const TextInput = forwardRef(function TextInput(
   );
 });
 
-export default TextInput;
+export default InputBase;
 
 export const AnimatedTextInput = Animated.createAnimatedComponent(
-  createClassComponent(TextInput)
+  createClassComponent(InputBase)
 );
 
 const styles = StyleSheet.create({
   input: {
     fontFamily: "Body",
-    alignSelf: "stretch",
     fontSize: theme.fontSize.m,
     paddingVertical: Platform.select({
       ios: theme.spacing.s,
