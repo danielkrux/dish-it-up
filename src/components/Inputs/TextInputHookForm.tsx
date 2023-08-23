@@ -20,7 +20,7 @@ type InputProps<T extends FieldValues> = InputBaseProps & {
   label?: string;
 };
 
-export function Input<T extends FieldValues>({
+export function ControlledInput<T extends FieldValues>({
   name,
   label,
   control,
@@ -33,7 +33,12 @@ export function Input<T extends FieldValues>({
   return (
     <Container>
       {label && <Text style={styles.inputLabel}>{label}</Text>}
-      <InputBase {...props} value={field.value} onChangeText={field.onChange} />
+      <InputBase
+        ref={field.ref}
+        {...props}
+        value={field.value}
+        onChangeText={field.onChange}
+      />
     </Container>
   );
 }
@@ -44,7 +49,7 @@ export type ArrayInputProps<T extends FieldValues> = InputProps<T> & {
   values: any[];
 };
 
-export function ArrayInput<T extends FieldValues>({
+export function ControlledArrayInput<T extends FieldValues>({
   name,
   label,
   control,
@@ -57,17 +62,16 @@ export function ArrayInput<T extends FieldValues>({
     <View style={styles.arrGroupContainer}>
       {label && <Text style={styles.inputLabel}>{label}</Text>}
       {values.map((_, index) => (
-        <View style={styles.arrInputContainer}>
-          <Input
+        <View key={index} style={styles.arrInputContainer}>
+          <ControlledInput
             key={`${name}-${index}`}
             name={`${name}.${index}` as any}
             control={control}
-            style={styles.arrInput}
             {...props}
           />
           <IconButton
             ghost
-            icon="x"
+            icon="minus"
             size="large"
             onPress={() => onRemove?.(index)}
           />
@@ -93,8 +97,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: theme.spacing.s,
     marginBottom: theme.spacing.xs,
-  },
-  arrInput: {
-    flex: 1,
   },
 });

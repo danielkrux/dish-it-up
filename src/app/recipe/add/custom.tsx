@@ -1,11 +1,18 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
+import {
+  AvoidSoftInput,
+  useSoftInputAppliedOffsetChanged,
+} from "react-native-avoid-softinput";
+
 import Button from "../../../components/Button";
 import {
-  Input,
-  ArrayInput,
+  ControlledInput,
+  ControlledArrayInput,
 } from "../../../components/Inputs/TextInputHookForm";
 import theme from "../../../theme";
+import { useCallback } from "react";
+import { useFocusEffect } from "expo-router";
 
 type RecipeInputs = {
   name: string;
@@ -27,27 +34,44 @@ function AddRecipe() {
       },
     });
 
+  const onFocusEffect = useCallback(() => {
+    AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+    return () => {
+      AvoidSoftInput.setEnabled(false);
+      AvoidSoftInput.setShouldMimicIOSBehavior(false);
+    };
+  }, []);
+
+  useFocusEffect(onFocusEffect);
+
   const onSubmit = (data: RecipeInputs) => console.log(data);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Input label="Name" name="name" control={control} returnKeyType="next" />
-      <Input
+      <ControlledInput
+        label="Name"
+        name="name"
+        control={control}
+        returnKeyType="next"
+      />
+      <ControlledInput
         label="Description"
         name="description"
         control={control}
         returnKeyType="next"
         numberOfLines={2}
         multiline
+        style={{ minHeight: 100 }}
       />
-      <Input
+      <ControlledInput
         label="Recipe yield"
         name="recipe_yield"
         control={control}
         keyboardType="numeric"
         returnKeyType="next"
       />
-      <ArrayInput
+      <ControlledArrayInput
         label="Ingredients"
         name="ingredients"
         control={control}
@@ -60,7 +84,7 @@ function AddRecipe() {
           setValue("ingredients", ingredients);
         }}
       />
-      <ArrayInput
+      <ControlledArrayInput
         label="Instructions"
         name="instructions"
         control={control}
