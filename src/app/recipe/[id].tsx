@@ -1,15 +1,17 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Stack as RouterStack, Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
 
 import { getRecipe } from "../../features/recipe/recipe.service";
 import type { Recipe } from "../../../types/Recipe";
 import Text from "../../components/Text";
 import theme, { SCREEN_WIDTH } from "../../theme";
+import IconButton from "../../components/IconButton";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { data } = useQuery(["recipes", id], () => getRecipe(id as string), {
     initialData: () =>
@@ -22,7 +24,25 @@ export default function Recipe() {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.container}
       >
-        <Stack.Screen options={{ title: "Recipe" }} />
+        <Stack.Screen
+          options={{
+            title: "Recipe",
+            headerLeft: () => (
+              <IconButton
+                onPress={() => router.back()}
+                icon="chevron-left"
+                size="medium"
+              />
+            ),
+            headerRight: () => (
+              <IconButton
+                onPress={() => router.push(`/recipe/edit?id=${id}`)}
+                icon="edit-2"
+                size="medium"
+              />
+            ),
+          }}
+        />
         <View>
           <Text style={styles.title} type="header">
             {data?.name}

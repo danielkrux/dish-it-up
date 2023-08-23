@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     borderWidth: 2,
     borderColor: theme.colors.background,
+    flex: 1,
   },
   input: {
     fontFamily: "Body",

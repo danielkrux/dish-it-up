@@ -1,27 +1,59 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Stack, useLocalSearchParams } from "expo-router";
-import EditRecipeComponent from "../../features/recipe/components/EditRecipe";
-import { parseRecipe } from "../../features/recipe/recipe.service";
-import { isValidUrl } from "../../utils/url";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
+import { useCallback } from "react";
+import { AvoidSoftInput } from "react-native-avoid-softinput";
+
+import { getRecipe } from "../../features/recipe/recipe.service";
+import RecipeForm from "../../features/recipe/components/RecipeForm";
 import { Recipe } from "../../../types/Recipe";
+import { ScrollView } from "react-native";
+import theme from "../../theme";
+import IconButton from "../../components/IconButton";
 
 export default function EditRecipe() {
-  const [recipe, setRecipe] = useState<Recipe | null>();
-  const { url } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
-  useQuery(["parse-recipe", url], () => parseRecipe(url as string), {
-    enabled: isValidUrl(url as string),
-    onSuccess: (data) => {
-      if (!data) return;
-      setRecipe(data);
-    },
+  const { data } = useQuery(["recipes", id], () => getRecipe(id as string), {
+    initialData: () =>
+      queryClient.getQueryData<Recipe[]>(["recipes"])?.find((r) => r.id === id),
   });
 
+  const onFocusEffect = useCallback(() => {
+    AvoidSoftInput.setShouldMimicIOSBehavior(true);
+    AvoidSoftInput.setEnabled(true);
+    return () => {
+      AvoidSoftInput.setEnabled(false);
+      AvoidSoftInput.setShouldMimicIOSBehavior(false);
+    };
+  }, []);
+
+  useFocusEffect(onFocusEffect);
+
   return (
-    <>
-      <Stack.Screen options={{ title: "Edit recipe" }} />
-      {recipe && <EditRecipeComponent recipe={recipe} />}
-    </>
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: theme.spacing.m }}
+    >
+      <Stack.Screen
+        options={{
+          title: "Edit Recipe",
+          headerLeft: () => (
+            <IconButton
+              onPress={() => router.back()}
+              icon="chevron-left"
+              size="medium"
+            />
+          ),
+        }}
+      />
+      <RecipeForm initialRecipe={data} />
+    </ScrollView>
   );
 }
