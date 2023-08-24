@@ -89,12 +89,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     borderWidth: 2,
     borderColor: theme.colors.background,
-    flex: 1,
   },
   input: {
     fontFamily: "Body",
     fontSize: theme.fontSize.m,
-    flex: 1,
+    width: "100%",
     paddingTop: Platform.select({
       ios: theme.spacing.s,
       android: theme.spacing.xs,

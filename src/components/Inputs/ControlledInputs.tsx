@@ -68,6 +68,7 @@ export function ControlledArrayInput<T extends FieldValues>({
             name={`${name}.${index}` as any}
             control={control}
             {...props}
+            style={{ flex: 1 }}
           />
           <IconButton
             ghost

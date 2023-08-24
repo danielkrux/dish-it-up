@@ -18,12 +18,14 @@ export default function Add() {
       <Text style={styles.description} type="body">
         Enter a URL to import a recipe from.
       </Text>
-      <InputBase
-        style={styles.input}
-        placeholder="Recipe URL"
-        onChangeText={setUrl}
-        value={url}
-      />
+      <View>
+        <InputBase
+          style={styles.input}
+          placeholder="Recipe URL"
+          onChangeText={setUrl}
+          value={url}
+        />
+      </View>
       <Button
         size="large"
         onPress={() => router.push(`/recipe/add/${encodeURIComponent(url)}`)}
@@ -54,5 +56,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: theme.spacing.s,
+    alignSelf: "flex-start",
   },
 });

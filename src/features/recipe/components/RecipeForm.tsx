@@ -5,7 +5,7 @@ import Button from "../../../components/Button";
 import {
   ControlledInput,
   ControlledArrayInput,
-} from "../../../components/Inputs/TextInputHookForm";
+} from "../../../components/Inputs/ControlledInputs";
 
 type RecipeInputs = {
   name: string;

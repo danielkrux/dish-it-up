@@ -1,15 +1,12 @@
 import { ScrollView, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
-import {
-  AvoidSoftInput,
-  useSoftInputAppliedOffsetChanged,
-} from "react-native-avoid-softinput";
+import { AvoidSoftInput } from "react-native-avoid-softinput";
 
 import Button from "../../../components/Button";
 import {
   ControlledInput,
   ControlledArrayInput,
-} from "../../../components/Inputs/TextInputHookForm";
+} from "../../../components/Inputs/ControlledInputs";
 import theme from "../../../theme";
 import { useCallback } from "react";
 import { useFocusEffect } from "expo-router";
