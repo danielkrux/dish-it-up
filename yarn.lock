@@ -5970,6 +5970,11 @@ react-native-avoid-softinput@^4.0.1:
   resolved "https://registry.yarnpkg.com/react-native-avoid-softinput/-/react-native-avoid-softinput-4.0.1.tgz#c08802f66c46ddc91f72d05d1b80644102f80a30"
   integrity sha512-feMt+Pb/wEcuobbIRDHXj1leXT15uC8CekgwMb/t8s61kWy5ifCGtX/YqDZMDRiD0sqeFLZx0gykLQOSrCpybA==
 
+react-native-context-menu-view@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-context-menu-view/-/react-native-context-menu-view-1.11.0.tgz#942e1436898930eab63ae28aa4bfda39d418a455"
+  integrity sha512-2ztIsQtb/sYStjq5Zn4cKvqAfTp44w+0gdI4nSQ0+PVXUTvn7Q9QCeTijj2GH8elYAtjvuJvr0ORc91whDhyCg==
+
 react-native-gesture-handler@~2.12.0:
   version "2.12.1"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.12.1.tgz#f11a99fb95169810c6886fad5efa01a17fd81660"

@@ -1,40 +1,37 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Stack,
-  useFocusEffect,
-  useLocalSearchParams,
-  useRouter,
-} from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { AvoidSoftInput } from "react-native-avoid-softinput";
-
-import { getRecipe } from "../../features/recipe/recipe.service";
-import RecipeForm from "../../features/recipe/components/RecipeForm";
-import { Recipe } from "../../../types/Recipe";
 import { ScrollView } from "react-native";
+
+import RecipeForm from "../../features/recipe/components/RecipeForm";
 import theme from "../../theme";
 import IconButton from "../../components/IconButton";
+import useFetchRecipe from "../../features/recipe/hooks/useFetchRecipe";
+import useScrollingFormAvoidKeyBoard from "../../hooks/useScrollingFormAvoidKeyboard";
+import useUpdateRecipe from "../../features/recipe/hooks/useUpdateRecipe";
 
 export default function EditRecipe() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
 
-  const { data } = useQuery(["recipes", id], () => getRecipe(id as string), {
-    initialData: () =>
-      queryClient.getQueryData<Recipe[]>(["recipes"])?.find((r) => r.id === id),
+  const { data } = useFetchRecipe(id as string);
+  const { mutate } = useUpdateRecipe({
+    onSuccess: () => router.back(),
   });
 
-  const onFocusEffect = useCallback(() => {
-    AvoidSoftInput.setShouldMimicIOSBehavior(true);
-    AvoidSoftInput.setEnabled(true);
-    return () => {
-      AvoidSoftInput.setEnabled(false);
-      AvoidSoftInput.setShouldMimicIOSBehavior(false);
-    };
-  }, []);
+  useScrollingFormAvoidKeyBoard();
 
-  useFocusEffect(onFocusEffect);
+  const renderHeaderLeft = useCallback(
+    () => (
+      <IconButton
+        onPress={() => router.back()}
+        icon="chevron-left"
+        size="medium"
+      />
+    ),
+    [router]
+  );
+
+  if (!data) return null;
 
   return (
     <ScrollView
@@ -44,16 +41,13 @@ export default function EditRecipe() {
       <Stack.Screen
         options={{
           title: "Edit Recipe",
-          headerLeft: () => (
-            <IconButton
-              onPress={() => router.back()}
-              icon="chevron-left"
-              size="medium"
-            />
-          ),
+          headerLeft: renderHeaderLeft,
         }}
       />
-      <RecipeForm initialRecipe={data} />
+      <RecipeForm
+        initialRecipe={data}
+        onSubmit={(recipeInputs) => mutate({ ...data, ...recipeInputs })}
+      />
     </ScrollView>
   );
 }

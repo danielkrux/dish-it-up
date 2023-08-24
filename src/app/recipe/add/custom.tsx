@@ -1,15 +1,11 @@
 import { ScrollView, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
 import { AvoidSoftInput } from "react-native-avoid-softinput";
-
-import Button from "../../../components/Button";
-import {
-  ControlledInput,
-  ControlledArrayInput,
-} from "../../../components/Inputs/ControlledInputs";
-import theme from "../../../theme";
 import { useCallback } from "react";
 import { useFocusEffect } from "expo-router";
+
+import RecipeForm from "../../../features/recipe/components/RecipeForm";
+import theme from "../../../theme";
 
 type RecipeInputs = {
   name: string;
@@ -46,58 +42,7 @@ function AddRecipe() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <ControlledInput
-        label="Name"
-        name="name"
-        control={control}
-        returnKeyType="next"
-      />
-      <ControlledInput
-        label="Description"
-        name="description"
-        control={control}
-        returnKeyType="next"
-        numberOfLines={2}
-        multiline
-        style={{ minHeight: 100 }}
-      />
-      <ControlledInput
-        label="Recipe yield"
-        name="recipe_yield"
-        control={control}
-        keyboardType="numeric"
-        returnKeyType="next"
-      />
-      <ControlledArrayInput
-        label="Ingredients"
-        name="ingredients"
-        control={control}
-        returnKeyType="next"
-        values={watch("ingredients")}
-        onAdd={() => setValue("ingredients", [...getValues().ingredients, ""])}
-        onRemove={(index) => {
-          const ingredients = getValues().ingredients;
-          ingredients.splice(index, 1);
-          setValue("ingredients", ingredients);
-        }}
-      />
-      <ControlledArrayInput
-        label="Instructions"
-        name="instructions"
-        control={control}
-        values={watch("instructions")}
-        onAdd={() =>
-          setValue("instructions", [...getValues().instructions, ""])
-        }
-        onRemove={(index) => {
-          const instructions = getValues().instructions;
-          instructions.splice(index, 1);
-          setValue("instructions", instructions);
-        }}
-      />
-      <Button size="large" onPress={handleSubmit(onSubmit)}>
-        Submit
-      </Button>
+      <RecipeForm />
     </ScrollView>
   );
 }

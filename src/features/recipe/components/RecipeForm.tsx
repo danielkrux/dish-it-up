@@ -6,14 +6,7 @@ import {
   ControlledInput,
   ControlledArrayInput,
 } from "../../../components/Inputs/ControlledInputs";
-
-type RecipeInputs = {
-  name: string;
-  description: string;
-  recipe_yield: number;
-  ingredients: string[];
-  instructions: string[];
-};
+import { RecipeInputs } from "../types";
 
 const emtpyRecipe: RecipeInputs = {
   name: "",
@@ -23,13 +16,17 @@ const emtpyRecipe: RecipeInputs = {
   instructions: [""],
 };
 
-function RecipeForm({ initialRecipe }: { initialRecipe?: Recipe }) {
+function RecipeForm({
+  initialRecipe,
+  onSubmit,
+}: {
+  initialRecipe?: Recipe;
+  onSubmit: (data: RecipeInputs) => void;
+}) {
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<RecipeInputs>({
-      defaultValues: initialRecipe ?? emtpyRecipe,
+      defaultValues: (initialRecipe as RecipeInputs) ?? emtpyRecipe,
     });
-
-  const onSubmit = (data: RecipeInputs) => console.log(data);
 
   return (
     <>

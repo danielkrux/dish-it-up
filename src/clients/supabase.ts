@@ -2,6 +2,7 @@ import { PostgrestError, createClient } from "@supabase/supabase-js";
 import * as SecureStore from "expo-secure-store";
 
 import { Database } from "../../supabase/database.types";
+import { Platform } from "react-native";
 
 export type Tables<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Row"];
@@ -32,7 +33,7 @@ const ExpoSecureStoreAdapter = {
 export const initSupabase = () => {
   return createClient<Database>(supabaseUrl, supabaseKey, {
     auth: {
-      storage: ExpoSecureStoreAdapter,
+      storage: Platform.OS === "web" ? localStorage : ExpoSecureStoreAdapter,
     },
   });
 };

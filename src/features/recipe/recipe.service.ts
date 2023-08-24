@@ -1,5 +1,6 @@
 import { Recipe } from "../../../types/Recipe";
 import { supabase } from "../../app/_layout";
+import { RecipeInputs } from "./types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -25,13 +26,33 @@ export async function getRecipeCategories() {
   return result.data.flatMap((f) => (Boolean(f.category) ? [f.category] : []));
 }
 
-export async function saveRecipe(recipe?: Recipe) {
+export async function createRecipe(recipe?: RecipeInputs) {
   if (!recipe || recipe === undefined) {
     console.error("No recipe to save");
     throw new Error("No recipe to save");
   }
 
   const result = await supabase.from("recipes").insert(recipe);
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result;
+}
+
+export async function updateRecipe(recipe?: Recipe) {
+  if (!recipe || recipe === undefined) {
+    console.error("No recipe to save");
+    throw new Error("No recipe to save");
+  }
+
+  const result = await supabase
+    .from("recipes")
+    .update(recipe)
+    .eq("id", recipe.id)
+    .select()
+    .single();
 
   if (result.error) {
     throw new Error(result.error.message);

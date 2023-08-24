@@ -8,15 +8,12 @@ import type { Recipe } from "../../../types/Recipe";
 import Text from "../../components/Text";
 import theme, { SCREEN_WIDTH } from "../../theme";
 import IconButton from "../../components/IconButton";
+import useFetchRecipe from "../../features/recipe/hooks/useFetchRecipe";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const { data } = useQuery(["recipes", id], () => getRecipe(id as string), {
-    initialData: () =>
-      queryClient.getQueryData<Recipe[]>(["recipes"])?.find((r) => r.id === id),
-  });
+  const { data } = useFetchRecipe(id as string);
 
   return (
     <>

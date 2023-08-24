@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocalSearchParams } from "expo-router";
 
 import {
   Platform,
@@ -16,18 +15,14 @@ import { isValidUrl } from "../../../utils/url";
 import Text from "../../../components/Text";
 import theme from "../../../theme";
 import BlurButton from "../../../components/BlurButton";
-import {
-  parseRecipe,
-  saveRecipe,
-} from "../../../features/recipe/recipe.service";
+import { parseRecipe } from "../../../features/recipe/recipe.service";
+import useCreateRecipe from "../../../features/recipe/hooks/useCreateRecipe";
 
 export default function AddRecipeConfirmScreen() {
   const { url: urlParam } = useLocalSearchParams();
   const statusBarHeight = StatusBar.currentHeight;
 
   const router = useRouter();
-  const navigation = useNavigation();
-  const queryClient = useQueryClient();
   const url = decodeURIComponent(urlParam as string);
 
   const urlValid = isValidUrl(url as string);
@@ -40,16 +35,7 @@ export default function AddRecipeConfirmScreen() {
     }
   );
 
-  const saveRecipeMutation = useMutation({
-    mutationFn: saveRecipe,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["recipes"] });
-      navigation.getParent()?.goBack();
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate } = useCreateRecipe();
 
   if (!data) return null;
 
@@ -73,7 +59,7 @@ export default function AddRecipeConfirmScreen() {
         <BlurButton
           label="Add recipe"
           icon="plus-circle"
-          onPress={() => saveRecipeMutation.mutate(data)}
+          onPress={() => mutate(data)}
         />
       </View>
       <View style={styles.content}>
