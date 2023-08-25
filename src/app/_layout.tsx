@@ -6,15 +6,17 @@ import {
   JosefinSans_700Bold,
   NotoSans_400Regular,
 } from "@expo-google-fonts/dev";
+import { ThemeProvider, DefaultTheme, Theme } from "@react-navigation/native";
+import { Platform } from "react-native";
+import { PortalProvider } from "@gorhom/portal";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 import { useAppState } from "../hooks/useAppState";
 
-import { ThemeProvider, DefaultTheme, Theme } from "@react-navigation/native";
 import theme from "../theme";
-import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const supabase = initSupabase();
 
@@ -40,39 +42,43 @@ const Layout = () => {
   }
 
   return (
-    <ThemeProvider value={NavigationTheme}>
-      <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
-            headerShadowVisible: false,
-            headerTintColor: theme.colors.text,
-            animation: Platform.select({
-              android: "fade",
-              ios: "default",
-            }),
-          }}
-        >
-          <Stack.Screen
-            name="index"
-            options={{
-              headerShown: true,
-              headerTitle: "",
-            }}
-          />
-          <Stack.Screen
-            name="recipe/add"
-            options={{
-              presentation: "modal",
-              headerShown: false,
-              animation: Platform.select({
-                android: "fade_from_bottom",
-                ios: "default",
-              }),
-            }}
-          />
-        </Stack>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={NavigationTheme}>
+        <PortalProvider>
+          <QueryClientProvider client={queryClient}>
+            <Stack
+              screenOptions={{
+                headerShadowVisible: false,
+                headerTintColor: theme.colors.text,
+                animation: Platform.select({
+                  android: "fade",
+                  ios: "default",
+                }),
+              }}
+            >
+              <Stack.Screen
+                name="index"
+                options={{
+                  headerShown: true,
+                  headerTitle: "",
+                }}
+              />
+              <Stack.Screen
+                name="recipe/add"
+                options={{
+                  presentation: "modal",
+                  headerShown: false,
+                  animation: Platform.select({
+                    android: "fade_from_bottom",
+                    ios: "default",
+                  }),
+                }}
+              />
+            </Stack>
+          </QueryClientProvider>
+        </PortalProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 };
 

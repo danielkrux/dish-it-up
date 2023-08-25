@@ -1,19 +1,20 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
 
-import { getRecipe } from "../../features/recipe/recipe.service";
-import type { Recipe } from "../../../types/Recipe";
-import Text from "../../components/Text";
-import theme, { SCREEN_WIDTH } from "../../theme";
-import IconButton from "../../components/IconButton";
-import useFetchRecipe from "../../features/recipe/hooks/useFetchRecipe";
+import type { Recipe } from "../../../../types/Recipe";
+import Text from "../../../components/Text";
+import theme, { SCREEN_WIDTH } from "../../../theme";
+import IconButton from "../../../components/IconButton";
+import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
+import ContextMenu from "../../../components/ContextMenu/ContextMenu";
+import { useState } from "react";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { data } = useFetchRecipe(id as string);
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
   return (
     <>
@@ -32,15 +33,23 @@ export default function Recipe() {
               />
             ),
             headerRight: () => (
-              <IconButton
-                onPress={() => router.push(`/recipe/edit?id=${id}`)}
-                icon="edit-2"
-                size="medium"
+              // <IconButton
+              //   onPress={() => router.push(`/recipe/${id}/edit`)}
+              //   icon="more-vertical"
+              //   size="medium"
+              // />
+              <ContextMenu
+                onClose={() => setContextMenuOpen(false)}
+                actions={[{ label: "Test", onPress: () => {} }]}
               />
             ),
           }}
         />
         <View>
+          {/* <ContextMenu
+            onClose={() => setContextMenuOpen(false)}
+            actions={[{ label: "Test", onPress: () => {} }]}
+          /> */}
           <Text style={styles.title} type="header">
             {data?.name}
           </Text>

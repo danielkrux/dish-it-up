@@ -2,12 +2,12 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ScrollView } from "react-native";
 
-import RecipeForm from "../../features/recipe/components/RecipeForm";
-import theme from "../../theme";
-import IconButton from "../../components/IconButton";
-import useFetchRecipe from "../../features/recipe/hooks/useFetchRecipe";
-import useScrollingFormAvoidKeyBoard from "../../hooks/useScrollingFormAvoidKeyboard";
-import useUpdateRecipe from "../../features/recipe/hooks/useUpdateRecipe";
+import RecipeForm from "../../../features/recipe/components/RecipeForm";
+import theme from "../../../theme";
+import IconButton from "../../../components/IconButton";
+import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
+import useScrollingFormAvoidKeyBoard from "../../../hooks/useScrollingFormAvoidKeyboard";
+import useUpdateRecipe from "../../../features/recipe/hooks/useUpdateRecipe";
 
 export default function EditRecipe() {
   const { id } = useLocalSearchParams();
