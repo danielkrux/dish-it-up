@@ -32,11 +32,11 @@ export default function Button({
     <Pressable
       style={[
         icon && styles.iconContainer,
-        // @ts-ignore
-        style,
         styles.container,
         sizeStyle,
         variantStyle,
+        // @ts-ignore
+        style,
         // pressed && pressedStyle,
         // disabled && variant !== "ghost" && styles.disabled,
       ]}
@@ -83,12 +83,12 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
   },
   ghostText: {
-    color: theme.colors.black,
+    color: theme.colors.secondary
   },
   small: {
     paddingVertical: theme.spacing.xs,
     paddingHorizontal: theme.spacing.s,
-    alignSelf: "flex-start",
+    // alignSelf: "flex-start",
     borderRadius: 6
   },
   large: {

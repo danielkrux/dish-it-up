@@ -15,7 +15,8 @@ import { Recipe } from "../../types/Recipe";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
 import InputBase from "../components/Inputs/TextInputBase";
-import { AnimatedText } from "../components/Text";
+import Text, { AnimatedText } from "../components/Text";
+import RecipeQuickFilter from "../features/home/components/RecipeFilters";
 import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
 import { getRecipes } from "../features/recipe/recipe.service";
 import useDebounce from "../hooks/useDebounce";
@@ -31,7 +32,9 @@ export default function Home() {
   const { q } = useLocalSearchParams<{ q?: string }>();
   const query = useDebounce(q, 300);
 
-  const { data, refetch } = useQuery(["recipes", query], () => getRecipes(query));
+  const { data, refetch } = useQuery(["recipes", query], () =>
+    getRecipes(query)
+  );
   useRefreshOnFocus(refetch);
 
   function cancelSearch() {
@@ -56,7 +59,11 @@ export default function Home() {
           Get cooking today!
         </AnimatedText>
       )}
-      <AnimatedView activeOpacity={1} style={{ flex: 1 }} layout={Layout.duration(200)}>
+      <AnimatedView
+        activeOpacity={1}
+        style={{ flex: 1 }}
+        layout={Layout.duration(200)}
+      >
         <View style={styles.searchContainer}>
           <InputBase
             value={q}
@@ -68,19 +75,24 @@ export default function Home() {
             placeholder="Search recipes"
             style={styles.search}
           />
+
           {isSearching && (
             <Button variant="ghost" onPress={cancelSearch}>
               CANCEL
             </Button>
           )}
         </View>
-        {/* <RecipeQuickFilter /> */}
+        <RecipeQuickFilter />
         <FlatList
           data={data}
           keyExtractor={extractKey}
-          columnWrapperStyle={styles.recipeListContent}
+          style={{ paddingHorizontal: theme.spacing.m }}
+          contentContainerStyle={{
+            paddingBottom: 100,
+            // paddingHorizontal: theme.spacing.m,
+          }}
+          // columnWrapperStyle={styles.recipeListContent}
           renderItem={renderItem}
-          numColumns={2}
         />
       </AnimatedView>
       <FloatingButton onPress={() => router.push("/recipe/add/")}>
@@ -102,10 +114,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: theme.spacing.m,
     alignItems: "center",
+    marginBottom: theme.spacing.m,
   },
   search: {
     flex: 1,
-    marginBottom: theme.spacing.m,
   },
   recipeListContent: {
     paddingHorizontal: theme.spacing.m,

@@ -23,7 +23,8 @@ export async function getRecipeCategories() {
     throw new Error(result.error.message);
   }
 
-  return result.data.flatMap((f) => (f.category ? [f.category] : []));
+  const allCategories = result.data.flatMap((f) => (f.category ? [f.category] : []));
+  return [...new Set(allCategories)];
 }
 
 export async function createRecipe(recipe?: RecipeInputs) {

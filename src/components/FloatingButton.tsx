@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { LayoutChangeEvent, Pressable, StyleSheet, View } from "react-native";
-import Icon, { IconName } from "./Icon";
-import Text from "./Text";
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
 import theme, { SCREEN_WIDTH } from "../theme";
+import Icon, { IconName } from "./Icon";
+import Text from "./Text";
+import React, { useState } from "react";
+import { LayoutChangeEvent, Pressable, StyleSheet, View } from "react-native";
 
 type FloatingButtonProps = {
   children: string;
@@ -33,7 +33,7 @@ export default function FloatingButton({
       onLayout={handleLayout}
     >
       {icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-      <Text>{children}</Text>
+      <Text type="header" size="l">{children}</Text>
     </Pressable>
   );
 }

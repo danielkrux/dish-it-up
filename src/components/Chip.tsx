@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Pressable, StyleSheet } from "react-native";
-import Icon, { IconName } from "./Icon";
 import theme from "../theme";
+import Icon, { IconName } from "./Icon";
 import Text from "./Text";
+import { Pressable, StyleSheet } from "react-native";
 
 export type ChipProps = {
   label: string;
@@ -24,8 +24,7 @@ function Chip({ label, value, isSelected, icon, onPress }: ChipProps) {
       style={[styles.container, isSelected && styles.containerSelected]}
     >
       {icon && <Icon size={16} name={icon} color={theme.colors.text} />}
-
-      <Text style={[styles.label, isSelected && styles.labelSelected]}>
+      <Text type="header" size="l" style={[styles.label, isSelected && styles.labelSelected]}>
         {label}
       </Text>
     </Pressable>
@@ -35,8 +34,16 @@ function Chip({ label, value, isSelected, icon, onPress }: ChipProps) {
 export default Chip;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flexDirection: "row",
+    backgroundColor: theme.colors.background,
+    paddingHorizontal: theme.spacing.s,
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
+    borderRadius: 10,
+  },
   containerSelected: {},
-  label: {},
+  label: {
+  },
   labelSelected: {},
 });
