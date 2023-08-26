@@ -14,9 +14,13 @@ import { pallettes } from "../../theme";
 import useSafeAreaInsets from "../../hooks/useSafeAreaInsets";
 import IconButton from "../IconButton";
 import {
+  MENU_WIDTH,
+  SPRING_CONFIGURATION,
   calculateLeftPosition as calcLeftOffset,
+  calculateTranslateX as calcTranslateX,
   getTransformOrigin,
 } from "./utils";
+import Text from "../Text";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -40,77 +44,34 @@ function ContextMenu({
   const insets = useSafeAreaInsets();
 
   const animatedStyles = useAnimatedStyle(() => {
-    const rect = measure(triggerRef);
-    if (!rect) return {};
+    const triggerRect = measure(triggerRef);
+    if (!triggerRect) return {};
 
     const anchorPosition = getTransformOrigin(
-      rect.pageX,
-      rect.width,
+      triggerRect.pageX,
+      triggerRect.width,
       WINDOW_WIDTH
     );
-
-    const leftPosition = calcLeftOffset(anchorPosition, rect.width);
+    const leftOffset = calcLeftOffset(anchorPosition, triggerRect.width);
+    const translateX = calcTranslateX(anchorPosition);
 
     return {
-      top: rect.pageY + rect.height + 5,
-      left: rect.pageX + leftPosition,
+      top: triggerRect.pageY + triggerRect.height + 5,
+      left: triggerRect.pageX + leftOffset,
       transform: [
-        { translateX: 100 },
-        { translateY: -100 },
+        { translateX: translateX },
+        { translateY: -250 },
         {
-          scale: isOpen ? withSpring(1) : withTiming(0),
+          scale: isOpen ? withSpring(1, SPRING_CONFIGURATION) : withTiming(0),
         },
-        { translateX: -100 },
-        { translateY: 100 },
+        { translateX: -translateX },
+        { translateY: 250 },
       ],
     };
   }, [isOpen]);
 
   function toggleOpen() {
     setIsOpen((prev) => !prev);
-  }
-
-  function entering() {
-    "worklet";
-    const rect = measure(triggerRef);
-    const anchorPosition = getTransformOrigin(
-      rect.pageX,
-      rect.width,
-      WINDOW_WIDTH
-    );
-
-    const leftPosition = calcLeftOffset(anchorPosition, rect.width);
-
-    const animations = {
-      top: rect.pageY + rect.height + 5,
-      left: rect.pageX + leftPosition,
-      transform: [
-        { translateX: 100 },
-        { translateY: -100 },
-        {
-          scale: withSpring(1),
-        },
-        { translateX: -100 },
-        { translateY: 100 },
-      ],
-    };
-    const initialValues = {
-      top: rect.pageY + rect.height + 5,
-      left: rect.pageX + leftPosition,
-      transform: [
-        { translateX: 100 },
-        { translateY: -100 },
-        {
-          scale: 0,
-        },
-        { translateX: -100 },
-        { translateY: 100 },
-      ],
-    };
-    return {
-      initialValues,
-      animations,
-    };
   }
 
   return (
@@ -122,12 +83,17 @@ function ContextMenu({
       <Portal>
         <FullWindowOverlay>
           <>
-            {/* <Pressable
+            <Pressable
               style={[StyleSheet.absoluteFill]}
               onPress={() => setIsOpen(false)}
-            /> */}
+              pointerEvents={isOpen ? "auto" : "none"}
+            />
 
-            <Animated.View style={[styles.container, animatedStyles]} />
+            <Animated.View style={[styles.container, animatedStyles]}>
+              <Pressable onPress={() => console.log("test")}>
+                <Text>Test</Text>
+              </Pressable>
+            </Animated.View>
           </>
         </FullWindowOverlay>
       </Portal>
@@ -142,8 +108,8 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "white",
     position: "absolute",
-    height: 200,
-    width: 200,
+    height: 500,
+    width: MENU_WIDTH,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: pallettes.black[200],

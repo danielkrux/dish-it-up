@@ -1,7 +1,15 @@
 import { SCREEN_HEIGHT } from "../../theme";
 
 const ITEM_HEIGHT = 50;
-const MENU_WIDTH = 200;
+export const MENU_WIDTH = 200;
+
+export const SPRING_CONFIGURATION = {
+  damping: 33,
+  mass: 1.03,
+  stiffness: 500,
+  restDisplacementThreshold: 0.001,
+  restSpeedThreshold: 0.001,
+};
 
 export type TransformOriginAnchorPosition =
   | "top-right"
@@ -11,45 +19,14 @@ export type TransformOriginAnchorPosition =
   | "bottom-left"
   | "bottom-center";
 
-export const calculateTransformValue = (
-  safeAreaInsets: { bottom: number; top: number; right: number; left: number },
-  transformOrigin: TransformOriginAnchorPosition,
-  itemRectY: number,
-  itemRectHeight: number,
-  menuHeight: number
-) => {
-  "worklet";
-
-  const height = SCREEN_HEIGHT;
-
-  const isAnchorPointTop = transformOrigin.includes("top");
-
-  let tY = 0;
-  if (isAnchorPointTop) {
-    const topTransform =
-      itemRectY +
-      itemRectHeight +
-      menuHeight +
-      10 +
-      (safeAreaInsets?.bottom || 0);
-
-    tY = topTransform > height ? height - topTransform : 0;
-  } else {
-    const bottomTransform = itemRectY - menuHeight - (safeAreaInsets?.top || 0);
-    tY = bottomTransform < 0 ? -bottomTransform + 10 * 2 : 0;
-  }
-
-  return tY;
-};
-
-export const getTransformOrigin = (
+export function getTransformOrigin(
   posX: number,
-  itemWidth: number,
+  triggerWidth: number,
   windowWidth: number,
   bottom?: boolean
-): TransformOriginAnchorPosition => {
+): TransformOriginAnchorPosition {
   "worklet";
-  const distanceToLeft = Math.round(posX + itemWidth / 2);
+  const distanceToLeft = Math.round(posX + triggerWidth / 2);
   const distanceToRight = Math.round(windowWidth - distanceToLeft);
 
   let position: TransformOriginAnchorPosition = bottom
@@ -65,21 +42,49 @@ export const getTransformOrigin = (
   }
 
   return position;
-};
+}
 
-export const calculateLeftPosition = (
-  anchorPosition: TransformOriginAnchorPosition,
-  itemWidth: number
-) => {
+export function calculateTranslateX(
+  anchorPosition: TransformOriginAnchorPosition
+) {
   "worklet";
 
   const anchorPositionHorizontal = anchorPosition.split("-")[1];
 
   if (anchorPositionHorizontal === "right") {
-    return -MENU_WIDTH + itemWidth;
+    return MENU_WIDTH / 2;
+  } else if (anchorPositionHorizontal === "center") {
+    return 0;
+  } else {
+    return MENU_WIDTH;
+  }
+}
+
+// export function calculateTranslateY(anchorPosition: TransformOriginAnchorPosition) {
+//   "worklet";
+
+//   const anchorPositionVertical = anchorPosition.split("-")[0];
+
+//   if (anchorPositionVertical === "top") {
+//     return ;
+//   } else {
+//     return -SCREEN_HEIGHT + ITEM_HEIGHT;
+//   }
+// }
+
+export function calculateLeftPosition(
+  anchorPosition: TransformOriginAnchorPosition,
+  triggerWidth: number
+) {
+  "worklet";
+
+  const anchorPositionHorizontal = anchorPosition.split("-")[1];
+
+  if (anchorPositionHorizontal === "right") {
+    return -MENU_WIDTH + triggerWidth;
   } else if (anchorPositionHorizontal === "left") {
     return 0;
   } else {
-    return -itemWidth - MENU_WIDTH / 2 + itemWidth / 2;
+    return -triggerWidth - MENU_WIDTH / 2 + triggerWidth / 2;
   }
-};
+}
