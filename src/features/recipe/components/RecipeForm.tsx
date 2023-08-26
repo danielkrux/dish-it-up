@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { Recipe } from "../../../../types/Recipe";
 import Button from "../../../components/Button";
 import {
-  ControlledInput,
   ControlledArrayInput,
+  ControlledInput,
 } from "../../../components/Inputs/ControlledInputs";
+import theme from "../../../theme";
 import { RecipeInputs } from "../types";
+import { StyleSheet, View } from "react-native";
 
 const emtpyRecipe: RecipeInputs = {
   name: "",
@@ -29,7 +31,7 @@ function RecipeForm({
     });
 
   return (
-    <>
+    <View style={styles.container}>
       <ControlledInput
         label="Name"
         name="name"
@@ -82,8 +84,15 @@ function RecipeForm({
       <Button size="large" onPress={handleSubmit(onSubmit)}>
         Submit
       </Button>
-    </>
+    </View>
   );
 }
 
 export default RecipeForm;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    gap: theme.spacing.m
+  },
+});

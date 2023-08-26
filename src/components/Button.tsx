@@ -1,7 +1,7 @@
-import { Pressable, PressableProps, StyleSheet } from "react-native";
 import theme from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
+import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 export type ButtonProps = {
   size?: "small" | "large";
@@ -43,7 +43,7 @@ export default function Button({
       disabled={disabled}
       {...props}
     >
-      {icon && <Icon name={icon} size={16} color={theme.colors.white} />}
+      {icon && <Icon name={icon} size={16} />}
       <Text type="header" style={[textStyle, textSizeStyle]}>
         {children}
       </Text>
@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 16,
+    borderRadius: 10,
   },
   iconContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    gap: theme.spacing.xs,
+    alignItems: "baseline",
+    gap: 4,
   },
   primary: {
     borderColor: theme.colors.primary,
@@ -86,9 +86,10 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
   },
   small: {
-    paddingVertical: 0,
+    paddingVertical: theme.spacing.xs,
     paddingHorizontal: theme.spacing.s,
     alignSelf: "flex-start",
+    borderRadius: 6
   },
   large: {
     paddingHorizontal: theme.spacing.m,
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: theme.fontSize.s,
+    lineHeight: 0
   },
   largeText: {
     fontSize: 18,

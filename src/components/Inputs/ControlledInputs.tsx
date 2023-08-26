@@ -7,10 +7,10 @@ import {
 } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
-import Text from "../Text";
-import IconButton from "../IconButton";
 import theme from "../../theme";
 import Button from "../Button";
+import IconButton from "../IconButton";
+import Text from "../Text";
 
 import InputBase, { InputBaseProps } from "./TextInputBase";
 
@@ -68,7 +68,7 @@ export function ControlledArrayInput<T extends FieldValues>({
             name={`${name}.${index}` as any}
             control={control}
             {...props}
-            style={{ flex: 1 }}
+            style={styles.arrInput}
           />
           <IconButton
             ghost
@@ -98,5 +98,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: theme.spacing.s,
     marginBottom: theme.spacing.xs,
+  },
+  arrInput: {
+    flex: 1,
   },
 });

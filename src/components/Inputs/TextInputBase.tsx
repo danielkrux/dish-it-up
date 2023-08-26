@@ -69,7 +69,13 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
           selectionColor={theme.colors.secondary}
         />
         {active && !props.multiline && Boolean(value?.length) && (
-          <IconButton onPress={clearTextInput} ghost icon="x" size="medium" />
+          <IconButton
+            style={{ paddingLeft: 0 }}
+            onPress={clearTextInput}
+            ghost
+            icon="x"
+            size="medium"
+          />
         )}
       </View>
     );
