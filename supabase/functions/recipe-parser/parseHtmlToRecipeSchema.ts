@@ -1,5 +1,5 @@
-import { parse } from "https://esm.sh/node-html-parser@6.1.5";
 import { clean } from "./stringUtils.ts";
+import { parse } from "https://esm.sh/node-html-parser@6.1.5";
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
 
 function parseHtmlToRecipeSchema(
@@ -11,7 +11,7 @@ function parseHtmlToRecipeSchema(
   );
 
   const recipeSchemaStr = jsonldItems.find((jsonld) => {
-    return jsonld.innerHTML.search(new RegExp(`recipeIngredient`, "i")) !== -1;
+    return jsonld.innerHTML.search(new RegExp("recipeIngredient", "i")) !== -1;
   })?.innerHTML;
 
   if (!recipeSchemaStr) {

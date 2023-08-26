@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
 import ChipList from "../../../components/ChipList";
-import { useQuery } from "@tanstack/react-query";
 import { getRecipeCategories } from "../../recipe/recipe.service";
+import { useQuery } from "@tanstack/react-query";
+import { StyleSheet } from "react-native";
 
 function RecipeQuickFilter() {
   const { data } = useQuery(["recipe-categories"], getRecipeCategories, {

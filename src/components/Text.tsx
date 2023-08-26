@@ -1,11 +1,11 @@
+import theme from "../theme";
+import createClassComponent from "../utils/createClassComponent";
 import {
+  StyleSheet,
   Text as RNText,
   TextProps as RNTextProps,
-  StyleSheet,
 } from "react-native";
-import theme from "../theme";
 import Animated from "react-native-reanimated";
-import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
   type?: "header" | "body";
@@ -15,7 +15,7 @@ export type TextProps = {
 
 export default function Text({
   type = "body",
-  size: size,
+  size,
   style,
   ...props
 }: TextProps) {

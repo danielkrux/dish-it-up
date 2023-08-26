@@ -1,5 +1,5 @@
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import Chip, { ChipProps } from "./Chip";
+import { ScrollView, StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 function ChipList({
   data,
@@ -15,7 +15,7 @@ function ChipList({
       horizontal
     >
       {data.map((item, index) => (
-        <Chip key={index} {...item} />
+        <Chip key={`${item}-${index}`} {...item} />
       ))}
     </ScrollView>
   );

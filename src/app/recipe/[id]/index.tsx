@@ -1,16 +1,15 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
 
-import type { Recipe } from "../../../../types/Recipe";
-import Text from "../../../components/Text";
-import theme, { SCREEN_WIDTH } from "../../../theme";
-import IconButton from "../../../components/IconButton";
-import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
 import ContextMenu from "../../../components/ContextMenu/ContextMenu";
+import IconButton from "../../../components/IconButton";
+import Text from "../../../components/Text";
+import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
+import theme, { SCREEN_WIDTH } from "../../../theme";
 import { useState } from "react";
 
-export default function Recipe() {
+export default function RecipeDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { data } = useFetchRecipe(id as string);
@@ -103,7 +102,7 @@ export default function Recipe() {
             Ingredients
           </Text>
           {data?.ingredients?.map((ingredient, i) => (
-            <Text key={i} type="body">
+            <Text key={`${ingredient}-${i}`} type="body">
               • {ingredient}
             </Text>
           ))}
@@ -113,11 +112,15 @@ export default function Recipe() {
             Instructions
           </Text>
           {data?.instructions?.map((instruction, i) => (
-            <View key={i} style={styles.instruction}>
+            <View key={`${instruction}-${i}`} style={styles.instruction}>
               <Text type="header" size="m">
                 {i + 1}
               </Text>
-              <Text style={styles.instructionText} key={i} type="body">
+              <Text
+                style={styles.instructionText}
+                key={`${instruction}-${i}`}
+                type="body"
+              >
                 {instruction}
               </Text>
             </View>

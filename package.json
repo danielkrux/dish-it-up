@@ -51,6 +51,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
+    "rome": "12.1.3",
     "supabase": "^1.83.7",
     "typescript": "^5.1.3"
   },

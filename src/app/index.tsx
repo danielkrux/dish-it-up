@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import {
   FlatList,
@@ -7,20 +9,18 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useQuery } from "@tanstack/react-query";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
-import { router, useLocalSearchParams } from "expo-router";
 
-import { getRecipes } from "../features/recipe/recipe.service";
-import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
-import theme from "../theme";
 import { Recipe } from "../../types/Recipe";
-import { AnimatedText } from "../components/Text";
-import InputBase from "../components/Inputs/TextInputBase";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
+import InputBase from "../components/Inputs/TextInputBase";
+import { AnimatedText } from "../components/Text";
 import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
+import { getRecipes } from "../features/recipe/recipe.service";
 import useDebounce from "../hooks/useDebounce";
+import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
+import theme from "../theme";
 
 const extractKey = (item: Recipe) => item.id;
 
@@ -85,7 +85,7 @@ export default function Home() {
           numColumns={2}
         />
       </AnimatedView>
-      <FloatingButton onPress={() => router.push("/recipe/add")}>
+      <FloatingButton onPress={() => router.push("/recipe/add/")}>
         Add recipe
       </FloatingButton>
     </View>

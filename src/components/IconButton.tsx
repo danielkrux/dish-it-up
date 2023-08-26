@@ -1,6 +1,6 @@
-import { Pressable, PressableProps, StyleSheet } from "react-native";
-import Icon, { IconName } from "./Icon";
 import theme, { pallettes } from "../theme";
+import Icon, { IconName } from "./Icon";
+import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 export type IconButtonProps = {
   icon: IconName;
@@ -31,6 +31,7 @@ export default function IconButton({
             ? "transparent"
             : styles.container.backgroundColor,
         },
+        // rome-ignore lint/suspicious/noExplicitAny: <explanation>
         style as any,
       ]}
       {...props}
