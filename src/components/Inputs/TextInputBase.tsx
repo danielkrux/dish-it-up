@@ -1,20 +1,20 @@
 import {
-  Animated,
-  NativeSyntheticEvent,
-  Platform,
-  TextInput as RNTextInput,
-  TextInputProps as RNTextInputProps,
-  StyleSheet,
-  TextInputFocusEventData,
-  View,
-} from "react-native";
-import {
   forwardRef,
   useCallback,
   useImperativeHandle,
   useRef,
   useState,
 } from "react";
+import {
+  Animated,
+  NativeSyntheticEvent,
+  Platform,
+  StyleSheet,
+  TextInput as RNTextInput,
+  TextInputFocusEventData,
+  TextInputProps as RNTextInputProps,
+  View,
+} from "react-native";
 
 import theme, { pallettes } from "../../theme";
 import createClassComponent from "../../utils/createClassComponent";
@@ -85,15 +85,15 @@ export const AnimatedTextInput = Animated.createAnimatedComponent(
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderRadius: 16,
-    backgroundColor: theme.colors.background,
+    borderRadius: 10,
+    backgroundColor: "#FAFAFA",
     borderWidth: 2,
-    borderColor: theme.colors.background,
+    borderColor: "#ECECEC80",
   },
   input: {
     fontFamily: "Body",
     fontSize: theme.fontSize.m,
-    width: "100%",
+    flex: 1,
     paddingTop: Platform.select({
       ios: theme.spacing.s,
       android: theme.spacing.xs,
@@ -104,9 +104,7 @@ const styles = StyleSheet.create({
     }),
     paddingHorizontal: theme.spacing.m,
   },
-  containerActive: {},
   inputActive: {
-    backgroundColor: theme.colors.white,
-    borderColor: theme.colors.secondary,
+    borderColor: "#ECECEC",
   },
 });
