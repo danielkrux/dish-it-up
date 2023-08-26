@@ -1,7 +1,7 @@
 import { SCREEN_HEIGHT } from "../../theme";
 
-const ITEM_HEIGHT = 50;
-export const MENU_WIDTH = 200;
+const ITEM_HEIGHT = 47;
+export const MENU_WIDTH = 220;
 
 export const SPRING_CONFIGURATION = {
   damping: 33,
@@ -44,15 +44,21 @@ export function getTransformOrigin(
   return position;
 }
 
+export function calcMenuHeight(actionLength: number) {
+  "worklet";
+  return actionLength * ITEM_HEIGHT;
+}
+
 export function calculateTranslateX(
-  anchorPosition: TransformOriginAnchorPosition
+  anchorPosition: TransformOriginAnchorPosition,
+  triggerWidth: number
 ) {
   "worklet";
 
   const anchorPositionHorizontal = anchorPosition.split("-")[1];
 
   if (anchorPositionHorizontal === "right") {
-    return MENU_WIDTH / 2;
+    return MENU_WIDTH / 2 - triggerWidth / 2;
   } else if (anchorPositionHorizontal === "center") {
     return 0;
   } else {
@@ -60,7 +66,7 @@ export function calculateTranslateX(
   }
 }
 
-// export function calculateTranslateY(anchorPosition: TransformOriginAnchorPosition) {
+// export function calculateTranslateY(anchorPosition: TransformOriginAnchorPosition, actionLength: number) {
 //   "worklet";
 
 //   const anchorPositionVertical = anchorPosition.split("-")[0];
@@ -81,7 +87,7 @@ export function calculateLeftPosition(
   const anchorPositionHorizontal = anchorPosition.split("-")[1];
 
   if (anchorPositionHorizontal === "right") {
-    return -MENU_WIDTH + triggerWidth;
+    return -MENU_WIDTH + triggerWidth / 1.3;
   } else if (anchorPositionHorizontal === "left") {
     return 0;
   } else {

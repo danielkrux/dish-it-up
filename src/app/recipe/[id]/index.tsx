@@ -7,13 +7,11 @@ import IconButton from "../../../components/IconButton";
 import Text from "../../../components/Text";
 import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
 import theme, { SCREEN_WIDTH } from "../../../theme";
-import { useState } from "react";
 
 export default function RecipeDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { data } = useFetchRecipe(id as string);
-  const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
   return (
     <>
@@ -24,35 +22,34 @@ export default function RecipeDetail() {
         <Stack.Screen
           options={{
             title: "Recipe",
+            headerTitleAlign: "center",
             headerLeft: () => (
               <IconButton
-                onPress={() => router.back()}
+                onPress={router.back}
                 icon="chevron-left"
                 size="medium"
               />
-              // <ContextMenu
-              //   onClose={() => setContextMenuOpen(false)}
-              //   actions={[{ label: "Test", onPress: () => {} }]}
-              // />
             ),
             headerRight: () => (
-              // <IconButton
-              //   onPress={() => router.push(`/recipe/${id}/edit`)}
-              //   icon="more-vertical"
-              //   size="medium"
-              // />
               <ContextMenu
-                onClose={() => setContextMenuOpen(false)}
-                actions={[{ label: "Test", onPress: () => {} }]}
+                actions={[
+                  {
+                    label: "Edit...",
+                    onPress: () => router.push(`/recipe/${data?.id}/edit`),
+                    icon: "edit-2",
+                  },
+                  {
+                    label: "Delete",
+                    onPress: () => {},
+                    icon: "trash-2",
+                    destructive: true,
+                  },
+                ]}
               />
             ),
           }}
         />
         <View>
-          {/* <ContextMenu
-            onClose={() => setContextMenuOpen(false)}
-            actions={[{ label: "Test", onPress: () => {} }]}
-          /> */}
           <Text style={styles.title} type="header">
             {data?.name}
           </Text>

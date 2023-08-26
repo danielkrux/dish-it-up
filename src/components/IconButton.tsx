@@ -36,7 +36,7 @@ export default function IconButton({
       ]}
       {...props}
     >
-      <Icon name={icon} color="black" size={sizeMap[size]} />
+      <Icon name={icon} size={sizeMap[size]} />
     </Pressable>
   );
 }

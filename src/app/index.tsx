@@ -31,9 +31,7 @@ export default function Home() {
   const { q } = useLocalSearchParams<{ q?: string }>();
   const query = useDebounce(q, 300);
 
-  const { data, refetch } = useQuery(["recipes", query], () =>
-    getRecipes(query)
-  );
+  const { data, refetch } = useQuery(["recipes", q], () => getRecipes(query));
   useRefreshOnFocus(refetch);
 
   function cancelSearch() {

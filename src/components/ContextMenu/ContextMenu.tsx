@@ -1,101 +1,129 @@
-import { useState } from "react";
-import { Dimensions, Pressable, StyleSheet } from "react-native";
+import { Portal } from "@gorhom/portal";
+import { Fragment, useState } from "react";
+import { Dimensions, Platform, Pressable, StyleSheet } from "react-native";
 import Animated, {
+  MeasuredDimensions,
   measure,
+  runOnJS,
   useAnimatedRef,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { FullWindowOverlay } from "react-native-screens";
-import { Portal } from "@gorhom/portal";
 
-import { pallettes } from "../../theme";
-import useSafeAreaInsets from "../../hooks/useSafeAreaInsets";
 import IconButton from "../IconButton";
+import MenuItem, { MenuItemProps } from "./MenuItem";
 import {
   MENU_WIDTH,
   SPRING_CONFIGURATION,
+  calcMenuHeight,
   calculateLeftPosition as calcLeftOffset,
   calculateTranslateX as calcTranslateX,
   getTransformOrigin,
 } from "./utils";
-import Text from "../Text";
+import { BlurView } from "expo-blur";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
-type Action = {
-  label: string;
-  onPress?: () => void;
-  icon?: string;
-};
+type Action = MenuItemProps;
 
 type ContextMenuProps = {
   actions: Action[];
-  onClose?: () => void;
 };
 
-function ContextMenu({
-  actions = [{ label: "Test" }, { label: "Test2" }],
-  onClose,
-}: ContextMenuProps) {
+function ContextMenu({ actions }: ContextMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useAnimatedRef<Animated.View>();
-  const insets = useSafeAreaInsets();
+  const triggerRect = useSharedValue<MeasuredDimensions>({
+    pageX: 0,
+    pageY: 0,
+    width: 0,
+    height: 0,
+  });
+  // const isOpen = useSharedValue(false);
 
   const animatedStyles = useAnimatedStyle(() => {
-    const triggerRect = measure(triggerRef);
-    if (!triggerRect) return {};
+    const menuHeight = calcMenuHeight(actions.length);
 
     const anchorPosition = getTransformOrigin(
-      triggerRect.pageX,
-      triggerRect.width,
+      triggerRect.value?.pageX,
+      triggerRect.value?.width,
       WINDOW_WIDTH
     );
-    const leftOffset = calcLeftOffset(anchorPosition, triggerRect.width);
-    const translateX = calcTranslateX(anchorPosition);
+    const leftOffset = calcLeftOffset(anchorPosition, triggerRect.value?.width);
+    const translateX = calcTranslateX(anchorPosition, triggerRect.value?.width);
 
     return {
-      top: triggerRect.pageY + triggerRect.height + 5,
-      left: triggerRect.pageX + leftOffset,
+      top: triggerRect.value?.pageY + triggerRect.value?.height + 5,
+      left: triggerRect.value?.pageX + leftOffset,
+      height: menuHeight,
+      opacity: isOpen
+        ? withTiming(1, { duration: 200 })
+        : withTiming(0, { duration: 200 }),
       transform: [
         { translateX: translateX },
-        { translateY: -250 },
+        { translateY: -menuHeight / 2 },
         {
           scale: isOpen ? withSpring(1, SPRING_CONFIGURATION) : withTiming(0),
         },
+
         { translateX: -translateX },
-        { translateY: 250 },
+        { translateY: menuHeight / 2 },
       ],
     };
   }, [isOpen]);
 
-  function toggleOpen() {
-    setIsOpen((prev) => !prev);
+  const gesture = Gesture.Tap().onBegin(() => {
+    const rect = measure(triggerRef);
+    triggerRect.value = rect;
+    runOnJS(setIsOpen)(!isOpen);
+  });
+
+  function handleItemPress(action?: () => void) {
+    setIsOpen(false);
+    action?.();
   }
+
+  const FullWindowOverLayComponent =
+    Platform.OS === "ios" ? FullWindowOverlay : Fragment;
 
   return (
     <>
-      <Animated.View ref={triggerRef}>
-        <IconButton icon="more-vertical" onPress={toggleOpen} />
+      <Animated.View collapsable={false} ref={triggerRef}>
+        <GestureDetector gesture={gesture}>
+          <IconButton icon="more-vertical" />
+        </GestureDetector>
       </Animated.View>
 
       <Portal>
-        <FullWindowOverlay>
+        <FullWindowOverLayComponent>
           <>
             <Pressable
               style={[StyleSheet.absoluteFill]}
-              onPress={() => setIsOpen(false)}
               pointerEvents={isOpen ? "auto" : "none"}
+              onPress={() => setIsOpen(false)}
             />
 
             <Animated.View style={[styles.container, animatedStyles]}>
-              <Pressable onPress={() => console.log("test")}>
-                <Text>Test</Text>
-              </Pressable>
+              <BlurView
+                style={styles.blurContainer}
+                tint="light"
+                intensity={100}
+              >
+                {actions.map((action, i) => (
+                  <MenuItem
+                    key={`${action.label}-${i}`}
+                    {...action}
+                    onPress={() => handleItemPress(action.onPress)}
+                  />
+                ))}
+              </BlurView>
             </Animated.View>
           </>
-        </FullWindowOverlay>
+        </FullWindowOverLayComponent>
       </Portal>
     </>
   );
@@ -105,20 +133,14 @@ export default ContextMenu;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: "white",
     position: "absolute",
-    height: 500,
     width: MENU_WIDTH,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: pallettes.black[200],
-    shadowColor: pallettes.black[400],
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
+    transform: [{ scale: 0 }],
+  },
+  blurContainer: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    overflow: "hidden",
   },
 });

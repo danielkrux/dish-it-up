@@ -12,6 +12,17 @@ export const pallettes = {
     200: "#C6C6C6",
     100: "#F4F4F4",
   },
+  red: {
+    900: "#4A0000",
+    800: "#660000",
+    700: "#800000",
+    600: "#9B0000",
+    500: "#B60000",
+    400: "#D20000",
+    300: "#ED0000",
+    200: "#FF1C1C",
+    100: "#FF3838",
+  }
 };
 
 export const SCREEN_WIDTH = Dimensions.get("window").width;
