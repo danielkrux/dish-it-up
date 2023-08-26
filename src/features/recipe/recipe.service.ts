@@ -23,7 +23,7 @@ export async function getRecipeCategories() {
     throw new Error(result.error.message);
   }
 
-  return result.data.flatMap((f) => (Boolean(f.category) ? [f.category] : []));
+  return result.data.flatMap((f) => (f.category ? [f.category] : []));
 }
 
 export async function createRecipe(recipe?: RecipeInputs) {
@@ -96,4 +96,14 @@ export async function getRecipe(id: string) {
   }
 
   return result.data;
+}
+
+export async function deleteRecipe(id: string) {
+  const result = await supabase.from("recipes").delete().eq("id", id);
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result;
 }

@@ -56,7 +56,7 @@ export default function Home() {
           Get cooking today!
         </AnimatedText>
       )}
-      <AnimatedView style={{ flex: 1 }} layout={Layout.duration(200)}>
+      <AnimatedView activeOpacity={1} style={{ flex: 1 }} layout={Layout.duration(200)}>
         <View style={styles.searchContainer}>
           <InputBase
             value={q}
