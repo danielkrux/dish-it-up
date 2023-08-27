@@ -1,5 +1,5 @@
 import { deleteRecipe } from "../recipe.service";
-import { Recipe } from "../types";
+import { Recipe } from "../recipe.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Options = {

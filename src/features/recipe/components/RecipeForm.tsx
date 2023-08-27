@@ -7,15 +7,17 @@ import {
   ControlledInput,
 } from "../../../components/Inputs/ControlledInputs";
 import theme from "../../../theme";
-import { RecipeInputs } from "../types";
+import { RecipeInputs } from "../recipe.types";
 import { StyleSheet, View } from "react-native";
 
 const emtpyRecipe: RecipeInputs = {
   name: "",
   description: "",
-  recipe_yield: 0,
-  ingredients: ["", ""],
+  recipe_yield: "",
+  category: "",
+  ingredients: [""],
   instructions: [""],
+  total_time: "",
 };
 
 function RecipeForm({
@@ -25,6 +27,7 @@ function RecipeForm({
   initialRecipe?: Recipe;
   onSubmit: (data: RecipeInputs) => void;
 }) {
+  console.log(initialRecipe);
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<RecipeInputs>({
       defaultValues: (initialRecipe as RecipeInputs) ?? emtpyRecipe,
@@ -48,10 +51,21 @@ function RecipeForm({
         style={{ minHeight: 100 }}
       />
       <ControlledInput
-        label="Recipe yield"
+        label="Yields"
         name="recipe_yield"
         control={control}
-        keyboardType="numeric"
+        returnKeyType="next"
+      />
+      <ControlledInput
+        label="Category"
+        name="category"
+        control={control}
+        returnKeyType="next"
+      />
+      <ControlledInput
+        label="Total time"
+        name="total_time"
+        control={control}
         returnKeyType="next"
       />
       <ControlledArrayInput
@@ -93,6 +107,6 @@ export default RecipeForm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: theme.spacing.m
+    gap: theme.spacing.m,
   },
 });

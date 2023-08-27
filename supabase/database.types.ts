@@ -9,7 +9,25 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      recipes: {
+      category: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+        }
+        Relationships: []
+      }
+      recipe: {
         Row: {
           category: string | null
           created_at: string
@@ -19,7 +37,7 @@ export interface Database {
           ingredients: string[] | null
           instructions: string[] | null
           name: string | null
-          recipe_yield: number | null
+          recipe_yield: string | null
           total_time: string | null
         }
         Insert: {
@@ -31,7 +49,7 @@ export interface Database {
           ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
-          recipe_yield?: number | null
+          recipe_yield?: string | null
           total_time?: string | null
         }
         Update: {
@@ -43,22 +61,51 @@ export interface Database {
           ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
-          recipe_yield?: number | null
+          recipe_yield?: string | null
           total_time?: string | null
         }
         Relationships: []
+      }
+      recipe_category: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          id: number
+          recipe_id: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          id?: number
+          recipe_id?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          id?: number
+          recipe_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_category_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_category_recipe_id_fkey"
+            columns: ["recipe_id"]
+            referencedRelation: "recipe"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      filter_recipes: {
-        Args: {
-          query: string
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

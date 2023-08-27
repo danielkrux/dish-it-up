@@ -1,6 +1,6 @@
 import { Recipe } from "../../../types/Recipe";
 import { supabase } from "../../app/_layout";
-import { RecipeInputs } from "./types";
+import { RecipeInputs } from "./recipe.types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -17,7 +17,7 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
 }
 
 export async function getRecipeCategories() {
-  const result = await supabase.from("recipes").select("category");
+  const result = await supabase.from("recipe").select("category");
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -35,7 +35,7 @@ export async function createRecipe(recipe?: RecipeInputs) {
     throw new Error("No recipe to save");
   }
 
-  const result = await supabase.from("recipes").insert(recipe);
+  const result = await supabase.from("recipe").insert(recipe);
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -51,7 +51,7 @@ export async function updateRecipe(recipe?: Recipe) {
   }
 
   const result = await supabase
-    .from("recipes")
+    .from("recipe")
     .update(recipe)
     .eq("id", recipe.id)
     .select()
@@ -67,19 +67,15 @@ export async function updateRecipe(recipe?: Recipe) {
 export async function getRecipes(searchQuery?: string) {
   let result = null;
 
-  const { data, error } = await supabase.rpc("filter_recipes", {
-    query: searchQuery || "",
-  });
-
   if (searchQuery) {
     result = await supabase
-      .from("recipes")
+      .from("recipe")
       .select("*")
       .order("created_at", { ascending: false })
       .ilike("name", `%${searchQuery}%`);
   } else {
     result = await supabase
-      .from("recipes")
+      .from("recipe")
       .select("*")
       .order("created_at", { ascending: false });
   }
@@ -93,7 +89,7 @@ export async function getRecipes(searchQuery?: string) {
 
 export async function getRecipe(id: string) {
   const result = await supabase
-    .from("recipes")
+    .from("recipe")
     .select("*")
     .eq("id", id)
     .single();
@@ -106,7 +102,7 @@ export async function getRecipe(id: string) {
 }
 
 export async function deleteRecipe(id: string) {
-  const result = await supabase.from("recipes").delete().eq("id", id);
+  const result = await supabase.from("recipe").delete().eq("id", id);
 
   if (result.error) {
     throw new Error(result.error.message);

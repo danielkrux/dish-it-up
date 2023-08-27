@@ -7,7 +7,8 @@ export type RecipeInputs = {
   instructions: string[];
   category?: string;
   image_url?: string;
-  recipe_yield: number;
+  recipe_yield: string;
+  total_time?: string;
 };
 
-export type Recipe = Tables<"recipes">;
+export type Recipe = Tables<"recipe">;
