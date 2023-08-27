@@ -1,19 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
+import { StyleSheet } from "react-native";
+
 import ChipList from "../../../components/ChipList";
 import theme from "../../../theme";
 import { getRecipeCategories } from "../../recipe/recipe.service";
-import { useQuery } from "@tanstack/react-query";
-import { StyleSheet } from "react-native";
+
+export const DEFAULT_FILTER = "All";
 
 function RecipeQuickFilter() {
-  const { data } = useQuery(["recipe-categories"], getRecipeCategories, {
-    select: (data) =>
-      data.map((c) => ({ label: c, value: c, onPress: () => {} })),
+  const params = useLocalSearchParams<{ c?: string }>();
+  const appliedCategory = params.c;
+
+  const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
+    select: (data) => {
+      const categoriesFromRecipes = data.map((category) => category);
+      const categories = [DEFAULT_FILTER, ...categoriesFromRecipes];
+      return categories.map((category) => ({
+        label: category,
+        value: category,
+      }));
+    },
   });
+
+  function updateParams(value: string) {
+    if (value === DEFAULT_FILTER)
+      return router.setParams({ c: DEFAULT_FILTER });
+    router.setParams({ c: value });
+  }
 
   if (!data) return null;
 
   return (
-    <ChipList style={styles.container} contentContainerStyle={styles.contentContainer} data={data} />
+    <ChipList
+      style={styles.container}
+      data={data}
+      selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
+      onPress={updateParams}
+    />
   );
 }
 
@@ -22,8 +46,5 @@ export default RecipeQuickFilter;
 const styles = StyleSheet.create({
   container: {
     marginBottom: theme.spacing.m,
-  },
-  contentContainer: {
-    marginHorizontal: theme.spacing.m,
   },
 });

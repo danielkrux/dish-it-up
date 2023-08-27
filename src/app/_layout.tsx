@@ -1,6 +1,8 @@
 import {
   JosefinSans_700Bold,
   NotoSans_400Regular,
+  NotoSans_500Medium,
+  NotoSans_700Bold,
   useFonts,
 } from "@expo-google-fonts/dev";
 import { PortalProvider } from "@gorhom/portal";
@@ -34,7 +36,8 @@ const Layout = () => {
 
   const [loaded] = useFonts({
     Heading: JosefinSans_700Bold,
-    Body: NotoSans_400Regular,
+    Body: NotoSans_500Medium,
+    BodyBold: NotoSans_700Bold,
   });
 
   if (!loaded) {

@@ -15,8 +15,10 @@ import { Recipe } from "../../types/Recipe";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
 import InputBase from "../components/Inputs/TextInputBase";
-import Text, { AnimatedText } from "../components/Text";
-import RecipeQuickFilter from "../features/home/components/RecipeFilters";
+import { AnimatedText } from "../components/Text";
+import RecipeQuickFilter, {
+  DEFAULT_FILTER,
+} from "../features/home/components/RecipeFilters";
 import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
 import { getRecipes } from "../features/recipe/recipe.service";
 import useDebounce from "../hooks/useDebounce";
@@ -27,13 +29,28 @@ const extractKey = (item: Recipe) => item.id;
 
 const AnimatedView = Animated.createAnimatedComponent(TouchableOpacity);
 
+function filterRecipesByCategory(recipes: Recipe[], category?: string) {
+  if (!category || category === DEFAULT_FILTER) {
+    return recipes;
+  }
+  return recipes.filter((recipe) => recipe.category === category);
+}
+
 export default function Home() {
   const [isSearching, setIsSearching] = useState(false);
-  const { q } = useLocalSearchParams<{ q?: string }>();
+  const { q, c } = useLocalSearchParams<{ q?: string; c?: string }>();
   const query = useDebounce(q, 300);
 
-  const { data, refetch } = useQuery(["recipes", query], () =>
-    getRecipes(query)
+  const { data, refetch } = useQuery(
+    ["recipes", query],
+    () => getRecipes(query),
+    {
+      select: useCallback(
+        (data: Recipe[]) => filterRecipesByCategory(data, c),
+        [c]
+      ),
+      keepPreviousData: true,
+    }
   );
   useRefreshOnFocus(refetch);
 
@@ -64,34 +81,36 @@ export default function Home() {
         style={{ flex: 1 }}
         layout={Layout.duration(200)}
       >
-        <View style={styles.searchContainer}>
-          <InputBase
-            value={q}
-            onChangeText={(text) => {
-              router.setParams({ q: text });
-            }}
-            onFocus={() => setIsSearching(true)}
-            onBlur={() => setIsSearching(false)}
-            placeholder="Search recipes"
-            style={styles.search}
-          />
-
-          {isSearching && (
-            <Button variant="ghost" onPress={cancelSearch}>
-              CANCEL
-            </Button>
-          )}
-        </View>
-        <RecipeQuickFilter />
         <FlatList
+          ListHeaderComponent={
+            <>
+              <View style={styles.searchContainer}>
+                <InputBase
+                  value={q}
+                  onChangeText={(text) => {
+                    router.setParams({ q: text });
+                  }}
+                  onFocus={() => setIsSearching(true)}
+                  onBlur={() => setIsSearching(false)}
+                  placeholder="Search recipes"
+                  style={styles.search}
+                />
+
+                {isSearching && (
+                  <Button variant="ghost" onPress={cancelSearch}>
+                    CANCEL
+                  </Button>
+                )}
+              </View>
+              <RecipeQuickFilter />
+            </>
+          }
           data={data}
           keyExtractor={extractKey}
           style={{ paddingHorizontal: theme.spacing.m }}
           contentContainerStyle={{
             paddingBottom: 100,
-            // paddingHorizontal: theme.spacing.m,
           }}
-          // columnWrapperStyle={styles.recipeListContent}
           renderItem={renderItem}
         />
       </AnimatedView>
@@ -112,7 +131,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: "row",
-    marginHorizontal: theme.spacing.m,
     alignItems: "center",
     marginBottom: theme.spacing.m,
   },

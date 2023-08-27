@@ -53,7 +53,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      filter_recipes: {
+        Args: {
+          query: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

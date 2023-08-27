@@ -36,6 +36,7 @@ export default {
     white: "#FFFFFF",
     background: "#F1F1F1",
     text: "#15140F",
+    textMuted: "#555555",
     textLight: "#F1F1F1",
   } as const,
   spacing: {

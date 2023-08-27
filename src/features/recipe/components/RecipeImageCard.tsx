@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 
 import { Recipe } from "../../../../types/Recipe";
 import Text from "../../../components/Text";
-import theme from "../../../theme";
+import theme, { pallettes } from "../../../theme";
 
 export default function RecipeImageCard({ recipe }: { recipe: Recipe }) {
   const { push } = useRouter();
@@ -50,5 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: theme.spacing.xs,
     paddingLeft: 0,
+    borderBottomColor: pallettes.black[200] + 40,
+    borderBottomWidth: 1,
   },
 });

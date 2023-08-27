@@ -6,10 +6,14 @@ function ChipList({
   data,
   style,
   contentContainerStyle,
+  selectedValues = [],
+  onPress
 }: {
   data: ChipProps[];
+  selectedValues?: string[];
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  onPress: (value: string) => void;
 }) {
   return (
     <ScrollView
@@ -19,7 +23,7 @@ function ChipList({
       horizontal
     >
       {data.map((item, index) => (
-        <Chip key={`${item}-${index}`} {...item} />
+        <Chip key={`${item}-${index}`} {...item} isSelected={selectedValues.includes(item.value)} onPress={onPress} />
       ))}
     </ScrollView>
   );

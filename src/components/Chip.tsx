@@ -14,9 +14,6 @@ export type ChipProps = {
 };
 
 function Chip({ label, value, isSelected, icon, onPress }: ChipProps) {
-  // const iconColor = isSelected
-  //   ? theme.colors.primary.white
-  //   : theme.colors.primary.anthracite;
 
   return (
     <Pressable
@@ -24,7 +21,8 @@ function Chip({ label, value, isSelected, icon, onPress }: ChipProps) {
       style={[styles.container, isSelected && styles.containerSelected]}
     >
       {icon && <Icon size={16} name={icon} color={theme.colors.text} />}
-      <Text type="header" size="l" style={[styles.label, isSelected && styles.labelSelected]}>
+      {isSelected && <Icon size={16} name="check" color={theme.colors.text} />}
+      <Text style={[styles.label, isSelected && styles.labelSelected]}>
         {label}
       </Text>
     </Pressable>
@@ -41,9 +39,17 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.xs,
     paddingBottom: theme.spacing.xs,
     borderRadius: 10,
+    alignItems: "center",
+    gap: 4,
   },
-  containerSelected: {},
+  containerSelected: {
+    backgroundColor: theme.colors.primary,
+  },
   label: {
+    color: theme.colors.textMuted,
   },
-  labelSelected: {},
+  labelSelected: {
+    color: theme.colors.secondary,
+    fontFamily: "BodyBold",
+  },
 });

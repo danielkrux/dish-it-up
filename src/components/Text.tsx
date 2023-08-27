@@ -8,7 +8,7 @@ import {
 import Animated from "react-native-reanimated";
 
 export type TextProps = {
-  type?: "header" | "body";
+  type?: "header" | "body" | "bodyBold";
   size?: "xl" | "l" | "m" | "s" | "xs";
   light?: boolean;
 } & RNTextProps;
@@ -37,6 +37,9 @@ export const AnimatedText = Animated.createAnimatedComponent(
 const styles = StyleSheet.create({
   body: {
     fontFamily: "Body",
+  },
+  bodyBold: {
+    fontFamily: "BodyBold",
   },
   header: {
     fontFamily: "Heading",

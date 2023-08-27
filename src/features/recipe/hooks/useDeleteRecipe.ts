@@ -17,7 +17,7 @@ function useDeleteRecipe(id: string, options?: Options) {
         ["recipes"],
         currentRecipes?.filter((recipe: Recipe) => recipe.id !== id)
       );
-      queryClient.invalidateQueries(["recipe", id]);
+      queryClient.invalidateQueries(["recipes"], { exact: false });
       options?.onSuccess?.();
     },
     onError: (error) => {

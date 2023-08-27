@@ -23,7 +23,9 @@ export async function getRecipeCategories() {
     throw new Error(result.error.message);
   }
 
-  const allCategories = result.data.flatMap((f) => (f.category ? [f.category] : []));
+  const allCategories = result.data.flatMap((f) =>
+    f.category ? [f.category] : []
+  );
   return [...new Set(allCategories)];
 }
 
@@ -64,6 +66,10 @@ export async function updateRecipe(recipe?: Recipe) {
 
 export async function getRecipes(searchQuery?: string) {
   let result = null;
+
+  const { data, error } = await supabase.rpc("filter_recipes", {
+    query: searchQuery || "",
+  });
 
   if (searchQuery) {
     result = await supabase
