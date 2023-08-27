@@ -19,6 +19,7 @@ import {
 import theme, { pallettes } from "../../theme";
 import createClassComponent from "../../utils/createClassComponent";
 import IconButton from "../IconButton";
+import Text from "../Text";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
   bottomSheet?: boolean;
@@ -88,7 +89,7 @@ export const AnimatedTextInput = Animated.createAnimatedComponent(
   createClassComponent(InputBase)
 );
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     borderRadius: 10,

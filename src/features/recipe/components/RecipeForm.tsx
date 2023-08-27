@@ -2,12 +2,15 @@ import { useForm } from "react-hook-form";
 
 import { Recipe } from "../../../../types/Recipe";
 import Button from "../../../components/Button";
+import { ChipInput } from "../../../components/Inputs/ChipInput";
 import {
   ControlledArrayInput,
   ControlledInput,
 } from "../../../components/Inputs/ControlledInputs";
 import theme from "../../../theme";
+import { getRecipeCategories } from "../recipe.service";
 import { RecipeInputs } from "../recipe.types";
+import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 
 const emtpyRecipe: RecipeInputs = {
@@ -28,6 +31,13 @@ function RecipeForm({
   onSubmit: (data: RecipeInputs) => void;
 }) {
   console.log(initialRecipe);
+  const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
+    select: (data) =>
+      data?.map((category) => ({
+        label: category.name,
+        value: category.id,
+      })),
+  });
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<RecipeInputs>({
       defaultValues: (initialRecipe as RecipeInputs) ?? emtpyRecipe,
@@ -56,11 +66,12 @@ function RecipeForm({
         control={control}
         returnKeyType="next"
       />
-      <ControlledInput
-        label="Category"
-        name="category"
-        control={control}
-        returnKeyType="next"
+      <ChipInput
+        label="Categories"
+        data={data}
+        onAdd={() => {}}
+        onRemove={() => {}}
+        labelKey="name"
       />
       <ControlledInput
         label="Total time"

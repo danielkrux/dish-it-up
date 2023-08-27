@@ -13,17 +13,17 @@ export interface Database {
         Row: {
           created_at: string
           id: string
-          name: string | null
+          name: string
         }
         Insert: {
           created_at?: string
           id?: string
-          name?: string | null
+          name: string
         }
         Update: {
           created_at?: string
           id?: string
-          name?: string | null
+          name?: string
         }
         Relationships: []
       }
@@ -70,19 +70,19 @@ export interface Database {
         Row: {
           category_id: string | null
           created_at: string
-          id: number
+          id: string
           recipe_id: string | null
         }
         Insert: {
           category_id?: string | null
           created_at?: string
-          id?: number
+          id?: string
           recipe_id?: string | null
         }
         Update: {
           category_id?: string | null
           created_at?: string
-          id?: number
+          id?: string
           recipe_id?: string | null
         }
         Relationships: [

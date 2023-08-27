@@ -6,7 +6,7 @@ import ChipList from "../../../components/ChipList";
 import theme from "../../../theme";
 import { getRecipeCategories } from "../../recipe/recipe.service";
 
-export const DEFAULT_FILTER = "All";
+export const DEFAULT_FILTER = "0";
 
 function RecipeQuickFilter() {
   const params = useLocalSearchParams<{ c?: string }>();
@@ -14,11 +14,10 @@ function RecipeQuickFilter() {
 
   const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
     select: (data) => {
-      const categoriesFromRecipes = data.map((category) => category);
-      const categories = [DEFAULT_FILTER, ...categoriesFromRecipes];
+      const categories = [{ name: "All", id: DEFAULT_FILTER }, ...data];
       return categories.map((category) => ({
-        label: category,
-        value: category,
+        label: category.name,
+        value: category.id,
       }));
     },
   });

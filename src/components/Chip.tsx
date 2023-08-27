@@ -3,22 +3,25 @@ import React from "react";
 import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 
-export type ChipProps = {
+export type ChipData = {
   label: string;
   value: string;
   icon?: IconName;
-  isSelected?: boolean;
-  onPress?: (value: string) => void;
 };
 
-function Chip({ label, value, isSelected, icon, onPress }: ChipProps) {
+export type ChipProps = ChipData & {
+  isSelected?: boolean;
+  onPress?: (value: string) => void;
+  style?: StyleProp<ViewStyle>;
+};
 
+function Chip({ label, value, isSelected, icon, onPress, style }: ChipProps) {
   return (
     <Pressable
       onPress={() => onPress?.(value)}
-      style={[styles.container, isSelected && styles.containerSelected]}
+      style={[styles.container, isSelected && styles.containerSelected, style]}
     >
       {icon && <Icon size={16} name={icon} color={theme.colors.text} />}
       {isSelected && <Icon size={16} name="check" color={theme.colors.text} />}

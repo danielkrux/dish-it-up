@@ -16,19 +16,6 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
   return result.data;
 }
 
-export async function getRecipeCategories() {
-  const result = await supabase.from("recipe").select("category");
-
-  if (result.error) {
-    throw new Error(result.error.message);
-  }
-
-  const allCategories = result.data.flatMap((f) =>
-    f.category ? [f.category] : []
-  );
-  return [...new Set(allCategories)];
-}
-
 export async function createRecipe(recipe?: RecipeInputs) {
   if (!recipe || recipe === undefined) {
     console.error("No recipe to save");
@@ -67,17 +54,15 @@ export async function updateRecipe(recipe?: Recipe) {
 export async function getRecipes(searchQuery?: string) {
   let result = null;
 
+  const baseQuery = supabase
+    .from("recipe")
+    .select("*")
+    .order("created_at", { ascending: false });
+
   if (searchQuery) {
-    result = await supabase
-      .from("recipe")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .ilike("name", `%${searchQuery}%`);
+    result = await baseQuery.ilike("name", `%${searchQuery}%`);
   } else {
-    result = await supabase
-      .from("recipe")
-      .select("*")
-      .order("created_at", { ascending: false });
+    result = await baseQuery;
   }
 
   if (result.error) {
@@ -103,6 +88,26 @@ export async function getRecipe(id: string) {
 
 export async function deleteRecipe(id: string) {
   const result = await supabase.from("recipe").delete().eq("id", id);
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result;
+}
+
+export async function getRecipeCategories() {
+  const result = await supabase.from("category").select("*");
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
+}
+
+export async function createCategory(name: string) {
+  const result = await supabase.from("category").insert({ name });
 
   if (result.error) {
     throw new Error(result.error.message);
