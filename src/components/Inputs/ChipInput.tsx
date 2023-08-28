@@ -1,6 +1,12 @@
-import { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
-import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
+import { useRef, useState } from "react";
+import {
+  NativeSyntheticEvent,
+  StyleSheet,
+  TextInput,
+  TextInputSubmitEditingEventData,
+  View,
+} from "react-native";
+import Animated, { FadeIn } from "react-native-reanimated";
 
 import theme, { pallettes } from "../../theme";
 import Chip, { ChipData } from "../Chip";
@@ -12,17 +18,11 @@ type ChipInputProps = InputBaseProps & {
   onAdd?: (value: ChipData) => void;
   onRemove?: (vaue: ChipData) => void;
   data?: ChipData[];
-  labelKey: string;
   label: string;
 };
 
-export function ChipInput({
-  onAdd,
-  onRemove,
-  data,
-  label,
-  labelKey,
-}: ChipInputProps) {
+export function ChipInput({ onAdd, onRemove, data, label }: ChipInputProps) {
+  const inputRef = useRef<TextInput>(null);
   const [selected, setSelected] = useState<ChipData[]>([]);
   const [active, setActive] = useState(false);
 
@@ -47,12 +47,20 @@ export function ChipInput({
     }
   }
 
+  function handleAddCategory(
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+  ) {
+    inputRef.current?.clear();
+    setSelected([...selected, { value: "0", label: e.nativeEvent.text }]);
+  }
+
   return (
     <View>
       {label && <Text style={styles.inputLabel}>{label}</Text>}
       <View style={[inputBaseStyles.container, styles.inputContainer]}>
-        {selected.map((item) => (
+        {selected.map((item, i) => (
           <Chip
+            key={`${item.value}-${i}`}
             style={styles.firstChip}
             {...item}
             onPress={handleChipPress}
@@ -60,8 +68,11 @@ export function ChipInput({
           />
         ))}
         <TextInput
+          ref={inputRef}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          blurOnSubmit={false}
+          onSubmitEditing={handleAddCategory}
           placeholderTextColor={pallettes.black[600]}
           cursorColor={theme.colors.secondary}
           selectionColor={theme.colors.secondary}
@@ -72,7 +83,6 @@ export function ChipInput({
           ]}
         />
       </View>
-      {/* {active && ( */}
       <Animated.View entering={FadeIn} style={styles.suggestions}>
         {data?.map((item) => {
           if (selected.find((i) => i.value === item.value)) return;
@@ -80,7 +90,6 @@ export function ChipInput({
           return <Chip {...item} onPress={handleChipPress} />;
         })}
       </Animated.View>
-      {/* )} */}
     </View>
   );
 }

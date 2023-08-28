@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import { Recipe } from "../../../../types/Recipe";
@@ -10,14 +12,13 @@ import {
 import theme from "../../../theme";
 import { getRecipeCategories } from "../recipe.service";
 import { RecipeInputs } from "../recipe.types";
-import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 
 const emtpyRecipe: RecipeInputs = {
   name: "",
   description: "",
   recipe_yield: "",
-  category: "",
+  categories: [""],
   ingredients: [""],
   instructions: [""],
   total_time: "",
@@ -30,7 +31,6 @@ function RecipeForm({
   initialRecipe?: Recipe;
   onSubmit: (data: RecipeInputs) => void;
 }) {
-  console.log(initialRecipe);
   const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
     select: (data) =>
       data?.map((category) => ({
@@ -38,10 +38,28 @@ function RecipeForm({
         value: category.id,
       })),
   });
+
+  const getDefaultValues = useCallback(() => {
+    if (!initialRecipe) return emtpyRecipe;
+
+    return {
+      name: initialRecipe.name || "",
+      description: initialRecipe.description || "",
+      categories:
+        initialRecipe.categories?.map((category) => category.id) || [],
+      recipe_yield: initialRecipe.recipe_yield || "",
+      total_time: initialRecipe.total_time || "",
+      ingredients: initialRecipe.ingredients || [],
+      instructions: initialRecipe.instructions || [],
+    };
+  }, [initialRecipe]);
+
   const { control, handleSubmit, setValue, getValues, watch } =
     useForm<RecipeInputs>({
-      defaultValues: (initialRecipe as RecipeInputs) ?? emtpyRecipe,
+      defaultValues: getDefaultValues(),
     });
+
+  // console.log(watch())
 
   return (
     <View style={styles.container}>
@@ -69,9 +87,15 @@ function RecipeForm({
       <ChipInput
         label="Categories"
         data={data}
-        onAdd={() => {}}
-        onRemove={() => {}}
-        labelKey="name"
+        onAdd={(item) => {
+          setValue("categories", [...getValues("categories"), item.value]);
+        }}
+        onRemove={(item) => {
+          setValue(
+            "categories",
+            getValues("categories").filter((i) => i !== item.value)
+          );
+        }}
       />
       <ControlledInput
         label="Total time"
