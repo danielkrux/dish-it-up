@@ -11,14 +11,14 @@ import {
 } from "../../../components/Inputs/ControlledInputs";
 import theme from "../../../theme";
 import { getRecipeCategories } from "../recipe.service";
-import { RecipeInputs } from "../recipe.types";
+import { RecipeInputs, RecipeUpdate } from "../recipe.types";
 import { StyleSheet, View } from "react-native";
 
 const emtpyRecipe: RecipeInputs = {
   name: "",
   description: "",
   recipe_yield: "",
-  categories: [""],
+  categories: [],
   ingredients: [""],
   instructions: [""],
   total_time: "",
@@ -29,15 +29,11 @@ function RecipeForm({
   onSubmit,
 }: {
   initialRecipe?: Recipe;
-  onSubmit: (data: RecipeInputs) => void;
+  onSubmit: (data: RecipeUpdate) => void;
 }) {
-  const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
-    select: (data) =>
-      data?.map((category) => ({
-        label: category.name,
-        value: category.id,
-      })),
-  });
+  const categoriesQuery = useQuery(["recipes", "categories"], () =>
+    getRecipeCategories(initialRecipe?.id)
+  );
 
   const getDefaultValues = useCallback(() => {
     if (!initialRecipe) return emtpyRecipe;
@@ -45,8 +41,7 @@ function RecipeForm({
     return {
       name: initialRecipe.name || "",
       description: initialRecipe.description || "",
-      categories:
-        initialRecipe.categories?.map((category) => category.id) || [],
+      categories: categoriesQuery.data,
       recipe_yield: initialRecipe.recipe_yield || "",
       total_time: initialRecipe.total_time || "",
       ingredients: initialRecipe.ingredients || [],
@@ -58,8 +53,6 @@ function RecipeForm({
     useForm<RecipeInputs>({
       defaultValues: getDefaultValues(),
     });
-
-  // console.log(watch())
 
   return (
     <View style={styles.container}>
@@ -86,14 +79,20 @@ function RecipeForm({
       />
       <ChipInput
         label="Categories"
-        data={data}
+        data={categoriesQuery.data?.map((c) => ({
+          value: c.id,
+          label: c.name,
+        }))}
         onAdd={(item) => {
-          setValue("categories", [...getValues("categories"), item.value]);
+          setValue("categories", [
+            ...getValues("categories"),
+            { name: item.label },
+          ]);
         }}
         onRemove={(item) => {
           setValue(
             "categories",
-            getValues("categories").filter((i) => i !== item.value)
+            getValues("categories").filter((i) => i.id !== item.value)
           );
         }}
       />
