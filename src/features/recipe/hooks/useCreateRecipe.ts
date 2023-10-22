@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createRecipe } from "../recipe.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "expo-router";
 
 function useCreateRecipe() {
@@ -11,9 +11,6 @@ function useCreateRecipe() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
       navigation.getParent()?.goBack();
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 

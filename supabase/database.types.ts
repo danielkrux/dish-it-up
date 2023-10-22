@@ -9,30 +9,57 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      category: {
+      categories: {
         Row: {
           created_at: string
-          id: string
+          id: number
           name: string | null
         }
         Insert: {
           created_at?: string
-          id?: string
+          id?: number
           name?: string | null
         }
         Update: {
           created_at?: string
-          id?: string
+          id?: number
           name?: string | null
         }
         Relationships: []
       }
-      recipe: {
+      recipe_categories: {
         Row: {
-          category: string | null
+          category_id: number
+          recipe_id: number
+        }
+        Insert: {
+          category_id: number
+          recipe_id: number
+        }
+        Update: {
+          category_id?: number
+          recipe_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_categories_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_categories_recipe_id_fkey"
+            columns: ["recipe_id"]
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      recipes: {
+        Row: {
           created_at: string
           description: string | null
-          id: string
+          id: number
           image_url: string | null
           ingredients: string[] | null
           instructions: string[] | null
@@ -41,10 +68,9 @@ export interface Database {
           total_time: string | null
         }
         Insert: {
-          category?: string | null
           created_at?: string
           description?: string | null
-          id?: string
+          id?: number
           image_url?: string | null
           ingredients?: string[] | null
           instructions?: string[] | null
@@ -53,10 +79,9 @@ export interface Database {
           total_time?: string | null
         }
         Update: {
-          category?: string | null
           created_at?: string
           description?: string | null
-          id?: string
+          id?: number
           image_url?: string | null
           ingredients?: string[] | null
           instructions?: string[] | null
@@ -65,34 +90,6 @@ export interface Database {
           total_time?: string | null
         }
         Relationships: []
-      }
-      recipe_category: {
-        Row: {
-          category_id: string
-          recipe_id: string
-        }
-        Insert: {
-          category_id: string
-          recipe_id: string
-        }
-        Update: {
-          category_id?: string
-          recipe_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "recipe_category_category_id_fkey"
-            columns: ["category_id"]
-            referencedRelation: "category"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "recipe_category_recipe_id_fkey"
-            columns: ["recipe_id"]
-            referencedRelation: "recipe"
-            referencedColumns: ["id"]
-          }
-        ]
       }
     }
     Views: {

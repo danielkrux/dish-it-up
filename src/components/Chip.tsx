@@ -6,7 +6,7 @@ import Text from "./Text";
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 export type ChipData = {
-  label: string;
+  label?: string;
   value: string;
   icon?: IconName;
 };

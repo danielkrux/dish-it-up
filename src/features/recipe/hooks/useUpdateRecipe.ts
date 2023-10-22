@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateRecipe } from "../recipe.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
       queryClient.setQueryData(["recipe", { id: variables?.id }], data);
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 

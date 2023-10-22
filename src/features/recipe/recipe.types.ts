@@ -1,22 +1,11 @@
-import { Tables } from "../../clients/supabase";
+import { TableCreate, TableUpdate, Tables } from "../../clients/supabase";
 
-export type Category = Tables<"category">;
-
-export type RecipeInputs = {
-  id?: string;
-  name: string;
-  description: string;
-  image_url?: string;
-  ingredients: string[];
-  instructions: string[];
-  categories: Category[];
-  recipe_yield: string;
-  total_time: string;
+export type RecipeCreate = TableCreate<"recipes"> & {
+  categories: TableCreate<"categories">[];
 };
-
-export type RecipeUpdate = RecipeInputs & {
-  id: string;
-  categories: Category[];
+export type RecipeUpdate = TableUpdate<"recipes"> & {
+  categories: TableUpdate<"categories">[];
 };
-
-export type Recipe = Tables<"recipe">;
+export type Recipe = Tables<"recipes"> & {
+  categories: Tables<"categories">[];
+};

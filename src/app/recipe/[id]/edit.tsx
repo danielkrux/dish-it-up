@@ -2,12 +2,12 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ScrollView } from "react-native";
 
-import RecipeForm from "../../../features/recipe/components/RecipeForm";
-import theme from "../../../theme";
 import IconButton from "../../../components/IconButton";
+import RecipeForm from "../../../features/recipe/components/RecipeForm";
 import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
-import useScrollingFormAvoidKeyBoard from "../../../hooks/useScrollingFormAvoidKeyboard";
 import useUpdateRecipe from "../../../features/recipe/hooks/useUpdateRecipe";
+import useScrollingFormAvoidKeyBoard from "../../../hooks/useScrollingFormAvoidKeyboard";
+import theme from "../../../theme";
 
 export default function EditRecipe() {
   const { id } = useLocalSearchParams();
@@ -46,7 +46,9 @@ export default function EditRecipe() {
       />
       <RecipeForm
         initialRecipe={data}
-        onSubmit={(recipeInputs) => mutate({ ...data, ...recipeInputs })}
+        onSubmit={(recipeInputs) => {
+          return mutate({ ...data, ...recipeInputs });
+        }}
       />
     </ScrollView>
   );

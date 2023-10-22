@@ -3,27 +3,35 @@ import {
   NativeSyntheticEvent,
   StyleSheet,
   TextInput,
+  TextInputKeyPressEventData,
   TextInputSubmitEditingEventData,
   View,
 } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 import theme, { pallettes } from "../../theme";
+import { nanoid } from "../../utils/random";
 import Chip, { ChipData } from "../Chip";
 import Text from "../Text";
 import { InputBaseProps } from "./TextInputBase";
 import { styles as inputBaseStyles } from "./TextInputBase";
 
-type ChipInputProps = InputBaseProps & {
+type ChipInputProps = Omit<InputBaseProps, "value"> & {
   onAdd?: (value: ChipData) => void;
   onRemove?: (vaue: ChipData) => void;
   data?: ChipData[];
   label: string;
+  value?: ChipData[];
 };
 
-export function ChipInput({ onAdd, onRemove, data, label }: ChipInputProps) {
-  const inputRef = useRef<TextInput>(null);
-  const [selected, setSelected] = useState<ChipData[]>([]);
+export function ChipInput({
+  onAdd,
+  onRemove,
+  data,
+  value = [],
+  label,
+}: ChipInputProps) {
+  const [inputValue, setInputValue] = useState("");
   const [active, setActive] = useState(false);
 
   function handleBlur() {
@@ -34,60 +42,74 @@ export function ChipInput({ onAdd, onRemove, data, label }: ChipInputProps) {
     setActive(true);
   }
 
-  function handleChipPress(value: string) {
-    const item = data?.find((item) => item.value === value);
+  function handleSuggestionPress(chipValue: string) {
+    const item = data?.find((item) => item.value === chipValue);
     if (!item) return;
 
-    if (selected.find((i) => i.value === item.value)) {
-      setSelected(selected.filter((i) => i !== item));
+    if (value.find((i) => i.value === item.value)) {
       onRemove?.(item);
     } else {
-      setSelected([...selected, item]);
       onAdd?.(item);
     }
   }
 
-  function handleAddCategory(
+  function handleSelectChipPress(chipValue: string) {
+    const item = value?.find((item) => item.value === chipValue);
+    if (!item) return;
+
+    onRemove?.(item);
+  }
+
+  function handleAddChip(
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
   ) {
-    inputRef.current?.clear();
-    setSelected([...selected, { value: "0", label: e.nativeEvent.text }]);
+    const value = e.nativeEvent.text;
+    onAdd?.({ label: value, value: nanoid() });
+    setInputValue("");
+  }
+
+  function handleKeyPress(e: NativeSyntheticEvent<TextInputKeyPressEventData>) {
+    if (e.nativeEvent.key === Key.Backspace && inputValue?.length === 0) {
+      const lastItem = value[value.length - 1];
+      onRemove?.(lastItem);
+    }
   }
 
   return (
     <View>
       {label && <Text style={styles.inputLabel}>{label}</Text>}
       <View style={[inputBaseStyles.container, styles.inputContainer]}>
-        {selected.map((item, i) => (
+        {value?.map((item, i) => (
           <Chip
-            key={`${item.value}-${i}`}
+            key={`${item}-${i}`}
             style={styles.firstChip}
             {...item}
-            onPress={handleChipPress}
-            isSelected
-          />
+            onPress={handleSelectChipPress}
+            isSelected />
         ))}
         <TextInput
-          ref={inputRef}
           onBlur={handleBlur}
           onFocus={handleFocus}
           blurOnSubmit={false}
-          onSubmitEditing={handleAddCategory}
+          value={inputValue}
+          onChangeText={setInputValue}
+          onSubmitEditing={handleAddChip}
+          onKeyPress={handleKeyPress}
           placeholderTextColor={pallettes.black[600]}
           cursorColor={theme.colors.secondary}
           selectionColor={theme.colors.secondary}
           style={[
             inputBaseStyles.input,
             active && inputBaseStyles.inputActive,
-            Boolean(selected.length) && styles.inputHasChip,
+            Boolean(value.length) && styles.inputHasChip,
           ]}
         />
       </View>
       <Animated.View entering={FadeIn} style={styles.suggestions}>
         {data?.map((item) => {
-          if (selected.find((i) => i.value === item.value)) return;
+          if (value.find((i) => i.value === item.value)) return;
 
-          return <Chip {...item} onPress={handleChipPress} />;
+          return <Chip {...item} onPress={handleSuggestionPress} />;
         })}
       </Animated.View>
     </View>
@@ -113,5 +135,11 @@ const styles = StyleSheet.create({
   suggestions: {
     marginTop: 4,
     alignItems: "flex-start",
+    flexDirection: "row",
+    gap: theme.spacing.xs / 2,
   },
 });
+
+export enum Key {
+  Backspace = "Backspace",
+}

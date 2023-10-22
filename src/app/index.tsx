@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
-import { Recipe } from "../../types/Recipe";
 import Button from "../components/Button";
 import FloatingButton from "../components/FloatingButton";
 import InputBase from "../components/Inputs/TextInputBase";
@@ -21,19 +20,20 @@ import RecipeQuickFilter, {
 } from "../features/home/components/RecipeFilters";
 import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
 import { getRecipes } from "../features/recipe/recipe.service";
+import { Recipe } from "../features/recipe/recipe.types";
 import useDebounce from "../hooks/useDebounce";
 import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
 import theme from "../theme";
 
-const extractKey = (item: Recipe) => item.id;
+const extractKey = (item: Recipe) => `${item.id}`;
 
 const AnimatedView = Animated.createAnimatedComponent(TouchableOpacity);
 
 function filterRecipesByCategory(recipes: Recipe[], category?: string) {
-  if (!category || category === DEFAULT_FILTER) {
-    return recipes;
-  }
-  return recipes.filter((recipe) => recipe.category === category);
+  if (!category || category === DEFAULT_FILTER) return recipes;
+  return recipes.filter((recipe) => {
+    return recipe.categories.filter((c) => c.id === Number(category));
+  });
 }
 
 export default function Home() {

@@ -7,7 +7,7 @@ type Options = {
   onError?: (error: unknown) => void;
 };
 
-function useDeleteRecipe(id: string, options?: Options) {
+function useDeleteRecipe(id: number, options?: Options) {
   const queryClient = useQueryClient();
   const deleteRecipeMutation = useMutation({
     mutationFn: () => deleteRecipe(id),
@@ -21,7 +21,7 @@ function useDeleteRecipe(id: string, options?: Options) {
       options?.onSuccess?.();
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       options?.onError?.(error);
     },
   });

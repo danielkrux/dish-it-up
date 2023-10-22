@@ -1,5 +1,5 @@
 import { supabase } from "../../app/_layout";
-import { Recipe, RecipeInputs, RecipeUpdate } from "./recipe.types";
+import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -15,13 +15,13 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
   return result.data;
 }
 
-export async function createRecipe(recipe?: RecipeInputs) {
+export async function createRecipe(recipe?: RecipeCreate) {
   if (!recipe || recipe === undefined) {
     console.error("No recipe to save");
     throw new Error("No recipe to save");
   }
 
-  const result = await supabase.from("recipe").insert(recipe);
+  const result = await supabase.from("recipes").insert(recipe);
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -36,23 +36,31 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     throw new Error("No recipe to save");
   }
 
-  // const allCategories = await supabase.from("category").select("*");
-  // // insert new category if category doesnt exist
-  // await supabase
-  //   .from("category")
-  //   .insert(
-  //     recipeInput.categories
-  //       .filter(
-  //         (categoryId) =>
-  //           !allCategories.data?.find((category) => category.id === categoryId)
-  //       )
-  //       .map((categoryId) => ({ id: categoryId, name: categoryId }))
-  //   );
-
   const { categories, ...recipe } = recipeInput;
 
+  categories.forEach(async (category) => {
+    const exists = await supabase
+      .from("categories")
+      .select("id")
+      .eq("id", category.id)
+      .single();
+
+    if (recipe.id && category.id && category.name) {
+      if (!exists.data) {
+        await supabase.from("categories").insert({ name: category.name });
+        await supabase
+          .from("recipe_categories")
+          .insert({ recipe_id: recipe.id, category_id: category.id });
+      } else {
+        await supabase
+          .from("recipe_categories")
+          .insert({ recipe_id: recipe.id, category_id: category.id });
+      }
+    }
+  });
+
   const result = await supabase
-    .from("recipe")
+    .from("recipes")
     .update(recipe)
     .eq("id", recipe.id)
     .select()
@@ -69,8 +77,8 @@ export async function getRecipes(searchQuery?: string) {
   let result = null;
 
   const baseQuery = supabase
-    .from("recipe")
-    .select("name, id, image_url, created_at, category(id, name)")
+    .from("recipes")
+    .select("*, categories(*)")
     .order("created_at", { ascending: false });
 
   if (searchQuery) {
@@ -83,14 +91,12 @@ export async function getRecipes(searchQuery?: string) {
     throw new Error(result.error.message);
   }
 
-  console.log(result.data);
-
   return result.data;
 }
 
-export async function getRecipe(id: string) {
+export async function getRecipe(id: number) {
   const result = await supabase
-    .from("recipe")
+    .from("recipes")
     .select("*")
     .eq("id", id)
     .single();
@@ -102,8 +108,8 @@ export async function getRecipe(id: string) {
   return result.data;
 }
 
-export async function deleteRecipe(id: string) {
-  const result = await supabase.from("recipe").delete().eq("id", id);
+export async function deleteRecipe(id: number) {
+  const result = await supabase.from("recipes").delete().eq("id", id);
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -112,29 +118,34 @@ export async function deleteRecipe(id: string) {
   return result;
 }
 
-export async function getRecipeCategories(recipeId?: string) {
-  // if (!recipeId) return [];
+export async function getCategories() {
+  const result = await supabase.from("categories").select("id, name");
 
-  // const linkResult = await supabase
-  //   .from("recipe_category")
-  //   .select("*")
-  //   .eq("recipe_id", recipeId);
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
 
-  // if (linkResult.error) {
-  //   throw new Error(linkResult.error?.message);
-  // }
+  return result.data;
+}
 
-  // const result = await supabase.from("category").select("*")
+export async function getRecipeCategories(recipeId?: number) {
+  if (!recipeId) throw new Error("No recipe id provided");
 
-  // if (result.error) {
-  //   throw new Error(result.error?.message);
-  // }
+  const result = await supabase
+    .from("recipes")
+    .select("categories(id, name)")
+    .eq("id", recipeId)
+    .single();
 
-  // return result.data;
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
 }
 
 export async function createCategory(name: string) {
-  const result = await supabase.from("category").insert({ name });
+  const result = await supabase.from("categories").insert({ name });
 
   if (result.error) {
     throw new Error(result.error.message);

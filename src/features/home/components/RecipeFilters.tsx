@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 
 import ChipList from "../../../components/ChipList";
 import theme from "../../../theme";
-import { getRecipeCategories } from "../../recipe/recipe.service";
+import { getCategories } from "../../recipe/recipe.service";
 
 export const DEFAULT_FILTER = "0";
 
@@ -12,7 +12,7 @@ function RecipeQuickFilter() {
   const params = useLocalSearchParams<{ c?: string }>();
   const appliedCategory = params.c;
 
-  const { data } = useQuery(["recipes", "categories"], getRecipeCategories, {
+  const { data } = useQuery(["categories"], getCategories, {
     select: (data) => {
       const categories = [{ name: "All", id: DEFAULT_FILTER }, ...data];
       return categories.map((category) => ({

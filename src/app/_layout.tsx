@@ -1,3 +1,5 @@
+import "react-native-get-random-values";
+
 import {
   JosefinSans_700Bold,
   NotoSans_400Regular,
