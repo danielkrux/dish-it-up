@@ -29,10 +29,10 @@ const extractKey = (item: Recipe) => `${item.id}`;
 
 const AnimatedView = Animated.createAnimatedComponent(TouchableOpacity);
 
-function filterRecipesByCategory(recipes: Recipe[], category?: string) {
-  if (!category || category === DEFAULT_FILTER) return recipes;
+function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
+  if (!categoryId || categoryId === DEFAULT_FILTER) return recipes;
   return recipes.filter((recipe) => {
-    return recipe.categories.filter((c) => c.id === Number(category));
+    return recipe.categories.find((c) => c.id === Number(categoryId));
   });
 }
 
@@ -52,6 +52,7 @@ export default function Home() {
       keepPreviousData: true,
     }
   );
+
   useRefreshOnFocus(refetch);
 
   function cancelSearch() {

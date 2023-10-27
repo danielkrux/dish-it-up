@@ -17,7 +17,7 @@ function RecipeQuickFilter() {
       const categories = [{ name: "All", id: DEFAULT_FILTER }, ...data];
       return categories.map((category) => ({
         label: category.name,
-        value: category.id,
+        value: String(category.id),
       }));
     },
   });
