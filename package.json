@@ -22,7 +22,7 @@
     "@react-navigation/stack": "^6.3.17",
     "@supabase/supabase-js": "^2.32.0",
     "@tanstack/react-query": "^4.32.6",
-    "expo": "~49.0.7",
+    "expo": "~49.0.16",
     "expo-app-loading": "^2.1.1",
     "expo-blur": "~12.4.1",
     "expo-build-properties": "~0.8.3",
