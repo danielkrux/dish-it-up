@@ -1,10 +1,13 @@
-import { Recipe } from "../../../../types/Recipe";
 import { getRecipe } from "../recipe.service";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Recipe } from "../recipe.types";
 
-function useFetchRecipe(id?: string) {
+function useFetchRecipe(id?: number) {
   const queryClient = useQueryClient();
-  const result = useQuery(["recipe", { id }], () => getRecipe(id as string), {
+
+  if (!id) throw new Error("id is required");
+
+  const result = useQuery(["recipes", { id }], () => getRecipe(id), {
     initialData: () => {
       const recipes = queryClient.getQueryData<Recipe[]>([
         "recipes",

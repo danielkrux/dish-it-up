@@ -12,11 +12,13 @@ import theme, { SCREEN_WIDTH } from "../../../theme";
 export default function RecipeDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const { data } = useFetchRecipe(id as string);
+  const { data } = useFetchRecipe(Number(id));
 
-  const { mutate } = useDeleteRecipe(id as string, {
+  const { mutate } = useDeleteRecipe(Number(id), {
     onSuccess: () => router.push("/"),
   });
+
+  console.log(data)
 
   return (
     <>

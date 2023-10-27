@@ -38,6 +38,22 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
 
   const { categories, ...recipe } = recipeInput;
 
+  // remove categories from database if they are not in the recipe anymore
+  if (!categories.length) {
+    const currentRecipeCategories = await getRecipeCategories(recipe.id);
+    const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
+      (category) => category.id
+    );
+    const categoriesToDelete = currentRecipeCategoriesIds?.filter(
+      (categoryId) => !categories.find((category) => category.id === categoryId)
+    );
+    await supabase
+      .from("recipe_categories")
+      .delete()
+      .eq("recipe_id", recipeInput.id)
+      .in("category_id", categoriesToDelete);
+  }
+
   categories.forEach(async (category) => {
     const exists = await supabase
       .from("categories")
@@ -97,7 +113,7 @@ export async function getRecipes(searchQuery?: string) {
 export async function getRecipe(id: number) {
   const result = await supabase
     .from("recipes")
-    .select("*")
+    .select("*, categories(*)")
     .eq("id", id)
     .single();
 

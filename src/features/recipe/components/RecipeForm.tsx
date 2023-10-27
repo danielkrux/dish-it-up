@@ -30,14 +30,6 @@ function RecipeForm({
   initialRecipe?: Recipe;
   onSubmit: (data: RecipeUpdate) => void;
 }) {
-  const recipeCategories = useQuery(
-    ["recipes", { id: initialRecipe?.id }, "categories"],
-    () => getRecipeCategories(initialRecipe?.id),
-    {
-      enabled: !!initialRecipe,
-      select: (data) => data.categories.map((c) => String(c.id)),
-    }
-  );
 
   const categoriesQuery = useQuery(["categories"], () => getCategories());
 

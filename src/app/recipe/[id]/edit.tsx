@@ -13,7 +13,7 @@ export default function EditRecipe() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  const { data } = useFetchRecipe(id as string);
+  const { data } = useFetchRecipe(Number(id));
   const { mutate } = useUpdateRecipe({
     onSuccess: () => router.back(),
   });
