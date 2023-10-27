@@ -8,6 +8,7 @@ import Text from "../../../components/Text";
 import useDeleteRecipe from "../../../features/recipe/hooks/useDeleteRecipe";
 import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
 import theme, { SCREEN_WIDTH } from "../../../theme";
+import ChipList from "../../../components/ChipList";
 
 export default function RecipeDetail() {
   const { id } = useLocalSearchParams();
@@ -17,8 +18,6 @@ export default function RecipeDetail() {
   const { mutate } = useDeleteRecipe(Number(id), {
     onSuccess: () => router.push("/"),
   });
-
-  console.log(data)
 
   return (
     <>
@@ -101,6 +100,13 @@ export default function RecipeDetail() {
             </Text>
           </View>
         </View>
+        <ChipList
+          style={styles.categories}
+          data={data?.categories.map((c) => ({
+            value: String(c.id),
+            label: c.name,
+          }))}
+        />
         <View style={styles.ingredients}>
           <Text type="header" size="l">
             Ingredients
@@ -165,6 +171,10 @@ const styles = StyleSheet.create({
   },
   metaEntry: {
     alignItems: "center",
+  },
+  categories: {
+    marginBottom: theme.spacing.s,
+    marginHorizontal: theme.spacing.m,
   },
   ingredients: {
     marginBottom: theme.spacing.l,

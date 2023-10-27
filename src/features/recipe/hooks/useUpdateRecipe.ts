@@ -6,9 +6,10 @@ function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
 
   const updateRecipeMutation = useMutation({
     mutationFn: updateRecipe,
-    onSuccess: ({ data }, variables) => {
+    onSuccess: async ({ data }, variables) => {
+      queryClient.invalidateQueries(["recipes", { id: variables?.id }]);
       onSuccess?.();
-      queryClient.setQueryData(["recipes", { id: variables?.id }], data);
+      // queryClient.setQueryData(["recipes", { id: variables?.id }], data);
     },
     onError: (error) => {
       console.error(error);
