@@ -12,6 +12,7 @@ import theme from "../../../theme";
 import { getCategories, getRecipeCategories } from "../recipe.service";
 import { Recipe, RecipeUpdate } from "../recipe.types";
 import { StyleSheet, View } from "react-native";
+import useFetchCategories from "../hooks/useFetchCategories";
 
 const emtpyRecipe: RecipeUpdate = {
   name: "",
@@ -30,8 +31,7 @@ function RecipeForm({
   initialRecipe?: Recipe;
   onSubmit: (data: RecipeUpdate) => void;
 }) {
-
-  const categoriesQuery = useQuery(["categories"], () => getCategories());
+  const categoriesQuery = useFetchCategories();
 
   const getDefaultValues = useCallback(() => {
     if (!initialRecipe) return emtpyRecipe;

@@ -1,3 +1,4 @@
+import { StyleProp, ViewProps, ViewStyle } from "react-native";
 import theme from "../theme";
 import FeatherIcons from "@expo/vector-icons/Feather";
 
@@ -8,9 +9,10 @@ export type IconProps = {
   color?: string;
   size: number;
   light?: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 
-export default function Icon({ name, size, color, light }: IconProps) {
+export default function Icon({ name, size, color, light, style }: IconProps) {
   const c = color ? color : light ? theme.colors.white : theme.colors.text;
-  return <FeatherIcons name={name} color={c} size={size} />;
+  return <FeatherIcons name={name} color={c} size={size} style={style} />;
 }

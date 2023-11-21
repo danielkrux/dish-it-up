@@ -10,7 +10,7 @@ import {
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { Platform, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-url-polyfill/auto";
@@ -21,6 +21,7 @@ import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
 import theme from "../theme";
+import IconButton from "../components/IconButton";
 
 export const supabase = initSupabase();
 
@@ -67,6 +68,25 @@ const Layout = () => {
                 options={{
                   headerShown: true,
                   headerTitle: "",
+                  headerRight: () => (
+                    <IconButton
+                      onPress={() => router.push("/settings/")}
+                      icon="settings"
+                      size="medium"
+                    />
+                  ),
+                }}
+              />
+              <Stack.Screen
+                name="settings/index"
+                options={{
+                  title: "Settings",
+                }}
+              />
+              <Stack.Screen
+                name="settings/categories"
+                options={{
+                  title: "Manage Categories",
                 }}
               />
               <Stack.Screen

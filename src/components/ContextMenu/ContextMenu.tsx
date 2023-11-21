@@ -43,7 +43,6 @@ function ContextMenu({ actions }: ContextMenuProps) {
     width: 0,
     height: 0,
   });
-  // const isOpen = useSharedValue(false);
 
   const animatedStyles = useAnimatedStyle(() => {
     const menuHeight = calcMenuHeight(actions.length);

@@ -8,15 +8,17 @@ function ChipList({
   contentContainerStyle,
   selectedValues = [],
   onPress,
+  onLongPress,
 }: {
   data?: ChipProps[];
   selectedValues?: string[];
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
   onPress?: (value: string) => void;
+  onLongPress?: (value: string) => void;
 }) {
   if (!data?.length) return null;
-  
+
   return (
     <ScrollView
       style={style}
@@ -30,6 +32,7 @@ function ChipList({
           {...item}
           isSelected={selectedValues.includes(item.value)}
           onPress={onPress}
+          onLongPress={onLongPress}
         />
       ))}
     </ScrollView>

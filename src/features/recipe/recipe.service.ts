@@ -158,8 +158,32 @@ export async function getRecipeCategories(recipeId?: number) {
   return result.data;
 }
 
-export async function createCategory(name: string) {
+export async function createCategory(name?: string) {
   const result = await supabase.from("categories").insert({ name });
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result;
+}
+
+export async function deleteCategory(id: number) {
+  const result = await supabase.from("categories").delete().eq("id", id);
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result;
+}
+
+export async function editCategory(id: number, name?: string | null) {
+  const result = await supabase
+    .from("categories")
+    .update({ name })
+    .eq("id", id)
+    .select("id, name");
 
   if (result.error) {
     throw new Error(result.error.message);

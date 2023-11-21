@@ -14,13 +14,23 @@ export type ChipData = {
 export type ChipProps = ChipData & {
   isSelected?: boolean;
   onPress?: (value: string) => void;
+  onLongPress?: (value: string) => void;
   style?: StyleProp<ViewStyle>;
 };
 
-function Chip({ label, value, isSelected, icon, onPress, style }: ChipProps) {
+function Chip({
+  label,
+  value,
+  isSelected,
+  icon,
+  onPress,
+  onLongPress,
+  style,
+}: ChipProps) {
   return (
     <Pressable
       onPress={() => onPress?.(value)}
+      onLongPress={() => onLongPress?.(value)}
       style={[styles.container, isSelected && styles.containerSelected, style]}
     >
       {icon && <Icon size={16} name={icon} color={theme.colors.text} />}
