@@ -65,12 +65,12 @@ export default function Settings() {
             <View style={styles.actions}>
               <IconButton
                 onPress={() => updateCategory(category.id, category.name)}
-                icon="edit"
+                icon="edit-2"
                 size="medium"
               />
               <IconButton
                 onPress={() => deleteCategory(category.id)}
-                icon="trash"
+                icon="trash-2"
                 size="medium"
               />
             </View>

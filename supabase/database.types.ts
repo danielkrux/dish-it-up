@@ -13,6 +13,24 @@ export interface Database {
         Row: {
           created_at: string
           id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      grocery_list: {
+        Row: {
+          created_at: string
+          id: number
           name: string | null
         }
         Insert: {
@@ -44,12 +62,14 @@ export interface Database {
           {
             foreignKeyName: "recipe_categories_category_id_fkey"
             columns: ["category_id"]
+            isOneToOne: false
             referencedRelation: "categories"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "recipe_categories_recipe_id_fkey"
             columns: ["recipe_id"]
+            isOneToOne: false
             referencedRelation: "recipes"
             referencedColumns: ["id"]
           }

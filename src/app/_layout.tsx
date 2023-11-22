@@ -100,6 +100,17 @@ const Layout = () => {
                   }),
                 }}
               />
+              <Stack.Screen
+                name="recipe/[id]/select-groceries"
+                options={{
+                  presentation: "modal",
+                  headerShown: false,
+                  animation: Platform.select({
+                    android: "fade_from_bottom",
+                    ios: "default",
+                  }),
+                }}
+              />
             </Stack>
           </QueryClientProvider>
         </PortalProvider>

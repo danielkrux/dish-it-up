@@ -40,6 +40,12 @@ export default function RecipeDetail() {
               <ContextMenu
                 actions={[
                   {
+                    label: "Add to grocery list",
+                    onPress: () =>
+                      router.push(`/recipe/${data?.id}/select-groceries`),
+                    icon: "shopping-cart",
+                  },
+                  {
                     label: "Edit...",
                     onPress: () => router.push(`/recipe/${data?.id}/edit`),
                     icon: "edit-2",
