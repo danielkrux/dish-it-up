@@ -11,19 +11,19 @@ import {
 } from "react-native";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
-import Button from "../components/Button";
-import FloatingButton from "../components/FloatingButton";
-import InputBase from "../components/Inputs/TextInputBase";
-import { AnimatedText } from "../components/Text";
+import Button from "../../components/Button";
+import FloatingButton from "../../components/FloatingButton";
+import InputBase from "../../components/Inputs/TextInputBase";
+import { AnimatedText } from "../../components/Text";
 import RecipeQuickFilter, {
   DEFAULT_FILTER,
-} from "../features/home/components/RecipeFilters";
-import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
-import { getRecipes } from "../features/recipe/recipe.service";
-import { Recipe } from "../features/recipe/recipe.types";
-import useDebounce from "../hooks/useDebounce";
-import { useRefreshOnFocus } from "../hooks/useRefreshOnFocus";
-import theme from "../theme";
+} from "../../features/home/components/RecipeFilters";
+import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
+import { getRecipes } from "../../features/recipe/recipe.service";
+import { Recipe } from "../../features/recipe/recipe.types";
+import useDebounce from "../../hooks/useDebounce";
+import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
+import theme from "../../theme";
 
 const extractKey = (item: Recipe) => `${item.id}`;
 

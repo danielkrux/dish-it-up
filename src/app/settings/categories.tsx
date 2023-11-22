@@ -60,7 +60,7 @@ export default function Settings() {
     <>
       <ScrollView>
         {data?.map((category) => (
-          <View style={styles.category}>
+          <View key={category.id} style={styles.category}>
             <Text>{category.name}</Text>
             <View style={styles.actions}>
               <IconButton
@@ -77,7 +77,9 @@ export default function Settings() {
           </View>
         ))}
       </ScrollView>
-      <FloatingButton onPress={addCategory}>Add Category</FloatingButton>
+      <FloatingButton useSafeArea onPress={addCategory}>
+        Add Category
+      </FloatingButton>
     </>
   );
 }

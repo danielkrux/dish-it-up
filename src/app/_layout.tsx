@@ -64,7 +64,7 @@ const Layout = () => {
               }}
             >
               <Stack.Screen
-                name="index"
+                name="(home)"
                 options={{
                   headerShown: true,
                   headerTitle: "",

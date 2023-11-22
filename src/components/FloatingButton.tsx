@@ -9,12 +9,14 @@ type FloatingButtonProps = {
   children: string;
   icon?: IconName;
   onPress?: () => void;
+  useSafeArea?: boolean;
 };
 
 export default function FloatingButton({
   children,
   onPress,
   icon,
+  useSafeArea,
 }: FloatingButtonProps) {
   const [width, setWidth] = useState(0);
   const insets = useSafeAreaInsets();
@@ -27,13 +29,18 @@ export default function FloatingButton({
     <Pressable
       onPress={onPress}
       style={[
-        { bottom: insets.bottom, transform: [{ translateX: -(width / 2) }] },
+        {
+          bottom: useSafeArea ? insets.bottom : theme.spacing.l,
+          transform: [{ translateX: -(width / 2) }],
+        },
         styles.button,
       ]}
       onLayout={handleLayout}
     >
       {icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-      <Text type="header" size="l">{children}</Text>
+      <Text type="header" size="l">
+        {children}
+      </Text>
     </Pressable>
   );
 }
