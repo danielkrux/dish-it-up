@@ -29,16 +29,22 @@ export interface Database {
       }
       grocery_list: {
         Row: {
+          completed: boolean
+          completed_at: string | null
           created_at: string
           id: number
           name: string | null
         }
         Insert: {
+          completed?: boolean
+          completed_at?: string | null
           created_at?: string
           id?: number
           name?: string | null
         }
         Update: {
+          completed?: boolean
+          completed_at?: string | null
           created_at?: string
           id?: number
           name?: string | null

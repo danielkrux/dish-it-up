@@ -36,7 +36,7 @@ function ListButton({
         </View>
       )}
       {icon && <Icon name={icon} size={24} />}
-      <Text>{label}</Text>
+      <Text style={styles.text}>{label}</Text>
     </Pressable>
   );
 }
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     borderBottomColor: pallettes.black[100],
     borderBottomWidth: 1,
     gap: theme.spacing.m,
+  },
+  text: {
+    flex: 1,
   },
   check: {
     width: 24,

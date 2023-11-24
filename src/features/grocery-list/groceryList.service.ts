@@ -1,7 +1,11 @@
 import { supabase } from "../../app/_layout";
+import { GroceryListItemUpdate } from "./groceryList.types";
 
 export async function fetchGroceryList() {
-  const result = await supabase.from("grocery_list").select("*");
+  const result = await supabase
+    .from("grocery_list")
+    .select("*")
+    .order("completed_at");
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -22,8 +26,14 @@ export async function createGroceryList(items: string[]) {
   return result.data;
 }
 
-export async function updateGroceryListItem(name: string) {
-  const result = await supabase.from("grocery_list").update({ name });
+export async function updateGroceryListItem(
+  groceryItem: GroceryListItemUpdate
+) {
+  const result = await supabase
+    .from("grocery_list")
+    .update(groceryItem)
+    .eq("id", groceryItem.id)
+    .select();
 
   if (result.error) {
     throw new Error(result.error.message);

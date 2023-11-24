@@ -43,7 +43,9 @@ function SelectGroceries() {
           />
         ))}
       </ScrollView>
-      <FloatingButton onPress={() => mutate(selected)}>Save</FloatingButton>
+      <FloatingButton useSafeArea onPress={() => mutate(selected)}>
+        Save
+      </FloatingButton>
     </View>
   );
 }
@@ -53,10 +55,11 @@ export default SelectGroceries;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: theme.spacing.m,
+    paddingVertical: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.m,
     paddingTop: theme.spacing.xl,
   },
   title: {
-    marginBottom: theme.spacing.m,
+    marginBottom: theme.spacing.xs,
   },
 });
