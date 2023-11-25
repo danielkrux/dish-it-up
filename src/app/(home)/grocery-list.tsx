@@ -4,10 +4,20 @@ import Text from "../../components/Text";
 import theme from "../../theme";
 import ListButton from "../../components/ListButton";
 import useUpdateGroceryListItem from "../../features/grocery-list/hooks/useUpdateGroceryListItem";
+import { GroceryListItem } from "../../features/grocery-list/groceryList.types";
 
 function GroceryList() {
   const groceries = useFetchGroceryList();
   const completeMutation = useUpdateGroceryListItem();
+
+  function handleGroceryItemPress(grocery: GroceryListItem) {
+    () =>
+      completeMutation.mutate({
+        ...grocery,
+        completed: !grocery.completed,
+        completed_at: grocery.completed ? null : new Date().toISOString(),
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -16,19 +26,10 @@ function GroceryList() {
       </Text>
       <ScrollView style={styles.list}>
         {groceries.data?.map((grocery) => {
-          console.log(grocery);
           return (
             <ListButton
               label={grocery.name ?? ""}
-              onPress={() =>
-                completeMutation.mutate({
-                  ...grocery,
-                  completed: !grocery.completed,
-                  completed_at: grocery.completed
-                    ? null
-                    : new Date().toISOString(),
-                })
-              }
+              onPress={() => handleGroceryItemPress(grocery)}
               selected={grocery.completed}
               key={grocery.id}
               selectable
