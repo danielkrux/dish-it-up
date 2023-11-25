@@ -11,13 +11,27 @@ function useCreateGroceryListItem(options?: Options) {
 
   const createGroceryListItemMutation = useMutation({
     mutationFn: (items: string[]) => createGroceryList(items),
+    onMutate: async (items) => {
+      await queryClient.cancelQueries(["groceryList"]);
+
+      const previousItems = queryClient.getQueryData(["groceryList"]);
+
+      queryClient.setQueryData(["groceryList"], (old: any) => [
+        ...old,
+        ...items.map((item) => ({ name: item })),
+      ]);
+
+      return { previousItems };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["groceryList"] });
       options?.onSuccess?.();
     },
     onError: (error) => {
       console.error(error);
       options?.onError?.(error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["groceryList"] });
     },
   });
 
