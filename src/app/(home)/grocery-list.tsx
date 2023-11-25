@@ -24,7 +24,9 @@ function GroceryList() {
                 completeMutation.mutate({
                   ...grocery,
                   completed: !grocery.completed,
-                  completed_at: new Date().toISOString(),
+                  completed_at: grocery.completed
+                    ? null
+                    : new Date().toISOString(),
                 })
               }
               selected={grocery.completed}

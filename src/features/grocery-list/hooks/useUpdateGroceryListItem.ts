@@ -24,7 +24,7 @@ function useUpdateGroceryListItem(options?: Options) {
         (item: any) => item.id === newItem.id
       );
 
-      if (!index) return { previousGroceries };
+      if (typeof index === "undefined") return { previousGroceries };
 
       queryClient.setQueryData(["groceryList"], (old: any) => {
         const newArr = [
@@ -32,11 +32,22 @@ function useUpdateGroceryListItem(options?: Options) {
           newItem,
           ...old.slice(index + 1),
         ];
-        return newArr.sort(
-          (a: GroceryListItem, b: GroceryListItem) =>
-            new Date(a.completed_at ?? "").getTime() -
-            new Date(b.completed_at ?? "").getTime()
-        );
+        return newArr.sort((a: GroceryListItem, b: GroceryListItem) => {
+          if (a.completed > b.completed) {
+            return 1;
+          } else if (a.completed === b.completed) {
+            if (a.completed_at && b.completed_at) {
+              return new Date(b.completed_at).getTime() >
+                new Date(a.completed_at).getTime()
+                ? -1
+                : 1;
+            } else {
+              return a.id > b.id ? 1 : -1;
+            }
+          } else {
+            return -1;
+          }
+        });
       });
 
       return { previousGroceries };

@@ -5,10 +5,11 @@ export async function fetchGroceryList() {
   const result = await supabase
     .from("grocery_list")
     .select("*")
-    .order("completed_at");
+    .order("completed_at", { ascending: true, nullsFirst: true })
+    .order("id", { ascending: true });
 
   if (result.error) {
-    throw new Error(result.error.message);
+    throw new Error(result?.error.message);
   }
 
   return result.data;
