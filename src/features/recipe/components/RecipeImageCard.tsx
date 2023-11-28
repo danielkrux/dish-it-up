@@ -1,19 +1,19 @@
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { Recipe } from "../../../../types/Recipe";
 import Text from "../../../components/Text";
 import theme, { pallettes } from "../../../theme";
+import { Recipe } from "../recipe.types";
 
-export default function RecipeImageCard({ recipe }: { recipe: Recipe }) {
-  const { push } = useRouter();
-
+export default function RecipeImageCard({
+  recipe,
+  onPress,
+}: {
+  recipe: Recipe;
+  onPress?: () => void;
+}) {
   return (
-    <Pressable
-      style={styles.container}
-      onPress={() => push(`/recipe/${recipe.id}/`)}
-    >
+    <Pressable style={styles.container} onPress={onPress}>
       {recipe.image_url && (
         <Image
           style={styles.image}
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.m,
     flexDirection: "row",
     gap: theme.spacing.m,
-    flex: 1,
   },
   image: {
     width: 100,
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: theme.spacing.xs,
     paddingLeft: 0,
-    borderBottomColor: pallettes.black[200] + 40,
+    borderBottomColor: pallettes.black[100],
     borderBottomWidth: 1,
   },
 });

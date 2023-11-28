@@ -60,10 +60,12 @@ export default function Home() {
     Keyboard.dismiss();
   }
 
-  const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<Recipe>) => <RecipeImageCard recipe={item} />,
-    []
-  );
+  const renderItem = useCallback(({ item }: ListRenderItemInfo<Recipe>) => {
+    const handlePress = () => {
+      router.push(`/recipe/${item.id}/`);
+    };
+    return <RecipeImageCard recipe={item} onPress={handlePress} />;
+  }, []);
 
   return (
     <View style={styles.container}>

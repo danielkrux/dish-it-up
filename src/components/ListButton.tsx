@@ -8,6 +8,7 @@ import {
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
 import theme, { pallettes } from "../theme";
+import Check from "./Check";
 
 type ListButtonProps = {
   onPress: () => void;
@@ -28,13 +29,7 @@ function ListButton({
 }: ListButtonProps) {
   return (
     <Pressable onPress={onPress} style={[styles.listButton, style]}>
-      {selectable && (
-        <View style={[styles.check, selected && styles.checkSelected]}>
-          {selected && (
-            <Icon size={16} name="check" color={theme.colors.secondary} />
-          )}
-        </View>
-      )}
+      {selectable && <Check selected={selected} />}
       {icon && <Icon name={icon} size={24} />}
       <Text style={styles.text}>{label}</Text>
     </Pressable>
@@ -55,16 +50,5 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-  },
-  check: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: pallettes.black[100],
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkSelected: {
-    backgroundColor: theme.colors.primary,
   },
 });
