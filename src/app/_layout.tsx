@@ -66,15 +66,8 @@ const Layout = () => {
               <Stack.Screen
                 name="(home)"
                 options={{
-                  headerShown: true,
+                  headerShown: false,
                   headerTitle: "",
-                  headerRight: () => (
-                    <IconButton
-                      onPress={() => router.push("/settings/")}
-                      icon="settings"
-                      size="medium"
-                    />
-                  ),
                 }}
               />
               <Stack.Screen

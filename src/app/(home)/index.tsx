@@ -67,16 +67,6 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      {!isSearching && (
-        <AnimatedText
-          exiting={FadeOut.duration(100)}
-          entering={FadeIn}
-          type="header"
-          style={styles.title}
-        >
-          Get cooking today!
-        </AnimatedText>
-      )}
       <AnimatedView
         activeOpacity={1}
         style={{ flex: 1 }}

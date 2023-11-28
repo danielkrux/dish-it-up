@@ -43,8 +43,8 @@ export async function updateGroceryListItem(
   return result.data;
 }
 
-export async function deleteGroceryListItem(id: number) {
-  const result = await supabase.from("grocery_list").delete().eq("id", id);
+export async function deleteGroceryListItem(ids: number[]) {
+  const result = await supabase.from("grocery_list").delete().in("id", ids);
 
   if (result.error) {
     throw new Error(result.error.message);
