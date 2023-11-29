@@ -67,6 +67,32 @@ export default function Home() {
     return <RecipeImageCard recipe={item} onPress={handlePress} />;
   }, []);
 
+  function homeHeader() {
+    return (
+      <>
+        <View style={styles.searchContainer}>
+          <InputBase
+            value={q}
+            onChangeText={(text) => {
+              router.setParams({ q: text });
+            }}
+            onFocus={() => setIsSearching(true)}
+            onBlur={() => setIsSearching(false)}
+            placeholder="Search recipes"
+            style={styles.search}
+          />
+
+          {isSearching && (
+            <Button variant="ghost" onPress={cancelSearch}>
+              CANCEL
+            </Button>
+          )}
+        </View>
+        <RecipeQuickFilter />
+      </>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <AnimatedView
@@ -75,34 +101,13 @@ export default function Home() {
         layout={Layout.duration(200)}
       >
         <FlatList
-          ListHeaderComponent={
-            <>
-              <View style={styles.searchContainer}>
-                <InputBase
-                  value={q}
-                  onChangeText={(text) => {
-                    router.setParams({ q: text });
-                  }}
-                  onFocus={() => setIsSearching(true)}
-                  onBlur={() => setIsSearching(false)}
-                  placeholder="Search recipes"
-                  style={styles.search}
-                />
-
-                {isSearching && (
-                  <Button variant="ghost" onPress={cancelSearch}>
-                    CANCEL
-                  </Button>
-                )}
-              </View>
-              <RecipeQuickFilter />
-            </>
-          }
+          ListHeaderComponent={homeHeader}
           data={data}
           keyExtractor={extractKey}
           style={{ paddingHorizontal: theme.spacing.m }}
           contentContainerStyle={{
             paddingBottom: 100,
+            gap: theme.spacing.m,
           }}
           renderItem={renderItem}
         />

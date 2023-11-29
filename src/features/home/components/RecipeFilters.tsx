@@ -32,7 +32,6 @@ function RecipeQuickFilter() {
 
   return (
     <ChipList
-      style={styles.container}
       data={data}
       selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
       onPress={updateParams}
@@ -41,9 +40,3 @@ function RecipeQuickFilter() {
 }
 
 export default RecipeQuickFilter;
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: theme.spacing.m,
-  },
-});
