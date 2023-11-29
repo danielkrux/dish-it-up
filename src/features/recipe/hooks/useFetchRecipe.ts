@@ -5,9 +5,8 @@ import { Recipe } from "../recipe.types";
 function useFetchRecipe(id?: number) {
   const queryClient = useQueryClient();
 
-  if (!id) throw new Error("id is required");
-
   const result = useQuery(["recipes", { id }], () => getRecipe(id), {
+    enabled: !!id,
     initialData: () => {
       const recipes = queryClient.getQueryData<Recipe[]>([
         "recipes",

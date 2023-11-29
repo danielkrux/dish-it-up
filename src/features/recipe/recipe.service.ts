@@ -108,7 +108,7 @@ export async function getRecipes(searchQuery?: string) {
   return result.data;
 }
 
-export async function getRecipe(id: number) {
+export async function getRecipe(id?: number) {
   const result = await supabase
     .from("recipes")
     .select("*, categories(*)")

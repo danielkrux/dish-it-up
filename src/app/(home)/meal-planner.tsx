@@ -15,6 +15,8 @@ import IconButton from "../../components/IconButton";
 import { useRouter } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMealPlan } from "../../features/meal-planner/mealPlanner.service";
+import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
+import { Swipeable } from "react-native-gesture-handler";
 
 function MealPlanner() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -25,11 +27,9 @@ function MealPlanner() {
 
   const datesOfWeek = eachDayOfInterval({ start: firstDay, end: lastDay });
 
-  const { data } = useQuery(["meal-plans"], () => fetchMealPlan());
-
-  const grouped = groupBy(data, (item) => item.date);
-
-  console.log(grouped);
+  const { data } = useQuery(["meal-plans"], () => fetchMealPlan(), {
+    select: (data) => groupBy(data, (item) => item.date),
+  });
 
   function handleSelectRecipe(date: Date) {
     //@ts-ignore
@@ -57,19 +57,28 @@ function MealPlanner() {
         style={styles.scrollContainer}
         contentContainerStyle={styles.containerContent}
       >
-        {datesOfWeek.map((date) => (
-          <View style={styles.day}>
-            <View style={styles.dayHeader}>
-              <Text style={styles.dayName} type="header" size="xl">
-                {format(date, "EEEE")}
-              </Text>
-              <IconButton
-                onPress={() => handleSelectRecipe(date)}
-                icon="plus"
-              />
+        {datesOfWeek.map((date) => {
+          const recipes = data?.[format(date, "yyyy-MM-dd")];
+
+          return (
+            <View style={styles.day}>
+              <View style={styles.dayHeader}>
+                <Text style={styles.dayName} type="header" size="xl">
+                  {format(date, "EEEE")}
+                </Text>
+                <IconButton
+                  onPress={() => handleSelectRecipe(date)}
+                  icon="plus"
+                />
+              </View>
+              <View style={styles.recipes}>
+                {recipes?.map((item) => (
+                  <RecipeImageCard key={item.id} recipeId={item.recipe_id} />
+                ))}
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -102,5 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  recipes: {
+    gap: theme.spacing.m,
   },
 });

@@ -4,25 +4,34 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Text from "../../../components/Text";
 import theme, { pallettes } from "../../../theme";
 import { Recipe } from "../recipe.types";
+import useFetchRecipe from "../hooks/useFetchRecipe";
 
 export default function RecipeImageCard({
   recipe,
+  recipeId,
   onPress,
 }: {
-  recipe: Recipe;
+  recipe?: Recipe;
+  recipeId?: number;
   onPress?: () => void;
 }) {
+  const recipeQuery = useFetchRecipe(recipeId);
+
+  const data = recipe || recipeQuery.data;
+
+  if (!data) return null;
+
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      {recipe.image_url && (
+      {data?.image_url && (
         <Image
           style={styles.image}
-          source={{ uri: recipe.image_url, width: 120, height: 120 }}
+          source={{ uri: data?.image_url, width: 120, height: 120 }}
         />
       )}
       <View style={styles.contentContainer}>
         <Text numberOfLines={2} type="header" size="l">
-          {recipe.name}
+          {data?.name}
         </Text>
       </View>
     </Pressable>
