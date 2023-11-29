@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { groupBy } from "lodash";
 
 import Text from "../../components/Text";
 import theme from "../../theme";
@@ -12,6 +13,8 @@ import {
 } from "date-fns";
 import IconButton from "../../components/IconButton";
 import { useRouter } from "expo-router";
+import { useQuery } from "@tanstack/react-query";
+import { fetchMealPlan } from "../../features/meal-planner/mealPlanner.service";
 
 function MealPlanner() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,6 +24,12 @@ function MealPlanner() {
   const firstDay = subDays(lastDay, 6);
 
   const datesOfWeek = eachDayOfInterval({ start: firstDay, end: lastDay });
+
+  const { data } = useQuery(["meal-plans"], () => fetchMealPlan());
+
+  const grouped = groupBy(data, (item) => item.date);
+
+  console.log(grouped);
 
   function handleSelectRecipe(date: Date) {
     //@ts-ignore

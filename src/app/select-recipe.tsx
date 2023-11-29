@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   FlatList,
   ListRenderItemInfo,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 
 import Text from "../components/Text";
@@ -18,6 +18,7 @@ import Button from "../components/Button";
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
 import { Recipe } from "../features/recipe/recipe.types";
 import { useState } from "react";
+import { createMealPlan } from "../features/meal-planner/mealPlanner.service";
 
 function keyExtractor(recipe: Recipe) {
   return recipe.id.toString();
@@ -28,8 +29,22 @@ function SelectRecipe() {
   const params = useLocalSearchParams<{ date: string }>();
   const date = new Date(params.date);
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
+  const queryClient = useQueryClient();
 
   const { data } = useQuery(["recipes"], () => getRecipes());
+
+  const mutation = useMutation({
+    mutationFn: () =>
+      createMealPlan(
+        selectedRecipes.map((id) => ({
+          recipe_id: id,
+          date: date.toDateString(),
+        }))
+      ),
+    onSettled: () => {
+      queryClient.invalidateQueries(["meal-plans"]);
+    },
+  });
 
   function handleRecipePress(recipe: Recipe) {
     setSelectedRecipes((prev) => {
@@ -40,14 +55,16 @@ function SelectRecipe() {
     });
   }
 
+  function handleSave() {
+    mutation.mutate();
+    router.back();
+  }
+
   function renderRecipe({ item }: ListRenderItemInfo<Recipe>) {
     return (
       <Pressable
         onPress={() => handleRecipePress(item)}
-        style={({ pressed }) => [
-          styles.recipeContainer,
-          pressed && { opacity: 0.8 },
-        ]}
+        className="flex-row justify-between items-center gap-30"
       >
         <RecipeImageCard
           recipe={item}
@@ -71,7 +88,7 @@ function SelectRecipe() {
       />
       <Button
         style={[styles.saveButton, { bottom: insets.bottom }]}
-        onPress={() => {}}
+        onPress={handleSave}
         size="large"
       >
         Save

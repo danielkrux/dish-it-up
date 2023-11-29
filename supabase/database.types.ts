@@ -51,6 +51,35 @@ export interface Database {
         }
         Relationships: []
       }
+      meal_plans: {
+        Row: {
+          created_at: string
+          date: string | null
+          id: number
+          recipe_id: number
+        }
+        Insert: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          recipe_id: number
+        }
+        Update: {
+          created_at?: string
+          date?: string | null
+          id?: number
+          recipe_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meal_plans_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       recipe_categories: {
         Row: {
           category_id: number

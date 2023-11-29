@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
-import { StyleSheet } from "react-native";
 
 import ChipList from "../../../components/ChipList";
-import theme from "../../../theme";
 import { getCategories } from "../../recipe/recipe.service";
 
 export const DEFAULT_FILTER = "0";
