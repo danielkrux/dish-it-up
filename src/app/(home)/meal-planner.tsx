@@ -10,18 +10,15 @@ import { useRouter } from "expo-router";
 import { groupBy } from "lodash";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-
-import { Image } from "expo-image";
 import IconButton from "../../components/IconButton";
 import ScrollView from "../../components/ScrollView";
-import SwipeableRow from "../../components/SwipeableRow";
 import Text from "../../components/Text";
+import MealPlanItem from "../../features/meal-planner/components/MealPlanItem";
 import {
 	deleteMealPlan,
 	fetchMealPlan,
 } from "../../features/meal-planner/mealPlanner.service";
-import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
-import theme, { pallettes } from "../../theme";
+import theme from "../../theme";
 
 function MealPlanner() {
 	const queryClient = useQueryClient();
@@ -87,27 +84,7 @@ function MealPlanner() {
 							</View>
 							<View style={styles.recipes}>
 								{mealPlans?.map((item) => (
-									<SwipeableRow
-										key={item.id}
-										rightStyle={styles.rightAction}
-										rightIcon="trash-2"
-										onRightOpen={() => handleDeleteMealPlan(item.id)}
-										leftStyle={styles.leftAction}
-										leftIcon="edit-2"
-										onLeftOpen={() =>
-											router.push(`/recipe/${item.recipe_id}/select-groceries`)
-										}
-									>
-										<View className="flex-row bg-white rounded-2xl">
-											{item.recipes?.image_url && (
-												<Image
-													className="w-24 aspect-square mr-4 rounded-2xl"
-													source={{ uri: item.recipes?.image_url }}
-												/>
-											)}
-											<Text>{item.recipes?.name}</Text>
-										</View>
-									</SwipeableRow>
+									<MealPlanItem mealPlan={item} />
 								))}
 							</View>
 						</View>
@@ -126,11 +103,5 @@ const styles = StyleSheet.create({
 	},
 	recipes: {
 		gap: theme.spacing.m,
-	},
-	rightAction: {
-		backgroundColor: pallettes.red[100],
-	},
-	leftAction: {
-		backgroundColor: theme.colors.primary,
 	},
 });
