@@ -8,51 +8,51 @@ import RecipeForm from "../../../features/recipe/components/RecipeForm";
 import theme from "../../../theme";
 
 type RecipeInputs = {
-  name: string;
-  description: string;
-  recipe_yield: number;
-  ingredients: string[];
-  instructions: string[];
+	name: string;
+	description: string;
+	recipe_yield: number;
+	ingredients: string[];
+	instructions: string[];
 };
 
 function AddRecipe() {
-  const { control, handleSubmit, setValue, getValues, watch } =
-    useForm<RecipeInputs>({
-      defaultValues: {
-        name: "",
-        description: "",
-        recipe_yield: 0,
-        ingredients: ["", ""],
-        instructions: [""],
-      },
-    });
+	const { control, handleSubmit, setValue, getValues, watch } =
+		useForm<RecipeInputs>({
+			defaultValues: {
+				name: "",
+				description: "",
+				recipe_yield: 0,
+				ingredients: ["", ""],
+				instructions: [""],
+			},
+		});
 
-  const onFocusEffect = useCallback(() => {
-    AvoidSoftInput.setShouldMimicIOSBehavior(true);
-    AvoidSoftInput.setEnabled(true);
-    return () => {
-      AvoidSoftInput.setEnabled(false);
-      AvoidSoftInput.setShouldMimicIOSBehavior(false);
-    };
-  }, []);
+	const onFocusEffect = useCallback(() => {
+		AvoidSoftInput.setShouldMimicIOSBehavior(true);
+		AvoidSoftInput.setEnabled(true);
+		return () => {
+			AvoidSoftInput.setEnabled(false);
+			AvoidSoftInput.setShouldMimicIOSBehavior(false);
+		};
+	}, []);
 
-  useFocusEffect(onFocusEffect);
+	useFocusEffect(onFocusEffect);
 
-  const onSubmit = (data: RecipeInputs) => console.log(data);
+	const onSubmit = (data: RecipeInputs) => console.log(data);
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <RecipeForm />
-    </ScrollView>
-  );
+	return (
+		<ScrollView contentContainerStyle={styles.container}>
+			<RecipeForm />
+		</ScrollView>
+	);
 }
 
 export default AddRecipe;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: theme.spacing.m,
-    paddingVertical: theme.spacing.xl,
-    gap: theme.spacing.s,
-  },
+	container: {
+		paddingHorizontal: theme.spacing.m,
+		paddingVertical: theme.spacing.xl,
+		gap: theme.spacing.s,
+	},
 });

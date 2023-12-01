@@ -2,40 +2,40 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createGroceryList } from "../groceryList.service";
 
 type Options = {
-  onSuccess?: () => void;
-  onError?: (error: unknown) => void;
+	onSuccess?: () => void;
+	onError?: (error: unknown) => void;
 };
 
 function useCreateGroceryListItem(options?: Options) {
-  const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 
-  const createGroceryListItemMutation = useMutation({
-    mutationFn: (items: string[]) => createGroceryList(items),
-    onMutate: async (items) => {
-      await queryClient.cancelQueries(["groceryList"]);
+	const createGroceryListItemMutation = useMutation({
+		mutationFn: (items: string[]) => createGroceryList(items),
+		onMutate: async (items) => {
+			await queryClient.cancelQueries(["groceryList"]);
 
-      const previousItems = queryClient.getQueryData(["groceryList"]);
+			const previousItems = queryClient.getQueryData(["groceryList"]);
 
-      queryClient.setQueryData(["groceryList"], (old: any) => [
-        ...old,
-        ...items.map((item) => ({ name: item })),
-      ]);
+			queryClient.setQueryData(["groceryList"], (old: any) => [
+				...old,
+				...items.map((item) => ({ name: item })),
+			]);
 
-      return { previousItems };
-    },
-    onSuccess: () => {
-      options?.onSuccess?.();
-    },
-    onError: (error) => {
-      console.error(error);
-      options?.onError?.(error);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["groceryList"] });
-    },
-  });
+			return { previousItems };
+		},
+		onSuccess: () => {
+			options?.onSuccess?.();
+		},
+		onError: (error) => {
+			console.error(error);
+			options?.onError?.(error);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["groceryList"] });
+		},
+	});
 
-  return createGroceryListItemMutation;
+	return createGroceryListItemMutation;
 }
 
 export default useCreateGroceryListItem;

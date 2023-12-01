@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 
 import {
-  Platform,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
+	Platform,
+	ScrollView,
+	StatusBar,
+	StyleSheet,
+	View,
 } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -19,117 +19,117 @@ import { parseRecipe } from "../../../features/recipe/recipe.service";
 import useCreateRecipe from "../../../features/recipe/hooks/useCreateRecipe";
 
 export default function AddRecipeConfirmScreen() {
-  const { url: urlParam } = useLocalSearchParams();
-  const statusBarHeight = StatusBar.currentHeight;
+	const { url: urlParam } = useLocalSearchParams();
+	const statusBarHeight = StatusBar.currentHeight;
 
-  const router = useRouter();
-  const url = decodeURIComponent(urlParam as string);
+	const router = useRouter();
+	const url = decodeURIComponent(urlParam as string);
 
-  const urlValid = isValidUrl(url as string);
+	const urlValid = isValidUrl(url as string);
 
-  const { data } = useQuery(
-    ["parse-recipe", url],
-    () => parseRecipe(url as string),
-    {
-      enabled: urlValid,
-    }
-  );
+	const { data } = useQuery(
+		["parse-recipe", url],
+		() => parseRecipe(url as string),
+		{
+			enabled: urlValid,
+		},
+	);
 
-  const { mutate } = useCreateRecipe();
+	const { mutate } = useCreateRecipe();
 
-  if (!data) return null;
+	if (!data) return null;
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {data.image_url && (
-        <Image style={styles.image} source={{ uri: data.image_url }} />
-      )}
-      <View
-        style={[
-          styles.actions,
-          {
-            top: Platform.select({
-              ios: theme.spacing.l,
-              android: (statusBarHeight ?? 0) + theme.spacing.m,
-            }),
-          },
-        ]}
-      >
-        <BlurButton icon="chevron-left" onPress={() => router.back()} />
-        <BlurButton
-          label="Add recipe"
-          icon="plus-circle"
-          onPress={() => mutate(data)}
-        />
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.name} type="header">
-          {data.name}
-        </Text>
-        <Text style={styles.description} type="body">
-          {data.description}
-        </Text>
-        <View style={styles.ingredients}>
-          <Text type="header" size="l">
-            Ingrediënten
-          </Text>
-          {data?.ingredients?.map((ingredient, i) => (
-            <Text key={i} type="body">
-              • {ingredient}
-            </Text>
-          ))}
-        </View>
-        <Text type="header" size="l">
-          Instructies
-        </Text>
-        {data?.instructions?.map((instruction, i) => (
-          <View key={i} style={styles.instruction}>
-            <Text type="header" size="m">
-              {i + 1}
-            </Text>
-            <Text style={styles.instructionText} key={i} type="body">
-              {instruction}
-            </Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
-  );
+	return (
+		<ScrollView contentContainerStyle={styles.container}>
+			{data.image_url && (
+				<Image style={styles.image} source={{ uri: data.image_url }} />
+			)}
+			<View
+				style={[
+					styles.actions,
+					{
+						top: Platform.select({
+							ios: theme.spacing.l,
+							android: (statusBarHeight ?? 0) + theme.spacing.m,
+						}),
+					},
+				]}
+			>
+				<BlurButton icon="chevron-left" onPress={() => router.back()} />
+				<BlurButton
+					label="Add recipe"
+					icon="plus-circle"
+					onPress={() => mutate(data)}
+				/>
+			</View>
+			<View style={styles.content}>
+				<Text style={styles.name} type="header">
+					{data.name}
+				</Text>
+				<Text style={styles.description} type="body">
+					{data.description}
+				</Text>
+				<View style={styles.ingredients}>
+					<Text type="header" size="l">
+						Ingrediënten
+					</Text>
+					{data?.ingredients?.map((ingredient, i) => (
+						<Text key={i} type="body">
+							• {ingredient}
+						</Text>
+					))}
+				</View>
+				<Text type="header" size="l">
+					Instructies
+				</Text>
+				{data?.instructions?.map((instruction, i) => (
+					<View key={i} style={styles.instruction}>
+						<Text type="header" size="m">
+							{i + 1}
+						</Text>
+						<Text style={styles.instructionText} key={i} type="body">
+							{instruction}
+						</Text>
+					</View>
+				))}
+			</View>
+		</ScrollView>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: theme.spacing.xl,
-  },
-  actions: {
-    position: "absolute",
-    right: theme.spacing.l,
-    left: theme.spacing.l,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  image: {
-    height: 300,
-    marginBottom: theme.spacing.l,
-  },
-  content: {
-    paddingHorizontal: theme.spacing.xl,
-  },
-  name: {
-    marginBottom: theme.spacing.xs,
-  },
-  description: {
-    marginBottom: theme.spacing.l,
-  },
-  ingredients: {
-    marginBottom: theme.spacing.l,
-  },
-  instruction: {
-    marginBottom: theme.spacing.s,
-    flexDirection: "row",
-    gap: theme.spacing.s,
-  },
-  instructionText: {
-    flex: 1,
-  },
+	container: {
+		paddingBottom: theme.spacing.xl,
+	},
+	actions: {
+		position: "absolute",
+		right: theme.spacing.l,
+		left: theme.spacing.l,
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	image: {
+		height: 300,
+		marginBottom: theme.spacing.l,
+	},
+	content: {
+		paddingHorizontal: theme.spacing.xl,
+	},
+	name: {
+		marginBottom: theme.spacing.xs,
+	},
+	description: {
+		marginBottom: theme.spacing.l,
+	},
+	ingredients: {
+		marginBottom: theme.spacing.l,
+	},
+	instruction: {
+		marginBottom: theme.spacing.s,
+		flexDirection: "row",
+		gap: theme.spacing.s,
+	},
+	instructionText: {
+		flex: 1,
+	},
 });

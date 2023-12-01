@@ -10,46 +10,46 @@ import useScrollingFormAvoidKeyBoard from "../../../hooks/useScrollingFormAvoidK
 import theme from "../../../theme";
 
 export default function EditRecipe() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
+	const { id } = useLocalSearchParams();
+	const router = useRouter();
 
-  const { data } = useFetchRecipe(Number(id));
-  const { mutate } = useUpdateRecipe({
-    onSuccess: () => router.back(),
-  });
+	const { data } = useFetchRecipe(Number(id));
+	const { mutate } = useUpdateRecipe({
+		onSuccess: () => router.back(),
+	});
 
-  useScrollingFormAvoidKeyBoard();
+	useScrollingFormAvoidKeyBoard();
 
-  const renderHeaderLeft = useCallback(
-    () => (
-      <IconButton
-        onPress={() => router.back()}
-        icon="chevron-left"
-        size="medium"
-      />
-    ),
-    [router]
-  );
+	const renderHeaderLeft = useCallback(
+		() => (
+			<IconButton
+				onPress={() => router.back()}
+				icon="chevron-left"
+				size="medium"
+			/>
+		),
+		[router],
+	);
 
-  if (!data) return null;
+	if (!data) return null;
 
-  return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ padding: theme.spacing.m }}
-    >
-      <Stack.Screen
-        options={{
-          title: "Edit Recipe",
-          headerLeft: renderHeaderLeft,
-        }}
-      />
-      <RecipeForm
-        initialRecipe={data}
-        onSubmit={(recipeInputs) => {
-          return mutate({ ...data, ...recipeInputs });
-        }}
-      />
-    </ScrollView>
-  );
+	return (
+		<ScrollView
+			contentInsetAdjustmentBehavior="automatic"
+			contentContainerStyle={{ padding: theme.spacing.m }}
+		>
+			<Stack.Screen
+				options={{
+					title: "Edit Recipe",
+					headerLeft: renderHeaderLeft,
+				}}
+			/>
+			<RecipeForm
+				initialRecipe={data}
+				onSubmit={(recipeInputs) => {
+					return mutate({ ...data, ...recipeInputs });
+				}}
+			/>
+		</ScrollView>
+	);
 }

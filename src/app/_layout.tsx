@@ -1,11 +1,11 @@
 import "react-native-get-random-values";
 
 import {
-  JosefinSans_700Bold,
-  NotoSans_400Regular,
-  NotoSans_500Medium,
-  NotoSans_700Bold,
-  useFonts,
+	JosefinSans_700Bold,
+	NotoSans_400Regular,
+	NotoSans_500Medium,
+	NotoSans_700Bold,
+	useFonts,
 } from "@expo-google-fonts/dev";
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
@@ -26,101 +26,101 @@ import IconButton from "../components/IconButton";
 export const supabase = initSupabase();
 
 const NavigationTheme: Theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: theme.colors.white,
-  },
+	...DefaultTheme,
+	colors: {
+		...DefaultTheme.colors,
+		background: theme.colors.white,
+	},
 };
 
 const Layout = () => {
-  useOnlineManager();
-  useAppState(onAppStateChange);
+	useOnlineManager();
+	useAppState(onAppStateChange);
 
-  const [loaded] = useFonts({
-    Heading: JosefinSans_700Bold,
-    Body: NotoSans_500Medium,
-    BodyBold: NotoSans_700Bold,
-  });
+	const [loaded] = useFonts({
+		Heading: JosefinSans_700Bold,
+		Body: NotoSans_500Medium,
+		BodyBold: NotoSans_700Bold,
+	});
 
-  if (!loaded) {
-    return null;
-  }
+	if (!loaded) {
+		return null;
+	}
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={NavigationTheme}>
-        <PortalProvider>
-          <QueryClientProvider client={queryClient}>
-            <StatusBar barStyle="dark-content" />
-            <Stack
-              screenOptions={{
-                headerShadowVisible: false,
-                headerTintColor: theme.colors.text,
-                animation: Platform.select({
-                  android: "fade",
-                  ios: "default",
-                }),
-              }}
-            >
-              <Stack.Screen
-                name="(home)"
-                options={{
-                  headerShown: false,
-                  headerTitle: "",
-                }}
-              />
-              <Stack.Screen
-                name="settings/index"
-                options={{
-                  title: "Settings",
-                }}
-              />
-              <Stack.Screen
-                name="settings/categories"
-                options={{
-                  title: "Manage Categories",
-                }}
-              />
-              <Stack.Screen
-                name="recipe/add"
-                options={{
-                  presentation: "modal",
-                  headerShown: false,
-                  animation: Platform.select({
-                    android: "fade_from_bottom",
-                    ios: "default",
-                  }),
-                }}
-              />
-              <Stack.Screen
-                name="select-recipe"
-                options={{
-                  presentation: "modal",
-                  headerShown: false,
-                  animation: Platform.select({
-                    android: "fade_from_bottom",
-                    ios: "default",
-                  }),
-                }}
-              />
-              <Stack.Screen
-                name="recipe/[id]/select-groceries"
-                options={{
-                  presentation: "modal",
-                  headerShown: false,
-                  animation: Platform.select({
-                    android: "fade_from_bottom",
-                    ios: "default",
-                  }),
-                }}
-              />
-            </Stack>
-          </QueryClientProvider>
-        </PortalProvider>
-      </ThemeProvider>
-    </GestureHandlerRootView>
-  );
+	return (
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<ThemeProvider value={NavigationTheme}>
+				<PortalProvider>
+					<QueryClientProvider client={queryClient}>
+						<StatusBar barStyle="dark-content" />
+						<Stack
+							screenOptions={{
+								headerShadowVisible: false,
+								headerTintColor: theme.colors.text,
+								animation: Platform.select({
+									android: "fade",
+									ios: "default",
+								}),
+							}}
+						>
+							<Stack.Screen
+								name="(home)"
+								options={{
+									headerShown: false,
+									headerTitle: "",
+								}}
+							/>
+							<Stack.Screen
+								name="settings/index"
+								options={{
+									title: "Settings",
+								}}
+							/>
+							<Stack.Screen
+								name="settings/categories"
+								options={{
+									title: "Manage Categories",
+								}}
+							/>
+							<Stack.Screen
+								name="recipe/add"
+								options={{
+									presentation: "modal",
+									headerShown: false,
+									animation: Platform.select({
+										android: "fade_from_bottom",
+										ios: "default",
+									}),
+								}}
+							/>
+							<Stack.Screen
+								name="select-recipe"
+								options={{
+									presentation: "modal",
+									headerShown: false,
+									animation: Platform.select({
+										android: "fade_from_bottom",
+										ios: "default",
+									}),
+								}}
+							/>
+							<Stack.Screen
+								name="recipe/[id]/select-groceries"
+								options={{
+									presentation: "modal",
+									headerShown: false,
+									animation: Platform.select({
+										android: "fade_from_bottom",
+										ios: "default",
+									}),
+								}}
+							/>
+						</Stack>
+					</QueryClientProvider>
+				</PortalProvider>
+			</ThemeProvider>
+		</GestureHandlerRootView>
+	);
 };
 
 export default Layout;

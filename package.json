@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@biomejs/biome": "1.4.1",
     "@types/lodash": "^4.14.202",
     "@types/react": "~18.0.14",
     "rome": "12.1.3",
