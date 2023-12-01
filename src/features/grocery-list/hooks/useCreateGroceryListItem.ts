@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createGroceryList } from "../groceryList.service";
+import { GroceryListItem } from "../groceryList.types";
 
 type Options = {
 	onSuccess?: () => void;
@@ -14,7 +15,9 @@ function useCreateGroceryListItem(options?: Options) {
 		onMutate: async (items) => {
 			await queryClient.cancelQueries(["groceryList"]);
 
-			const previousItems = queryClient.getQueryData(["groceryList"]);
+			const previousItems = queryClient.getQueryData<GroceryListItem[]>([
+				"groceryList",
+			]);
 
 			queryClient.setQueryData(["groceryList"], (old: any) => [
 				...old,

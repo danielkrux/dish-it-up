@@ -14,14 +14,10 @@ import IconButton from "../../components/IconButton";
 import ScrollView from "../../components/ScrollView";
 import Text from "../../components/Text";
 import MealPlanItem from "../../features/meal-planner/components/MealPlanItem";
-import {
-	deleteMealPlan,
-	fetchMealPlan,
-} from "../../features/meal-planner/mealPlanner.service";
+import { fetchMealPlan } from "../../features/meal-planner/mealPlanner.service";
 import theme from "../../theme";
 
 function MealPlanner() {
-	const queryClient = useQueryClient();
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const router = useRouter();
 
@@ -34,20 +30,9 @@ function MealPlanner() {
 		select: (data) => groupBy(data, (item) => item.date),
 	});
 
-	const deleteMutation = useMutation({
-		mutationFn: (id: number) => deleteMealPlan(id),
-		onSettled: () => {
-			queryClient.invalidateQueries(["meal-plans"]);
-		},
-	});
-
 	function handleSelectRecipe(date: Date) {
 		//@ts-ignore
 		router.push(`/select-recipe?date=${date.toISOString()}`);
-	}
-
-	function handleDeleteMealPlan(id: number) {
-		deleteMutation.mutate(id);
 	}
 
 	return (
@@ -72,7 +57,7 @@ function MealPlanner() {
 					const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 
 					return (
-						<View style={styles.day}>
+						<View className="mb-5">
 							<View className="flex-row justify-between items-center mb-2">
 								<Text type="header" size="xl">
 									{format(date, "EEEE")}
@@ -98,9 +83,6 @@ function MealPlanner() {
 export default MealPlanner;
 
 const styles = StyleSheet.create({
-	day: {
-		marginBottom: theme.spacing.l,
-	},
 	recipes: {
 		gap: theme.spacing.m,
 	},

@@ -13,6 +13,7 @@ type Props = {
 	leftIcon?: IconName;
 	leftStyle?: StyleProp<ViewStyle>;
 	onLeftOpen?: () => void;
+	onPress?: () => void;
 	children: ReactNode;
 };
 
@@ -24,6 +25,7 @@ const SwipeableRow = forwardRef<Swipeable, Props>(function SwipeableRow(
 		leftIcon,
 		onLeftOpen,
 		leftStyle,
+		onPress,
 		children,
 	},
 	ref,
@@ -82,17 +84,19 @@ const SwipeableRow = forwardRef<Swipeable, Props>(function SwipeableRow(
 	}
 
 	return (
-		<Swipeable
-			ref={ref}
-			friction={1}
-			shouldCancelWhenOutside
-			enableTrackpadTwoFingerGesture
-			renderRightActions={renderRightActions}
-			onSwipeableWillOpen={handleOpen}
-			renderLeftActions={renderLeftActions}
-		>
-			{children}
-		</Swipeable>
+		<Pressable onPress={onPress}>
+			<Swipeable
+				ref={ref}
+				friction={1}
+				shouldCancelWhenOutside
+				enableTrackpadTwoFingerGesture
+				renderRightActions={renderRightActions}
+				onSwipeableWillOpen={handleOpen}
+				renderLeftActions={renderLeftActions}
+			>
+				{children}
+			</Swipeable>
+		</Pressable>
 	);
 });
 

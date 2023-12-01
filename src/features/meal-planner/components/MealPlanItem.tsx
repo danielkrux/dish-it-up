@@ -18,6 +18,20 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 
 	const deleteMutation = useMutation({
 		mutationFn: (id: number) => deleteMealPlan(id),
+		onMutate: (id) => {
+			queryClient.cancelQueries(["meal-plans"]);
+			const previousItems = queryClient.getQueryData<MealPlan[]>([
+				"meal-plans",
+			]);
+			queryClient.setQueryData<MealPlan[]>(["meal-plans"], (old) => {
+				return old?.filter((mealPlan) => mealPlan.id !== id) ?? [];
+			});
+			return { previousItems };
+		},
+		onError: (error, _, context) => {
+			console.error(error);
+			queryClient.setQueryData(["meal-plans"], context?.previousItems);
+		},
 		onSettled: () => {
 			swipeableRef.current?.close();
 			queryClient.invalidateQueries(["meal-plans"]);
@@ -35,6 +49,10 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 		}, 1000);
 	}
 
+	function handleNavigateToRecipe() {
+		router.push(`/recipe/${mealPlan.recipe_id}/`);
+	}
+
 	return (
 		<SwipeableRow
 			ref={swipeableRef}
@@ -44,6 +62,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			leftStyle={styles.leftAction}
 			leftIcon="edit-2"
 			onLeftOpen={handleGoToGroceriesSelect}
+			onPress={handleNavigateToRecipe}
 		>
 			<View className="flex-row bg-white rounded-2xl">
 				{recipe?.image_url && (
