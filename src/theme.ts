@@ -11,7 +11,7 @@ export const pallettes = {
     300: "#AAAAAA",
     200: "#C6C6C6",
     100: "#F4F4F4",
-  },
+  } as const,
   red: {
     900: "#4A0000",
     800: "#660000",
@@ -23,7 +23,7 @@ export const pallettes = {
     200: "#FF1C1C",
     100: "#FF3838",
   },
-};
+} as const;
 
 export const SCREEN_WIDTH = Dimensions.get("window").width;
 export const SCREEN_HEIGHT = Dimensions.get("window").height;

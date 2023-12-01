@@ -1,8 +1,7 @@
 import { Image } from "expo-image";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import Text from "../../../components/Text";
-import theme, { pallettes } from "../../../theme";
 import { Recipe } from "../recipe.types";
 import useFetchRecipe from "../hooks/useFetchRecipe";
 
@@ -22,14 +21,17 @@ export default function RecipeImageCard({
   if (!data) return null;
 
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable
+      className="rounded-2xl flex-row bg-white flex-1"
+      onPress={onPress}
+    >
       {data?.image_url && (
         <Image
-          style={styles.image}
-          source={{ uri: data?.image_url, width: 120, height: 120 }}
+          className="w-24 aspect-square rounded-2xl mr-4"
+          source={{ uri: data?.image_url }}
         />
       )}
-      <View style={styles.contentContainer}>
+      <View className="flex-1 p-2 pl-0 border-b border-gray-100">
         <Text numberOfLines={2} type="header" size="l">
           {data?.name}
         </Text>
@@ -37,28 +39,3 @@ export default function RecipeImageCard({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: theme.spacing.m,
-    flex: 1,
-    backgroundColor: "white",
-  },
-  image: {
-    width: 100,
-    aspectRatio: 1,
-    borderRadius: 15,
-  },
-  content: {
-    justifyContent: "flex-end",
-    padding: theme.spacing.m,
-  },
-  contentContainer: {
-    flex: 1,
-    padding: theme.spacing.xs,
-    paddingLeft: 0,
-    borderBottomColor: pallettes.black[100],
-    borderBottomWidth: 1,
-  },
-});

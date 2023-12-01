@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { groupBy } from "lodash";
-
-import Text from "../../components/Text";
-import theme, { pallettes } from "../../theme";
+import { useRouter } from "expo-router";
 import {
   addDays,
   eachDayOfInterval,
@@ -11,9 +9,11 @@ import {
   lastDayOfWeek,
   subDays,
 } from "date-fns";
-import IconButton from "../../components/IconButton";
-import { useRouter } from "expo-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import Text from "../../components/Text";
+import theme, { pallettes } from "../../theme";
+import IconButton from "../../components/IconButton";
 import {
   deleteMealPlan,
   fetchMealPlan,
@@ -91,8 +91,16 @@ function MealPlanner() {
                     rightStyle={styles.rightAction}
                     rightIcon="trash-2"
                     onRightOpen={() => handleDeleteMealPlan(item.id)}
+                    leftStyle={styles.leftAction}
+                    leftIcon="edit-2"
+                    onLeftOpen={() =>
+                      router.push(`/recipe/${item.recipe_id}/select-groceries`)
+                    }
                   >
-                    <RecipeImageCard recipeId={item.recipe_id} />
+                    <RecipeImageCard
+                      recipeId={item.recipe_id}
+                      onPress={() => router.push(`/recipe/${item.recipe_id}/`)}
+                    />
                   </SwipeableRow>
                 ))}
               </View>
@@ -115,5 +123,8 @@ const styles = StyleSheet.create({
   },
   rightAction: {
     backgroundColor: pallettes.red[100],
+  },
+  leftAction: {
+    backgroundColor: theme.colors.primary,
   },
 });
