@@ -1,5 +1,5 @@
-import { updateRecipe } from "../recipe.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateRecipe } from "../recipe.service";
 
 function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
 	const queryClient = useQueryClient();

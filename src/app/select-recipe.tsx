@@ -1,3 +1,5 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { router, useLocalSearchParams } from "expo-router";
 import {
 	FlatList,
@@ -6,19 +8,17 @@ import {
 	StyleSheet,
 	View,
 } from "react-native";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 
-import Text from "../components/Text";
-import theme from "../theme";
-import { getRecipes } from "../features/recipe/recipe.service";
-import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
-import Check from "../components/Check";
-import Button from "../components/Button";
-import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
-import { Recipe } from "../features/recipe/recipe.types";
 import { useState } from "react";
+import Button from "../components/Button";
+import Check from "../components/Check";
+import Text from "../components/Text";
 import { createMealPlan } from "../features/meal-planner/mealPlanner.service";
+import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
+import { getRecipes } from "../features/recipe/recipe.service";
+import { Recipe } from "../features/recipe/recipe.types";
+import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
+import theme from "../theme";
 
 function keyExtractor(recipe: Recipe) {
 	return recipe.id.toString();

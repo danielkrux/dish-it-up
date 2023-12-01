@@ -1,6 +1,6 @@
-import { StyleProp, ViewProps, ViewStyle } from "react-native";
-import theme from "../theme";
 import FeatherIcons from "@expo/vector-icons/Feather";
+import { StyleProp, ViewStyle } from "react-native";
+import theme from "../theme";
 
 export type IconName = keyof typeof FeatherIcons.glyphMap;
 

@@ -1,9 +1,9 @@
+import React, { useState } from "react";
+import { LayoutChangeEvent, Pressable, StyleSheet, View } from "react-native";
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
 import theme, { SCREEN_WIDTH } from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
-import React, { useState } from "react";
-import { LayoutChangeEvent, Pressable, StyleSheet, View } from "react-native";
 
 type FloatingButtonProps = {
 	children: string;

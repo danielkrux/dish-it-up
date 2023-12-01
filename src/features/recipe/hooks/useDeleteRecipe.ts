@@ -1,6 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteRecipe } from "../recipe.service";
 import { Recipe } from "../recipe.types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Options = {
 	onSuccess?: () => void;

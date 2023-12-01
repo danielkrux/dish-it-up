@@ -1,5 +1,5 @@
-import { getRecipe } from "../recipe.service";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getRecipe } from "../recipe.service";
 import { Recipe } from "../recipe.types";
 
 function useFetchRecipe(id?: number) {

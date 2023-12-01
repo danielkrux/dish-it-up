@@ -1,7 +1,7 @@
+import { Pressable, PressableProps, StyleSheet } from "react-native";
 import theme from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
-import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 export type ButtonProps = {
 	size?: "small" | "large";

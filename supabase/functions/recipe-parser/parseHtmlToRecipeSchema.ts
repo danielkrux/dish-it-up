@@ -1,6 +1,6 @@
-import { clean } from "./stringUtils.ts";
 import { parse } from "https://esm.sh/node-html-parser@6.1.5";
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
+import { clean } from "./stringUtils.ts";
 
 function parseHtmlToRecipeSchema(
 	html: string,
