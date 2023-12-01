@@ -10,9 +10,17 @@ export type IconProps = {
   size: number;
   light?: boolean;
   style?: StyleProp<ViewStyle>;
+  className?: string;
 };
 
-export default function Icon({ name, size, color, light, style }: IconProps) {
+export default function Icon({
+  name,
+  size,
+  color,
+  light,
+  style,
+  className,
+}: IconProps) {
   const c = color ? color : light ? theme.colors.white : theme.colors.text;
   return <FeatherIcons name={name} color={c} size={size} style={style} />;
 }

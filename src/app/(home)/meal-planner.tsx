@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { groupBy } from "lodash";
 
 import Text from "../../components/Text";
-import theme from "../../theme";
+import theme, { pallettes } from "../../theme";
 import {
   addDays,
   eachDayOfInterval,
@@ -13,12 +13,17 @@ import {
 } from "date-fns";
 import IconButton from "../../components/IconButton";
 import { useRouter } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import { fetchMealPlan } from "../../features/meal-planner/mealPlanner.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  deleteMealPlan,
+  fetchMealPlan,
+} from "../../features/meal-planner/mealPlanner.service";
 import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
-import { Swipeable } from "react-native-gesture-handler";
+import SwipeableRow from "../../components/SwipeableRow";
+import ScrollView from "../../components/ScrollView";
 
 function MealPlanner() {
+  const queryClient = useQueryClient();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const router = useRouter();
 
@@ -31,14 +36,25 @@ function MealPlanner() {
     select: (data) => groupBy(data, (item) => item.date),
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => deleteMealPlan(id),
+    onSettled: () => {
+      queryClient.invalidateQueries(["meal-plans"]);
+    },
+  });
+
   function handleSelectRecipe(date: Date) {
     //@ts-ignore
     router.push(`/select-recipe?date=${date.toISOString()}`);
   }
 
+  function handleDeleteMealPlan(id: number) {
+    deleteMutation.mutate(id);
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.weekSwitcher}>
+    <View className="flex-1">
+      <View className="flex-row justify-between items-center m-4">
         <IconButton
           onPress={() => setSelectedDate(subDays(selectedDate, 7))}
           icon="chevron-left"
@@ -53,17 +69,14 @@ function MealPlanner() {
           size="small"
         />
       </View>
-      <ScrollView
-        style={styles.scrollContainer}
-        contentContainerStyle={styles.containerContent}
-      >
+      <ScrollView className="flex-1" contentContainerStyle="mx-4">
         {datesOfWeek.map((date) => {
           const recipes = data?.[format(date, "yyyy-MM-dd")];
 
           return (
             <View style={styles.day}>
-              <View style={styles.dayHeader}>
-                <Text style={styles.dayName} type="header" size="xl">
+              <View className="flex-row justify-between items-center mb-2">
+                <Text type="header" size="xl">
                   {format(date, "EEEE")}
                 </Text>
                 <IconButton
@@ -73,7 +86,14 @@ function MealPlanner() {
               </View>
               <View style={styles.recipes}>
                 {recipes?.map((item) => (
-                  <RecipeImageCard key={item.id} recipeId={item.recipe_id} />
+                  <SwipeableRow
+                    key={item.id}
+                    rightStyle={styles.rightAction}
+                    rightIcon="trash-2"
+                    onRightOpen={() => handleDeleteMealPlan(item.id)}
+                  >
+                    <RecipeImageCard recipeId={item.recipe_id} />
+                  </SwipeableRow>
                 ))}
               </View>
             </View>
@@ -87,32 +107,13 @@ function MealPlanner() {
 export default MealPlanner;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  containerContent: {
-    marginHorizontal: theme.spacing.m,
-  },
-  weekSwitcher: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: theme.spacing.m,
-    marginHorizontal: theme.spacing.m,
-  },
   day: {
     marginBottom: theme.spacing.l,
   },
-  dayName: {},
-  dayHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   recipes: {
     gap: theme.spacing.m,
+  },
+  rightAction: {
+    backgroundColor: pallettes.red[100],
   },
 });

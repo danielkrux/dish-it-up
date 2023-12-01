@@ -40,10 +40,10 @@ export default function RecipeImageCard({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 20,
     flexDirection: "row",
     gap: theme.spacing.m,
     flex: 1,
+    backgroundColor: "white",
   },
   image: {
     width: 100,
