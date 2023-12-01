@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { groupBy } from "lodash";
-import { useRouter } from "expo-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	addDays,
 	eachDayOfInterval,
@@ -9,18 +6,22 @@ import {
 	lastDayOfWeek,
 	subDays,
 } from "date-fns";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import { groupBy } from "lodash";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 
-import Text from "../../components/Text";
-import theme, { pallettes } from "../../theme";
+import { Image } from "expo-image";
 import IconButton from "../../components/IconButton";
+import ScrollView from "../../components/ScrollView";
+import SwipeableRow from "../../components/SwipeableRow";
+import Text from "../../components/Text";
 import {
 	deleteMealPlan,
 	fetchMealPlan,
 } from "../../features/meal-planner/mealPlanner.service";
 import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
-import SwipeableRow from "../../components/SwipeableRow";
-import ScrollView from "../../components/ScrollView";
+import theme, { pallettes } from "../../theme";
 
 function MealPlanner() {
 	const queryClient = useQueryClient();
@@ -71,7 +72,7 @@ function MealPlanner() {
 			</View>
 			<ScrollView className="flex-1" contentContainerStyle="mx-4">
 				{datesOfWeek.map((date) => {
-					const recipes = data?.[format(date, "yyyy-MM-dd")];
+					const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 
 					return (
 						<View style={styles.day}>
@@ -85,7 +86,7 @@ function MealPlanner() {
 								/>
 							</View>
 							<View style={styles.recipes}>
-								{recipes?.map((item) => (
+								{mealPlans?.map((item) => (
 									<SwipeableRow
 										key={item.id}
 										rightStyle={styles.rightAction}
@@ -97,10 +98,15 @@ function MealPlanner() {
 											router.push(`/recipe/${item.recipe_id}/select-groceries`)
 										}
 									>
-										<RecipeImageCard
-											recipeId={item.recipe_id}
-											onPress={() => router.push(`/recipe/${item.recipe_id}/`)}
-										/>
+										<View className="flex-row bg-white rounded-2xl">
+											{item.recipes?.image_url && (
+												<Image
+													className="w-24 aspect-square mr-4 rounded-2xl"
+													source={{ uri: item.recipes?.image_url }}
+												/>
+											)}
+											<Text>{item.recipes?.name}</Text>
+										</View>
 									</SwipeableRow>
 								))}
 							</View>

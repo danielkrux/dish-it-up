@@ -2,7 +2,7 @@ import { supabase } from "../../app/_layout";
 import { MealPlanCreate } from "./mealPlanner.types";
 
 export async function fetchMealPlan() {
-	const result = await supabase.from("meal_plans").select("*");
+	const result = await supabase.from("meal_plans").select("*, recipes(*)");
 
 	if (result.error) {
 		throw new Error(result?.error.message);
