@@ -7,16 +7,16 @@ module.exports = {
 		g: ({ theme }) => theme("spacing"),
 		extend: {},
 	},
-	plugins: [
-		plugin(function ({ matchUtilities, theme }) {
-			matchUtilities(
-				{
-					g: (value) => ({
-						gap: value,
-					}),
-				},
-				{ values: theme("g") },
-			);
-		}),
-	],
+  plugins: [
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          g: (value) => ({
+            gap: value,
+          }),
+        },
+        { values: theme("g") }
+      );
+    }),
+  ],
 };

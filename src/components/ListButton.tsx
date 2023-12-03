@@ -1,14 +1,7 @@
-import {
-	Pressable,
-	StyleProp,
-	StyleSheet,
-	View,
-	ViewStyle,
-} from "react-native";
+import { Pressable, StyleProp, ViewStyle } from "react-native";
+import Check from "./Check";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
-import theme, { pallettes } from "../theme";
-import Check from "./Check";
 
 type ListButtonProps = {
 	onPress: () => void;
@@ -28,27 +21,16 @@ function ListButton({
 	onPress,
 }: ListButtonProps) {
 	return (
-		<Pressable onPress={onPress} style={[styles.listButton, style]}>
+		<Pressable
+			className="py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4"
+			onPress={onPress}
+			style={style}
+		>
 			{selectable && <Check selected={selected} />}
 			{icon && <Icon name={icon} size={24} />}
-			<Text style={styles.text}>{label}</Text>
+			<Text className="flex-1">{label}</Text>
 		</Pressable>
 	);
 }
 
 export default ListButton;
-
-const styles = StyleSheet.create({
-	listButton: {
-		paddingVertical: theme.spacing.m,
-		flexDirection: "row",
-		alignItems: "center",
-		borderTopColor: pallettes.black[100],
-		borderBottomColor: pallettes.black[100],
-		borderBottomWidth: 1,
-		gap: theme.spacing.m,
-	},
-	text: {
-		flex: 1,
-	},
-});

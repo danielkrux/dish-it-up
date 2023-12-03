@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 
-import useFetchGroceryList from "../../features/grocery-list/hooks/useFetchGroceryList";
-import theme, { pallettes } from "../../theme";
-import ListButton from "../../components/ListButton";
-import useUpdateGroceryListItem from "../../features/grocery-list/hooks/useUpdateGroceryListItem";
-import { GroceryListItem } from "../../features/grocery-list/groceryList.types";
-import Icon from "../../components/Icon";
-import useCreateGroceryListItem from "../../features/grocery-list/hooks/useCreateGroceryListItem";
-import useScrollingFormAvoidKeyBoard from "../../hooks/useScrollingFormAvoidKeyboard";
 import { Tabs } from "expo-router";
 import ContextMenu from "../../components/ContextMenu/ContextMenu";
+import Icon from "../../components/Icon";
+import ListButton from "../../components/ListButton";
+import SwipeableRow from "../../components/SwipeableRow";
+import { GroceryListItem } from "../../features/grocery-list/groceryList.types";
+import useCreateGroceryListItem from "../../features/grocery-list/hooks/useCreateGroceryListItem";
 import useDeleteGroceryItems from "../../features/grocery-list/hooks/useDeleteGroceryList";
+import useFetchGroceryList from "../../features/grocery-list/hooks/useFetchGroceryList";
+import useUpdateGroceryListItem from "../../features/grocery-list/hooks/useUpdateGroceryListItem";
+import useScrollingFormAvoidKeyBoard from "../../hooks/useScrollingFormAvoidKeyboard";
+import theme, { pallettes } from "../../theme";
 
 function GroceryList() {
 	const addRef = useRef<TextInput>(null);
@@ -74,13 +75,19 @@ function GroceryList() {
 				style={styles.list}
 			>
 				{groceries.data?.map((grocery) => (
-					<ListButton
-						key={grocery.id}
-						label={grocery.name ?? ""}
-						onPress={() => handleGroceryItemPress(grocery)}
-						selected={grocery.completed}
-						selectable
-					/>
+					<SwipeableRow
+						rightIcon="trash-2"
+						onRightOpen={() => {}}
+						rightStyle={styles.rightSwipeAction}
+					>
+						<ListButton
+							key={grocery.id}
+							label={grocery.name ?? ""}
+							onPress={() => handleGroceryItemPress(grocery)}
+							selected={grocery.completed}
+							selectable
+						/>
+					</SwipeableRow>
 				))}
 				<View style={styles.addContainer}>
 					<Icon size={24} name="plus" color={pallettes.black[500]} />
@@ -119,5 +126,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "flex-start",
 		gap: theme.spacing.s,
+	},
+	rightSwipeAction: {
+		backgroundColor: pallettes.red[100],
 	},
 });
