@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { Pressable, View } from "react-native";
 
-import Text from "../../../components/Text";
+import Text from "~/components/Text";
 import { Recipe } from "../recipe.types";
 
 export default function RecipeImageCard({

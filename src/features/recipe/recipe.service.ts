@@ -1,4 +1,4 @@
-import { supabase } from "../../app/_layout";
+import { supabase } from "~/app/_layout";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {

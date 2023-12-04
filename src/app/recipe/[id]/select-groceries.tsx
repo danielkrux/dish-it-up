@@ -1,13 +1,13 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
-import Text from "../../../components/Text";
-import theme from "../../../theme";
-import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
-import ListButton from "../../../components/ListButton";
-import FloatingButton from "../../../components/FloatingButton";
-import useCreateGroceryListItem from "../../../features/grocery-list/hooks/useCreateGroceryListItem";
+import FloatingButton from "~/components/FloatingButton";
+import ListButton from "~/components/ListButton";
+import Text from "~/components/Text";
+import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
+import theme from "~/theme";
 
 function SelectGroceries() {
 	const router = useRouter();

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 
-import ChipList from "../../../components/ChipList";
-import { getCategories } from "../../recipe/recipe.service";
+import ChipList from "~/components/ChipList";
+import { getCategories } from "~/features/recipe/recipe.service";
 
 export const DEFAULT_FILTER = "0";
 

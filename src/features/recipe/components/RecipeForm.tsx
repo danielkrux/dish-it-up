@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
-import Button from "../../../components/Button";
-import { ChipInput } from "../../../components/Inputs/ChipInput";
+import { StyleSheet, View } from "react-native";
+import Button from "~/components/Button";
+import { ChipInput } from "~/components/Inputs/ChipInput";
 import {
 	ControlledArrayInput,
 	ControlledInput,
-} from "../../../components/Inputs/ControlledInputs";
-import theme from "../../../theme";
+} from "~/components/Inputs/ControlledInputs";
+import theme from "~/theme";
+import useFetchCategories from "../hooks/useFetchCategories";
 import { getCategories, getRecipeCategories } from "../recipe.service";
 import { Recipe, RecipeUpdate } from "../recipe.types";
-import { StyleSheet, View } from "react-native";
-import useFetchCategories from "../hooks/useFetchCategories";
 
 const emtpyRecipe: RecipeUpdate = {
 	name: "",

@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
-import theme, { pallettes } from "../../theme";
-import { nanoid } from "../../utils/random";
+import theme, { pallettes } from "~/theme";
+import { nanoid } from "~/utils/random";
 import Chip, { ChipData } from "../Chip";
 import Text from "../Text";
 import { InputBaseProps } from "./TextInputBase";

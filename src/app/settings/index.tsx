@@ -1,8 +1,8 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useRouter } from "expo-router";
-import ListButton from "../../components/ListButton";
-import theme from "../../theme";
+import ListButton from "~/components/ListButton";
+import theme from "~/theme";
 
 export default function Settings() {
 	const router = useRouter();

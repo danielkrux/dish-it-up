@@ -1,6 +1,6 @@
-import theme from "../../../theme";
 import { Stack } from "expo-router";
 import { Platform } from "react-native";
+import theme from "~/theme";
 
 export default function AddLayout() {
 	return (

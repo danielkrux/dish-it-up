@@ -16,8 +16,8 @@ import {
 	View,
 } from "react-native";
 
-import theme, { pallettes } from "../../theme";
-import createClassComponent from "../../utils/createClassComponent";
+import theme, { pallettes } from "~/theme";
+import createClassComponent from "~/utils/createClassComponent";
 import IconButton from "../IconButton";
 import Text from "../Text";
 

@@ -2,13 +2,13 @@ import { Image } from "expo-image";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import ContextMenu from "../../../components/ContextMenu/ContextMenu";
-import IconButton from "../../../components/IconButton";
-import Text from "../../../components/Text";
-import useDeleteRecipe from "../../../features/recipe/hooks/useDeleteRecipe";
-import useFetchRecipe from "../../../features/recipe/hooks/useFetchRecipe";
-import theme, { SCREEN_WIDTH } from "../../../theme";
-import ChipList from "../../../components/ChipList";
+import ChipList from "~/components/ChipList";
+import ContextMenu from "~/components/ContextMenu/ContextMenu";
+import IconButton from "~/components/IconButton";
+import Text from "~/components/Text";
+import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
+import theme, { SCREEN_WIDTH } from "~/theme";
 
 export default function RecipeDetail() {
 	const { id } = useLocalSearchParams();

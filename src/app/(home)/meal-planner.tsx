@@ -12,12 +12,12 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import IconButton from "../../components/IconButton";
-import ScrollView from "../../components/ScrollView";
-import Text from "../../components/Text";
-import MealPlanItem from "../../features/meal-planner/components/MealPlanItem";
-import { fetchMealPlan } from "../../features/meal-planner/mealPlanner.service";
-import theme from "../../theme";
+import IconButton from "~/components/IconButton";
+import ScrollView from "~/components/ScrollView";
+import Text from "~/components/Text";
+import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
+import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
+import theme from "~/theme";
 
 function MealPlanner() {
 	const [selectedDate, setSelectedDate] = useState(new Date());

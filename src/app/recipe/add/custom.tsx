@@ -1,11 +1,11 @@
-import { ScrollView, StyleSheet } from "react-native";
-import { useForm } from "react-hook-form";
-import { AvoidSoftInput } from "react-native-avoid-softinput";
-import { useCallback } from "react";
 import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { ScrollView, StyleSheet } from "react-native";
+import { AvoidSoftInput } from "react-native-avoid-softinput";
 
-import RecipeForm from "../../../features/recipe/components/RecipeForm";
-import theme from "../../../theme";
+import RecipeForm from "~/features/recipe/components/RecipeForm";
+import theme from "~/theme";
 
 type RecipeInputs = {
 	name: string;

@@ -5,9 +5,9 @@ import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 
-import SwipeableRow from "../../../components/SwipeableRow";
-import Text from "../../../components/Text";
-import theme, { pallettes } from "../../../theme";
+import SwipeableRow from "~/components/SwipeableRow";
+import Text from "~/components/Text";
+import theme, { pallettes } from "~/theme";
 import { deleteMealPlan } from "../mealPlanner.service";
 import { MealPlan } from "../mealPlanner.types";
 

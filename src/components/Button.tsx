@@ -21,12 +21,8 @@ export default function Button({
 }: ButtonProps) {
 	const sizeStyle = styles[size];
 	const variantStyle = styles[variant];
-	// const pressedStyle = styles[`${variant}Pressed`];
 	const textStyle = styles[`${variant}Text`];
 	const textSizeStyle = styles[`${size}Text`];
-	// const iconSizeStyle = styles[`${size}Icon`];
-
-	// const Icon = icon && iconLookup[icon];
 
 	return (
 		<Pressable
@@ -37,8 +33,6 @@ export default function Button({
 				variantStyle,
 				// @ts-ignore
 				style,
-				// pressed && pressedStyle,
-				// disabled && variant !== "ghost" && styles.disabled,
 			]}
 			disabled={disabled}
 			{...props}
@@ -88,7 +82,6 @@ const styles = StyleSheet.create({
 	small: {
 		paddingVertical: theme.spacing.xs,
 		paddingHorizontal: theme.spacing.s,
-		// alignSelf: "flex-start",
 		borderRadius: 6,
 	},
 	large: {

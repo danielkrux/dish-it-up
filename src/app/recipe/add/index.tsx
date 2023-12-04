@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import Button from "../../../components/Button";
-import InputBase from "../../../components/Inputs/TextInputBase";
-import Text from "../../../components/Text";
-import theme from "../../../theme";
+import { View } from "react-native";
+
+import Button from "~/components/Button";
+import InputBase from "~/components/Inputs/TextInputBase";
+import Text from "~/components/Text";
 
 export default function Add() {
 	const [url, setUrl] = useState("");

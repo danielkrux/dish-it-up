@@ -11,12 +11,12 @@ import {
 	View,
 } from "react-native";
 
-import BlurButton from "../../../components/BlurButton";
-import Text from "../../../components/Text";
-import useCreateRecipe from "../../../features/recipe/hooks/useCreateRecipe";
-import { parseRecipe } from "../../../features/recipe/recipe.service";
-import theme from "../../../theme";
-import { isValidUrl } from "../../../utils/url";
+import BlurButton from "~/components/BlurButton";
+import Text from "~/components/Text";
+import useCreateRecipe from "~/features/recipe/hooks/useCreateRecipe";
+import { parseRecipe } from "~/features/recipe/recipe.service";
+import theme from "~/theme";
+import { isValidUrl } from "~/utils/url";
 
 export default function AddRecipeConfirmScreen() {
 	const { url: urlParam } = useLocalSearchParams();

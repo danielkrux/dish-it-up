@@ -1,8 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, View } from "react-native";
-import Button from "../../../components/Button";
-import InputBase from "../../../components/Inputs/TextInputBase";
+import Button from "~/components/Button";
+import InputBase from "~/components/Inputs/TextInputBase";
 import RecipeQuickFilter from "./RecipeFilters";
 
 function SeachAndFilter() {

@@ -1,12 +1,12 @@
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
-import useFetchCategories from "../../features/recipe/hooks/useFetchCategories";
-import Text from "../../components/Text";
-import theme, { pallettes } from "../../theme";
-import IconButton from "../../components/IconButton";
-import useDeleteCategory from "../../features/recipe/hooks/useDeleteCategory";
-import useUpdateCategory from "../../features/recipe/hooks/useUpdateCategory";
-import FloatingButton from "../../components/FloatingButton";
-import useCreateCategory from "../../features/recipe/hooks/useCreateCategory";
+import FloatingButton from "~/components/FloatingButton";
+import IconButton from "~/components/IconButton";
+import Text from "~/components/Text";
+import useCreateCategory from "~/features/recipe/hooks/useCreateCategory";
+import useDeleteCategory from "~/features/recipe/hooks/useDeleteCategory";
+import useFetchCategories from "~/features/recipe/hooks/useFetchCategories";
+import useUpdateCategory from "~/features/recipe/hooks/useUpdateCategory";
+import theme, { pallettes } from "~/theme";
 
 export default function Settings() {
 	const { data } = useFetchCategories();

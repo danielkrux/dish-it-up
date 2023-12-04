@@ -12,14 +12,14 @@ import {
 } from "react-native";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
 
-import FloatingButton from "../../components/FloatingButton";
-import { DEFAULT_FILTER } from "../../features/home/components/RecipeFilters";
-import SeachAndFilter from "../../features/home/components/SearchAndFilter";
-import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
-import { getRecipes } from "../../features/recipe/recipe.service";
-import { Recipe } from "../../features/recipe/recipe.types";
-import { useRefreshOnFocus } from "../../hooks/useRefreshOnFocus";
-import theme from "../../theme";
+import FloatingButton from "~/components/FloatingButton";
+import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
+import SeachAndFilter from "~/features/home/components/SearchAndFilter";
+import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
+import { getRecipes } from "~/features/recipe/recipe.service";
+import { Recipe } from "~/features/recipe/recipe.types";
+import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
+import theme from "~/theme";
 
 const extractKey = (item: Recipe) => `${item.id}`;
 

@@ -1,4 +1,4 @@
-import { TableCreate, TableUpdate, Tables } from "../../clients/supabase";
+import { TableCreate, TableUpdate, Tables } from "~/clients/supabase";
 
 export type GroceryListItemCreate = TableCreate<"grocery_list">;
 export type GroceryListItemUpdate = TableUpdate<"grocery_list">;

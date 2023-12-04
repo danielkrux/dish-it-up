@@ -2,17 +2,17 @@ import { useRef } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 
 import { Tabs } from "expo-router";
-import ContextMenu from "../../components/ContextMenu/ContextMenu";
-import Icon from "../../components/Icon";
-import ListButton from "../../components/ListButton";
-import SwipeableRow from "../../components/SwipeableRow";
-import { GroceryListItem } from "../../features/grocery-list/groceryList.types";
-import useCreateGroceryListItem from "../../features/grocery-list/hooks/useCreateGroceryListItem";
-import useDeleteGroceryItems from "../../features/grocery-list/hooks/useDeleteGroceryList";
-import useFetchGroceryList from "../../features/grocery-list/hooks/useFetchGroceryList";
-import useUpdateGroceryListItem from "../../features/grocery-list/hooks/useUpdateGroceryListItem";
-import useScrollingFormAvoidKeyBoard from "../../hooks/useScrollingFormAvoidKeyboard";
-import theme, { pallettes } from "../../theme";
+import ContextMenu from "~/components/ContextMenu/ContextMenu";
+import Icon from "~/components/Icon";
+import ListButton from "~/components/ListButton";
+import SwipeableRow from "~/components/SwipeableRow";
+import { GroceryListItem } from "~/features/grocery-list/groceryList.types";
+import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
+import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
+import useFetchGroceryList from "~/features/grocery-list/hooks/useFetchGroceryList";
+import useUpdateGroceryListItem from "~/features/grocery-list/hooks/useUpdateGroceryListItem";
+import useScrollingFormAvoidKeyBoard from "~/hooks/useScrollingFormAvoidKeyboard";
+import theme, { pallettes } from "~/theme";
 
 function GroceryList() {
 	const addRef = useRef<TextInput>(null);

@@ -7,7 +7,7 @@ import {
 } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
-import theme from "../../theme";
+import theme from "~/theme";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import Text from "../Text";
