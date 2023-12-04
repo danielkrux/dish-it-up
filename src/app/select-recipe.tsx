@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import {
 	FlatList,
 	ListRenderItemInfo,
@@ -9,7 +10,6 @@ import {
 	View,
 } from "react-native";
 
-import { useState } from "react";
 import Button from "../components/Button";
 import Check from "../components/Check";
 import Text from "../components/Text";
@@ -64,7 +64,7 @@ function SelectRecipe() {
 		return (
 			<Pressable
 				onPress={() => handleRecipePress(item)}
-				className="flex-row justify-between items-center gap-30"
+				className="flex-row justify-between items-center g-6"
 			>
 				<RecipeImageCard
 					recipe={item}
@@ -76,18 +76,21 @@ function SelectRecipe() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title} type="header" size="xl">
-				Select Recipes for {format(date, "EEEE")}
-			</Text>
+		<View className="flex-1 py-6">
 			<FlatList
 				data={data}
 				renderItem={renderRecipe}
 				keyExtractor={keyExtractor}
 				contentContainerStyle={styles.recipeList}
+				ListHeaderComponent={
+					<Text type="header" size="xl">
+						Select Recipes for {format(date, "EEEE")}
+					</Text>
+				}
 			/>
 			<Button
-				style={[styles.saveButton, { bottom: insets.bottom }]}
+				style={{ bottom: insets.bottom }}
+				className="absolute mx-4 left-0 right-0"
 				onPress={handleSave}
 				size="large"
 			>
@@ -100,27 +103,9 @@ function SelectRecipe() {
 export default SelectRecipe;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingHorizontal: theme.spacing.m,
-		paddingVertical: theme.spacing.xl,
-	},
-	title: {
-		marginBottom: theme.spacing.m,
-	},
 	recipeList: {
 		gap: theme.spacing.m,
-	},
-	recipeContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
-		gap: 30,
-	},
-	saveButton: {
-		position: "absolute",
-		marginHorizontal: theme.spacing.m,
-		left: 0,
-		right: 0,
+		paddingHorizontal: theme.spacing.m,
+		paddingBottom: 100,
 	},
 });

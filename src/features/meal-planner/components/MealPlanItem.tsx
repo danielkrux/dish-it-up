@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
+
 import SwipeableRow from "../../../components/SwipeableRow";
 import Text from "../../../components/Text";
 import theme, { pallettes } from "../../../theme";
@@ -71,7 +72,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 						source={{ uri: recipe?.image_url }}
 					/>
 				)}
-				<View>
+				<View className="flex-1">
 					<Text type="header" size="l">
 						{recipe?.name}
 					</Text>
@@ -84,12 +85,6 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 export default MealPlanItem;
 
 const styles = StyleSheet.create({
-	day: {
-		marginBottom: theme.spacing.l,
-	},
-	recipes: {
-		gap: theme.spacing.m,
-	},
 	rightAction: {
 		backgroundColor: pallettes.red[100],
 	},
