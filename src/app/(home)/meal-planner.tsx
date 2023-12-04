@@ -11,6 +11,12 @@ import { groupBy } from "lodash";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
+import Animated, {
+	FadeIn,
+	FadeInLeft,
+	FadeOut,
+	FadeOutRight,
+} from "react-native-reanimated";
 import IconButton from "../../components/IconButton";
 import ScrollView from "../../components/ScrollView";
 import Text from "../../components/Text";
@@ -58,7 +64,12 @@ function MealPlanner() {
 					const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 
 					return (
-						<View className="mb-5">
+						<Animated.View
+							entering={FadeIn}
+							exiting={FadeOut}
+							key={date.toISOString()}
+							className="mb-5"
+						>
 							<View className="flex-row justify-between items-center mb-2">
 								<Text type="header" size="xl">
 									{format(date, "EEEE")}
@@ -70,10 +81,12 @@ function MealPlanner() {
 							</View>
 							<View style={styles.recipes}>
 								{mealPlans?.map((item) => (
-									<MealPlanItem mealPlan={item} />
+									<View>
+										<MealPlanItem mealPlan={item} />
+									</View>
 								))}
 							</View>
-						</View>
+						</Animated.View>
 					);
 				})}
 			</ScrollView>

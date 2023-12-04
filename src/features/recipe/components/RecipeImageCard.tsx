@@ -12,10 +12,7 @@ export default function RecipeImageCard({
 	onPress?: () => void;
 }) {
 	return (
-		<Pressable
-			className="rounded-2xl flex-row bg-white flex-1"
-			onPress={onPress}
-		>
+		<Pressable className="rounded-2xl flex-row bg-white" onPress={onPress}>
 			{recipe?.image_url && (
 				<Image
 					className="w-24 aspect-square rounded-2xl mr-4"

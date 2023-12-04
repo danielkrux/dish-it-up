@@ -34,6 +34,7 @@ function GroceryList() {
 	function handleAddGroceryItem(input: string) {
 		addRef.current?.clear();
 		addMutation.mutate([input]);
+		addRef.current?.focus();
 	}
 
 	function handleDelete(onlyCompleted = false) {
@@ -76,6 +77,7 @@ function GroceryList() {
 			>
 				{groceries.data?.map((grocery) => (
 					<SwipeableRow
+						key={grocery.id}
 						rightIcon="trash-2"
 						onRightOpen={() => {}}
 						rightStyle={styles.rightSwipeAction}
@@ -92,10 +94,10 @@ function GroceryList() {
 				<View style={styles.addContainer}>
 					<Icon size={24} name="plus" color={pallettes.black[500]} />
 					<TextInput
+						ref={addRef}
 						placeholder="Add new item..."
 						style={{ fontFamily: "Body", color: theme.colors.secondary }}
 						cursorColor={theme.colors.secondary}
-						ref={addRef}
 						onSubmitEditing={(event) =>
 							handleAddGroceryItem(event.nativeEvent.text)
 						}
