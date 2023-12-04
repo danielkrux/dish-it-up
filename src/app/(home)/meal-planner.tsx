@@ -81,9 +81,7 @@ function MealPlanner() {
 							</View>
 							<View style={styles.recipes}>
 								{mealPlans?.map((item) => (
-									<View>
-										<MealPlanItem mealPlan={item} />
-									</View>
+									<MealPlanItem key={item.id} mealPlan={item} />
 								))}
 							</View>
 						</Animated.View>
