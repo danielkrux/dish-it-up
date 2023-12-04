@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
 	Platform,
 	ScrollView,
@@ -8,15 +10,13 @@ import {
 	StyleSheet,
 	View,
 } from "react-native";
-import { Image } from "expo-image";
-import { useRouter } from "expo-router";
 
-import { isValidUrl } from "../../../utils/url";
-import Text from "../../../components/Text";
-import theme from "../../../theme";
 import BlurButton from "../../../components/BlurButton";
-import { parseRecipe } from "../../../features/recipe/recipe.service";
+import Text from "../../../components/Text";
 import useCreateRecipe from "../../../features/recipe/hooks/useCreateRecipe";
+import { parseRecipe } from "../../../features/recipe/recipe.service";
+import theme from "../../../theme";
+import { isValidUrl } from "../../../utils/url";
 
 export default function AddRecipeConfirmScreen() {
 	const { url: urlParam } = useLocalSearchParams();
@@ -74,7 +74,7 @@ export default function AddRecipeConfirmScreen() {
 						Ingrediënten
 					</Text>
 					{data?.ingredients?.map((ingredient, i) => (
-						<Text key={i} type="body">
+						<Text key={`${ingredient}-${i}`} type="body">
 							• {ingredient}
 						</Text>
 					))}
@@ -83,11 +83,11 @@ export default function AddRecipeConfirmScreen() {
 					Instructies
 				</Text>
 				{data?.instructions?.map((instruction, i) => (
-					<View key={i} style={styles.instruction}>
+					<View key={`${instruction}-${i}`} style={styles.instruction}>
 						<Text type="header" size="m">
 							{i + 1}
 						</Text>
-						<Text style={styles.instructionText} key={i} type="body">
+						<Text style={styles.instructionText} type="body">
 							{instruction}
 						</Text>
 					</View>

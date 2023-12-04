@@ -1,26 +1,26 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import theme from "../../../theme";
-import Text from "../../../components/Text";
+import { StyleSheet, View } from "react-native";
 import Button from "../../../components/Button";
 import InputBase from "../../../components/Inputs/TextInputBase";
+import Text from "../../../components/Text";
+import theme from "../../../theme";
 
 export default function Add() {
 	const [url, setUrl] = useState("");
 	const router = useRouter();
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title} type="header">
+		<View className="my-5 mx-4">
+			<Text className="mb-1" type="header">
 				Enter url
 			</Text>
-			<Text style={styles.description} type="body">
+			<Text className="mb-4" type="body">
 				Enter a URL to import a recipe from.
 			</Text>
 			<View>
 				<InputBase
-					style={styles.input}
+					className="mb-4 self-start"
 					placeholder="Recipe URL"
 					onChangeText={setUrl}
 					value={url}
@@ -28,34 +28,18 @@ export default function Add() {
 			</View>
 			<Button
 				size="large"
+				className="mb-2"
 				onPress={() => router.push(`/recipe/add/${encodeURIComponent(url)}`)}
 			>
 				Import Recipe
 			</Button>
 			<Button
-				variant="secondary"
+				variant="ghost"
 				size="large"
-				onPress={() => router.push(`/recipe/add/custom`)}
+				onPress={() => router.push("/recipe/add/custom")}
 			>
 				Custom recipe
 			</Button>
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		marginVertical: theme.spacing.l,
-		marginHorizontal: theme.spacing.m,
-	},
-	title: {
-		marginBottom: theme.spacing.xs,
-	},
-	description: {
-		marginBottom: theme.spacing.m,
-	},
-	input: {
-		marginBottom: theme.spacing.s,
-		alignSelf: "flex-start",
-	},
-});

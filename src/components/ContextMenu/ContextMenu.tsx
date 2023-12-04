@@ -13,6 +13,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { FullWindowOverlay } from "react-native-screens";
 
+import { BlurView } from "expo-blur";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import IconButton from "../IconButton";
 import MenuItem, { MenuItemProps } from "./MenuItem";
 import {
@@ -23,8 +25,6 @@ import {
 	calculateTranslateX as calcTranslateX,
 	getTransformOrigin,
 } from "./utils";
-import { BlurView } from "expo-blur";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -101,7 +101,7 @@ function ContextMenu({ actions }: ContextMenuProps) {
 				<FullWindowOverLayComponent>
 					<>
 						<Pressable
-							style={[StyleSheet.absoluteFill]}
+							style={StyleSheet.absoluteFill}
 							pointerEvents={isOpen ? "auto" : "none"}
 							onPress={() => setIsOpen(false)}
 						/>
