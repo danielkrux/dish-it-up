@@ -8,7 +8,14 @@ import {
 	StyleSheet,
 	View,
 } from "react-native";
-import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
+import Animated, {
+	FadeIn,
+	FadeInDown,
+	FadeInUp,
+	FadeOut,
+	LayoutAnimationConfig,
+	LinearTransition,
+} from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
@@ -19,7 +26,7 @@ import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 import theme from "~/theme";
 
-const extractKey = (item: Recipe) => `${item.id}`;
+const extractKey = (item: Recipe) => item.id.toString();
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<Recipe>);
 
@@ -52,29 +59,20 @@ export default function Home() {
 		const handlePress = () => {
 			router.push(`/recipe/${item.id}/`);
 		};
-		return <RecipeImageCard recipe={item} onPress={handlePress} />;
+		return (
+			<Animated.View entering={FadeIn} exiting={FadeOut}>
+				<RecipeImageCard recipe={item} onPress={handlePress} />
+			</Animated.View>
+		);
 	}, []);
-
-	const renderCell = useCallback(
-		(props: CellRendererProps<Recipe>) => (
-			<Animated.View
-				{...props}
-				entering={FadeIn}
-				exiting={FadeOut}
-				layout={Layout}
-			/>
-		),
-		[],
-	);
 
 	return (
 		<View className="flex-1">
-			<AnimatedFlatList
+			<FlatList
 				data={data}
 				renderItem={renderItem}
 				keyExtractor={extractKey}
 				ListHeaderComponent={SeachAndFilter}
-				CellRendererComponent={renderCell}
 				contentContainerStyle={styles.recipeListContent}
 				style={{ paddingHorizontal: theme.spacing.m }}
 			/>
