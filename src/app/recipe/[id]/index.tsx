@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import ChipList from "~/components/ChipList";
 import ContextMenu from "~/components/ContextMenu/ContextMenu";
@@ -8,7 +8,6 @@ import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme from "~/theme";
 
 export default function RecipeDetail() {
 	const { id } = useLocalSearchParams();
@@ -75,36 +74,20 @@ export default function RecipeDetail() {
 				{data?.description && (
 					<Text className="mx-4 mb-4">{data?.description}</Text>
 				)}
-				<View className="px-6 py-6 mb-4 flex-row justify-evenly bg-green-100">
+				<View className="px-6 py-6 mb-4 flex-row justify-evenly bg-primary">
 					<View className="items-center">
-						<Text
-							style={{ color: theme.colors.secondary }}
-							type="header"
-							size="xl"
-						>
+						<Text className="text-secondary" type="header" size="xl">
 							{data?.recipe_yield}
 						</Text>
-						<Text
-							type="body"
-							size="l"
-							style={{ color: theme.colors.secondary }}
-						>
+						<Text type="body" size="l" className="text-secondary">
 							Servings
 						</Text>
 					</View>
 					<View className="items-center">
-						<Text
-							style={{ color: theme.colors.secondary }}
-							type="header"
-							size="xl"
-						>
+						<Text className="text-secondary" type="header" size="xl">
 							{data?.total_time}
 						</Text>
-						<Text
-							type="body"
-							size="l"
-							style={{ color: theme.colors.secondary }}
-						>
+						<Text type="body" size="l" className="text-secondary">
 							Total Time
 						</Text>
 					</View>
