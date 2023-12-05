@@ -4,10 +4,8 @@ import { useCallback } from "react";
 import {
 	CellRendererProps,
 	FlatList,
-	Keyboard,
 	ListRenderItemInfo,
 	StyleSheet,
-	TouchableOpacity,
 	View,
 } from "react-native";
 import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
@@ -23,7 +21,6 @@ import theme from "~/theme";
 
 const extractKey = (item: Recipe) => `${item.id}`;
 
-const AnimatedView = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<Recipe>);
 
 function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
@@ -72,21 +69,15 @@ export default function Home() {
 
 	return (
 		<View className="flex-1">
-			<AnimatedView
-				activeOpacity={1}
-				className="flex-1"
-				layout={Layout.duration(200)}
-			>
-				<AnimatedFlatList
-					ListHeaderComponent={SeachAndFilter}
-					data={data}
-					keyExtractor={extractKey}
-					style={{ paddingHorizontal: theme.spacing.m }}
-					CellRendererComponent={renderCell}
-					contentContainerStyle={styles.recipeListContent}
-					renderItem={renderItem}
-				/>
-			</AnimatedView>
+			<AnimatedFlatList
+				data={data}
+				renderItem={renderItem}
+				keyExtractor={extractKey}
+				ListHeaderComponent={SeachAndFilter}
+				CellRendererComponent={renderCell}
+				contentContainerStyle={styles.recipeListContent}
+				style={{ paddingHorizontal: theme.spacing.m }}
+			/>
 			<FloatingButton onPress={() => router.push("/recipe/add/")}>
 				Add recipe
 			</FloatingButton>

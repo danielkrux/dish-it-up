@@ -2,7 +2,6 @@ import "react-native-get-random-values";
 
 import {
 	JosefinSans_700Bold,
-	NotoSans_400Regular,
 	NotoSans_500Medium,
 	NotoSans_700Bold,
 	useFonts,
@@ -21,7 +20,6 @@ import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
 import theme from "../theme";
-import IconButton from "../components/IconButton";
 
 export const supabase = initSupabase();
 
@@ -48,7 +46,7 @@ const Layout = () => {
 	}
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
+		<GestureHandlerRootView className="flex-1">
 			<ThemeProvider value={NavigationTheme}>
 				<PortalProvider>
 					<QueryClientProvider client={queryClient}>
@@ -58,7 +56,7 @@ const Layout = () => {
 								headerShadowVisible: false,
 								headerTintColor: theme.colors.text,
 								animation: Platform.select({
-									android: "fade",
+									// android: "fade",
 									ios: "default",
 								}),
 							}}

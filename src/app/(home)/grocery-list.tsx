@@ -11,7 +11,6 @@ import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGro
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
 import useFetchGroceryList from "~/features/grocery-list/hooks/useFetchGroceryList";
 import useUpdateGroceryListItem from "~/features/grocery-list/hooks/useUpdateGroceryListItem";
-import useScrollingFormAvoidKeyBoard from "~/hooks/useScrollingFormAvoidKeyboard";
 import theme, { pallettes } from "~/theme";
 
 function GroceryList() {
@@ -20,8 +19,6 @@ function GroceryList() {
 	const completeMutation = useUpdateGroceryListItem();
 	const addMutation = useCreateGroceryListItem();
 	const deleteMutation = useDeleteGroceryItems();
-
-	useScrollingFormAvoidKeyBoard();
 
 	function handleGroceryItemPress(grocery: GroceryListItem) {
 		completeMutation.mutate({
@@ -72,7 +69,7 @@ function GroceryList() {
 				}}
 			/>
 			<ScrollView
-				contentInsetAdjustmentBehavior="automatic"
+				// contentInsetAdjustmentBehavior="automatic"
 				style={styles.list}
 			>
 				{groceries.data?.map((grocery) => (

@@ -1,5 +1,4 @@
 import { Tabs, useRouter } from "expo-router";
-import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import theme from "~/theme";
@@ -43,13 +42,6 @@ function Home() {
 					headerTitle: "Groceries",
 					tabBarIcon: ({ color }) => (
 						<Icon name="shopping-cart" size={24} color={color} />
-					),
-					headerRight: () => (
-						<ContextMenu
-							actions={[
-								{ label: "Delete all", destructive: true, icon: "trash-2" },
-							]}
-						/>
 					),
 				}}
 			/>
