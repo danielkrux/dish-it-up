@@ -1,11 +1,11 @@
-import theme from "../theme";
-import createClassComponent from "../utils/createClassComponent";
 import {
 	StyleSheet,
 	Text as RNText,
 	TextProps as RNTextProps,
 } from "react-native";
 import Animated from "react-native-reanimated";
+import theme from "../theme";
+import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
 	type?: "header" | "body" | "bodyBold";
@@ -23,8 +23,8 @@ export default function Text({
 	const sizeStyle = size
 		? styles[size]
 		: type === "header"
-		  ? styles["xxl"]
-		  : styles["m"];
+		  ? styles.xxl
+		  : styles.m;
 	return (
 		<RNText style={[styles[type], sizeStyle, { color }, style]} {...props} />
 	);

@@ -8,7 +8,7 @@ import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme, { SCREEN_WIDTH } from "~/theme";
+import theme from "~/theme";
 
 export default function RecipeDetail() {
 	const { id } = useLocalSearchParams();
@@ -23,7 +23,7 @@ export default function RecipeDetail() {
 		<>
 			<ScrollView
 				contentInsetAdjustmentBehavior="automatic"
-				style={styles.container}
+				className="flex-1 py-4"
 			>
 				<Stack.Screen
 					options={{
@@ -61,19 +61,22 @@ export default function RecipeDetail() {
 						),
 					}}
 				/>
-				<View>
-					<Text style={styles.title} type="header">
+				<View className="mb-4">
+					<Text className="mb-4 mx-4" type="header">
 						{data?.name}
 					</Text>
 					{data?.image_url && (
-						<Image source={{ uri: data?.image_url }} style={styles.image} />
+						<Image
+							source={{ uri: data?.image_url }}
+							className="mx-4 aspect-video rounded-3xl"
+						/>
 					)}
 				</View>
 				{data?.description && (
-					<Text style={styles.description}>{data?.description}</Text>
+					<Text className="mx-4 mb-4">{data?.description}</Text>
 				)}
-				<View style={styles.recipeMeta}>
-					<View style={styles.metaEntry}>
+				<View className="px-6 py-6 mb-4 flex-row justify-evenly bg-green-100">
+					<View className="items-center">
 						<Text
 							style={{ color: theme.colors.secondary }}
 							type="header"
@@ -89,7 +92,7 @@ export default function RecipeDetail() {
 							Servings
 						</Text>
 					</View>
-					<View style={styles.metaEntry}>
+					<View className="items-center">
 						<Text
 							style={{ color: theme.colors.secondary }}
 							type="header"
@@ -107,13 +110,13 @@ export default function RecipeDetail() {
 					</View>
 				</View>
 				<ChipList
-					style={styles.categories}
+					className="mb-2 mx-4"
 					data={data?.categories.map((c) => ({
 						value: String(c.id),
 						label: c.name,
 					}))}
 				/>
-				<View style={styles.ingredients}>
+				<View className="mb-5 mx-4">
 					<Text type="header" size="l">
 						Ingredients
 					</Text>
@@ -123,20 +126,16 @@ export default function RecipeDetail() {
 						</Text>
 					))}
 				</View>
-				<View style={styles.instructions}>
+				<View className="mx-4 mb-5">
 					<Text type="header" size="l">
 						Instructions
 					</Text>
 					{data?.instructions?.map((instruction, i) => (
-						<View key={`${instruction}-${i}`} style={styles.instruction}>
+						<View key={`${instruction}-${i}`} className="mb-3 flex-row g-3">
 							<Text type="header" size="m">
 								{i + 1}
 							</Text>
-							<Text
-								style={styles.instructionText}
-								key={`${instruction}-${i}`}
-								type="body"
-							>
+							<Text className="flex-1" key={`${instruction}-${i}`} type="body">
 								{instruction}
 							</Text>
 						</View>
@@ -146,56 +145,3 @@ export default function RecipeDetail() {
 		</>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingVertical: theme.spacing.m,
-	},
-	title: {
-		marginBottom: theme.spacing.m,
-		marginHorizontal: theme.spacing.m,
-	},
-	description: {
-		marginBottom: theme.spacing.m,
-		marginHorizontal: theme.spacing.m,
-	},
-	image: {
-		width: SCREEN_WIDTH - theme.spacing.m * 2,
-		aspectRatio: 1.7,
-		borderRadius: 20,
-		marginBottom: theme.spacing.m,
-		marginHorizontal: theme.spacing.m,
-	},
-	recipeMeta: {
-		backgroundColor: theme.colors.primary,
-		paddingHorizontal: theme.spacing.l,
-		paddingVertical: theme.spacing.l,
-		marginBottom: theme.spacing.m,
-		flexDirection: "row",
-		justifyContent: "space-evenly",
-	},
-	metaEntry: {
-		alignItems: "center",
-	},
-	categories: {
-		marginBottom: theme.spacing.s,
-		marginHorizontal: theme.spacing.m,
-	},
-	ingredients: {
-		marginBottom: theme.spacing.l,
-		marginHorizontal: theme.spacing.m,
-	},
-	instructions: {
-		marginBottom: theme.spacing.l,
-		marginHorizontal: theme.spacing.m,
-	},
-	instruction: {
-		marginBottom: theme.spacing.s,
-		flexDirection: "row",
-		gap: theme.spacing.s,
-	},
-	instructionText: {
-		flex: 1,
-	},
-});

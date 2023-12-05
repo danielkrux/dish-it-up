@@ -1,12 +1,13 @@
+import { ScrollView, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import theme from "../theme";
 import Chip, { ChipProps } from "./Chip";
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 function ChipList({
 	data,
 	style,
 	contentContainerStyle,
 	selectedValues = [],
+	className,
 	onPress,
 	onLongPress,
 }: {
@@ -14,6 +15,7 @@ function ChipList({
 	selectedValues?: string[];
 	style?: StyleProp<ViewStyle>;
 	contentContainerStyle?: StyleProp<ViewStyle>;
+	className?: string;
 	onPress?: (value: string) => void;
 	onLongPress?: (value: string) => void;
 }) {
@@ -25,6 +27,7 @@ function ChipList({
 			contentContainerStyle={[contentContainerStyle, styles.container]}
 			showsHorizontalScrollIndicator={false}
 			horizontal
+			className={className}
 		>
 			{data?.map((item, index) => (
 				<Chip
