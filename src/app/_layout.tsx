@@ -1,4 +1,5 @@
 import "react-native-get-random-values";
+import "react-native-url-polyfill/auto";
 
 import {
 	JosefinSans_700Bold,
@@ -9,10 +10,9 @@ import {
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import { Platform, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import "react-native-url-polyfill/auto";
 
 import { onAppStateChange, queryClient } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -56,7 +56,7 @@ const Layout = () => {
 								headerShadowVisible: false,
 								headerTintColor: theme.colors.text,
 								animation: Platform.select({
-									// android: "fade",
+									android: "fade",
 									ios: "default",
 								}),
 							}}

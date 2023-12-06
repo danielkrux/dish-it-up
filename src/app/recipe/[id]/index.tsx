@@ -30,7 +30,10 @@ export default function RecipeDetail() {
 						headerTitleAlign: "center",
 						headerLeft: () => (
 							<IconButton
-								onPress={router.back}
+								onPress={() => {
+									console.log("here");
+									router.back();
+								}}
 								icon="chevron-left"
 								size="medium"
 							/>

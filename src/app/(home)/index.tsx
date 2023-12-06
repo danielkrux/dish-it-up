@@ -1,21 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
-import {
-	CellRendererProps,
-	FlatList,
-	ListRenderItemInfo,
-	StyleSheet,
-	View,
-} from "react-native";
-import Animated, {
-	FadeIn,
-	FadeInDown,
-	FadeInUp,
-	FadeOut,
-	LayoutAnimationConfig,
-	LinearTransition,
-} from "react-native-reanimated";
+import { ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
@@ -27,8 +15,6 @@ import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 import theme from "~/theme";
 
 const extractKey = (item: Recipe) => item.id.toString();
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList<Recipe>);
 
 function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 	if (!categoryId || categoryId === DEFAULT_FILTER) return recipes;
@@ -59,6 +45,7 @@ export default function Home() {
 		const handlePress = () => {
 			router.push(`/recipe/${item.id}/`);
 		};
+
 		return (
 			<Animated.View entering={FadeIn} exiting={FadeOut}>
 				<RecipeImageCard recipe={item} onPress={handlePress} />
@@ -74,7 +61,7 @@ export default function Home() {
 				keyExtractor={extractKey}
 				ListHeaderComponent={SeachAndFilter}
 				contentContainerStyle={styles.recipeListContent}
-				style={{ paddingHorizontal: theme.spacing.m }}
+				className="px-4"
 			/>
 			<FloatingButton onPress={() => router.push("/recipe/add/")}>
 				Add recipe
