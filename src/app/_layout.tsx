@@ -48,8 +48,8 @@ const Layout = () => {
 	return (
 		<GestureHandlerRootView className="flex-1">
 			<ThemeProvider value={NavigationTheme}>
-				<PortalProvider>
-					<QueryClientProvider client={queryClient}>
+				<QueryClientProvider client={queryClient}>
+					<PortalProvider>
 						<StatusBar barStyle="dark-content" />
 						<Stack
 							screenOptions={{
@@ -114,8 +114,8 @@ const Layout = () => {
 								}}
 							/>
 						</Stack>
-					</QueryClientProvider>
-				</PortalProvider>
+					</PortalProvider>
+				</QueryClientProvider>
 			</ThemeProvider>
 		</GestureHandlerRootView>
 	);

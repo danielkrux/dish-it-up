@@ -16,7 +16,7 @@ function SeachAndFilter() {
 	}
 
 	return (
-		<>
+		<View className="md:mb-4">
 			<View className="flex-row items-center mb-4">
 				<InputBase
 					value={q}
@@ -36,7 +36,7 @@ function SeachAndFilter() {
 				)}
 			</View>
 			<RecipeQuickFilter />
-		</>
+		</View>
 	);
 }
 

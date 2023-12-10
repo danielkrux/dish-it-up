@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import { Pressable, View } from "react-native";
 
 import Text from "~/components/Text";
+import { SCREEN_WIDTH, isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
 
 export default function RecipeImageCard({
@@ -11,11 +12,17 @@ export default function RecipeImageCard({
 	recipe?: Recipe;
 	onPress?: () => void;
 }) {
+	const cardWidth = SCREEN_WIDTH / 3;
+
 	return (
-		<Pressable className="rounded-2xl flex-row bg-white" onPress={onPress}>
+		<Pressable
+			className="rounded-2xl flex-row bg-white"
+			style={isTablet ? { width: cardWidth } : {}}
+			onPress={onPress}
+		>
 			{recipe?.image_url && (
 				<Image
-					className="w-24 aspect-square rounded-2xl mr-4"
+					className="w-24 md:w-36 aspect-square rounded-2xl mr-4"
 					source={{ uri: recipe?.image_url }}
 				/>
 			)}

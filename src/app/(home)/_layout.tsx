@@ -1,7 +1,7 @@
 import { Tabs, useRouter } from "expo-router";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
-import theme from "~/theme";
+import theme, { isTablet } from "~/theme";
 
 function Home() {
 	const router = useRouter();
@@ -18,11 +18,15 @@ function Home() {
 					paddingRight: theme.spacing.m,
 				},
 				headerTitleAlign: "left",
+				headerTitleContainerStyle: {
+					paddingLeft: isTablet ? theme.spacing.m : 0,
+				},
 				headerTitleStyle: {
 					fontFamily: "Heading",
 					fontSize: theme.fontSize.xxl,
 					fontWeight: "bold",
 				},
+				freezeOnBlur: true,
 			}}
 		>
 			<Tabs.Screen
