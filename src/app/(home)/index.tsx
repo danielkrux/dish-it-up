@@ -1,4 +1,3 @@
-import { Portal } from "@gorhom/portal";
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
@@ -10,7 +9,6 @@ import Animated, {
 	SlideInRight,
 	SlideOutRight,
 } from "react-native-reanimated";
-import { FullWindowOverlay } from "react-native-screens";
 
 import FloatingButton from "~/components/FloatingButton";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
@@ -100,7 +98,7 @@ export default function Home() {
 						entering={SlideInRight}
 						exiting={SlideOutRight}
 					>
-						<RecipeDetail id={recipeId} onDelete={() => {}} />
+						<RecipeDetail id={recipeId} />
 					</Animated.View>
 				)}
 			</>
