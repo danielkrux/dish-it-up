@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
-import { ListRenderItemInfo, Pressable, StyleSheet, View } from "react-native";
+import { ListRenderItemInfo, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -25,7 +26,7 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 
 export default function Home() {
 	const { q, c } = useLocalSearchParams<{ q?: string; c?: string }>();
-	const { setRecipeId } = useHomeContext();
+	const { recipeId, setRecipeId } = useHomeContext();
 	const query = q;
 
 	const { data, refetch } = useQuery(
@@ -64,13 +65,18 @@ export default function Home() {
 	return (
 		<>
 			<View className="flex-1">
-				<Animated.FlatList
+				<FlatList
 					data={data}
 					renderItem={renderItem}
 					keyExtractor={extractKey}
 					ListHeaderComponent={SeachAndFilter}
 					contentContainerStyle={styles.recipeListContent}
 					className="px-4 md:px-8 mt-1"
+					numColumns={isTablet && !recipeId ? 2 : 1}
+					columnWrapperStyle={
+						isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
+					}
+					key={recipeId ? "single-column" : "multi-column"}
 				/>
 				<FloatingButton onPress={() => router.push("/recipe/add/")}>
 					Add recipe
@@ -83,6 +89,9 @@ export default function Home() {
 const styles = StyleSheet.create({
 	recipeListContent: {
 		paddingBottom: 100,
+		gap: theme.spacing.m,
+	},
+	recipeColumnWrapper: {
 		gap: theme.spacing.m,
 	},
 });

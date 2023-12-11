@@ -1,9 +1,9 @@
 import React from "react";
 
+import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
 
 export type ChipData = {
 	label?: string | null;
