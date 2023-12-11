@@ -4,7 +4,7 @@ import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
     `recipe-parser?url=${encodeURI(url)}`,
-    { method: "GET" },
+    { method: "GET" }
   );
 
   if (result.error) {
@@ -41,10 +41,10 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
   // remove categories from database if they are not in the recipe anymore
   const currentRecipeCategories = await getRecipeCategories(recipe.id);
   const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
-    (category) => category.id,
+    (category) => category.id
   );
   const categoriesToDelete = currentRecipeCategoriesIds?.filter(
-    (categoryId) => !categories.find((category) => category.id === categoryId),
+    (categoryId) => !categories.find((category) => category.id === categoryId)
   );
   await supabase
     .from("recipe_categories")
@@ -122,7 +122,8 @@ export async function getRecipe(id?: number) {
   return result.data;
 }
 
-export async function deleteRecipe(id: number) {
+export async function deleteRecipe(id?: number) {
+  if (!id) throw new Error("No recipe id provided");
   const result = await supabase.from("recipes").delete().eq("id", id);
 
   if (result.error) {
@@ -134,34 +135,43 @@ export async function deleteRecipe(id: number) {
 
 export async function getCategories() {
   const result = await supabase.from("categories").select("id, name");
-  const categoriesWithRecipeId = await supabase.from("recipe_categories").select("category_id");
-  const numberOfRecipesPerCategory: Record<string, number> | undefined = categoriesWithRecipeId.data?.reduce((acc, curr) => {
-    return {
-      // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-      ...acc,
-      //@ts-ignore
-      [curr.category_id]: acc[curr.category_id] ? acc[curr.category_id] + 1 : 1
-    }
-  }, {});
+  const categoriesWithRecipeId = await supabase
+    .from("recipe_categories")
+    .select("category_id");
+  const numberOfRecipesPerCategory: Record<string, number> | undefined =
+    categoriesWithRecipeId.data?.reduce((acc, curr) => {
+      return {
+        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+        ...acc,
+        //@ts-ignore
+        [curr.category_id]: acc[curr.category_id]
+          ? acc[curr.category_id] + 1
+          : 1,
+      };
+    }, {});
 
   const resultWithCount = result.data?.map((category) => ({
     ...category,
-    numberOfRecipes: numberOfRecipesPerCategory?.[category.id] ?? 0
+    numberOfRecipes: numberOfRecipesPerCategory?.[category.id] ?? 0,
   }));
 
   if (result.error) {
     throw new Error(result.error.message);
   }
 
-  return resultWithCount?.filter(c => c.numberOfRecipes).sort((a, b) => {
-    if (a.numberOfRecipes > b.numberOfRecipes) {
-      return -1;
-    }
-    if (a.numberOfRecipes < b.numberOfRecipes) {
-      return 1;
-    }
-    return 0;
-  }) ?? [];
+  return (
+    resultWithCount
+      ?.filter((c) => c.numberOfRecipes)
+      .sort((a, b) => {
+        if (a.numberOfRecipes > b.numberOfRecipes) {
+          return -1;
+        }
+        if (a.numberOfRecipes < b.numberOfRecipes) {
+          return 1;
+        }
+        return 0;
+      }) ?? []
+  );
 }
 
 export async function getRecipeCategories(recipeId?: number) {

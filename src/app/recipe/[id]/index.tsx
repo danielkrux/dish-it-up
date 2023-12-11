@@ -15,6 +15,7 @@ export default function RecipeDetailPage() {
 	function handleDelete() {
 		router.push("/");
 	}
+
 	return (
 		<>
 			<Stack.Screen

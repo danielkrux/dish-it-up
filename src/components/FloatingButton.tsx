@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { LayoutChangeEvent, Pressable, StyleSheet, View } from "react-native";
+import React from "react";
+import { Pressable, StyleSheet } from "react-native";
+import Animated, { LinearTransition } from "react-native-reanimated";
+
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
-import theme, { SCREEN_WIDTH } from "../theme";
+import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type FloatingButtonProps = {
 	children: string;
@@ -18,37 +22,31 @@ export default function FloatingButton({
 	icon,
 	useSafeArea,
 }: FloatingButtonProps) {
-	const [width, setWidth] = useState(0);
 	const insets = useSafeAreaInsets();
 
-	const handleLayout = (event: LayoutChangeEvent) => {
-		setWidth(event.nativeEvent.layout.width);
-	};
-
 	return (
-		<Pressable
+		<AnimatedPressable
+			layout={LinearTransition}
 			onPress={onPress}
 			style={[
 				{
 					bottom: useSafeArea ? insets.bottom : theme.spacing.l,
-					transform: [{ translateX: -(width / 2) }],
 				},
 				styles.button,
 			]}
-			onLayout={handleLayout}
 		>
 			{icon && <Icon name={icon} color={theme.colors.text} size={20} />}
 			<Text type="header" size="l">
 				{children}
 			</Text>
-		</Pressable>
+		</AnimatedPressable>
 	);
 }
 
 const styles = StyleSheet.create({
 	button: {
 		position: "absolute",
-		left: SCREEN_WIDTH / 2,
+		alignSelf: "center",
 		flexDirection: "row",
 		alignItems: "baseline",
 		gap: theme.spacing.xs,

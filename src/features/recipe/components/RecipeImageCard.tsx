@@ -12,7 +12,7 @@ export default function RecipeImageCard({
 	recipe?: Recipe;
 	onPress?: () => void;
 }) {
-	const cardWidth = SCREEN_WIDTH / 3;
+	const cardWidth = SCREEN_WIDTH / 2;
 
 	return (
 		<Pressable

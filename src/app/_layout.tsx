@@ -62,7 +62,7 @@ const Layout = () => {
 							}}
 						>
 							<Stack.Screen
-								name="(home)"
+								name="(tabs)"
 								options={{
 									headerShown: false,
 									headerTitle: "",

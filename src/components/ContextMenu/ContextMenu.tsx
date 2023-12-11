@@ -15,7 +15,7 @@ import { FullWindowOverlay } from "react-native-screens";
 
 import { BlurView } from "expo-blur";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import IconButton from "../IconButton";
+import IconButton, { IconButtonProps } from "../IconButton";
 import MenuItem, { MenuItemProps } from "./MenuItem";
 import {
 	MENU_WIDTH,
@@ -32,9 +32,10 @@ type Action = MenuItemProps;
 
 type ContextMenuProps = {
 	actions: Action[];
+	iconButtonSize?: IconButtonProps["size"];
 };
 
-function ContextMenu({ actions }: ContextMenuProps) {
+function ContextMenu({ actions, iconButtonSize }: ContextMenuProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const triggerRef = useAnimatedRef<Animated.View>();
 	const triggerRect = useSharedValue<MeasuredDimensions>({
@@ -95,7 +96,7 @@ function ContextMenu({ actions }: ContextMenuProps) {
 		<>
 			<Animated.View collapsable={false} ref={triggerRef}>
 				<GestureDetector gesture={gesture}>
-					<IconButton icon="more-vertical" />
+					<IconButton size={iconButtonSize} icon="more-vertical" />
 				</GestureDetector>
 			</Animated.View>
 
