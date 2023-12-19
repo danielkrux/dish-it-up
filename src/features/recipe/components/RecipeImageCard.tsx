@@ -1,7 +1,9 @@
+import { clsx } from "clsx";
 import { Image } from "expo-image";
 import { Pressable, View } from "react-native";
 
 import Text from "~/components/Text";
+import useHomeContext from "~/features/home/hooks/useHomeContext";
 import { SCREEN_WIDTH, isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
 
@@ -12,12 +14,17 @@ export default function RecipeImageCard({
 	recipe?: Recipe;
 	onPress?: () => void;
 }) {
-	const cardWidth = SCREEN_WIDTH / 2;
+	const { recipeId } = useHomeContext();
+	const cardWidth = SCREEN_WIDTH / 2.2;
+
+	const selected = recipeId === recipe?.id;
 
 	return (
 		<Pressable
-			className="rounded-2xl flex-row bg-white"
-			style={isTablet ? { width: cardWidth } : {}}
+			className={clsx("md:px-2 md:py-2 flex-row bg-white", {
+				"bg-primary": selected,
+			})}
+			style={isTablet ? { width: cardWidth, borderRadius: 24 } : {}}
 			onPress={onPress}
 		>
 			{recipe?.image_url && (
@@ -27,11 +34,20 @@ export default function RecipeImageCard({
 					source={{ uri: recipe?.image_url }}
 				/>
 			)}
-			<View className="flex-1 p-2 pl-0 border-b border-gray-100">
-				<Text className="md:text-xl" numberOfLines={2} type="header" size="l">
+			<View
+				className={clsx("flex-1 p-2 pl-0  border-b border-gray-100", {
+					"border-primary": selected,
+				})}
+			>
+				<Text
+					className="md:text-xl mb-1"
+					numberOfLines={2}
+					type="header"
+					size="l"
+				>
 					{recipe?.name}
 				</Text>
-				<Text className="text-zinc-800" size="s">
+				<Text className="text-zinc-800 mb-1" size="s">
 					{recipe?.total_time} | {recipe?.recipe_yield} servings
 				</Text>
 				<Text

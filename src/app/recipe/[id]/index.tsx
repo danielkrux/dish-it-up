@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import IconButton from "~/components/IconButton";
-import RecipeDetail from "~/features/recipe/components/RecipeDetail";
+import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 
 export default function RecipeDetailPage() {

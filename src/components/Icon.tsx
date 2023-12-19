@@ -22,5 +22,13 @@ export default function Icon({
 	className,
 }: IconProps) {
 	const c = color ? color : light ? theme.colors.white : theme.colors.text;
-	return <FeatherIcons name={name} color={c} size={size} style={style} />;
+	return (
+		<FeatherIcons
+			className={className}
+			name={name}
+			color={c}
+			size={size}
+			style={style}
+		/>
+	);
 }

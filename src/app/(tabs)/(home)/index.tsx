@@ -63,26 +63,24 @@ export default function Home() {
 	);
 
 	return (
-		<>
-			<View className="flex-1">
-				<FlatList
-					data={data}
-					renderItem={renderItem}
-					keyExtractor={extractKey}
-					ListHeaderComponent={SeachAndFilter}
-					contentContainerStyle={styles.recipeListContent}
-					className="px-4 md:px-8 mt-1"
-					numColumns={isTablet && !recipeId ? 2 : 1}
-					columnWrapperStyle={
-						isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
-					}
-					key={recipeId ? "single-column" : "multi-column"}
-				/>
-				<FloatingButton onPress={() => router.push("/recipe/add/")}>
-					Add recipe
-				</FloatingButton>
-			</View>
-		</>
+		<View className="flex-1">
+			<FlatList
+				data={data}
+				renderItem={renderItem}
+				keyExtractor={extractKey}
+				ListHeaderComponent={SeachAndFilter}
+				contentContainerStyle={styles.recipeListContent}
+				className="px-4 md:px-8 mt-1"
+				numColumns={isTablet && !recipeId ? 2 : 1}
+				columnWrapperStyle={
+					isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
+				}
+				key={recipeId ? "single-column" : "multi-column"}
+			/>
+			<FloatingButton onPress={() => router.push("/recipe/add/")}>
+				Add recipe
+			</FloatingButton>
+		</View>
 	);
 }
 
