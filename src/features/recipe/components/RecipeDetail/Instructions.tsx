@@ -10,19 +10,21 @@ export type InstructionsProps = { recipe?: Recipe };
 function Instructions({ recipe, ...props }: InstructionsProps) {
 	return (
 		<View {...props}>
-			<Text type="header" size="l">
+			<Text className="mb-4" type="header" size="xl">
 				Instructions
 			</Text>
-			{recipe?.instructions?.map((instruction, i) => (
-				<View key={`${instruction}-${i}`} className="mb-3 flex-row g-3">
-					<Text type="header" size="m">
-						{i + 1}
-					</Text>
-					<Text className="flex-1" key={`${instruction}-${i}`} type="body">
-						{instruction}
-					</Text>
-				</View>
-			))}
+			<View className="g-5">
+				{recipe?.instructions?.map((instruction, i) => (
+					<View key={`${instruction}-${i}`} className="mb-3 flex-row g-3">
+						<Text type="header" size="m">
+							{i + 1}
+						</Text>
+						<Text className="flex-1" key={`${instruction}-${i}`} type="body">
+							{instruction}
+						</Text>
+					</View>
+				))}
+			</View>
 		</View>
 	);
 }

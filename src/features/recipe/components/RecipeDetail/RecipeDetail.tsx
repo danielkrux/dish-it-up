@@ -1,9 +1,9 @@
-import clsx from "clsx";
 import { Image } from "expo-image";
 import { ReactNode } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 
 import ChipList from "~/components/ChipList";
+import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
@@ -18,16 +18,48 @@ export default function RecipeDetail({
 	const { data } = useFetchRecipe(id);
 	const { containerSize, onLayout } = useContainerBreakpoint();
 
-	const styles = {
-		sm: "py-4",
-		md: "px-20 py-10",
-	};
+	if (containerSize === "md") {
+		return (
+			<View className="px-20 flex-1">
+				<View className="flex-1 flex-row g-10 mb-10">
+					<ScrollView contentContainerStyle="pt-5" className="flex-1">
+						{data?.image_url && (
+							<Image
+								source={{ uri: data?.image_url }}
+								className="aspect-square rounded-2xl mb-4"
+							/>
+						)}
+						<Text className="mb-4" type="header">
+							{data?.name}
+						</Text>
+						<ChipList
+							className="mb-2"
+							data={data?.categories.map((c) => ({
+								value: String(c.id),
+								label: c.name,
+							}))}
+						/>
+						{data?.description && (
+							<Text className="mb-4 max-w-screen-sm">{data?.description}</Text>
+						)}
+						<Meta recipe={data} className="mb-4" />
+					</ScrollView>
+					<ScrollView contentContainerStyle="pt-5" className="flex-1">
+						<Instructions recipe={data} className="mx-4 mb-5" />
+					</ScrollView>
+					<ScrollView contentContainerStyle="pt-5" className="flex-1">
+						<Ingredients recipe={data} className="mb-2 mx-4" />
+					</ScrollView>
+				</View>
+			</View>
+		);
+	}
 
 	return (
 		<ScrollView
 			onLayout={onLayout}
 			contentInsetAdjustmentBehavior="automatic"
-			className={clsx("flex-1 py-4", styles[containerSize])}
+			className="flex-1 py-4 px-2"
 		>
 			{header}
 			<View className="mb-4">
