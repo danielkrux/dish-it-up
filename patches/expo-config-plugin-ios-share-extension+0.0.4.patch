@@ -1,5 +1,5 @@
 diff --git a/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts b/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
-index 621da3a..57774a1 100644
+index 621da3a..c9deae0 100644
 --- a/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
 +++ b/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
 @@ -1,12 +1,12 @@
@@ -17,14 +17,12 @@ index 621da3a..57774a1 100644
    shareExtensionStoryBoardFileName,
    shareExtensionViewControllerFileName,
  } from "./constants";
-@@ -247,8 +247,8 @@ class ShareViewController: UIViewController {
+@@ -247,8 +247,6 @@ class ShareViewController: UIViewController {
      private func redirectToHostApp(sharedURL: String) {
          var urlComponents = URLComponents()
          urlComponents.scheme = hostAppURLScheme
 -        urlComponents.host = "share"
 -        urlComponents.path = "/"
-+        // urlComponents.host = "share"
-+        // urlComponents.path = "/"
          urlComponents.queryItems = [
              URLQueryItem(name: "url", value: sharedURL),
          ]
