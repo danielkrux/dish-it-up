@@ -10,16 +10,18 @@ import {
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { getInitialURL, useURL } from "expo-linking";
 import { Stack } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
-import { Platform, StatusBar, View } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { onAppStateChange, queryClient } from "../clients/reactQuery";
+import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
+import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import theme from "../theme";
 
 NativeWindStyleSheet.setOutput({
@@ -38,7 +40,10 @@ const NavigationTheme: Theme = {
 
 const Layout = () => {
 	useOnlineManager();
-	useAppState(onAppStateChange);
+
+	useAppState(async (state) => {
+		setQueryClientFocus(state);
+	});
 
 	const [loaded] = useFonts({
 		Heading: JosefinSans_700Bold,

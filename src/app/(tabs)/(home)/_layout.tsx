@@ -2,9 +2,7 @@ import { Slot, useRouter } from "expo-router";
 import { View } from "react-native";
 import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 import ContextMenu from "~/components/ContextMenu/ContextMenu";
-import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
-
 import useHomeContext from "~/features/home/hooks/useHomeContext";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";

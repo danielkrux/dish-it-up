@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ListRenderItemInfo, StyleSheet, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -8,6 +8,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import FloatingButton from "~/components/FloatingButton";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
+import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import useHomeContext from "~/features/home/hooks/useHomeContext";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import { getRecipes } from "~/features/recipe/recipe.service";
@@ -25,9 +26,12 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 }
 
 export default function Home() {
+	const router = useRouter();
 	const { q, c } = useLocalSearchParams<{ q?: string; c?: string }>();
 	const { recipeId, setRecipeId } = useHomeContext();
 	const query = q;
+
+	useHandleUrlShare();
 
 	const { data, refetch } = useQuery(
 		["recipes", query],
@@ -59,7 +63,7 @@ export default function Home() {
 				</Animated.View>
 			);
 		},
-		[setRecipeId],
+		[setRecipeId, router],
 	);
 
 	return (

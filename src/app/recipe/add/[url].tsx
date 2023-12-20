@@ -25,7 +25,7 @@ export default function AddRecipeConfirmScreen() {
 	const router = useRouter();
 	const url = decodeURIComponent(urlParam as string);
 
-	const urlValid = isValidUrl(url as string);
+	const urlValid = isValidUrl(url);
 
 	const { data } = useQuery(
 		["parse-recipe", url],
