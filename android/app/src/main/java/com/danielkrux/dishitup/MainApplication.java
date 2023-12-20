@@ -1,4 +1,4 @@
-package dev.danielkrux.dishitup;
+package com.danielkrux.dishitup;
 
 import android.app.Application;
 import android.content.res.Configuration;

@@ -1,4 +1,4 @@
-package dev.danielkrux.dishitup;
+package com.danielkrux.dishitup;
 
 import android.os.Build;
 import android.os.Bundle;

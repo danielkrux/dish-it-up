@@ -28,6 +28,7 @@
         <data android:scheme="dish-it-up"/>
         <data android:scheme="dev.danielkrux.dishitup"/>
         <data android:scheme="exp+dish-it-up"/>
+        <data android:scheme="com.danielkrux.dishitup"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

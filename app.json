@@ -1,61 +1,59 @@
 {
-  "expo": {
-    "name": "dish-it-up",
-    "slug": "dish-it-up",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "buildNumber": "1",
-      "supportsTablet": true,
-      "bundleIdentifier": "dev.danielkrux.dishitup"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "dev.danielkrux.dishitup",
-      "softwareKeyboardLayoutMode": "resize"
-    },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-build-properties",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.8.10"
-          }
-        }
-      ],
-      "expo-config-plugin-ios-share-extension"
-    ],
-    "scheme": "dish-it-up",
-    "experiments": {
-      "typedRoutes": true,
-      "tsconfigPaths": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "b56a0bb4-b7e6-4823-b7cc-048af43d7698"
-      }
-    }
-  }
+	"expo": {
+		"name": "dish-it-up",
+		"slug": "dish-it-up",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "automatic",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"buildNumber": "1",
+			"supportsTablet": true,
+			"bundleIdentifier": "com.danielkrux.dishitup"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.danielkrux.dishitup",
+			"softwareKeyboardLayoutMode": "resize"
+		},
+		"web": {
+			"bundler": "metro",
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			"expo-build-properties",
+			[
+				"expo-build-properties",
+				{
+					"android": {
+						"kotlinVersion": "1.8.10"
+					}
+				}
+			],
+			"expo-config-plugin-ios-share-extension"
+		],
+		"scheme": "dish-it-up",
+		"experiments": {
+			"typedRoutes": true,
+			"tsconfigPaths": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "b56a0bb4-b7e6-4823-b7cc-048af43d7698"
+			}
+		}
+	}
 }

@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'dev.danielkrux.dishitup'
+    namespace 'com.danielkrux.dishitup'
     defaultConfig {
-        applicationId 'dev.danielkrux.dishitup'
+        applicationId 'com.danielkrux.dishitup'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

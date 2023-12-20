@@ -18,6 +18,9 @@
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		C1A566FC802B4E1FA26CBEC1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2D28AD6B854314A01DE17B /* ShareViewController.swift */; };
 		DD6790D3FB994FC3A5FE0644 /* ShareExtension.appex in Copy Files */ = {isa = PBXBuildFile; fileRef = 33CE37C8648940CA82326ECE /* ShareExtension.appex */; };
+		5198515BE5944B47AC2555E2 /* ShareExtension.appex in Copy Files */ = {isa = PBXBuildFile; fileRef = A8F1D518146D400DBEA5DBC6 /* ShareExtension.appex */; };
+		CB981D70528445318B01896A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4E9C4F1B544C52893FAAB3 /* ShareViewController.swift */; };
+		FB1D195308AA4D2DA08C0C37 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2B5F19D1F4149678083C297 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,9 +31,20 @@
 			dstSubfolderSpec = 13;
 			files = (
 				DD6790D3FB994FC3A5FE0644 /* ShareExtension.appex in Copy Files */,
+				5198515BE5944B47AC2555E2 /* ShareExtension.appex in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		385C81BE64024BD096806348 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Copy Files";
+			dstPath = "";
+			dstSubfolderSpec = 13;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -53,6 +67,10 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-dishitup/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		A8F1D518146D400DBEA5DBC6 /* ShareExtension.appex */ = {isa = PBXFileReference; name = "ShareExtension.appex"; path = "ShareExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; fileEncoding = undefined; lastKnownFileType = undefined; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; };
+		3746CEE1BD864E92838CEAEB /* ShareExtension-Info.plist */ = {isa = PBXFileReference; name = "ShareExtension-Info.plist"; path = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareExtension-Info.plist"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = text.plist.xml; explicitFileType = undefined; includeInIndex = 0; };
+		9D4E9C4F1B544C52893FAAB3 /* ShareViewController.swift */ = {isa = PBXFileReference; name = "ShareViewController.swift"; path = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareViewController.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		F2B5F19D1F4149678083C297 /* MainInterface.storyboard */ = {isa = PBXFileReference; name = "MainInterface.storyboard"; path = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/MainInterface.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +138,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* dishitup.app */,
 				33CE37C8648940CA82326ECE /* ShareExtension.appex */,
+				A8F1D518146D400DBEA5DBC6 /* ShareExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,6 +186,17 @@
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
+		FC3373336CC64B9D9017A3F8 /* ShareExtension */ = {
+			isa = "PBXGroup";
+			children = (
+				3746CEE1BD864E92838CEAEB /* ShareExtension-Info.plist */,
+				9D4E9C4F1B544C52893FAAB3 /* ShareViewController.swift */,
+				F2B5F19D1F4149678083C297 /* MainInterface.storyboard */,
+			);
+			name = ShareExtension;
+			sourceTree = "<group>";
+			path = ShareExtension;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,6 +214,7 @@
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 				52D96CAC946F71F90BF2EFD6 /* [CP] Embed Pods Frameworks */,
 				F3FF717DAFCA484888415AFF /* Copy Files */,
+				385C81BE64024BD096806348 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -209,6 +240,22 @@
 			productName = ShareExtension;
 			productReference = 33CE37C8648940CA82326ECE /* ShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		7B59BCA6D8084BB7B9B6CF78 /* "ShareExtension" */ = {
+			isa = PBXNativeTarget;
+			name = "ShareExtension";
+			productName = "ShareExtension";
+			productReference = A8F1D518146D400DBEA5DBC6;
+			productType = "com.apple.product-type.app-extension";
+			buildConfigurationList = 09C4730B64A4439C90AE5939;
+			buildPhases = (
+				923CFF0FD8B54364B2C78C80 /* Sources */,
+				145FDDE7D0D94947AB4539B7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
 		};
 /* End PBXNativeTarget section */
 
@@ -238,6 +285,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* dishitup */,
 				DE28C107D2E747E287813758 /* ShareExtension */,
+				7B59BCA6D8084BB7B9B6CF78 /* "ShareExtension" */,
 			);
 		};
 /* End PBXProject section */
@@ -258,6 +306,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				21EC3C6343EF44838D094E09 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		145FDDE7D0D94947AB4539B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB1D195308AA4D2DA08C0C37 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +458,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		923CFF0FD8B54364B2C78C80 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB981D70528445318B01896A /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -435,7 +499,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkrux.dishitup;
-				PRODUCT_NAME = dishitup;
+				PRODUCT_NAME = "dishitup";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "dishitup/dishitup-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -470,7 +534,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielkrux.dishitup;
-				PRODUCT_NAME = dishitup;
+				PRODUCT_NAME = "dishitup";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "dishitup/dishitup-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -654,6 +718,50 @@
 			};
 			name = Debug;
 		};
+		46D42DF491894146B7CBFE54 /* Debug */ = {
+			name = Debug;
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareExtension-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "ShareExtension";
+				SKIP_INSTALL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "1";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "1.0.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.danielkrux.dishitup.share-extension";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+		};
+		8CB8F1E9B3A041829C7A6B58 /* Release */ = {
+			name = Release;
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareExtension-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "ShareExtension";
+				SKIP_INSTALL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "/Users/danielkrux/Projects/dish-it-up/ios/ShareExtension/ShareExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "1";
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = "1.0.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.danielkrux.dishitup.share-extension";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -680,6 +788,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09C4730B64A4439C90AE5939 /* Build configuration list for PBXNativeTarget "ShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46D42DF491894146B7CBFE54 /* Debug */,
+				8CB8F1E9B3A041829C7A6B58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
