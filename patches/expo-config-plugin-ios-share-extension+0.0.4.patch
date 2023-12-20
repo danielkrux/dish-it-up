@@ -1,23 +1,8 @@
-diff --git a/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts b/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
-index 621da3a..c9deae0 100644
---- a/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
-+++ b/node_modules/expo-config-plugin-ios-share-extension/src/writeShareExtensionFiles.ts
-@@ -1,12 +1,12 @@
--import path from "node:path";
- import fs from "node:fs";
-+import path from "node:path";
- import plist from "@expo/plist";
- 
- import {
--  shareExtensionName,
-   getAppGroups,
-   shareExtensionEntitlementsFileName,
-   shareExtensionInfoFileName,
-+  shareExtensionName,
-   shareExtensionStoryBoardFileName,
-   shareExtensionViewControllerFileName,
- } from "./constants";
-@@ -247,8 +247,6 @@ class ShareViewController: UIViewController {
+diff --git a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js b/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
+index 5f0e1db..19c8be5 100644
+--- a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
++++ b/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
+@@ -210,8 +210,6 @@ class ShareViewController: UIViewController {
      private func redirectToHostApp(sharedURL: String) {
          var urlComponents = URLComponents()
          urlComponents.scheme = hostAppURLScheme
