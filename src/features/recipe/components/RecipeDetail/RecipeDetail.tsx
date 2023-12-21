@@ -78,13 +78,13 @@ export default function RecipeDetail({
 			)}
 			<Meta recipe={data} className="mb-4 mx-2" />
 			<ChipList
-				className="mb-2 mx-4"
+				className="mb-7 mx-2"
 				data={data?.categories.map((c) => ({
 					value: String(c.id),
 					label: c.name,
 				}))}
 			/>
-			<Ingredients recipe={data} className="mb-2 mx-4" />
+			<Ingredients recipe={data} className="mb-7 mx-4" />
 			<Instructions recipe={data} className="mx-4 mb-5" />
 		</ScrollView>
 	);

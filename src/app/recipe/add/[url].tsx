@@ -13,6 +13,8 @@ import {
 
 import BlurButton from "~/components/BlurButton";
 import Text from "~/components/Text";
+import Ingredients from "~/features/recipe/components/RecipeDetail/Ingredients";
+import Instructions from "~/features/recipe/components/RecipeDetail/Instructions";
 import useCreateRecipe from "~/features/recipe/hooks/useCreateRecipe";
 import { parseRecipe } from "~/features/recipe/recipe.service";
 import theme from "~/theme";
@@ -40,13 +42,13 @@ export default function AddRecipeConfirmScreen() {
 	if (!data) return null;
 
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
+		<ScrollView className="pb-6" contentContainerStyle={styles.container}>
 			{data.image_url && (
-				<Image style={styles.image} source={{ uri: data.image_url }} />
+				<Image className="h-72 mb-5" source={{ uri: data.image_url }} />
 			)}
 			<View
+				className="absolute top-0 left-0 right-0 z-10 flex-row justify-between px-5"
 				style={[
-					styles.actions,
 					{
 						top: Platform.select({
 							ios: theme.spacing.l,
@@ -62,36 +64,15 @@ export default function AddRecipeConfirmScreen() {
 					onPress={() => mutate(data)}
 				/>
 			</View>
-			<View style={styles.content}>
-				<Text style={styles.name} type="header">
+			<View className="px-4">
+				<Text className="mb-1" type="header">
 					{data.name}
 				</Text>
-				<Text style={styles.description} type="body">
+				<Text className="mb-7" type="body">
 					{data.description}
 				</Text>
-				<View style={styles.ingredients}>
-					<Text type="header" size="l">
-						Ingrediënten
-					</Text>
-					{data?.ingredients?.map((ingredient, i) => (
-						<Text key={`${ingredient}-${i}`} type="body">
-							• {ingredient}
-						</Text>
-					))}
-				</View>
-				<Text type="header" size="l">
-					Instructies
-				</Text>
-				{data?.instructions?.map((instruction, i) => (
-					<View key={`${instruction}-${i}`} style={styles.instruction}>
-						<Text type="header" size="m">
-							{i + 1}
-						</Text>
-						<Text style={styles.instructionText} type="body">
-							{instruction}
-						</Text>
-					</View>
-				))}
+				<Ingredients recipe={data} className="mb-7" />
+				<Instructions recipe={data} className="mb-5" />
 			</View>
 		</ScrollView>
 	);
@@ -100,36 +81,5 @@ export default function AddRecipeConfirmScreen() {
 const styles = StyleSheet.create({
 	container: {
 		paddingBottom: theme.spacing.xl,
-	},
-	actions: {
-		position: "absolute",
-		right: theme.spacing.l,
-		left: theme.spacing.l,
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
-	image: {
-		height: 300,
-		marginBottom: theme.spacing.l,
-	},
-	content: {
-		paddingHorizontal: theme.spacing.xl,
-	},
-	name: {
-		marginBottom: theme.spacing.xs,
-	},
-	description: {
-		marginBottom: theme.spacing.l,
-	},
-	ingredients: {
-		marginBottom: theme.spacing.l,
-	},
-	instruction: {
-		marginBottom: theme.spacing.s,
-		flexDirection: "row",
-		gap: theme.spacing.s,
-	},
-	instructionText: {
-		flex: 1,
 	},
 });

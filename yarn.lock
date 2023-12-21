@@ -2177,11 +2177,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-9.3.10.tgz#9b6cc2aec9329b5ccf35e866094c43aa420d927a"
   integrity sha512-OwnqoJUp/4sa9e3ju+wQavAa8l0fiA3DheeLMKzKxtKeAe0CA7bNxWRM752JvRQ6A/igPnt1V0zSlu5owvQEuA==
 
-"@react-native-menu/menu@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@react-native-menu/menu/-/menu-0.9.1.tgz#aff9f327938dbb7dc44eeabc00da4d2d8e1a4222"
-  integrity sha512-PdZoN1P72ESQ7UTzm5YI4W+87KU5mv7vVJ3GsQVRtnrzzuVskfp5E9ds1biGClcTieXAdIZ7hvPD1HHHZPobdg==
-
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.72.0.tgz#c82a76a1d86ec0c3907be76f7faf97a32bbed05d"

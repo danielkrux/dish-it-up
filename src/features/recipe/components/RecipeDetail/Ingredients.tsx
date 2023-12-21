@@ -6,7 +6,7 @@ import { Recipe } from "../../recipe.types";
 function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
 	return (
 		<View style={props.style}>
-			<Text type="header" className="mb-4" size="xl">
+			<Text type="header" className="mb-2 md:mb-4" size="xl">
 				Ingredients
 			</Text>
 			<View className="g-2">
