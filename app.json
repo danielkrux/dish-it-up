@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"name": "dish-it-up",
+		"name": "Dish it Up",
 		"slug": "dish-it-up",
 		"version": "1.0.0",
 		"orientation": "portrait",
@@ -9,7 +9,7 @@
 		"splash": {
 			"image": "./assets/splash.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"backgroundColor": "#BFCFBC"
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
@@ -20,7 +20,7 @@
 		"android": {
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#ffffff"
+				"backgroundColor": "#BFCFBC"
 			},
 			"package": "com.danielkrux.dishitup",
 			"softwareKeyboardLayoutMode": "resize"
