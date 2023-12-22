@@ -10,7 +10,6 @@ import {
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { getInitialURL, useURL } from "expo-linking";
 import { Stack } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
 import { Platform, StatusBar } from "react-native";
@@ -21,7 +20,6 @@ import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
-import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import theme from "../theme";
 
 NativeWindStyleSheet.setOutput({
@@ -65,10 +63,6 @@ const Layout = () => {
 							screenOptions={{
 								headerShadowVisible: false,
 								headerTintColor: theme.colors.text,
-								animation: Platform.select({
-									android: "fade",
-									ios: "default",
-								}),
 							}}
 						>
 							<Stack.Screen

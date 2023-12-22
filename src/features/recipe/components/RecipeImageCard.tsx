@@ -7,13 +7,17 @@ import useHomeContext from "~/features/home/hooks/useHomeContext";
 import { SCREEN_WIDTH, isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
 
+export type RecipeImageCardProps = {
+	recipe?: Recipe;
+	onPress?: () => void;
+	classsName?: string;
+};
+
 export default function RecipeImageCard({
 	recipe,
 	onPress,
-}: {
-	recipe?: Recipe;
-	onPress?: () => void;
-}) {
+	classsName,
+}: RecipeImageCardProps) {
 	const { recipeId } = useHomeContext();
 	const cardWidth = SCREEN_WIDTH / 2.2;
 
@@ -21,9 +25,13 @@ export default function RecipeImageCard({
 
 	return (
 		<Pressable
-			className={clsx("md:px-2 md:py-2 flex-row bg-white", {
-				"bg-primary": selected,
-			})}
+			className={clsx(
+				"md:px-2 md:py-2 flex-row bg-white",
+				{
+					"bg-primary": selected,
+				},
+				classsName,
+			)}
 			style={isTablet ? { width: cardWidth, borderRadius: 24 } : {}}
 			onPress={onPress}
 		>
