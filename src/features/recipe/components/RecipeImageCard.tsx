@@ -26,7 +26,7 @@ export default function RecipeImageCard({
 	return (
 		<Pressable
 			className={clsx(
-				"md:px-2 md:py-2 flex-row bg-white",
+				"md:px-2 md:py-2 rounded-2xl overflow-hidden flex-row bg-white",
 				{
 					"bg-primary": selected,
 				},
@@ -34,6 +34,7 @@ export default function RecipeImageCard({
 			)}
 			style={isTablet ? { width: cardWidth, borderRadius: 24 } : {}}
 			onPress={onPress}
+			android_ripple={{ color: "#ccc" }}
 		>
 			{recipe?.image_url && (
 				<Image

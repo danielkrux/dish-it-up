@@ -32,12 +32,11 @@
 		"plugins": [
 			"expo-router",
 			"expo-build-properties",
-			"expo-config-plugin-ios-share-extension",
 			[
-				"expo-build-properties",
+				"expo-config-plugin-ios-share-extension",
 				{
-					"android": {
-						"kotlinVersion": "1.8.10"
+					"activationRules": {
+						"NSExtensionActivationSupportsWebURLWithMaxCount": 1
 					}
 				}
 			],
@@ -51,6 +50,12 @@
 						"buildToolsVersion": "33.0.0",
 						"kotlinVersion": "1.8.0"
 					}
+				}
+			],
+			[
+				"./src/plugins/withAndroidShareExtension/index.js",
+				{
+					"androidIntentFilters": ["text/*", "image/*"]
 				}
 			]
 		],

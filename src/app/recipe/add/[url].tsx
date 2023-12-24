@@ -4,6 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import {
+	ActivityIndicator,
 	Platform,
 	ScrollView,
 	StatusBar,
@@ -29,7 +30,7 @@ export default function AddRecipeConfirmScreen() {
 
 	const urlValid = isValidUrl(url);
 
-	const { data } = useQuery(
+	const { data, isLoading } = useQuery(
 		["parse-recipe", url],
 		() => parseRecipe(url as string),
 		{
@@ -39,7 +40,9 @@ export default function AddRecipeConfirmScreen() {
 
 	const { mutate } = useCreateRecipe();
 
-	if (!data) return null;
+	if (isLoading || !data) {
+		return <ActivityIndicator className="flex-1" size={48} />;
+	}
 
 	return (
 		<ScrollView className="pb-6" contentContainerStyle={styles.container}>
