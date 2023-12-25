@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -11,7 +10,6 @@ import {
 } from "~/components/Inputs/ControlledInputs";
 import theme from "~/theme";
 import useFetchCategories from "../hooks/useFetchCategories";
-import { getCategories, getRecipeCategories } from "../recipe.service";
 import { Recipe, RecipeUpdate } from "../recipe.types";
 
 const emtpyRecipe: RecipeUpdate = {

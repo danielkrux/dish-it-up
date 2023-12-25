@@ -1,24 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
 	FlatList,
 	ListRenderItemInfo,
+	Platform,
 	Pressable,
 	StyleSheet,
 	View,
 } from "react-native";
 
-import Button from "../components/Button";
-import Check from "../components/Check";
-import Text from "../components/Text";
-import { createMealPlan } from "../features/meal-planner/mealPlanner.service";
-import RecipeImageCard from "../features/recipe/components/RecipeImageCard";
-import { getRecipes } from "../features/recipe/recipe.service";
-import { Recipe } from "../features/recipe/recipe.types";
-import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
-import theme from "../theme";
+import Button from "../../components/Button";
+import Check from "../../components/Check";
+import Text from "../../components/Text";
+import { createMealPlan } from "../../features/meal-planner/mealPlanner.service";
+import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
+import { getRecipes } from "../../features/recipe/recipe.service";
+import { Recipe } from "../../features/recipe/recipe.types";
+import useSafeAreaInsets from "../../hooks/useSafeAreaInsets";
+import theme from "../../theme";
 
 function keyExtractor(recipe: Recipe) {
 	return recipe.id.toString();
@@ -76,27 +77,40 @@ function SelectRecipe() {
 	}
 
 	return (
-		<View className="flex-1 py-6">
-			<FlatList
-				data={data}
-				renderItem={renderRecipe}
-				keyExtractor={keyExtractor}
-				contentContainerStyle={styles.recipeList}
-				ListHeaderComponent={
-					<Text type="header" size="xl">
-						Select Recipes for {format(date, "EEEE")}
-					</Text>
-				}
+		<>
+			<Stack.Screen
+				name="select-recipe"
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					animation: Platform.select({
+						android: "fade_from_bottom",
+						ios: "default",
+					}),
+				}}
 			/>
-			<Button
-				style={{ bottom: insets.bottom }}
-				className="absolute mx-4 left-0 right-0"
-				onPress={handleSave}
-				size="large"
-			>
-				Save
-			</Button>
-		</View>
+			<View className="flex-1 py-6">
+				<FlatList
+					data={data}
+					renderItem={renderRecipe}
+					keyExtractor={keyExtractor}
+					contentContainerStyle={styles.recipeList}
+					ListHeaderComponent={
+						<Text type="header" size="xl">
+							Select Recipes for {format(date, "EEEE")}
+						</Text>
+					}
+				/>
+				<Button
+					style={{ bottom: insets.bottom }}
+					className="absolute mx-4 left-0 right-0"
+					onPress={handleSave}
+					size="large"
+				>
+					Save
+				</Button>
+			</View>
+		</>
 	);
 }
 

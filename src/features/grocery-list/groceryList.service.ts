@@ -28,7 +28,7 @@ export async function createGroceryList(items: string[]) {
 }
 
 export async function updateGroceryListItem(
-  groceryItem: GroceryListItemUpdate,
+  groceryItem: GroceryListItemUpdate
 ) {
   const result = await supabase
     .from("grocery_list")

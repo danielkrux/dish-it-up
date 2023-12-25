@@ -31,7 +31,7 @@ export function ControlledInput<T extends FieldValues>({
 	const Container = label ? View : Fragment;
 
 	return (
-		<Container>
+		<Container className="self-stretch">
 			{label && <Text style={styles.inputLabel}>{label}</Text>}
 			<InputBase
 				ref={field.ref}

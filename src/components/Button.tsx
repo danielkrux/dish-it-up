@@ -1,4 +1,9 @@
-import { Pressable, PressableProps, StyleSheet } from "react-native";
+import {
+	ActivityIndicator,
+	Pressable,
+	PressableProps,
+	StyleSheet,
+} from "react-native";
 import theme from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
@@ -7,6 +12,7 @@ export type ButtonProps = {
 	size?: "small" | "large";
 	variant?: "primary" | "secondary" | "ghost";
 	children: string;
+	loading?: boolean;
 	icon?: IconProps["name"];
 } & PressableProps;
 
@@ -14,6 +20,7 @@ export default function Button({
 	variant = "primary",
 	size = "small",
 	disabled,
+	loading,
 	children,
 	style,
 	icon,
@@ -38,9 +45,13 @@ export default function Button({
 			{...props}
 		>
 			{icon && <Icon name={icon} size={16} />}
-			<Text type="header" style={[textStyle, textSizeStyle]}>
-				{children}
-			</Text>
+			{!loading ? (
+				<Text type="header" style={[textStyle, textSizeStyle]}>
+					{children}
+				</Text>
+			) : (
+				<ActivityIndicator color={theme.colors.secondary} />
+			)}
 		</Pressable>
 	);
 }

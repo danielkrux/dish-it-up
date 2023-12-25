@@ -25,7 +25,7 @@ export async function useHandleUrlShare() {
 
     setTimeout(() => {
       if (queryParams?.url && typeof queryParams.url === "string") {
-        router.push(`/recipe/add/${encodeURIComponent(queryParams.url)}`);
+        router.push(`/(app)/recipe/add/${encodeURIComponent(queryParams.url)}`);
         setUrl(null);
       }
     }, 1);
@@ -34,7 +34,7 @@ export async function useHandleUrlShare() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (shareIntent?.text) {
-      router.push(`/recipe/add/${encodeURIComponent(shareIntent.text)}`);
+      router.push(`/(app)/recipe/add/${encodeURIComponent(shareIntent.text)}`);
       resetShareIntent();
     }
   }, [shareIntent]);

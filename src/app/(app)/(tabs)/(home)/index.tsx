@@ -53,7 +53,7 @@ export default function Home() {
 				if (isTablet) {
 					setRecipeId(item.id);
 				} else {
-					router.push(`/recipe/${item.id}/`);
+					router.push(`/(app)/recipe/${item.id}/`);
 				}
 			};
 

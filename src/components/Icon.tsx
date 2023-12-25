@@ -1,8 +1,9 @@
 import FeatherIcons from "@expo/vector-icons/Feather";
 import { StyleProp, ViewStyle } from "react-native";
+import Logo from "~/assets/logo.svg";
 import theme from "../theme";
 
-export type IconName = keyof typeof FeatherIcons.glyphMap;
+export type IconName = keyof typeof FeatherIcons.glyphMap | "logo";
 
 export type IconProps = {
 	name: IconName;
@@ -22,6 +23,9 @@ export default function Icon({
 	className,
 }: IconProps) {
 	const c = color ? color : light ? theme.colors.white : theme.colors.text;
+
+	if (name === "logo") return <Logo width={size} height={size} style={style} />;
+
 	return (
 		<FeatherIcons
 			className={className}

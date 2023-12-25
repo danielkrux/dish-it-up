@@ -1,4 +1,4 @@
-import { Tabs, useRouter } from "expo-router";
+import { Stack, Tabs, useRouter } from "expo-router";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import HomeProvider from "~/features/home/HomeContext";

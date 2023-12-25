@@ -44,14 +44,14 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 	}
 
 	function handleGoToGroceriesSelect() {
-		router.push(`/recipe/${mealPlan.recipe_id}/select-groceries`);
+		router.push(`/(app)/recipe/${mealPlan.recipe_id}/select-groceries`);
 		setTimeout(() => {
 			swipeableRef.current?.close();
 		}, 1000);
 	}
 
 	function handleNavigateToRecipe() {
-		router.push(`/recipe/${mealPlan.recipe_id}/`);
+		router.push(`/(app)/recipe/${mealPlan.recipe_id}/`);
 	}
 
 	return (

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, forwardRef, useRef } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { Animated, Pressable, StyleProp, View, ViewStyle } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 

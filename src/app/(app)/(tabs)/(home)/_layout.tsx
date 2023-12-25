@@ -38,7 +38,7 @@ export default function HomeTabLayout() {
 							<IconButton
 								size="medium"
 								icon="maximize-2"
-								onPress={() => router.push(`/recipe/${recipeId}/`)}
+								onPress={() => router.push(`/(app)/recipe/${recipeId}/`)}
 							/>
 							<ContextMenu
 								iconButtonSize="medium"
@@ -46,12 +46,13 @@ export default function HomeTabLayout() {
 									{
 										label: "Add to grocery list",
 										onPress: () =>
-											router.push(`/recipe/${recipeId}/select-groceries`),
+											router.push(`/(app)/recipe/${recipeId}/select-groceries`),
 										icon: "shopping-cart",
 									},
 									{
 										label: "Edit...",
-										onPress: () => router.push(`/recipe/${recipeId}/edit`),
+										onPress: () =>
+											router.push(`/(app)/recipe/${recipeId}/edit`),
 										icon: "edit-2",
 									},
 									{

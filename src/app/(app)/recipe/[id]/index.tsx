@@ -34,12 +34,13 @@ export default function RecipeDetailPage() {
 							actions={[
 								{
 									label: "Add to grocery list",
-									onPress: () => router.push(`/recipe/${id}/select-groceries`),
+									onPress: () =>
+										router.push(`/(app)/recipe/${id}/select-groceries`),
 									icon: "shopping-cart",
 								},
 								{
 									label: "Edit...",
-									onPress: () => router.push(`/recipe/${id}/edit`),
+									onPress: () => router.push(`/(app)/recipe/${id}/edit`),
 									icon: "edit-2",
 								},
 								{

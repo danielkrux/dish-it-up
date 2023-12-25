@@ -30,7 +30,9 @@ function RecipeImageCardWithContext(props: RecipeImageCardWithContextProps) {
 					</ContextMenu.Preview>
 					<ContextMenu.Item
 						key="edit"
-						onSelect={() => router.push(`/recipe/${props.recipe?.id}/edit`)}
+						onSelect={() =>
+							router.push(`/(app)/recipe/${props.recipe?.id}/edit`)
+						}
 					>
 						<ContextMenu.ItemIcon ios={{ name: "pencil" }} />
 						<ContextMenu.ItemTitle>Edit</ContextMenu.ItemTitle>
@@ -38,7 +40,7 @@ function RecipeImageCardWithContext(props: RecipeImageCardWithContextProps) {
 					<ContextMenu.Item
 						key="groceries"
 						onSelect={() =>
-							router.push(`/recipe/${props.recipe?.id}/select-groceries`)
+							router.push(`/(app)/recipe/${props.recipe?.id}/select-groceries`)
 						}
 					>
 						<ContextMenu.ItemIcon ios={{ name: "cart" }} />

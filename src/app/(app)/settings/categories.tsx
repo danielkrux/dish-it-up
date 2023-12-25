@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import FloatingButton from "~/components/FloatingButton";
 import IconButton from "~/components/IconButton";
