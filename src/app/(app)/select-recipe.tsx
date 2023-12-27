@@ -1,25 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
 	FlatList,
 	ListRenderItemInfo,
-	Platform,
 	Pressable,
 	StyleSheet,
 	View,
 } from "react-native";
 
-import Button from "../../components/Button";
-import Check from "../../components/Check";
-import Text from "../../components/Text";
-import { createMealPlan } from "../../features/meal-planner/mealPlanner.service";
-import RecipeImageCard from "../../features/recipe/components/RecipeImageCard";
-import { getRecipes } from "../../features/recipe/recipe.service";
-import { Recipe } from "../../features/recipe/recipe.types";
-import useSafeAreaInsets from "../../hooks/useSafeAreaInsets";
-import theme from "../../theme";
+import Button from "~/components/Button";
+import Check from "~/components/Check";
+import Text from "~/components/Text";
+import { createMealPlan } from "~/features/meal-planner/mealPlanner.service";
+import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
+import { getRecipes } from "~/features/recipe/recipe.service";
+import { Recipe } from "~/features/recipe/recipe.types";
+import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
+import theme from "~/theme";
 
 function keyExtractor(recipe: Recipe) {
 	return recipe.id.toString();
@@ -65,9 +64,10 @@ function SelectRecipe() {
 		return (
 			<Pressable
 				onPress={() => handleRecipePress(item)}
-				className="flex-row justify-between items-center g-6"
+				className="flex-row justify-between items-center g-2"
 			>
 				<RecipeImageCard
+					classsName="flex-1"
 					recipe={item}
 					onPress={() => handleRecipePress(item)}
 				/>
@@ -94,6 +94,7 @@ function SelectRecipe() {
 				className="absolute mx-4 left-0 right-0"
 				onPress={handleSave}
 				size="large"
+				loading={mutation.isLoading}
 			>
 				Save
 			</Button>

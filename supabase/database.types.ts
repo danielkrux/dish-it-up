@@ -14,18 +14,29 @@ export interface Database {
           created_at: string
           id: number
           name: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           name: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           name?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "categories_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       grocery_list: {
         Row: {
@@ -34,6 +45,7 @@ export interface Database {
           created_at: string
           id: number
           name: string | null
+          user_id: string | null
         }
         Insert: {
           completed?: boolean
@@ -41,6 +53,7 @@ export interface Database {
           created_at?: string
           id?: number
           name?: string | null
+          user_id?: string | null
         }
         Update: {
           completed?: boolean
@@ -48,23 +61,17 @@ export interface Database {
           created_at?: string
           id?: number
           name?: string | null
+          user_id?: string | null
         }
-        Relationships: []
-      }
-      groups: {
-        Row: {
-          created_at: string
-          id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-        }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "grocery_list_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       meal_plans: {
         Row: {
@@ -72,18 +79,21 @@ export interface Database {
           date: string | null
           id: number
           recipe_id: number
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           date?: string | null
           id?: number
           recipe_id: number
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           date?: string | null
           id?: number
           recipe_id?: number
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -91,6 +101,13 @@ export interface Database {
             columns: ["recipe_id"]
             isOneToOne: false
             referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "meal_plans_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
@@ -129,7 +146,6 @@ export interface Database {
         Row: {
           created_at: string
           description: string | null
-          group_id: number | null
           id: number
           image_url: string | null
           ingredients: string[] | null
@@ -137,70 +153,35 @@ export interface Database {
           name: string | null
           recipe_yield: string | null
           total_time: string | null
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          group_id?: number | null
-          id?: number
-          image_url?: string | null
-          ingredients?: string[] | null
-          instructions?: string[] | null
-          name?: string | null
-          recipe_yield?: string | null
-          total_time?: string | null
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          group_id?: number | null
-          id?: number
-          image_url?: string | null
-          ingredients?: string[] | null
-          instructions?: string[] | null
-          name?: string | null
-          recipe_yield?: string | null
-          total_time?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "recipes_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "user_group"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      user_group: {
-        Row: {
-          created_at: string
-          group_id: number | null
-          id: number
           user_id: string | null
         }
         Insert: {
           created_at?: string
-          group_id?: number | null
+          description?: string | null
           id?: number
+          image_url?: string | null
+          ingredients?: string[] | null
+          instructions?: string[] | null
+          name?: string | null
+          recipe_yield?: string | null
+          total_time?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
-          group_id?: number | null
+          description?: string | null
           id?: number
+          image_url?: string | null
+          ingredients?: string[] | null
+          instructions?: string[] | null
+          name?: string | null
+          recipe_yield?: string | null
+          total_time?: string | null
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "user_group_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_group_user_id_fkey"
+            foreignKeyName: "recipes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

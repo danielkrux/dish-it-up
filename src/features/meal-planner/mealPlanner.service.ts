@@ -1,4 +1,5 @@
 import { supabase } from "~/app/_layout";
+import { getSession } from "../auth/auth.service";
 import { MealPlanCreate } from "./mealPlanner.types";
 
 export async function fetchMealPlan() {
@@ -12,7 +13,9 @@ export async function fetchMealPlan() {
 }
 
 export async function createMealPlan(items: MealPlanCreate[]) {
-  const result = await supabase.from("meal_plans").insert(items);
+  const { user } = await getSession();
+  const itemsWithUserId = items.map((item) => ({ ...item, user_id: user?.id }));
+  const result = await supabase.from("meal_plans").insert(itemsWithUserId);
 
   if (result.error) {
     throw new Error(result.error.message);
