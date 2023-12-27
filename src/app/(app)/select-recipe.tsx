@@ -77,40 +77,27 @@ function SelectRecipe() {
 	}
 
 	return (
-		<>
-			<Stack.Screen
-				name="select-recipe"
-				options={{
-					presentation: "modal",
-					headerShown: false,
-					animation: Platform.select({
-						android: "fade_from_bottom",
-						ios: "default",
-					}),
-				}}
+		<View className="flex-1 py-6">
+			<FlatList
+				data={data}
+				renderItem={renderRecipe}
+				keyExtractor={keyExtractor}
+				contentContainerStyle={styles.recipeList}
+				ListHeaderComponent={
+					<Text type="header" size="xl">
+						Select Recipes for {format(date, "EEEE")}
+					</Text>
+				}
 			/>
-			<View className="flex-1 py-6">
-				<FlatList
-					data={data}
-					renderItem={renderRecipe}
-					keyExtractor={keyExtractor}
-					contentContainerStyle={styles.recipeList}
-					ListHeaderComponent={
-						<Text type="header" size="xl">
-							Select Recipes for {format(date, "EEEE")}
-						</Text>
-					}
-				/>
-				<Button
-					style={{ bottom: insets.bottom }}
-					className="absolute mx-4 left-0 right-0"
-					onPress={handleSave}
-					size="large"
-				>
-					Save
-				</Button>
-			</View>
-		</>
+			<Button
+				style={{ bottom: insets.bottom }}
+				className="absolute mx-4 left-0 right-0"
+				onPress={handleSave}
+				size="large"
+			>
+				Save
+			</Button>
+		</View>
 	);
 }
 

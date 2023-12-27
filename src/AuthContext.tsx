@@ -27,6 +27,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		});
 	}, []);
 
+	console.log(session);
+
 	return (
 		<AuthContext.Provider value={{ user: session?.user, session, setSession }}>
 			{children}

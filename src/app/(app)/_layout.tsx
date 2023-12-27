@@ -37,6 +37,28 @@ function Layout() {
 				}}
 			/>
 			<Stack.Screen
+				name="recipe/[id]/select-groceries"
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					animation: Platform.select({
+						android: "fade_from_bottom",
+						ios: "default",
+					}),
+				}}
+			/>
+			<Stack.Screen
+				name="select-recipe"
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					animation: Platform.select({
+						android: "fade_from_bottom",
+						ios: "default",
+					}),
+				}}
+			/>
+			<Stack.Screen
 				name="settings/index"
 				options={{
 					title: "Settings",

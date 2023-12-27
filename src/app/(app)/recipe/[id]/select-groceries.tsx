@@ -28,38 +28,25 @@ function SelectGroceries() {
 	}
 
 	return (
-		<>
-			<Stack.Screen
-				name="recipe/[id]/select-groceries"
-				options={{
-					presentation: "modal",
-					headerShown: false,
-					animation: Platform.select({
-						android: "fade_from_bottom",
-						ios: "default",
-					}),
-				}}
-			/>
-			<View style={styles.container}>
-				<Text style={styles.title} type="header">
-					Select groceries
-				</Text>
-				<ScrollView>
-					{ingredients?.map((ingredient, index) => (
-						<ListButton
-							key={ingredient + index}
-							selectable
-							selected={selected.includes(ingredient)}
-							onPress={() => handleIngredientPress(ingredient)}
-							label={ingredient}
-						/>
-					))}
-				</ScrollView>
-				<FloatingButton useSafeArea onPress={() => mutate(selected)}>
-					Save
-				</FloatingButton>
-			</View>
-		</>
+		<View style={styles.container}>
+			<Text style={styles.title} type="header">
+				Select groceries
+			</Text>
+			<ScrollView>
+				{ingredients?.map((ingredient, index) => (
+					<ListButton
+						key={ingredient + index}
+						selectable
+						selected={selected.includes(ingredient)}
+						onPress={() => handleIngredientPress(ingredient)}
+						label={ingredient}
+					/>
+				))}
+			</ScrollView>
+			<FloatingButton useSafeArea onPress={() => mutate(selected)}>
+				Save
+			</FloatingButton>
+		</View>
 	);
 }
 

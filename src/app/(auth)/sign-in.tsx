@@ -8,7 +8,6 @@ import Icon from "~/components/Icon";
 import { ControlledInput } from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
 import { signInWithEmail } from "~/features/auth/auth.service";
-import useAuth from "~/hooks/useAuth";
 
 export type SignInFormData = {
 	email: string;
@@ -16,7 +15,6 @@ export type SignInFormData = {
 };
 
 function SignIn() {
-	const { session } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const { control, getValues } = useForm<SignInFormData>({
 		defaultValues: {
@@ -30,9 +28,7 @@ function SignIn() {
 		const { email, password } = getValues();
 		await signInWithEmail({ email, password });
 
-		if (session) {
-			router.replace("/(app)/(tabs)/(home)");
-		}
+		router.replace("/(app)/(tabs)/(home)");
 		setLoading(false);
 	}
 
