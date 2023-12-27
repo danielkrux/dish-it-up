@@ -1,4 +1,5 @@
 import { supabase } from "~/app/_layout";
+import { getSession } from "../auth/auth.service";
 import { GroceryListItemUpdate } from "./groceryList.types";
 
 export async function fetchGroceryList() {
@@ -16,7 +17,12 @@ export async function fetchGroceryList() {
 }
 
 export async function createGroceryList(items: string[]) {
-  const itemsToInsert = items.map((item) => ({ name: item }));
+  const { user } = await getSession();
+
+  const itemsToInsert = items.map((item) => ({
+    name: item,
+    user_id: user.id,
+  }));
 
   const result = await supabase.from("grocery_list").insert(itemsToInsert);
 

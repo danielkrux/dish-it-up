@@ -5,7 +5,11 @@ import useAuth from "~/hooks/useAuth";
 import theme from "../../theme";
 
 function Layout() {
-	const { session } = useAuth();
+	const { session, isLoading } = useAuth();
+
+	if (isLoading) {
+		return null;
+	}
 
 	if (!session) {
 		return <Redirect href="/sign-in" />;

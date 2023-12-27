@@ -1,6 +1,16 @@
 import { Alert } from "react-native";
 import { supabase } from "~/app/_layout";
 
+export async function getSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error || !data.session) {
+    throw new Error(error?.message);
+  }
+
+  return data.session;
+}
+
 export async function signInWithEmail({
   email,
   password,
