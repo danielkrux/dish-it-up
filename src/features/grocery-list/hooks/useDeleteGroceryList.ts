@@ -3,46 +3,43 @@ import { deleteGroceryListItem } from "../groceryList.service";
 import { GroceryListItem } from "../groceryList.types";
 
 type Options = {
-	onSuccess?: () => void;
-	onError?: (error: unknown) => void;
+  onSuccess?: () => void;
+  onError?: (error: unknown) => void;
 };
 
+const QUERY_KEY = "groceryList";
+
 function useDeleteGroceryItems(options?: Options) {
-	const queryClient = useQueryClient();
-	const deleteRecipeMutation = useMutation({
-		mutationFn: (ids: number[]) => deleteGroceryListItem(ids),
-		onMutate: async (ids) => {
-			await queryClient.cancelQueries(["groceryList"]);
+  const queryClient = useQueryClient();
+  const deleteRecipeMutation = useMutation({
+    mutationFn: (ids: number[]) => deleteGroceryListItem(ids),
+    onMutate: async (ids) => {
+      await queryClient.cancelQueries([QUERY_KEY]);
 
-			const previousItems = queryClient.getQueryData<GroceryListItem[]>([
-				"groceryList",
-			]);
+      const previousItems = queryClient.getQueryData<GroceryListItem[]>([
+        QUERY_KEY,
+      ]);
 
-			queryClient.setQueryData(["groceryList"], (old: any) => {
-				const newArr = old.filter((item: GroceryListItem) => {
-					return !ids.includes(item.id);
-				});
-				return newArr;
-			});
+      queryClient.setQueryData<GroceryListItem[]>([QUERY_KEY], (old) =>
+        old?.filter((item) => !ids.includes(item.id))
+      );
 
-			queryClient.invalidateQueries(["groceryList"], { exact: false });
+      return { previousItems };
+    },
+    onSuccess: () => {
+      options?.onSuccess?.();
+    },
+    onError: (error, _, context) => {
+      console.error(error);
+      options?.onError?.(error);
+      queryClient.setQueryData([QUERY_KEY], context?.previousItems);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
+    },
+  });
 
-			return { previousItems };
-		},
-		onSuccess: () => {
-			options?.onSuccess?.();
-		},
-		onError: (error, _, context) => {
-			console.error(error);
-			options?.onError?.(error);
-			queryClient.setQueryData(["groceryList"], context?.previousItems);
-		},
-		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: ["groceryList"] });
-		},
-	});
-
-	return deleteRecipeMutation;
+  return deleteRecipeMutation;
 }
 
 export default useDeleteGroceryItems;

@@ -63,7 +63,7 @@ export default function RecipeDetail({
 		>
 			{header}
 			<View className="mb-4">
-				<Text className="mb-4 mx-4" type="header">
+				<Text className="mb-2 mx-2" type="header">
 					{data?.name}
 				</Text>
 				{data?.image_url && (
