@@ -69,7 +69,7 @@ export default function RecipeDetail({
 				{data?.image_url && (
 					<Image
 						source={{ uri: data?.image_url }}
-						className="mx-4 aspect-video rounded-3xl"
+						className="mx-2 aspect-video rounded-2xl"
 					/>
 				)}
 			</View>
