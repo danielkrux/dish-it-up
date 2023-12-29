@@ -1,4 +1,5 @@
 import { supabase } from "~/app/_layout";
+import { getSession } from "../auth/auth.service";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
@@ -16,12 +17,15 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
 }
 
 export async function createRecipe(recipe?: RecipeCreate) {
+  const { user } = await getSession();
   if (!recipe || recipe === undefined) {
     console.error("No recipe to save");
     throw new Error("No recipe to save");
   }
 
-  const result = await supabase.from("recipes").insert(recipe);
+  const result = await supabase
+    .from("recipes")
+    .insert({ ...recipe, user_id: user?.id });
 
   if (result.error) {
     throw new Error(result.error.message);
