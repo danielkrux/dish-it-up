@@ -13,6 +13,8 @@ import {
 } from "react-native";
 
 import BlurButton from "~/components/BlurButton";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import Ingredients from "~/features/recipe/components/RecipeDetail/Ingredients";
 import Instructions from "~/features/recipe/components/RecipeDetail/Instructions";
@@ -30,7 +32,7 @@ export default function AddRecipeConfirmScreen() {
 
 	const urlValid = isValidUrl(url);
 
-	const { data, isLoading } = useQuery(
+	const { data, isError, isLoading } = useQuery(
 		["parse-recipe", url],
 		() => parseRecipe(url as string),
 		{
@@ -39,6 +41,23 @@ export default function AddRecipeConfirmScreen() {
 	);
 
 	const { mutate } = useCreateRecipe();
+
+	if (isError) {
+		return (
+			<View className="flex-1 justify-center items-center">
+				<Icon
+					color={theme.colors.primary}
+					name="alert-circle"
+					size={48}
+					className="mb-4"
+				/>
+				<Text className="mb-4" type="body">
+					Something went wrong importing the recipe
+				</Text>
+				<Button onPress={() => router.back()}>Go back</Button>
+			</View>
+		);
+	}
 
 	if (isLoading || !data) {
 		return <ActivityIndicator className="flex-1" size={48} />;
