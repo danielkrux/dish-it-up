@@ -1,7 +1,7 @@
+import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 
-import { Tabs } from "expo-router";
 import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import Icon from "~/components/Icon";
 import ListButton from "~/components/ListButton";
@@ -46,7 +46,7 @@ function GroceryList() {
 	}
 
 	return (
-		<View style={styles.container}>
+		<View className="flex-1">
 			<Tabs.Screen
 				options={{
 					headerRight: () => (
@@ -68,10 +68,7 @@ function GroceryList() {
 					),
 				}}
 			/>
-			<ScrollView
-				// contentInsetAdjustmentBehavior="automatic"
-				style={styles.list}
-			>
+			<ScrollView className="px-4">
 				{groceries.data?.map((grocery) => (
 					<SwipeableRow
 						key={grocery.id}
@@ -80,7 +77,6 @@ function GroceryList() {
 						rightStyle={styles.rightSwipeAction}
 					>
 						<ListButton
-							key={grocery.id}
 							label={grocery.name ?? ""}
 							onPress={() => handleGroceryItemPress(grocery)}
 							selected={grocery.completed}
@@ -88,13 +84,15 @@ function GroceryList() {
 						/>
 					</SwipeableRow>
 				))}
-				<View style={styles.addContainer}>
+				<View className="py-3 flex-row items-center flex-1  g-3">
 					<Icon size={24} name="plus" color={pallettes.black[500]} />
 					<TextInput
 						ref={addRef}
 						placeholder="Add new item..."
 						style={{ fontFamily: "Body", color: theme.colors.secondary }}
 						cursorColor={theme.colors.secondary}
+						placeholderTextColor={pallettes.black[500]}
+						blurOnSubmit={false}
 						onSubmitEditing={(event) =>
 							handleAddGroceryItem(event.nativeEvent.text)
 						}
@@ -108,24 +106,6 @@ function GroceryList() {
 export default GroceryList;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingTop: 0,
-	},
-	title: {
-		marginHorizontal: theme.spacing.m,
-	},
-	list: {
-		paddingHorizontal: theme.spacing.m,
-	},
-	addContainer: {
-		paddingVertical: theme.spacing.s,
-		flexDirection: "row",
-		alignItems: "center",
-		flex: 1,
-		justifyContent: "flex-start",
-		gap: theme.spacing.s,
-	},
 	rightSwipeAction: {
 		backgroundColor: pallettes.red[100],
 	},
