@@ -12,7 +12,11 @@ function RecipeQuickFilter() {
 
 	const { data } = useQuery(["categories"], getCategories, {
 		select: (data) => {
-			const categories = [{ name: "All", id: DEFAULT_FILTER }, ...data];
+			const categoriesWithRecipes = data.filter((c) => c.numberOfRecipes > 0);
+			const categories = [
+				{ name: "All", id: DEFAULT_FILTER },
+				...categoriesWithRecipes,
+			];
 			return categories.map((category) => ({
 				label: category.name,
 				value: String(category.id),

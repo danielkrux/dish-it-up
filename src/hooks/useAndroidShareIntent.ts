@@ -61,7 +61,6 @@ export default function useAndroidShareIntent() {
   const refreshShareIntent = async () => {
     try {
       const result = await getShareIntentAsync();
-      console.log(result);
       setShareIntent(result);
     } catch (err) {
       // @ts-ignore

@@ -3,35 +3,35 @@ import parseHtmlToRecipeSchema from "./parseHtmlToRecipeSchema.ts";
 import parseSchemaToRecipe from "./parseSchemaToRecipe.ts";
 
 serve(async (req) => {
-	const { searchParams } = new URL(req.url);
-	const url = searchParams.get("url");
+  const { searchParams } = new URL(req.url);
+  const url = searchParams.get("url");
 
-	if (!url) {
-		return new Response("URL is required", {
-			headers: { "Content-Type": "text/plain" },
-			status: 400,
-		});
-	}
+  if (!url) {
+    return new Response("URL is required", {
+      headers: { "Content-Type": "text/plain" },
+      status: 400,
+    });
+  }
 
-	try {
-		const response = await fetch(url);
+  try {
+    const response = await fetch(url);
 
-		console.log("fetching the url...");
-		const html = await response.text();
+    console.log("fetching the url...");
+    const html = await response.text();
 
-		const schema = parseHtmlToRecipeSchema(html);
-		const recipe = parseSchemaToRecipe(schema);
+    const schema = parseHtmlToRecipeSchema(html);
+    const recipe = parseSchemaToRecipe(schema);
 
-		return new Response(JSON.stringify(recipe), {
-			headers: { "Content-Type": "application/json" },
-		});
-	} catch (error) {
-		console.error(error);
-		return new Response(error.message, {
-			headers: { "Content-Type": "text/plain" },
-			status: 400,
-		});
-	}
+    return new Response(JSON.stringify(recipe), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response(error.message, {
+      headers: { "Content-Type": "text/plain" },
+      status: 400,
+    });
+  }
 });
 
 // To invoke:

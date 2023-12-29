@@ -145,7 +145,8 @@ export async function getCategories() {
         ...acc,
         //@ts-ignore
         [curr.category_id]: acc[curr.category_id]
-          ? acc[curr.category_id] + 1
+          ? //@ts-ignore
+            acc[curr.category_id] + 1
           : 1,
       };
     }, {});
@@ -160,17 +161,15 @@ export async function getCategories() {
   }
 
   return (
-    resultWithCount
-      ?.filter((c) => c.numberOfRecipes)
-      .sort((a, b) => {
-        if (a.numberOfRecipes > b.numberOfRecipes) {
-          return -1;
-        }
-        if (a.numberOfRecipes < b.numberOfRecipes) {
-          return 1;
-        }
-        return 0;
-      }) ?? []
+    resultWithCount?.sort((a, b) => {
+      if (a.numberOfRecipes > b.numberOfRecipes) {
+        return -1;
+      }
+      if (a.numberOfRecipes < b.numberOfRecipes) {
+        return 1;
+      }
+      return 0;
+    }) ?? []
   );
 }
 
@@ -191,6 +190,8 @@ export async function getRecipeCategories(recipeId?: number) {
 }
 
 export async function createCategory(name?: string) {
+  if (!name) throw new Error("No category name provided");
+
   const result = await supabase.from("categories").insert({ name });
 
   if (result.error) {
@@ -211,6 +212,8 @@ export async function deleteCategory(id: number) {
 }
 
 export async function editCategory(id: number, name?: string | null) {
+  if (!name) throw new Error("No category name provided");
+
   const result = await supabase
     .from("categories")
     .update({ name })
