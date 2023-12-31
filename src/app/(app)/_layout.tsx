@@ -52,7 +52,18 @@ function Layout() {
 				}}
 			/>
 			<Stack.Screen
-				name="select-recipe"
+				name="meal-planner/select-recipe"
+				options={{
+					presentation: "modal",
+					headerShown: false,
+					animation: Platform.select({
+						android: "fade_from_bottom",
+						ios: "default",
+					}),
+				}}
+			/>
+			<Stack.Screen
+				name="meal-planner/grocery-list"
 				options={{
 					presentation: "modal",
 					headerShown: false,

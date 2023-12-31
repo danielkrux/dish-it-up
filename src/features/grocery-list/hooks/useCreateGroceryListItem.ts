@@ -20,7 +20,7 @@ function useCreateGroceryListItem(options?: Options) {
       ]);
 
       queryClient.setQueryData(["groceryList"], (old: any) => [
-        ...old,
+        ...(old ?? []),
         ...items.map((item) => ({ name: item })),
       ]);
 

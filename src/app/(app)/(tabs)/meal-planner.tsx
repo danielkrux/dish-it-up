@@ -9,15 +9,15 @@ import {
 import { useRouter } from "expo-router";
 import { groupBy } from "lodash";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import FloatingButton from "~/components/FloatingButton";
 
 import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
-import theme from "~/theme";
 
 function MealPlanner() {
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,9 +32,17 @@ function MealPlanner() {
 		select: (data) => groupBy(data, (item) => item.date),
 	});
 
+	const currentMealPlans = Object.values(data || {})
+		.filter((_, index) => {
+			const key = Object.keys(data || {})[index];
+			const date = new Date(key);
+			return date >= firstDay && date <= lastDay;
+		})
+		.flat();
+
 	function handleSelectRecipe(date: Date) {
 		//@ts-ignore
-		router.push(`/select-recipe?date=${date.toISOString()}`);
+		router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
 	}
 
 	return (
@@ -74,7 +82,7 @@ function MealPlanner() {
 									icon="plus"
 								/>
 							</View>
-							<View style={styles.recipes}>
+							<View className="g-4">
 								{mealPlans?.map((item) => (
 									<MealPlanItem key={item.id} mealPlan={item} />
 								))}
@@ -83,14 +91,20 @@ function MealPlanner() {
 					);
 				})}
 			</ScrollView>
+			<FloatingButton
+				onPress={() =>
+					router.push(
+						//@ts-ignore
+						`/meal-planner/grocery-list?ids=${currentMealPlans
+							.map((mp) => mp.recipe_id)
+							.join(",")}`,
+					)
+				}
+			>
+				Create Grocery List
+			</FloatingButton>
 		</View>
 	);
 }
 
 export default MealPlanner;
-
-const styles = StyleSheet.create({
-	recipes: {
-		gap: theme.spacing.m,
-	},
-});

@@ -1,4 +1,5 @@
 import { Stack, Tabs, useRouter } from "expo-router";
+import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import HomeProvider from "~/features/home/HomeContext";

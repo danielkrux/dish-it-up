@@ -44,14 +44,14 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 	}
 
 	function handleGoToGroceriesSelect() {
-		router.push(`/(app)/recipe/${mealPlan.recipe_id}/select-groceries`);
+		router.push(`/recipe/${mealPlan.recipe_id}/select-groceries`);
 		setTimeout(() => {
 			swipeableRef.current?.close();
 		}, 1000);
 	}
 
 	function handleNavigateToRecipe() {
-		router.push(`/(app)/recipe/${mealPlan.recipe_id}/`);
+		router.push(`/recipe/${mealPlan.recipe_id}/`);
 	}
 
 	return (
@@ -61,7 +61,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			rightIcon="trash-2"
 			onRightOpen={handleDeleteMealPlan}
 			leftStyle={styles.leftAction}
-			leftIcon="edit-2"
+			leftIcon="shopping-cart"
 			onLeftOpen={handleGoToGroceriesSelect}
 			onPress={handleNavigateToRecipe}
 		>

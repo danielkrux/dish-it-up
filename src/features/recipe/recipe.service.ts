@@ -113,11 +113,28 @@ export async function getRecipes(searchQuery?: string) {
 }
 
 export async function getRecipe(id?: number) {
+  if (!id) throw new Error("No recipe id provided");
+
   const result = await supabase
     .from("recipes")
     .select("*, categories(*)")
     .eq("id", id)
     .single();
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
+}
+
+export async function getRecipeByIds(ids?: number[]) {
+  if (!ids) throw new Error("No recipe ids provided");
+
+  const result = await supabase
+    .from("recipes")
+    .select("*, categories(*)")
+    .in("id", ids);
 
   if (result.error) {
     throw new Error(result.error.message);
