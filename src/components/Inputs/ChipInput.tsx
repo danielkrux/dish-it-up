@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
 	NativeSyntheticEvent,
 	StyleSheet,
@@ -7,7 +7,7 @@ import {
 	TextInputSubmitEditingEventData,
 	View,
 } from "react-native";
-import Animated, { FadeIn } from "react-native-reanimated";
+import { ScrollView } from "react-native-gesture-handler";
 
 import theme, { pallettes } from "~/theme";
 import { nanoid } from "~/utils/random";
@@ -106,13 +106,23 @@ export function ChipInput({
 					]}
 				/>
 			</View>
-			<Animated.View entering={FadeIn} style={styles.suggestions}>
-				{data?.map((item) => {
+			<ScrollView
+				showsHorizontalScrollIndicator={false}
+				horizontal
+				contentContainerStyle={styles.suggestions}
+			>
+				{data?.map((item, i) => {
 					if (value.find((i) => i.value === item.value)) return;
 
-					return <Chip {...item} onPress={handleSuggestionPress} />;
+					return (
+						<Chip
+							key={`${item.value}-${i}`}
+							{...item}
+							onPress={handleSuggestionPress}
+						/>
+					);
 				})}
-			</Animated.View>
+			</ScrollView>
 		</View>
 	);
 }
@@ -135,8 +145,6 @@ const styles = StyleSheet.create({
 	},
 	suggestions: {
 		marginTop: 4,
-		alignItems: "flex-start",
-		flexDirection: "row",
 		gap: theme.spacing.xs / 2,
 	},
 });

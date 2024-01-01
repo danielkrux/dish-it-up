@@ -73,6 +73,41 @@ export interface Database {
           }
         ]
       }
+      ingredients: {
+        Row: {
+          amount: string | null
+          created_at: string
+          id: number
+          name: string | null
+          recipe_id: number | null
+          unit: string | null
+        }
+        Insert: {
+          amount?: string | null
+          created_at?: string
+          id?: number
+          name?: string | null
+          recipe_id?: number | null
+          unit?: string | null
+        }
+        Update: {
+          amount?: string | null
+          created_at?: string
+          id?: number
+          name?: string | null
+          recipe_id?: number | null
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ingredients_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       meal_plans: {
         Row: {
           created_at: string
@@ -148,7 +183,6 @@ export interface Database {
           description: string | null
           id: number
           image_url: string | null
-          ingredients: string[] | null
           instructions: string[] | null
           name: string | null
           recipe_yield: string | null
@@ -160,7 +194,6 @@ export interface Database {
           description?: string | null
           id?: number
           image_url?: string | null
-          ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
           recipe_yield?: string | null
@@ -172,7 +205,6 @@ export interface Database {
           description?: string | null
           id?: number
           image_url?: string | null
-          ingredients?: string[] | null
           instructions?: string[] | null
           name?: string | null
           recipe_yield?: string | null

@@ -1,6 +1,7 @@
+import clsx from "clsx";
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import { Pressable } from "react-native";
+import Animated, { Layout } from "react-native-reanimated";
 
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
 import theme from "../theme";
@@ -26,33 +27,19 @@ export default function FloatingButton({
 
 	return (
 		<AnimatedPressable
-			layout={LinearTransition}
+			layout={Layout}
 			onPress={onPress}
-			style={[
-				{
-					bottom: useSafeArea ? insets.bottom : theme.spacing.l,
-				},
-				styles.button,
-			]}
+			className={clsx(
+				"absolute self-center flex-row items-baseline gap-1 bg-primary rounded-full px-8 py-2",
+			)}
+			style={{
+				bottom: useSafeArea ? insets.bottom : 20,
+			}}
 		>
 			{icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-			<Text type="header" size="l">
+			<Text size="l" className="text-white font-display">
 				{children}
 			</Text>
 		</AnimatedPressable>
 	);
 }
-
-const styles = StyleSheet.create({
-	button: {
-		position: "absolute",
-		alignSelf: "center",
-		flexDirection: "row",
-		alignItems: "baseline",
-		gap: theme.spacing.xs,
-		backgroundColor: theme.colors.primary,
-		paddingHorizontal: theme.spacing.m,
-		paddingVertical: theme.spacing.s,
-		borderRadius: 40,
-	},
-});

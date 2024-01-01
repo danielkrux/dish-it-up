@@ -1,6 +1,5 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
 import { formatDuration } from "./utils.ts";
-// import { Recipe } from "~/types/Recipe.ts";
 
 function getImage(image?: string | string[]) {
   if (!image) return null;
@@ -11,7 +10,7 @@ function getImage(image?: string | string[]) {
   );
 }
 
-function getInstructions(instructions?: any[]) {
+function getInstructions(instructions?: string[]) {
   if (!instructions) return null;
   if (instructions[0].itemListElement) {
     return getInstructions(instructions[0].itemListElement);
@@ -26,6 +25,14 @@ function getInstructions(instructions?: any[]) {
   });
 }
 
+function getIngredients(ingredients?: string[]) {
+  if (!ingredients) return null;
+
+  return ingredients.map((ingredient) => ({
+    name: ingredient,
+  }));
+}
+
 function getYield(yieldValue?: string | number | number[]) {
   if (!yieldValue) return null;
 
@@ -36,6 +43,7 @@ function getYield(yieldValue?: string | number | number[]) {
 }
 
 function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
+  const ingredients = getIngredients(schema.recipeIngredient);
   const instructions = getInstructions(schema.recipeInstructions);
   const image = getImage(schema.image);
   const recipeYield = getYield(schema.recipeYield);
@@ -44,7 +52,7 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
   const recipe = {
     name: schema.name,
     description: schema.description,
-    ingredients: schema.recipeIngredient,
+    ingredients: ingredients,
     instructions: instructions,
     image_url: image,
     recipe_yield: recipeYield,

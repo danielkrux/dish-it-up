@@ -7,10 +7,17 @@ module.exports = {
     g: ({ theme }) => theme("spacing"),
     extend: {
       colors: {
-        primary: "#BFCFBC",
-        secondary: "#30362F",
+        primary: "#68A691",
+        secondary: "#BFD3C1",
+        tertiary: "#FFE5D4",
+        quaternary: "#FFCAD4",
         black: "#15140F",
       },
+    },
+    fontFamily: {
+      body: ["Body"],
+      display: ["Heading"],
+      bold: ["BodyBold"],
     },
   },
   plugins: [

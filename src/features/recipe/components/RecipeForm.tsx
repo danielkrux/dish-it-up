@@ -1,22 +1,28 @@
 import { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Button from "~/components/Button";
 import { ChipInput } from "~/components/Inputs/ChipInput";
 import {
 	ControlledArrayInput,
 	ControlledInput,
 } from "~/components/Inputs/ControlledInputs";
-import theme from "~/theme";
+import Text from "~/components/Text";
 import useFetchCategories from "../hooks/useFetchCategories";
-import { Recipe, RecipeUpdate } from "../recipe.types";
+import { IngredientCreate, Recipe, RecipeUpdate } from "../recipe.types";
+
+const emptyIngredient: IngredientCreate = {
+	name: "",
+	amount: "",
+	unit: "",
+};
 
 const emtpyRecipe: RecipeUpdate = {
 	name: "",
 	description: "",
 	recipe_yield: "",
-	ingredients: [""],
+	ingredients: [emptyIngredient],
 	instructions: [""],
 	total_time: "",
 	categories: [],
@@ -50,8 +56,13 @@ function RecipeForm({
 			defaultValues: getDefaultValues(),
 		});
 
+	const ingredients = useFieldArray({
+		control,
+		name: "ingredients",
+	});
+
 	return (
-		<View style={styles.container}>
+		<View className="flex-1 g-4">
 			<ControlledInput
 				label="Name"
 				name="name"
@@ -102,21 +113,23 @@ function RecipeForm({
 				control={control}
 				returnKeyType="next"
 			/>
-			<ControlledArrayInput
-				label="Ingredients"
-				name="ingredients"
-				control={control}
-				returnKeyType="next"
-				values={watch("ingredients") ?? []}
-				onAdd={() =>
-					setValue("ingredients", [...(getValues().ingredients ?? []), ""])
-				}
-				onRemove={(index) => {
-					const ingredients = getValues().ingredients;
-					ingredients?.splice(index, 1);
-					setValue("ingredients", ingredients);
-				}}
-			/>
+
+			<Text>Ingredients</Text>
+			{ingredients.fields.map((field, index) => (
+				<View className="flex-row items-center g-2" key={field.id}>
+					<ControlledInput
+						name={`ingredients.${index}.amount`}
+						control={control}
+						placeholder="Amount"
+					/>
+					<Text>{initialRecipe?.ingredients[index].unit}</Text>
+					<ControlledInput
+						name={`ingredients.${index}.name`}
+						control={control}
+						placeholder="Ingredient"
+					/>
+				</View>
+			))}
 			<ControlledArrayInput
 				label="Instructions"
 				name="instructions"
@@ -139,10 +152,3 @@ function RecipeForm({
 }
 
 export default RecipeForm;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		gap: theme.spacing.m,
-	},
-});

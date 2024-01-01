@@ -74,8 +74,11 @@ export default function Home() {
 				keyExtractor={extractKey}
 				ListHeaderComponent={SeachAndFilter}
 				contentContainerStyle={styles.recipeListContent}
-				className="px-4 md:px-8 mt-1"
+				className="px-3 md:px-8 mt-1"
 				numColumns={isTablet && !recipeId ? 2 : 1}
+				ItemSeparatorComponent={() => (
+					<View className="border-b border-b-gray-200 h-1 w-[245] self-end" />
+				)}
 				columnWrapperStyle={
 					isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
 				}

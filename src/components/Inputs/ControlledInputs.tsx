@@ -1,24 +1,24 @@
-import { Fragment } from "react";
 import {
-	Control,
-	FieldPath,
+	FieldArrayWithId,
 	FieldValues,
+	UseControllerProps,
+	UseFieldArrayAppend,
+	UseFieldArrayRemove,
 	useController,
 } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
 import theme from "~/theme";
-import Button from "../Button";
 import IconButton from "../IconButton";
 import Text from "../Text";
 
+import Button from "../Button";
 import InputBase, { InputBaseProps } from "./TextInputBase";
 
-type InputProps<T extends FieldValues> = InputBaseProps & {
-	name: FieldPath<T>;
-	control: Control<T>;
-	label?: string;
-};
+type InputProps<T extends FieldValues> = UseControllerProps<T> &
+	InputBaseProps & {
+		label?: string;
+	};
 
 export function ControlledInput<T extends FieldValues>({
 	name,
@@ -28,10 +28,8 @@ export function ControlledInput<T extends FieldValues>({
 }: InputProps<T>) {
 	const { field } = useController<T>({ control, name });
 
-	const Container = label ? View : Fragment;
-
 	return (
-		<Container className="self-stretch">
+		<View className="flex-1 self-stretch">
 			{label && <Text style={styles.inputLabel}>{label}</Text>}
 			<InputBase
 				ref={field.ref}
@@ -39,16 +37,22 @@ export function ControlledInput<T extends FieldValues>({
 				value={field.value}
 				onChangeText={field.onChange}
 			/>
-		</Container>
+		</View>
 	);
 }
+
+export type ArrayInputProps2<T extends FieldValues> = InputProps<T> & {
+	append: UseFieldArrayAppend<T>;
+	remove: UseFieldArrayRemove;
+	fields: FieldArrayWithId<T>[];
+};
 
 export type ArrayInputProps<T extends FieldValues> = InputProps<T> & {
 	onAdd?: () => void;
 	onRemove?: (index: number) => void;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	values: any[];
 };
-
 export function ControlledArrayInput<T extends FieldValues>({
 	name,
 	label,
@@ -61,10 +65,11 @@ export function ControlledArrayInput<T extends FieldValues>({
 	return (
 		<View style={styles.arrGroupContainer}>
 			{label && <Text style={styles.inputLabel}>{label}</Text>}
-			{values.map((_, index) => (
-				<View key={index} style={styles.arrInputContainer}>
+			{values?.map((value, index) => (
+				<View key={`${value}-${index}`} style={styles.arrInputContainer}>
 					<ControlledInput
 						key={`${name}-${index}`}
+						// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 						name={`${name}.${index}` as any}
 						control={control}
 						{...props}
@@ -79,6 +84,41 @@ export function ControlledArrayInput<T extends FieldValues>({
 				</View>
 			))}
 			<Button icon="plus" size="small" onPress={onAdd}>
+				Add
+			</Button>
+		</View>
+	);
+}
+
+export function ControlledArrayInput2<T extends FieldValues>({
+	name,
+	label,
+	control,
+	fields,
+	append,
+	remove,
+}: ArrayInputProps2<T>) {
+	return (
+		<View style={styles.arrGroupContainer}>
+			{label && <Text style={styles.inputLabel}>{label}</Text>}
+			{fields.map((field, index) => (
+				<View key={field.id} style={styles.arrInputContainer}>
+					<ControlledInput
+						// @ts-ignore
+						name={`${name}.${index}.name`}
+						control={control}
+						style={styles.arrInput}
+					/>
+					<IconButton
+						ghost
+						icon="minus"
+						size="large"
+						onPress={() => remove(index)}
+					/>
+				</View>
+			))}
+			{/* @ts-ignore */}
+			<Button icon="plus" size="small" onPress={append}>
 				Add
 			</Button>
 		</View>

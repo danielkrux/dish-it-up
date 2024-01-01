@@ -19,7 +19,6 @@ import {
 import theme, { pallettes } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
 import IconButton from "../IconButton";
-import Text from "../Text";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
 	bottomSheet?: boolean;
@@ -38,7 +37,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 				onBlur?.(e);
 				return setActive(false);
 			},
-			[onBlur, setActive],
+			[onBlur],
 		);
 
 		const handleFocus = useCallback(
@@ -46,7 +45,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 				onFocus?.(e);
 				return setActive(true);
 			},
-			[onFocus, setActive],
+			[onFocus],
 		);
 
 		const clearTextInput = () => {

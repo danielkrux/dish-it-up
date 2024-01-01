@@ -9,11 +9,23 @@ function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
 			<Text type="header" className="mb-2 md:mb-4" size="xl">
 				Ingredients
 			</Text>
-			<View className="g-2">
+			<View className="g-1">
 				{recipe?.ingredients?.map((ingredient, i) => (
-					<Text key={`${ingredient}-${i}`} type="body">
-						•&nbsp;&nbsp;&nbsp;{ingredient}
-					</Text>
+					<View
+						key={`${ingredient}-${i}`}
+						className="flex-row items-center g-1"
+					>
+						<Text>
+							{ingredient.amount && (
+								<Text type="bodyBold" size="m">
+									{ingredient.amount} {ingredient.unit}
+									{"  "}
+								</Text>
+							)}
+
+							<Text type="body">{ingredient.name}</Text>
+						</Text>
+					</View>
 				))}
 			</View>
 		</View>

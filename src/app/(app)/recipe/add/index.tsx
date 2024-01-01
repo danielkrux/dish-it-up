@@ -1,6 +1,6 @@
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 
 import Button from "~/components/Button";
 import InputBase from "~/components/Inputs/TextInputBase";

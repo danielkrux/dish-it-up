@@ -1,12 +1,12 @@
+import clsx from "clsx";
 import React from "react";
+import { Pressable, StyleProp, ViewStyle } from "react-native";
 
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
-import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
 
 export type ChipData = {
-	label?: string | null;
+	label: string | null;
 	value: string;
 	icon?: IconName;
 };
@@ -31,11 +31,19 @@ function Chip({
 		<Pressable
 			onPress={() => onPress?.(value)}
 			onLongPress={() => onLongPress?.(value)}
-			style={[styles.container, isSelected && styles.containerSelected, style]}
+			className={clsx(
+				"flex-row items-baseline bg-gray-100 rounded-lg g-1 px-3 py-2",
+				{ "bg-primary": isSelected },
+			)}
+			style={[style]}
 		>
-			{icon && <Icon size={16} name={icon} color={theme.colors.text} />}
-			{isSelected && <Icon size={16} name="check" color={theme.colors.text} />}
-			<Text style={[styles.label, isSelected && styles.labelSelected]}>
+			{icon && <Icon size={16} name={icon} className="text-white" />}
+			{isSelected && <Icon size={16} name="check" className="text-white" />}
+			<Text
+				className={clsx("text-gray-900 font-bold", {
+					"text-white": isSelected,
+				})}
+			>
 				{label}
 			</Text>
 		</Pressable>
@@ -43,26 +51,3 @@ function Chip({
 }
 
 export default Chip;
-
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		backgroundColor: theme.colors.background,
-		paddingHorizontal: theme.spacing.s,
-		paddingTop: theme.spacing.xs,
-		paddingBottom: theme.spacing.xs,
-		borderRadius: 10,
-		alignItems: "center",
-		gap: 4,
-	},
-	containerSelected: {
-		backgroundColor: theme.colors.primary,
-	},
-	label: {
-		color: theme.colors.textMuted,
-	},
-	labelSelected: {
-		color: theme.colors.secondary,
-		fontFamily: "BodyBold",
-	},
-});

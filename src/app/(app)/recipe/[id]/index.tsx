@@ -9,12 +9,8 @@ export default function RecipeDetailPage() {
 	const router = useRouter();
 
 	const { mutate } = useDeleteRecipe(Number(id), {
-		onSuccess: handleDelete,
+		onSuccess: () => router.push("/"),
 	});
-
-	function handleDelete() {
-		router.push("/");
-	}
 
 	return (
 		<>

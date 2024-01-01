@@ -1,9 +1,5 @@
-import {
-	ActivityIndicator,
-	Pressable,
-	PressableProps,
-	StyleSheet,
-} from "react-native";
+import clsx from "clsx";
+import { ActivityIndicator, Pressable, PressableProps } from "react-native";
 import theme from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
@@ -26,84 +22,44 @@ export default function Button({
 	icon,
 	...props
 }: ButtonProps) {
-	const sizeStyle = styles[size];
-	const variantStyle = styles[variant];
-	const textStyle = styles[`${variant}Text`];
-	const textSizeStyle = styles[`${size}Text`];
-
 	return (
 		<Pressable
-			style={[
-				icon && styles.iconContainer,
-				styles.container,
-				sizeStyle,
-				variantStyle,
-				// @ts-ignore
-				style,
-			]}
+			style={style}
+			className={clsx(
+				"rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
+				{
+					"opacity-90": loading,
+					"bg-transparent": variant === "ghost",
+					"py-3 self-start": size === "small",
+					"flex-row g-2": icon,
+					"opacity-25": disabled,
+				},
+			)}
 			disabled={disabled}
 			{...props}
 		>
-			{icon && <Icon name={icon} size={16} />}
+			{icon && (
+				<Icon
+					className={clsx("text-white", { "": variant === "ghost" })}
+					name={icon}
+					size={16}
+				/>
+			)}
 			{!loading ? (
-				<Text type="header" style={[textStyle, textSizeStyle]}>
+				<Text
+					className={clsx("font-bold text-base", {
+						"text-white": variant === "primary",
+						"text-sm": size === "small",
+					})}
+				>
 					{children}
 				</Text>
 			) : (
-				<ActivityIndicator color={theme.colors.secondary} />
+				<ActivityIndicator
+					className="my-[2]"
+					color={variant === "primary" ? "#fff" : theme.colors.secondary}
+				/>
 			)}
 		</Pressable>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		borderWidth: 1,
-		borderColor: "black",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 10,
-	},
-	iconContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "baseline",
-		gap: 4,
-	},
-	primary: {
-		borderColor: theme.colors.primary,
-		backgroundColor: theme.colors.primary,
-	},
-	primaryText: {
-		color: theme.colors.text,
-	},
-	secondary: {
-		backgroundColor: theme.colors.secondary,
-	},
-	secondaryText: {
-		color: theme.colors.textLight,
-	},
-	ghost: {
-		backgroundColor: "transparent",
-		borderColor: "transparent",
-	},
-	ghostText: {
-		color: theme.colors.secondary,
-	},
-	small: {
-		paddingVertical: theme.spacing.xs,
-		paddingHorizontal: theme.spacing.s,
-		borderRadius: 6,
-	},
-	large: {
-		paddingHorizontal: theme.spacing.m,
-		paddingVertical: theme.spacing.s,
-	},
-	smallText: {
-		fontSize: theme.fontSize.s,
-		lineHeight: 0,
-	},
-	largeText: {
-		fontSize: 18,
-	},
-});

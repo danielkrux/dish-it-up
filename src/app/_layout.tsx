@@ -10,6 +10,7 @@ import {
 import { PortalProvider } from "@gorhom/portal";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { Slot } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
 import { StatusBar } from "react-native";
 
@@ -18,7 +19,6 @@ import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
-import { Slot } from "expo-router";
 import AuthProvider from "~/AuthContext";
 import theme from "../theme";
 

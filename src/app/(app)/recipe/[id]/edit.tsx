@@ -46,9 +46,7 @@ export default function EditRecipe() {
 			/>
 			<RecipeForm
 				initialRecipe={data}
-				onSubmit={(recipeInputs) => {
-					return mutate({ ...data, ...recipeInputs });
-				}}
+				onSubmit={(recipeInputs) => mutate({ ...data, ...recipeInputs })}
 			/>
 		</ScrollView>
 	);

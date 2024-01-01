@@ -1,6 +1,5 @@
 import { useRouter } from "expo-router";
 import React from "react";
-import { View } from "react-native";
 import * as ContextMenu from "zeego/context-menu";
 
 import { Platform } from "react-native";
@@ -19,14 +18,12 @@ function RecipeImageCardWithContext(props: RecipeImageCardWithContextProps) {
 	return (
 		<ContextMenu.Root>
 			<ContextMenu.Trigger>
-				<RecipeImageCard {...props} />
+				<RecipeImageCard classsName="p-1" {...props} />
 			</ContextMenu.Trigger>
 			{Platform.OS === "ios" && (
 				<ContextMenu.Content>
-					<ContextMenu.Preview preferredCommitStyle="pop">
-						<View className="w-screen">
-							<RecipeImageCard classsName="p-2" {...props} />
-						</View>
+					<ContextMenu.Preview borderRadius={16} preferredCommitStyle="pop">
+						<RecipeImageCard classsName="w-screen p-1" {...props} />
 					</ContextMenu.Preview>
 					<ContextMenu.Item
 						key="edit"

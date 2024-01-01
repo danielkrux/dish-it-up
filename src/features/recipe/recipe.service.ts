@@ -1,6 +1,11 @@
 import { supabase } from "~/app/_layout";
 import { getSession } from "../auth/auth.service";
-import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
+import {
+  IngredientCreate,
+  Recipe,
+  RecipeCreate,
+  RecipeUpdate,
+} from "./recipe.types";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -18,17 +23,58 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
 
 export async function createRecipe(recipe?: RecipeCreate) {
   const { user } = await getSession();
+
   if (!recipe || recipe === undefined) {
-    console.error("No recipe to save");
     throw new Error("No recipe to save");
   }
 
+  const { ingredients, ...recipeToSave } = recipe;
+
   const result = await supabase
     .from("recipes")
-    .insert({ ...recipe, user_id: user?.id });
+    .insert({ ...recipeToSave, user_id: user?.id })
+    .select()
+    .single();
 
   if (result.error) {
     throw new Error(result.error.message);
+  }
+
+  const ingredientsToSave: IngredientCreate[] = [];
+
+  for (const ingredient of ingredients ?? []) {
+    if (ingredient.name?.match(/^\d/) || ingredient.name?.startsWith("½")) {
+      const [amount, unit, ...name] = ingredient.name.split(" ");
+      if (!name.length) {
+        ingredientsToSave.push({
+          amount,
+          name: unit,
+          unit: null,
+          recipe_id: result.data?.id,
+        });
+      } else {
+        ingredientsToSave.push({
+          name: name.join(" "),
+          amount,
+          unit,
+          recipe_id: result.data?.id,
+        });
+      }
+    } else {
+      ingredientsToSave.push({
+        name: ingredient.name,
+        recipe_id: result.data?.id,
+      });
+    }
+  }
+
+  const ingredientSaveResult = await supabase
+    .from("ingredients")
+    .insert(ingredientsToSave);
+
+  if (ingredientSaveResult.error) {
+    await supabase.from("recipes").delete().eq("id", result.data?.id);
+    throw new Error(ingredientSaveResult.error.message);
   }
 
   return result;
@@ -40,7 +86,7 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     throw new Error("No recipe to save");
   }
 
-  const { categories, ...recipe } = recipeInput;
+  const { categories, ingredients, ...recipe } = recipeInput;
 
   // remove categories from database if they are not in the recipe anymore
   const currentRecipeCategories = await getRecipeCategories(recipe.id);
@@ -56,7 +102,7 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     .eq("recipe_id", recipeInput.id)
     .in("category_id", categoriesToDelete);
 
-  categories.forEach(async (category) => {
+  for (const category of categories) {
     const exists = await supabase
       .from("categories")
       .select("id")
@@ -75,7 +121,7 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
           .insert({ recipe_id: recipe.id, category_id: category.id });
       }
     }
-  });
+  }
 
   const result = await supabase
     .from("recipes")
@@ -96,7 +142,7 @@ export async function getRecipes(searchQuery?: string) {
 
   const baseQuery = supabase
     .from("recipes")
-    .select("*, categories(*)")
+    .select("*, categories(*), ingredients(*)")
     .order("created_at", { ascending: false });
 
   if (searchQuery) {
@@ -109,6 +155,8 @@ export async function getRecipes(searchQuery?: string) {
     throw new Error(result.error.message);
   }
 
+  console.log(result.data);
+
   return result.data;
 }
 
@@ -117,7 +165,7 @@ export async function getRecipe(id?: number) {
 
   const result = await supabase
     .from("recipes")
-    .select("*, categories(*)")
+    .select("*, categories(*), ingredients(*)")
     .eq("id", id)
     .single();
 
@@ -133,7 +181,7 @@ export async function getRecipeByIds(ids?: number[]) {
 
   const result = await supabase
     .from("recipes")
-    .select("*, categories(*)")
+    .select("*, categories(*), ingredients(*)")
     .in("id", ids);
 
   if (result.error) {
