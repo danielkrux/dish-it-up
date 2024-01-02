@@ -1,6 +1,33 @@
 import { Dimensions } from "react-native";
 
-export const pallettes = {
+export const colors = {
+  white: "#ffffff",
+  primary: {
+    50: "#f4f9f7",
+    100: "#daede5",
+    200: "#b5dacb",
+    300: "#89bfac",
+    400: "#68a691",
+    500: "#468671",
+    600: "#366b5b",
+    700: "#2e574b",
+    800: "#28473e",
+    900: "#253c35",
+    950: "#11221e",
+  } as const,
+  gray: {
+    50: "#f7f8f7",
+    100: "#eef0f0",
+    200: "#dadddc",
+    300: "#a7aeac",
+    400: "#949c99",
+    500: "#77807e",
+    600: "#606967",
+    700: "#4f5553",
+    800: "#434947",
+    900: "#3b3f3e",
+    950: "#272a29",
+  } as const,
   black: {
     900: "#000000",
     800: "#1C1C1C",

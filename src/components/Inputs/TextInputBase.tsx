@@ -8,17 +8,16 @@ import {
 import {
 	Animated,
 	NativeSyntheticEvent,
-	Platform,
-	StyleSheet,
 	TextInput as RNTextInput,
 	TextInputFocusEventData,
 	TextInputProps as RNTextInputProps,
 	View,
 } from "react-native";
 
-import theme, { pallettes } from "~/theme";
+import clsx from "clsx";
+import { styled } from "nativewind";
+import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
-import IconButton from "../IconButton";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
 	bottomSheet?: boolean;
@@ -55,20 +54,23 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 
 		return (
 			<View
-				style={[styles.container, active && styles.inputActive, props.style]}
+				className={clsx(
+					"flex-row rounded-lg bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-900",
+					{ "border-gray-200 dark:border-gray-800": active },
+				)}
 			>
 				<RNTextInput
 					ref={innerRef}
 					value={value ?? undefined}
 					{...props}
-					style={styles.input}
+					className="font-body text-sm flex-1 px-2 py-2 text-gray-900 dark:text-white"
 					onBlur={handleBlur}
 					onFocus={handleFocus}
-					placeholderTextColor={pallettes.black[600]}
-					cursorColor={theme.colors.secondary}
-					selectionColor={theme.colors.secondary}
+					placeholderTextColor={colors.gray[500]}
+					cursorColor={colors.primary[500]}
+					selectionColor={colors.primary[500]}
 				/>
-				{active && !props.multiline && Boolean(value?.length) && (
+				{/* {active && !props.multiline && Boolean(value?.length) && (
 					<IconButton
 						style={{ paddingLeft: 0 }}
 						onPress={clearTextInput}
@@ -76,41 +78,14 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 						icon="x"
 						size="medium"
 					/>
-				)}
+				)} */}
 			</View>
 		);
 	},
 );
 
-export default InputBase;
+export default styled(InputBase);
 
 export const AnimatedTextInput = Animated.createAnimatedComponent(
 	createClassComponent(InputBase),
 );
-
-export const styles = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		borderRadius: 10,
-		backgroundColor: "#FAFAFA",
-		borderWidth: 2,
-		borderColor: "#ECECEC80",
-	},
-	input: {
-		fontFamily: "Body",
-		fontSize: theme.fontSize.m,
-		flex: 1,
-		paddingTop: Platform.select({
-			ios: theme.spacing.s,
-			android: theme.spacing.xs,
-		}),
-		paddingBottom: Platform.select({
-			ios: theme.spacing.s,
-			android: theme.spacing.xs,
-		}),
-		paddingHorizontal: theme.spacing.m,
-	},
-	inputActive: {
-		borderColor: "#ECECEC",
-	},
-});

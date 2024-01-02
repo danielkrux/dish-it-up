@@ -13,6 +13,7 @@ import IconButton from "../IconButton";
 import Text from "../Text";
 
 import Button from "../Button";
+import Label from "./Label";
 import InputBase, { InputBaseProps } from "./TextInputBase";
 
 type InputProps<T extends FieldValues> = UseControllerProps<T> &
@@ -30,7 +31,7 @@ export function ControlledInput<T extends FieldValues>({
 
 	return (
 		<View className="flex-1 self-stretch">
-			{label && <Text style={styles.inputLabel}>{label}</Text>}
+			<Label>{label}</Label>
 			<InputBase
 				ref={field.ref}
 				{...props}
@@ -64,7 +65,7 @@ export function ControlledArrayInput<T extends FieldValues>({
 }: ArrayInputProps<T>) {
 	return (
 		<View style={styles.arrGroupContainer}>
-			{label && <Text style={styles.inputLabel}>{label}</Text>}
+			<Label>{label}</Label>
 			{values?.map((value, index) => (
 				<View key={`${value}-${index}`} style={styles.arrInputContainer}>
 					<ControlledInput
@@ -100,7 +101,7 @@ export function ControlledArrayInput2<T extends FieldValues>({
 }: ArrayInputProps2<T>) {
 	return (
 		<View style={styles.arrGroupContainer}>
-			{label && <Text style={styles.inputLabel}>{label}</Text>}
+			<Label>{label}</Label>
 			{fields.map((field, index) => (
 				<View key={field.id} style={styles.arrInputContainer}>
 					<ControlledInput
@@ -126,10 +127,6 @@ export function ControlledArrayInput2<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
-	inputLabel: {
-		marginBottom: theme.spacing.xs,
-		marginLeft: theme.spacing.xs,
-	},
 	arrGroupContainer: {
 		marginBottom: theme.spacing.s,
 	},

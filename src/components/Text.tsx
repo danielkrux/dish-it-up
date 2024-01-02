@@ -19,14 +19,17 @@ export default function Text({
 	style,
 	...props
 }: TextProps) {
-	const color = props.light ? theme.colors.textLight : theme.colors.text;
 	const sizeStyle = size
 		? styles[size]
 		: type === "header"
 		  ? styles.xxl
 		  : styles.m;
 	return (
-		<RNText style={[styles[type], sizeStyle, { color }, style]} {...props} />
+		<RNText
+			className="text-black dark:text-white"
+			style={[styles[type], sizeStyle, style]}
+			{...props}
+		/>
 	);
 }
 

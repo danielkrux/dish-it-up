@@ -1,8 +1,10 @@
+import clsx from "clsx";
 import { BlurView } from "expo-blur";
-import { Pressable, StyleSheet } from "react-native";
+import { useColorScheme } from "nativewind";
+import { Pressable } from "react-native";
+import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
-import theme from "../theme";
 
 function BlurButton({
 	label,
@@ -13,19 +15,29 @@ function BlurButton({
 	icon?: IconName;
 	onPress?: () => void;
 }) {
+	const { colorScheme } = useColorScheme();
+	const isDark = colorScheme === "dark";
 	const iconOnly = icon && !label;
 
 	return (
-		<Pressable onPress={onPress} style={styles.container}>
+		<Pressable
+			onPress={onPress}
+			className="overflow-hidden rounded-full self-start"
+		>
 			<BlurView
 				intensity={100}
-				tint="light"
-				style={[
-					styles.blur,
-					iconOnly && { paddingVertical: 4, paddingHorizontal: 4 },
-				]}
+				tint={isDark ? "dark" : "light"}
+				className={clsx("px-3 py-1 flex-row items-baseline g-2", {
+					"p-1": iconOnly,
+				})}
 			>
-				{icon && <Icon name={icon} size={18} color={theme.colors.text} />}
+				{icon && (
+					<Icon
+						name={icon}
+						size={18}
+						className="text-gray-800 dark:text-white"
+					/>
+				)}
 				{label && <Text size="m">{label}</Text>}
 			</BlurView>
 		</Pressable>
@@ -33,18 +45,3 @@ function BlurButton({
 }
 
 export default BlurButton;
-
-const styles = StyleSheet.create({
-	container: {
-		overflow: "hidden",
-		borderRadius: 100,
-		alignSelf: "flex-start",
-	},
-	blur: {
-		paddingHorizontal: 12,
-		paddingVertical: 4,
-		flexDirection: "row",
-		alignItems: "baseline",
-		gap: 4,
-	},
-});

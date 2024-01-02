@@ -11,7 +11,7 @@ import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGro
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
 import useFetchGroceryList from "~/features/grocery-list/hooks/useFetchGroceryList";
 import useUpdateGroceryListItem from "~/features/grocery-list/hooks/useUpdateGroceryListItem";
-import theme, { pallettes } from "~/theme";
+import theme, { colors } from "~/theme";
 
 function GroceryList() {
 	const addRef = useRef<TextInput>(null);
@@ -81,17 +81,18 @@ function GroceryList() {
 							onPress={() => handleGroceryItemPress(grocery)}
 							selected={grocery.completed}
 							selectable
+							className="bg-white dark:bg-gray-950"
 						/>
 					</SwipeableRow>
 				))}
 				<View className="py-3 flex-row items-center flex-1  g-3">
-					<Icon size={24} name="plus" color={pallettes.black[500]} />
+					<Icon size={24} name="plus" className="text-gray-500" />
 					<TextInput
 						ref={addRef}
 						placeholder="Add new item..."
-						style={{ fontFamily: "Body", color: theme.colors.secondary }}
-						cursorColor={theme.colors.secondary}
-						placeholderTextColor={pallettes.black[500]}
+						className="font-body text-sm flex-1 text-gray-900 dark:text-white"
+						cursorColor={colors.primary[500]}
+						placeholderTextColor={colors.gray[500]}
 						blurOnSubmit={false}
 						onSubmitEditing={(event) =>
 							handleAddGroceryItem(event.nativeEvent.text)
@@ -107,6 +108,6 @@ export default GroceryList;
 
 const styles = StyleSheet.create({
 	rightSwipeAction: {
-		backgroundColor: pallettes.red[100],
+		backgroundColor: colors.red[100],
 	},
 });

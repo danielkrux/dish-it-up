@@ -18,17 +18,10 @@ export default function Add() {
 			<Text className="mb-4" type="body">
 				Enter a URL to import a recipe from.
 			</Text>
-			<View>
-				<InputBase
-					className="mb-4 self-start"
-					placeholder="Recipe URL"
-					onChangeText={setUrl}
-					value={url}
-				/>
-			</View>
+			<InputBase placeholder="Recipe URL" onChangeText={setUrl} value={url} />
 			<Button
 				size="large"
-				className="mb-2"
+				className="mt-4 mb-2"
 				onPress={() => router.push(`/recipe/add/${encodeURIComponent(url)}`)}
 			>
 				Import Recipe

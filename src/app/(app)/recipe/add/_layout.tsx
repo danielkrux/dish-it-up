@@ -1,12 +1,13 @@
 import { Stack } from "expo-router";
 import { Platform } from "react-native";
-import theme from "~/theme";
+import { useThemeConfig } from "~/hooks/useThemeConfig";
 
 export default function AddLayout() {
+	const theme = useThemeConfig();
 	return (
 		<Stack
 			screenOptions={{
-				headerTintColor: theme.colors.secondary,
+				headerTintColor: theme.colors.text,
 				animation: Platform.select({
 					android: "none",
 					ios: "default",

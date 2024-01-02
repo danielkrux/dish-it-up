@@ -1,6 +1,9 @@
-import theme, { pallettes } from "../theme";
+import clsx from "clsx";
+import { styled } from "nativewind";
+import { useState } from "react";
+import { Pressable, PressableProps } from "react-native";
+import theme from "../theme";
 import Icon, { IconName } from "./Icon";
-import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 export type IconButtonProps = {
 	icon: IconName;
@@ -8,13 +11,15 @@ export type IconButtonProps = {
 	ghost?: boolean;
 } & PressableProps;
 
-export default function IconButton({
+function IconButton({
 	icon,
 	size = "small",
 	style,
 	ghost,
 	...props
 }: IconButtonProps) {
+	const [isPressed, setIsPressed] = useState(false);
+
 	const sizeMap = {
 		small: theme.spacing.s,
 		medium: theme.spacing.m,
@@ -23,30 +28,23 @@ export default function IconButton({
 
 	return (
 		<Pressable
-			style={({ pressed }) => [
-				styles.container,
-				{
-					opacity: ghost ? 1 : pressed ? 0.7 : 1,
-					backgroundColor: ghost
-						? "transparent"
-						: styles.container.backgroundColor,
-				},
-				// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-				style as any,
-			]}
+			onPressIn={() => setIsPressed(true)}
+			onPressOut={() => setIsPressed(false)}
+			className={clsx(
+				"p-3 rounded-full items-center justify-center bg-gray-100 dark:bg-gray-900",
+				{ "bg-transparent": ghost, "opacity-80": isPressed },
+			)}
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			style={style as any}
 			{...props}
 		>
-			<Icon name={icon} size={sizeMap[size]} />
+			<Icon
+				className="text-white dark:text-gray-200"
+				name={icon}
+				size={sizeMap[size]}
+			/>
 		</Pressable>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		padding: 10,
-		borderRadius: 100,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: pallettes.black[100],
-	},
-});
+export default styled(IconButton);

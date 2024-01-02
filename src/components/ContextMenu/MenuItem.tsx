@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import theme, { pallettes } from "~/theme";
+import theme, { colors } from "~/theme";
 import { hexToRGBA } from "~/utils/color";
 import Icon, { IconName } from "../Icon";
 import Text from "../Text";
@@ -25,7 +25,7 @@ function MenuItem({ label, icon, onPress, destructive }: MenuItemProps) {
 			{icon && (
 				<Icon
 					name={icon}
-					color={destructive ? pallettes.red[500] : undefined}
+					color={destructive ? colors.red[500] : undefined}
 					size={16}
 				/>
 			)}
@@ -40,16 +40,16 @@ export const styles = StyleSheet.create({
 		paddingHorizontal: theme.spacing.l,
 		paddingVertical: theme.spacing.s,
 		borderBottomWidth: 1,
-		borderBottomColor: pallettes.black[100],
+		borderBottomColor: colors.black[100],
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
 	desctructive: {
-		backgroundColor: hexToRGBA(pallettes.red[100], 0.1),
-		borderBottomColor: hexToRGBA(pallettes.red[100], 0.1),
+		backgroundColor: hexToRGBA(colors.red[100], 0.1),
+		borderBottomColor: hexToRGBA(colors.red[100], 0.1),
 	},
 	destructiveText: {
-		color: pallettes.red[500],
+		color: colors.red[500],
 	},
 });

@@ -77,7 +77,7 @@ export default function Home() {
 				className="px-3 md:px-8 mt-1"
 				numColumns={isTablet && !recipeId ? 2 : 1}
 				ItemSeparatorComponent={() => (
-					<View className="border-b border-b-gray-200 h-1 w-[245] self-end" />
+					<View className="border-b border-b-gray-50 dark:border-b-gray-900 h-1 w-[255] self-end" />
 				)}
 				columnWrapperStyle={
 					isTablet && !recipeId ? styles.recipeColumnWrapper : undefined

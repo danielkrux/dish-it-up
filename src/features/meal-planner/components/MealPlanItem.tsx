@@ -7,7 +7,7 @@ import { Swipeable } from "react-native-gesture-handler";
 
 import SwipeableRow from "~/components/SwipeableRow";
 import Text from "~/components/Text";
-import theme, { pallettes } from "~/theme";
+import theme, { colors } from "~/theme";
 import { deleteMealPlan } from "../mealPlanner.service";
 import { MealPlan } from "../mealPlanner.types";
 
@@ -65,14 +65,14 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			onLeftOpen={handleGoToGroceriesSelect}
 			onPress={handleNavigateToRecipe}
 		>
-			<View className="flex-row bg-white rounded-2xl">
+			<View className="flex-row bg-white dark:bg-gray-900 rounded-2xl">
 				{recipe?.image_url && (
 					<Image
-						className="w-24 aspect-square mr-4 rounded-2xl"
+						className="w-24 aspect-square mr-4 rounded-l-2xl"
 						source={{ uri: recipe?.image_url }}
 					/>
 				)}
-				<View className="flex-1">
+				<View className="flex-1 py-2">
 					<Text type="header" size="l">
 						{recipe?.name}
 					</Text>
@@ -86,7 +86,7 @@ export default MealPlanItem;
 
 const styles = StyleSheet.create({
 	rightAction: {
-		backgroundColor: pallettes.red[100],
+		backgroundColor: colors.red[100],
 	},
 	leftAction: {
 		backgroundColor: theme.colors.primary,

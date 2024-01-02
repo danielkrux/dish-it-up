@@ -1,19 +1,11 @@
 import { clsx } from "clsx";
 import { Image } from "expo-image";
-import {
-	Pressable,
-	TouchableHighlight,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
-import Animated from "react-native-reanimated";
 import Text from "~/components/Text";
 import useHomeContext from "~/features/home/hooks/useHomeContext";
-import theme, { SCREEN_WIDTH, isTablet } from "~/theme";
+import { SCREEN_WIDTH, isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export type RecipeImageCardProps = {
 	recipe?: Recipe;
@@ -34,7 +26,7 @@ export default function RecipeImageCard({
 	return (
 		<TouchableOpacity
 			className={clsx(
-				"md:px-2 md:py-2 rounded-2xl flex-row bg-white",
+				"md:px-2 md:py-2 rounded-2xl flex-row bg-white dark:bg-gray-950",
 				classsName,
 				{
 					"bg-primary": selected,
@@ -60,11 +52,11 @@ export default function RecipeImageCard({
 					<Text className="md:text-xl" numberOfLines={2} type="header" size="l">
 						{recipe?.name}
 					</Text>
-					<Text className="text-zinc-800 mb-1" size="s">
+					<Text className="text-zinc-800 dark:text-gray-300 mb-1" size="s">
 						{recipe?.total_time} | {recipe?.recipe_yield} servings
 					</Text>
 					<Text
-						className="m-w text-zinc-600 max-w-md"
+						className="m-w text-zinc-600 dark:text-gray-200 max-w-md"
 						size="s"
 						numberOfLines={isTablet ? 3 : 2}
 					>

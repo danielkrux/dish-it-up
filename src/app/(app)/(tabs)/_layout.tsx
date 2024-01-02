@@ -3,9 +3,11 @@ import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import HomeProvider from "~/features/home/HomeContext";
+import { useThemeConfig } from "~/hooks/useThemeConfig";
 import theme, { isTablet } from "~/theme";
 
 function Home() {
+	const currentTheme = useThemeConfig();
 	const router = useRouter();
 
 	return (
@@ -13,8 +15,8 @@ function Home() {
 			<Tabs
 				screenOptions={{
 					headerShown: true,
-					tabBarActiveTintColor: theme.colors.text,
-					tabBarInactiveTintColor: theme.colors.textMuted,
+					tabBarActiveTintColor: currentTheme.colors.primary,
+					tabBarInactiveTintColor: currentTheme.colors.text,
 					headerTitle: "",
 					headerShadowVisible: false,
 					headerRightContainerStyle: {

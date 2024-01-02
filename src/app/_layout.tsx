@@ -8,7 +8,7 @@ import {
 	useFonts,
 } from "@expo-google-fonts/dev";
 import { PortalProvider } from "@gorhom/portal";
-import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Slot } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
@@ -20,7 +20,7 @@ import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
 import AuthProvider from "~/AuthContext";
-import theme from "../theme";
+import { useThemeConfig } from "~/hooks/useThemeConfig";
 
 export const supabase = initSupabase();
 
@@ -28,15 +28,8 @@ NativeWindStyleSheet.setOutput({
 	default: "native",
 });
 
-const NavigationTheme: Theme = {
-	...DefaultTheme,
-	colors: {
-		...DefaultTheme.colors,
-		background: theme.colors.white,
-	},
-};
-
 export default function Root() {
+	const theme = useThemeConfig();
 	useOnlineManager();
 
 	useAppState(async (state) => {
@@ -54,11 +47,11 @@ export default function Root() {
 	}
 
 	return (
-		<ThemeProvider value={NavigationTheme}>
+		<ThemeProvider value={theme}>
 			<QueryClientProvider client={queryClient}>
 				<PortalProvider>
 					<AuthProvider>
-						<StatusBar barStyle="dark-content" />
+						<StatusBar barStyle="default" />
 						<Slot />
 					</AuthProvider>
 				</PortalProvider>

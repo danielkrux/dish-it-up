@@ -2,9 +2,10 @@ import { Redirect, Stack } from "expo-router";
 
 import { Platform } from "react-native";
 import useAuth from "~/hooks/useAuth";
-import theme from "../../theme";
+import { useThemeConfig } from "~/hooks/useThemeConfig";
 
 function Layout() {
+	const theme = useThemeConfig();
 	const { session, isLoading } = useAuth();
 
 	if (isLoading) {

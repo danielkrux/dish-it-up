@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import theme, { pallettes } from "~/theme";
+import clsx from "clsx";
+import theme, { colors } from "~/theme";
 import { nanoid } from "~/utils/random";
 import Chip, { ChipData } from "../Chip";
 import Text from "../Text";
+import Label from "./Label";
 import { InputBaseProps } from "./TextInputBase";
-import { styles as inputBaseStyles } from "./TextInputBase";
 
 type ChipInputProps = Omit<InputBaseProps, "value"> & {
 	onAdd?: (value: ChipData) => void;
@@ -77,12 +78,12 @@ export function ChipInput({
 
 	return (
 		<View>
-			{label && <Text style={styles.inputLabel}>{label}</Text>}
-			<View style={[inputBaseStyles.container, styles.inputContainer]}>
+			<Label>{label}</Label>
+			<View className="mt-0 flex-row flex-wrap g-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
 				{value?.map((item, i) => (
 					<Chip
 						key={`${item}-${i}`}
-						style={styles.firstChip}
+						className={clsx({ "ml-1": i === 0 })}
 						{...item}
 						onPress={handleSelectChipPress}
 						isSelected
@@ -96,14 +97,13 @@ export function ChipInput({
 					onChangeText={setInputValue}
 					onSubmitEditing={handleAddChip}
 					onKeyPress={handleKeyPress}
-					placeholderTextColor={pallettes.black[600]}
-					cursorColor={theme.colors.secondary}
-					selectionColor={theme.colors.secondary}
-					style={[
-						inputBaseStyles.input,
-						active && inputBaseStyles.inputActive,
-						Boolean(value.length) && styles.inputHasChip,
-					]}
+					placeholder="Create category..."
+					placeholderTextColor={colors.gray[500]}
+					cursorColor={colors.primary[500]}
+					selectionColor={colors.primary[500]}
+					className={clsx("flex-1 mr-1 py-2 ml-2", {
+						"ml-1": value.length,
+					})}
 				/>
 			</View>
 			<ScrollView
@@ -128,21 +128,6 @@ export function ChipInput({
 }
 
 const styles = StyleSheet.create({
-	inputLabel: {
-		marginBottom: theme.spacing.xs,
-		marginLeft: theme.spacing.xs,
-	},
-	inputContainer: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		alignItems: "center",
-	},
-	inputHasChip: {
-		paddingLeft: theme.spacing.xs,
-	},
-	firstChip: {
-		marginLeft: 4,
-	},
 	suggestions: {
 		marginTop: 4,
 		gap: theme.spacing.xs / 2,

@@ -1,0 +1,11 @@
+import React from "react";
+import Text from "../Text";
+
+export type LabelProps = { children?: string };
+
+function Label({ children }: LabelProps) {
+	if (!children) return null;
+	return <Text className="mb-1.5 ml-0.5 text-sm">{children}</Text>;
+}
+
+export default Label;
