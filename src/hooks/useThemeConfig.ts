@@ -3,7 +3,7 @@ import {
   DarkTheme as _DarkTheme,
   DefaultTheme,
 } from "@react-navigation/native";
-import { useColorScheme } from "nativewind";
+import { useColorScheme } from "react-native";
 
 import { colors } from "~/theme";
 
@@ -29,7 +29,7 @@ const LightTheme: Theme = {
 };
 
 export function useThemeConfig() {
-  const { colorScheme } = useColorScheme();
+  const colorScheme = useColorScheme();
 
   if (colorScheme === "dark") return DarkTheme;
 

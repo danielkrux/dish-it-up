@@ -43,7 +43,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 		deleteMutation.mutate(mealPlan.id);
 	}
 
-	function handleGoToGroceriesSelect() {
+	function handleNavigateToGroceriesSelect() {
 		router.push(`/recipe/${mealPlan.recipe_id}/select-groceries`);
 		setTimeout(() => {
 			swipeableRef.current?.close();
@@ -57,12 +57,12 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 	return (
 		<SwipeableRow
 			ref={swipeableRef}
-			rightStyle={styles.rightAction}
 			rightIcon="trash-2"
+			rightStyle={styles.rightAction}
 			onRightOpen={handleDeleteMealPlan}
-			leftStyle={styles.leftAction}
 			leftIcon="shopping-cart"
-			onLeftOpen={handleGoToGroceriesSelect}
+			leftStyle={styles.leftAction}
+			onLeftOpen={handleNavigateToGroceriesSelect}
 			onPress={handleNavigateToRecipe}
 		>
 			<View className="flex-row bg-white dark:bg-gray-900 rounded-2xl">
@@ -73,8 +73,12 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 					/>
 				)}
 				<View className="flex-1 py-2">
-					<Text type="header" size="l">
-						{recipe?.name}
+					<Text className="font-display text-lg mb-1">{recipe?.name}</Text>
+					<Text className="font-body text-xs text-gray-800 dark:text-gray-300 mb-1">
+						{recipe?.recipe_yield} persons | {recipe?.total_time}
+					</Text>
+					<Text className="font-body text-xs text-gray-800 dark:text-gray-300">
+						Last made 3 weeks ago
 					</Text>
 				</View>
 			</View>

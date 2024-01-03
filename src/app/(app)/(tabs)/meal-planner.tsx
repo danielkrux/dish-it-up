@@ -45,13 +45,22 @@ function MealPlanner() {
 		router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
 	}
 
+	function handleCreateGroceryList() {
+		const currentMealPlansIds = currentMealPlans
+			.map((mp) => mp.recipe_id)
+			.join(",");
+
+		//@ts-ignore
+		router.push(`/meal-planner/grocery-list?ids=${currentMealPlansIds}`);
+	}
+
 	return (
 		<View className="flex-1">
 			<View className="flex-row justify-between items-center m-4">
 				<IconButton
 					onPress={() => setSelectedDate(subDays(selectedDate, 7))}
 					icon="chevron-left"
-					size="small"
+					size="medium"
 				/>
 				<Text size="l">
 					{format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
@@ -59,7 +68,7 @@ function MealPlanner() {
 				<IconButton
 					onPress={() => setSelectedDate(addDays(selectedDate, 7))}
 					icon="chevron-right"
-					size="small"
+					size="medium"
 				/>
 			</View>
 			<ScrollView className="flex-1" contentContainerStyle="mx-4">
@@ -91,16 +100,7 @@ function MealPlanner() {
 					);
 				})}
 			</ScrollView>
-			<FloatingButton
-				onPress={() =>
-					router.push(
-						//@ts-ignore
-						`/meal-planner/grocery-list?ids=${currentMealPlans
-							.map((mp) => mp.recipe_id)
-							.join(",")}`,
-					)
-				}
-			>
+			<FloatingButton onPress={handleCreateGroceryList}>
 				Create Grocery List
 			</FloatingButton>
 		</View>
