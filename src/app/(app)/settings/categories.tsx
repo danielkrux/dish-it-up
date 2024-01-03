@@ -54,10 +54,7 @@ export default function Settings() {
 				{ text: "No", isPreferred: true },
 				{
 					text: "Yes",
-					onPress: () => {
-						console.log("here");
-						return deleteCategoryMutation.mutate(id);
-					},
+					onPress: () => deleteCategoryMutation.mutate(id),
 				},
 			],
 		);

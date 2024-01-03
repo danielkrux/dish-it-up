@@ -11,7 +11,7 @@ import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGro
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
 import useFetchGroceryList from "~/features/grocery-list/hooks/useFetchGroceryList";
 import useUpdateGroceryListItem from "~/features/grocery-list/hooks/useUpdateGroceryListItem";
-import theme, { colors } from "~/theme";
+import { colors } from "~/theme";
 
 function GroceryList() {
 	const addRef = useRef<TextInput>(null);
@@ -30,7 +30,7 @@ function GroceryList() {
 
 	function handleAddGroceryItem(input: string) {
 		addRef.current?.clear();
-		addMutation.mutate([input]);
+		addMutation.mutate([{ name: input, amount: null, unit: null }]);
 		addRef.current?.focus();
 	}
 
@@ -51,6 +51,7 @@ function GroceryList() {
 				options={{
 					headerRight: () => (
 						<ContextMenu
+							iconButtonSize="medium"
 							actions={[
 								{
 									label: "Clear completed",

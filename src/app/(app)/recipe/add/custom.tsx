@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { AvoidSoftInput } from "react-native-avoid-softinput";
 
 import RecipeForm from "~/features/recipe/components/RecipeForm";
+import { RecipeUpdate } from "~/features/recipe/recipe.types";
 import theme from "~/theme";
 
 type RecipeInputs = {
@@ -38,11 +39,11 @@ function AddRecipe() {
 
 	useFocusEffect(onFocusEffect);
 
-	const onSubmit = (data: RecipeInputs) => console.log(data);
+	const onSubmit = (data: RecipeUpdate) => console.log(data);
 
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
-			<RecipeForm />
+			<RecipeForm onSubmit={onSubmit} />
 		</ScrollView>
 	);
 }

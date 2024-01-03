@@ -39,7 +39,7 @@ export default function FloatingButton({
 			}}
 		>
 			{loading ? (
-				<ActivityIndicator color={colors.white} />
+				<ActivityIndicator color={colors.gray[500]} />
 			) : (
 				<>
 					{icon && <Icon name={icon} color={theme.colors.text} size={20} />}

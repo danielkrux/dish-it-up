@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Ingredient, IngredientCreate } from "~/features/recipe/recipe.types";
 import { createGroceryList } from "../groceryList.service";
 import { GroceryListItem } from "../groceryList.types";
 
@@ -11,7 +12,8 @@ function useCreateGroceryListItem(options?: Options) {
   const queryClient = useQueryClient();
 
   const createGroceryListItemMutation = useMutation({
-    mutationFn: (items: string[]) => createGroceryList(items),
+    mutationFn: (items: (Ingredient | IngredientCreate)[]) =>
+      createGroceryList(items),
     onMutate: async (items) => {
       await queryClient.cancelQueries(["groceryList"]);
 
@@ -19,10 +21,13 @@ function useCreateGroceryListItem(options?: Options) {
         "groceryList",
       ]);
 
-      queryClient.setQueryData(["groceryList"], (old: any) => [
-        ...(old ?? []),
-        ...items.map((item) => ({ name: item })),
-      ]);
+      queryClient.setQueryData(
+        ["groceryList"],
+        [
+          ...(previousItems ?? []),
+          ...items.map((item) => ({ name: item.name })),
+        ]
+      );
 
       return { previousItems };
     },

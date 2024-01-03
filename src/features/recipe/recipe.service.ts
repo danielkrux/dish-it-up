@@ -155,8 +155,6 @@ export async function getRecipes(searchQuery?: string) {
     throw new Error(result.error.message);
   }
 
-  console.log(result.data);
-
   return result.data;
 }
 
