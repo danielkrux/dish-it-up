@@ -68,14 +68,14 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			<View className="flex-row bg-white dark:bg-gray-900 rounded-2xl">
 				{recipe?.image_url && (
 					<Image
-						className="w-24 aspect-square mr-4 rounded-l-2xl"
+						className="w-24 h-full mr-4 rounded-l-2xl"
 						source={{ uri: recipe?.image_url }}
 					/>
 				)}
-				<View className="flex-1 py-2">
-					<Text className="font-display text-lg mb-1">{recipe?.name}</Text>
+				<View className="flex-1 py-2 mr-3">
+					<Text className="font-display text-base mb-1">{recipe?.name}</Text>
 					<Text className="font-body text-xs text-gray-800 dark:text-gray-300 mb-1">
-						{recipe?.recipe_yield} persons | {recipe?.total_time}
+						{recipe?.recipe_yield} servings | {recipe?.total_time}
 					</Text>
 					<Text className="font-body text-xs text-gray-800 dark:text-gray-300">
 						Last made 3 weeks ago

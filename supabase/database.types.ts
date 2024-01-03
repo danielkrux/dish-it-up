@@ -78,24 +78,24 @@ export interface Database {
           amount: string | null
           created_at: string
           id: number
-          name: string | null
-          recipe_id: number | null
+          name: string
+          recipe_id: number
           unit: string | null
         }
         Insert: {
           amount?: string | null
           created_at?: string
           id?: number
-          name?: string | null
-          recipe_id?: number | null
+          name: string
+          recipe_id: number
           unit?: string | null
         }
         Update: {
           amount?: string | null
           created_at?: string
           id?: number
-          name?: string | null
-          recipe_id?: number | null
+          name?: string
+          recipe_id?: number
           unit?: string | null
         }
         Relationships: [

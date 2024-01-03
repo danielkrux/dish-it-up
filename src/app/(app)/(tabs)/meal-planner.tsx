@@ -71,7 +71,7 @@ function MealPlanner() {
 					size="medium"
 				/>
 			</View>
-			<ScrollView className="flex-1" contentContainerStyle="mx-4">
+			<ScrollView className="flex-1" contentContainerStyle="mx-4 pb-16">
 				{datesOfWeek.map((date) => {
 					const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 

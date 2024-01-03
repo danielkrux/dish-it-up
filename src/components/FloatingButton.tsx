@@ -43,9 +43,7 @@ export default function FloatingButton({
 			) : (
 				<>
 					{icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-					<Text className="text-gray-900 font-display text-base">
-						{children}
-					</Text>
+					<Text className="text-white font-display text-base">{children}</Text>
 				</>
 			)}
 		</AnimatedPressable>
