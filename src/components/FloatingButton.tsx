@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React from "react";
-import { Pressable } from "react-native";
+import { ActivityIndicator, Pressable } from "react-native";
 import Animated, { Layout } from "react-native-reanimated";
 
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
-import theme from "../theme";
+import theme, { colors } from "../theme";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
 
@@ -12,16 +12,18 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type FloatingButtonProps = {
 	children: string;
+	loading?: boolean;
 	icon?: IconName;
-	onPress?: () => void;
 	useSafeArea?: boolean;
+	onPress?: () => void;
 };
 
 export default function FloatingButton({
 	children,
-	onPress,
+	loading,
 	icon,
 	useSafeArea,
+	onPress,
 }: FloatingButtonProps) {
 	const insets = useSafeAreaInsets();
 
@@ -36,10 +38,16 @@ export default function FloatingButton({
 				bottom: useSafeArea ? insets.bottom : 20,
 			}}
 		>
-			{icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-			<Text size="l" className="text-white font-display">
-				{children}
-			</Text>
+			{loading ? (
+				<ActivityIndicator color={colors.white} />
+			) : (
+				<>
+					{icon && <Icon name={icon} color={theme.colors.text} size={20} />}
+					<Text className="text-gray-900 font-display text-base">
+						{children}
+					</Text>
+				</>
+			)}
 		</AnimatedPressable>
 	);
 }

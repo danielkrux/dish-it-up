@@ -30,9 +30,15 @@ function IconButton({
 		<Pressable
 			onPressIn={() => setIsPressed(true)}
 			onPressOut={() => setIsPressed(false)}
+			hitSlop={5}
 			className={clsx(
 				"p-3 rounded-full items-center justify-center bg-gray-100 dark:bg-gray-900",
-				{ "bg-transparent": ghost, "opacity-80": isPressed },
+				{
+					"bg-transparent": ghost,
+					"opacity-80": isPressed,
+					"p-1.5": size === "small",
+					"p-2": size === "medium",
+				},
 			)}
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			style={style as any}

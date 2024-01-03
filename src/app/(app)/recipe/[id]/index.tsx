@@ -27,6 +27,7 @@ export default function RecipeDetailPage() {
 					),
 					headerRight: () => (
 						<ContextMenu
+							iconButtonSize="medium"
 							actions={[
 								{
 									label: "Add to grocery list",

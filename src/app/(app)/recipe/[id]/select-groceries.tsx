@@ -1,23 +1,26 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
+import IconButton from "~/components/IconButton";
 import ListButton from "~/components/ListButton";
 import Text from "~/components/Text";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme from "~/theme";
+import { findRecipeYieldAmount } from "~/features/recipe/recipe.utils";
 
 function SelectGroceries() {
 	const router = useRouter();
 	const { id } = useLocalSearchParams();
 	const { data } = useFetchRecipe(Number(id));
-	const ingredients = data?.ingredients;
+	const [yieldMultiplier, setYieldsMultiplier] = useState(1);
+	const initialIngredients = data?.ingredients.map((i) => i.name ?? "");
+	const recipeYieldAmount = findRecipeYieldAmount(data?.recipe_yield ?? "");
 
-	const [selected, setSelected] = useState<string[]>(ingredients ?? []);
-	const { mutate } = useCreateGroceryListItem({
-		onSuccess: () => router.back(),
+	const [selected, setSelected] = useState<string[]>(initialIngredients ?? []);
+	const { mutate, isLoading } = useCreateGroceryListItem({
+		onSuccess: router.back,
 	});
 
 	function handleIngredientPress(ingredient: string) {
@@ -28,22 +31,53 @@ function SelectGroceries() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title} type="header">
-				Select groceries
-			</Text>
-			<ScrollView>
-				{ingredients?.map((ingredient, index) => (
-					<ListButton
-						key={ingredient + index}
-						selectable
-						selected={selected.includes(ingredient)}
-						onPress={() => handleIngredientPress(ingredient)}
-						label={ingredient}
+		<View className="flex-1 py-6 px-4">
+			<Text type="header">Select groceries</Text>
+			<Text className="mb-4 text-bold text-gray-300">{data?.name}</Text>
+			{recipeYieldAmount && (
+				<View className="flex-row items-center g-3 mb-4">
+					<IconButton
+						size="small"
+						icon="minus"
+						onPress={() =>
+							setYieldsMultiplier(yieldMultiplier - 1 / recipeYieldAmount)
+						}
 					/>
-				))}
+					<Text>{recipeYieldAmount * yieldMultiplier} persons</Text>
+					<IconButton
+						size="small"
+						icon="plus"
+						onPress={() =>
+							setYieldsMultiplier(yieldMultiplier + 1 / recipeYieldAmount)
+						}
+					/>
+				</View>
+			)}
+			<ScrollView>
+				{data?.ingredients?.map((ingredient, index) => {
+					const name = ingredient.name ?? "";
+					const amount = Number(ingredient.amount) ?? "";
+					const unit = ingredient.unit ?? "";
+
+					const label = `${amount * yieldMultiplier} ${unit} ${name}`;
+
+					return (
+						<ListButton
+							key={name + index}
+							selectable
+							selected={selected.includes(name)}
+							onPress={() => handleIngredientPress(name)}
+							label={label}
+							className="dark:bg-gray-950"
+						/>
+					);
+				})}
 			</ScrollView>
-			<FloatingButton useSafeArea onPress={() => mutate(selected)}>
+			<FloatingButton
+				loading={isLoading}
+				useSafeArea
+				onPress={() => mutate(selected)}
+			>
 				Save
 			</FloatingButton>
 		</View>
@@ -51,15 +85,3 @@ function SelectGroceries() {
 }
 
 export default SelectGroceries;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingVertical: theme.spacing.xl,
-		paddingHorizontal: theme.spacing.m,
-		paddingTop: theme.spacing.xl,
-	},
-	title: {
-		marginBottom: theme.spacing.xs,
-	},
-});

@@ -7,22 +7,36 @@ import { Recipe } from "../../recipe.types";
 function Meta({ recipe, ...props }: { recipe?: Recipe }) {
 	return (
 		<View
-			className="p-5 flex-row rounded-2xl justify-evenly bg-acapulco-100"
+			className="p-5 flex-row rounded-2xl justify-evenly bg-acapulco-100 dark:bg-acapulco-600"
 			{...props}
 		>
 			<View className="items-center">
-				<Text className="text-acapulco-600 font-bold text-xl" size="xl">
+				<Text
+					className="text-acapulco-600 dark:text-acapulco-100 font-bold text-xl"
+					size="xl"
+				>
 					{recipe?.recipe_yield}
 				</Text>
-				<Text type="body" size="l" className="text-acapulco-600">
+				<Text
+					type="body"
+					size="l"
+					className="text-acapulco-600 dark:text-acapulco-100"
+				>
 					Servings
 				</Text>
 			</View>
 			<View className="items-center">
-				<Text className="text-acapulco-600 font-bold text-xl" size="xl">
+				<Text
+					className="text-acapulco-600 dark:text-acapulco-100 font-bold text-xl"
+					size="xl"
+				>
 					{recipe?.total_time}
 				</Text>
-				<Text type="body" size="l" className="text-acapulco-600">
+				<Text
+					type="body"
+					size="l"
+					className="text-acapulco-600 dark:text-acapulco-100"
+				>
 					Total Time
 				</Text>
 			</View>
