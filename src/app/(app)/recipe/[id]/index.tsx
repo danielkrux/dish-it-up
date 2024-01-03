@@ -1,16 +1,12 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import ContextMenu from "~/components/ContextMenu/ContextMenu";
+
 import IconButton from "~/components/IconButton";
+import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
-import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 
 export default function RecipeDetailPage() {
 	const { id } = useLocalSearchParams();
 	const router = useRouter();
-
-	const { mutate } = useDeleteRecipe(Number(id), {
-		onSuccess: () => router.push("/"),
-	});
 
 	return (
 		<>
@@ -26,27 +22,9 @@ export default function RecipeDetailPage() {
 						/>
 					),
 					headerRight: () => (
-						<ContextMenu
-							iconButtonSize="medium"
-							actions={[
-								{
-									label: "Add to grocery list",
-									onPress: () =>
-										router.push(`/(app)/recipe/${id}/select-groceries`),
-									icon: "shopping-cart",
-								},
-								{
-									label: "Edit...",
-									onPress: () => router.push(`/(app)/recipe/${id}/edit`),
-									icon: "edit-2",
-								},
-								{
-									label: "Delete",
-									onPress: () => mutate(),
-									icon: "trash-2",
-									destructive: true,
-								},
-							]}
+						<RecipeDetailMenu
+							onDeleteSucces={() => router.push("/")}
+							recipeId={Number(id)}
 						/>
 					),
 				}}

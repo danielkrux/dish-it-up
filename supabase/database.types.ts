@@ -79,7 +79,7 @@ export interface Database {
           created_at: string
           id: number
           name: string
-          recipe_id: number
+          recipe_id: number | null
           unit: string | null
         }
         Insert: {
@@ -87,7 +87,7 @@ export interface Database {
           created_at?: string
           id?: number
           name: string
-          recipe_id: number
+          recipe_id?: number | null
           unit?: string | null
         }
         Update: {
@@ -95,7 +95,7 @@ export interface Database {
           created_at?: string
           id?: number
           name?: string
-          recipe_id?: number
+          recipe_id?: number | null
           unit?: string | null
         }
         Relationships: [

@@ -1,9 +1,10 @@
 import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import * as Menu from "zeego/dropdown-menu";
 
-import ContextMenu from "~/components/ContextMenu/ContextMenu";
 import Icon from "~/components/Icon";
+import IconButton from "~/components/IconButton";
 import ListButton from "~/components/ListButton";
 import SwipeableRow from "~/components/SwipeableRow";
 import { GroceryListItem } from "~/features/grocery-list/groceryList.types";
@@ -50,22 +51,24 @@ function GroceryList() {
 			<Tabs.Screen
 				options={{
 					headerRight: () => (
-						<ContextMenu
-							iconButtonSize="medium"
-							actions={[
-								{
-									label: "Clear completed",
-									icon: "check-circle",
-									onPress: () => handleDelete(true),
-								},
-								{
-									label: "Delete all",
-									destructive: true,
-									icon: "trash-2",
-									onPress: handleDelete,
-								},
-							]}
-						/>
+						<Menu.Root>
+							<Menu.Trigger>
+								<IconButton size="medium" icon="more-vertical" />
+							</Menu.Trigger>
+							<Menu.Content>
+								<Menu.Item
+									key="clear-completed"
+									onSelect={() => handleDelete(true)}
+								>
+									<Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
+									<Menu.ItemTitle>Clear completed</Menu.ItemTitle>
+								</Menu.Item>
+								<Menu.Item key="delete" destructive onSelect={handleDelete}>
+									<Menu.ItemIcon ios={{ name: "trash" }} />
+									<Menu.ItemTitle>Delete</Menu.ItemTitle>
+								</Menu.Item>
+							</Menu.Content>
+						</Menu.Root>
 					),
 				}}
 			/>

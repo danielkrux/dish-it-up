@@ -1,19 +1,15 @@
 import { Slot, useRouter } from "expo-router";
 import { View } from "react-native";
 import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
-import ContextMenu from "~/components/ContextMenu/ContextMenu";
+
 import IconButton from "~/components/IconButton";
 import useHomeContext from "~/features/home/hooks/useHomeContext";
+import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
-import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 
 export default function HomeTabLayout() {
 	const router = useRouter();
 	const { recipeId, setRecipeId } = useHomeContext();
-
-	const { mutate } = useDeleteRecipe(recipeId, {
-		onSuccess: handleDelete,
-	});
 
 	function handleDelete() {
 		setRecipeId(undefined);
@@ -40,28 +36,9 @@ export default function HomeTabLayout() {
 								icon="maximize-2"
 								onPress={() => router.push(`/(app)/recipe/${recipeId}/`)}
 							/>
-							<ContextMenu
-								iconButtonSize="medium"
-								actions={[
-									{
-										label: "Add to grocery list",
-										onPress: () =>
-											router.push(`/(app)/recipe/${recipeId}/select-groceries`),
-										icon: "shopping-cart",
-									},
-									{
-										label: "Edit...",
-										onPress: () =>
-											router.push(`/(app)/recipe/${recipeId}/edit`),
-										icon: "edit-2",
-									},
-									{
-										label: "Delete",
-										onPress: () => mutate(),
-										icon: "trash-2",
-										destructive: true,
-									},
-								]}
+							<RecipeDetailMenu
+								recipeId={recipeId}
+								onDeleteSucces={handleDelete}
 							/>
 						</View>
 					</View>
