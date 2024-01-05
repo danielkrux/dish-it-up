@@ -17,7 +17,7 @@ function SeachAndFilter() {
 
 	return (
 		<View className="md:mb-4">
-			<View className="flex-row items-center mb-4">
+			<View className="flex-row items-center mb-1.5 flex-1">
 				<InputBase
 					value={q}
 					onChangeText={(text) => {
@@ -26,7 +26,6 @@ function SeachAndFilter() {
 					onFocus={() => setIsSearching(true)}
 					onBlur={() => setIsSearching(false)}
 					placeholder="Search recipes"
-					className="flex-1"
 				/>
 
 				{isSearching && (

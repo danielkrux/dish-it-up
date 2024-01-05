@@ -7,7 +7,7 @@ import Icon, { IconName } from "./Icon";
 import Text from "./Text";
 
 export type ChipData = {
-	label: string | null;
+	label: string | undefined;
 	value: string;
 	icon?: IconName;
 };

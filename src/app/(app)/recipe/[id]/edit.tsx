@@ -1,7 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { ScrollView } from "react-native";
-import Button from "~/components/Button";
 
 import IconButton from "~/components/IconButton";
 import RecipeForm from "~/features/recipe/components/RecipeForm";
@@ -33,19 +32,6 @@ export default function EditRecipe() {
 		[router],
 	);
 
-	// const renderHeaderRight = useCallback(
-	// 	() => (
-	// 		<Button
-	// 			variant="secondary"
-	// 			size="small"
-	// 			onPress={() => router.back()}
-	// 		>
-	// 			Save
-	// 		</Button>
-	// 	),
-	// 	[router],
-	// );
-
 	if (!data) return null;
 
 	return (
@@ -57,7 +43,6 @@ export default function EditRecipe() {
 				options={{
 					title: "Edit Recipe",
 					headerLeft: renderHeaderLeft,
-					// headerRight: renderHeaderRight,
 				}}
 			/>
 			<RecipeForm
@@ -67,6 +52,7 @@ export default function EditRecipe() {
 						...data,
 						...recipeInputs,
 						ingredients: parseIngredients(recipeInputs.ingredients),
+						instructions: recipeInputs.instructions.map((i) => i.value),
 					})
 				}
 			/>

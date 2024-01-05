@@ -61,11 +61,10 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 		);
 
 		return (
-			<View className="self-stretch">
+			<View className="self-stretch flex-1">
 				{label && <Label>{label}</Label>}
 				<View
-					className={clsx("flex-row rounded-lg bg-gray-100 dark:bg-gray-900", {
-						"border-gray-200": active,
+					className={clsx("flex-1 rounded-lg bg-gray-100 dark:bg-gray-900", {
 					})}
 					style={style}
 				>

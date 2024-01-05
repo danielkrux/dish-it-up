@@ -1,19 +1,19 @@
 import { useCallback } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import {
-	NativeSyntheticEvent,
-	TextInputKeyPressEventData,
-	View,
-} from "react-native";
+import { View } from "react-native";
 
 import Button from "~/components/Button";
 import { ChipInput } from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
-import Label from "~/components/Inputs/Label";
-import useFetchCategories from "../hooks/useFetchCategories";
-import { Recipe, RecipeUpdate } from "../recipe.types";
+import useFetchCategories from "../../hooks/useFetchCategories";
+import { Recipe, RecipeUpdate } from "../../recipe.types";
+import IngredientsInput from "./IngredientsInput";
+import InstructionsInput from "./InstructionsInput";
 
-type RecipeUpdateForm = Omit<RecipeUpdate, "ingredients" | "instructions"> & {
+export type RecipeUpdateForm = Omit<
+	RecipeUpdate,
+	"ingredients" | "instructions"
+> & {
 	ingredients: { name: string; id?: number }[];
 	instructions: { value: string }[];
 };
@@ -58,10 +58,11 @@ function RecipeForm({
 		};
 	}, [initialRecipe]);
 
-	const { control, handleSubmit, setValue, getValues, watch, setFocus } =
-		useForm<RecipeUpdateForm>({
-			defaultValues: getDefaultValues(),
-		});
+	const form = useForm<RecipeUpdateForm>({
+		defaultValues: getDefaultValues(),
+	});
+
+	const { control, getValues, setValue, watch, handleSubmit, setFocus } = form;
 
 	const ingredientsFieldArray = useFieldArray({
 		control,
@@ -72,26 +73,6 @@ function RecipeForm({
 		control,
 		name: "instructions",
 	});
-
-	function handleSubmitEditing(index: number) {
-		ingredientsFieldArray.insert(
-			index + 1,
-			{ name: "" },
-			{ focusName: `ingredients.${index + 1}.name`, shouldFocus: true },
-		);
-	}
-
-	function handleKeyPress(
-		e: NativeSyntheticEvent<TextInputKeyPressEventData>,
-		index: number,
-	) {
-		const value = getValues(`ingredients.${index}.name`);
-
-		if (e.nativeEvent?.key === "Backspace" && value === "" && index !== 0) {
-			ingredientsFieldArray.remove(index);
-			setFocus(`ingredients.${index - 1}.name`);
-		}
-	}
 
 	return (
 		<View className="flex-1 g-4">
@@ -109,6 +90,12 @@ function RecipeForm({
 				numberOfLines={2}
 				multiline
 				style={{ minHeight: 100 }}
+			/>
+			<ControlledInput
+				label="Total time"
+				name="total_time"
+				control={control}
+				returnKeyType="next"
 			/>
 			<ControlledInput
 				label="Yields"
@@ -140,45 +127,10 @@ function RecipeForm({
 					);
 				}}
 			/>
-			<ControlledInput
-				label="Total time"
-				name="total_time"
-				control={control}
-				returnKeyType="next"
-			/>
 
-			<View>
-				<Label className="mb-0">Ingredients</Label>
-				<View className="rounded-lg p-2 pl-0">
-					{ingredientsFieldArray.fields.map((f, index) => (
-						<ControlledInput
-							key={f.id}
-							control={control}
-							name={`ingredients.${index}.name`}
-							className="bg-transparent border-none"
-							blurOnSubmit={false}
-							numberOfLines={2}
-							onSubmitEditing={() => handleSubmitEditing(index)}
-							onKeyPress={(e) => handleKeyPress(e, index)}
-						/>
-					))}
-				</View>
-			</View>
-			<View>
-				<Label className="mb-0">Instructions</Label>
-				<View className="rounded-lg p-2 pl-0">
-					{instructionsFieldArray.fields.map((f, index) => (
-						<ControlledInput
-							key={f.id}
-							control={control}
-							name={`instructions.${index}.value`}
-							className="bg-transparent border-none"
-							multiline
-							numberOfLines={2}
-						/>
-					))}
-				</View>
-			</View>
+			<IngredientsInput form={form} fieldArray={ingredientsFieldArray} />
+			<InstructionsInput form={form} fieldArray={instructionsFieldArray} />
+
 			<Button size="large" onPress={handleSubmit(onSubmit)}>
 				Submit
 			</Button>

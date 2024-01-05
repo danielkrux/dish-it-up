@@ -13,7 +13,6 @@ import clsx from "clsx";
 import theme, { colors } from "~/theme";
 import { nanoid } from "~/utils/random";
 import Chip, { ChipData } from "../Chip";
-import Text from "../Text";
 import Label from "./Label";
 import { InputBaseProps } from "./TextInputBase";
 
