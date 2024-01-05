@@ -57,32 +57,30 @@ export default function RecipeDetail({
 		<ScrollView
 			onLayout={onLayout}
 			contentInsetAdjustmentBehavior="automatic"
-			className="flex-1 py-4 px-2"
+			className="flex-1 py-4 px-4"
 		>
 			{header}
 			<View className="mb-4">
-				<Text className="mb-4 px-2 font-display text-4xl">{data?.name}</Text>
+				<Text className="mb-4 font-display text-4xl">{data?.name}</Text>
 
 				{data?.image_url && (
 					<Image
 						source={{ uri: data?.image_url }}
-						className="mx-2 aspect-video rounded-2xl"
+						className="aspect-video rounded-2xl"
 					/>
 				)}
 			</View>
-			{data?.description && (
-				<Text className="mx-4 mb-4">{data?.description}</Text>
-			)}
-			<Meta recipe={data} className="mb-4 mx-2" />
+			{data?.description && <Text className="mb-4">{data?.description}</Text>}
+			<Meta recipe={data} className="mb-5" />
 			<ChipList
-				className="mb-7 mx-2"
+				className="mb-5"
 				data={data?.categories.map((c) => ({
 					value: String(c.id),
 					label: c.name,
 				}))}
 			/>
-			<Ingredients recipe={data} className="mb-7 mx-4" />
-			<Instructions recipe={data} className="mx-4 mb-5" />
+			<Ingredients recipe={data} className="mb-7" />
+			<Instructions recipe={data} className="mb-5" />
 		</ScrollView>
 	);
 }

@@ -6,9 +6,6 @@ import { Recipe } from "../../recipe.types";
 function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
 	return (
 		<View style={props.style}>
-			<Text type="header" className="mb-2 md:mb-4" size="xl">
-				Ingredients
-			</Text>
 			<View className="g-1">
 				{recipe?.ingredients?.map((ingredient, i) => (
 					<View
@@ -17,13 +14,12 @@ function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
 					>
 						<Text>
 							{ingredient.amount && (
-								<Text type="bodyBold" size="m">
-									{ingredient.amount} {ingredient.unit}
-									{"  "}
+								<Text className="font-body-bold text-base">
+									{ingredient.amount} {ingredient.unit}{" "}
 								</Text>
 							)}
 
-							<Text type="body">{ingredient.name}</Text>
+							<Text className="text-sm">{ingredient.name}</Text>
 						</Text>
 					</View>
 				))}
