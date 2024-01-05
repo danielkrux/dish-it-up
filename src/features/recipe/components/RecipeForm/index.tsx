@@ -1,7 +1,8 @@
 import { useCallback } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useFormState } from "react-hook-form";
 import { View } from "react-native";
 
+import { useRouter } from "expo-router";
 import Button from "~/components/Button";
 import { ChipInput } from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
@@ -30,11 +31,14 @@ const emtpyRecipe: RecipeUpdateForm = {
 
 function RecipeForm({
 	initialRecipe,
+	isLoading,
 	onSubmit,
 }: {
 	initialRecipe?: Recipe;
+	isLoading?: boolean;
 	onSubmit: (data: RecipeUpdateForm) => void;
 }) {
+	const router = useRouter();
 	const categoriesQuery = useFetchCategories();
 
 	const getDefaultValues = useCallback((): RecipeUpdateForm => {
@@ -62,7 +66,14 @@ function RecipeForm({
 		defaultValues: getDefaultValues(),
 	});
 
-	const { control, getValues, setValue, watch, handleSubmit, setFocus } = form;
+	const {
+		control,
+		getValues,
+		setValue,
+		watch,
+		handleSubmit,
+		formState: { isDirty, isSubmitting },
+	} = form;
 
 	const ingredientsFieldArray = useFieldArray({
 		control,
@@ -73,6 +84,14 @@ function RecipeForm({
 		control,
 		name: "instructions",
 	});
+
+	function handleSave() {
+		if (!isDirty) {
+			router.back();
+			return;
+		}
+		handleSubmit(onSubmit)();
+	}
 
 	return (
 		<View className="flex-1 g-4">
@@ -131,8 +150,8 @@ function RecipeForm({
 			<IngredientsInput form={form} fieldArray={ingredientsFieldArray} />
 			<InstructionsInput form={form} fieldArray={instructionsFieldArray} />
 
-			<Button size="large" onPress={handleSubmit(onSubmit)}>
-				Submit
+			<Button loading={isLoading} size="large" onPress={handleSave}>
+				Save
 			</Button>
 		</View>
 	);

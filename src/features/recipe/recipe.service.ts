@@ -51,6 +51,7 @@ export async function createRecipe(recipe?: RecipeCreate) {
 }
 
 export async function updateRecipe(recipeInput?: RecipeUpdate) {
+  console.log("hu");
   if (!recipeInput || recipeInput === undefined) {
     console.error("No recipe to save");
     throw new Error("No recipe to save");

@@ -15,7 +15,7 @@ export default function EditRecipe() {
 	const router = useRouter();
 
 	const { data } = useFetchRecipe(Number(id));
-	const { mutate } = useUpdateRecipe({
+	const { mutate, isLoading } = useUpdateRecipe({
 		onSuccess: () => router.back(),
 	});
 
@@ -47,6 +47,7 @@ export default function EditRecipe() {
 			/>
 			<RecipeForm
 				initialRecipe={data}
+				isLoading={isLoading}
 				onSubmit={(recipeInputs) =>
 					mutate({
 						...data,
