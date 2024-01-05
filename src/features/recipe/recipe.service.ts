@@ -1,11 +1,7 @@
 import { supabase } from "~/app/_layout";
 import { getSession } from "../auth/auth.service";
-import {
-  IngredientCreate,
-  Recipe,
-  RecipeCreate,
-  RecipeUpdate,
-} from "./recipe.types";
+import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
+import { parseIngredients } from "./recipe.utils";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -40,33 +36,7 @@ export async function createRecipe(recipe?: RecipeCreate) {
     throw new Error(result.error.message);
   }
 
-  const ingredientsToSave: IngredientCreate[] = [];
-
-  for (const ingredient of ingredients ?? []) {
-    if (ingredient.name?.match(/^\d/) || ingredient.name?.startsWith("½")) {
-      const [amount, unit, ...name] = ingredient.name.split(" ");
-      if (!name.length) {
-        ingredientsToSave.push({
-          amount,
-          name: unit,
-          unit: null,
-          recipe_id: result.data?.id,
-        });
-      } else {
-        ingredientsToSave.push({
-          name: name.join(" "),
-          amount,
-          unit,
-          recipe_id: result.data?.id,
-        });
-      }
-    } else {
-      ingredientsToSave.push({
-        name: ingredient.name,
-        recipe_id: result.data?.id,
-      });
-    }
-  }
+  const ingredientsToSave = parseIngredients(ingredients);
 
   const ingredientSaveResult = await supabase
     .from("ingredients")
@@ -102,19 +72,39 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     .eq("recipe_id", recipeInput.id)
     .in("category_id", categoriesToDelete);
 
+  for (const ingredient of ingredients) {
+    const exists = ingredient.id;
+
+    if (recipe.id && ingredient.name) {
+      if (!exists) {
+        await supabase.from("ingredients").insert({
+          ...ingredient,
+          name: ingredient.name,
+          recipe_id: recipe.id,
+        });
+      } else {
+        await supabase
+          .from("ingredients")
+          .update(ingredient)
+          .eq("id", ingredient.id);
+      }
+    }
+  }
+
   for (const category of categories) {
-    const exists = await supabase
-      .from("categories")
-      .select("id")
-      .eq("id", category.id)
-      .single();
+    const exists = category.id;
 
     if (recipe.id && category.id && category.name) {
-      if (!exists.data) {
-        await supabase.from("categories").insert({ name: category.name });
+      if (!exists) {
+        const { data } = await supabase
+          .from("categories")
+          .insert({ name: category.name })
+          .select()
+          .single();
+        if (!data) throw new Error("Could not create category");
         await supabase
           .from("recipe_categories")
-          .insert({ recipe_id: recipe.id, category_id: category.id });
+          .insert({ recipe_id: recipe.id, category_id: data.id });
       } else {
         await supabase
           .from("recipe_categories")
@@ -127,7 +117,7 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     .from("recipes")
     .update(recipe)
     .eq("id", recipe.id)
-    .select("*, categories(*)")
+    .select("*, categories(*), ingredients(*)")
     .single();
 
   if (result.error) {

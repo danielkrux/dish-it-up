@@ -29,9 +29,7 @@ export default function RecipeDetail({
 								className="aspect-square rounded-2xl mb-4"
 							/>
 						)}
-						<Text className="mb-4" type="header">
-							{data?.name}
-						</Text>
+						<Text className="mb-4 font-display text-xl">{data?.name}</Text>
 						<ChipList
 							className="mb-2"
 							data={data?.categories.map((c) => ({
@@ -63,9 +61,8 @@ export default function RecipeDetail({
 		>
 			{header}
 			<View className="mb-4">
-				<Text className="mb-2 mx-2" type="header">
-					{data?.name}
-				</Text>
+				<Text className="mb-4 px-2 font-display text-4xl">{data?.name}</Text>
+
 				{data?.image_url && (
 					<Image
 						source={{ uri: data?.image_url }}

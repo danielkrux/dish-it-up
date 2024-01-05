@@ -1,10 +1,8 @@
-import {
-	StyleSheet,
-	Text as RNText,
-	TextProps as RNTextProps,
-} from "react-native";
+import clsx from "clsx";
+import { Text as RNText, TextProps as RNTextProps } from "react-native";
 import Animated from "react-native-reanimated";
-import theme from "../theme";
+
+import { styled } from "nativewind";
 import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
@@ -13,62 +11,42 @@ export type TextProps = {
 	light?: boolean;
 } & RNTextProps;
 
-export default function Text({
-	type = "body",
-	size,
-	style,
-	...props
-}: TextProps) {
-	const sizeStyle = size
-		? styles[size]
-		: type === "header"
-		  ? styles.xxl
-		  : styles.m;
+function Text({ type = "body", size, style, ...props }: TextProps) {
+	if (props.children === "Import Recipe") {
+		console.log(
+			clsx("text-gray-950 font-body dark:text-white", {
+				"text-xl": size === "xl",
+				"text-lg": size === "l",
+				"text-base": size === "m",
+				"text-sm": size === "s",
+				"text-xs": size === "xs",
+				"font-body": type === "body",
+				"font-body-bold": type === "bodyBold",
+				"font-display": type === "header",
+			}),
+			console.log(style),
+		);
+	}
 	return (
 		<RNText
-			className="text-black dark:text-white"
-			style={[styles[type], sizeStyle, style]}
 			{...props}
+			className={clsx("text-gray-950 font-body dark:text-white", {
+				"text-xl": size === "xl",
+				"text-lg": size === "l",
+				"text-base": size === "m",
+				"text-sm": size === "s",
+				"text-xs": size === "xs",
+				"font-body": type === "body",
+				"font-body-bold": type === "bodyBold",
+				"font-display": type === "header",
+			})}
+			style={style}
 		/>
 	);
 }
 
-export const AnimatedText = Animated.createAnimatedComponent(
-	createClassComponent(Text),
-);
+export default styled(Text);
 
-const styles = StyleSheet.create({
-	body: {
-		fontFamily: "Body",
-	},
-	bodyBold: {
-		fontFamily: "BodyBold",
-	},
-	header: {
-		fontFamily: "Heading",
-	},
-	xs: {
-		fontSize: theme.fontSize.xs,
-		lineHeight: theme.fontSize.xs * 1.5,
-	},
-	s: {
-		fontSize: theme.fontSize.s,
-		lineHeight: theme.fontSize.s * 1.5,
-	},
-	m: {
-		fontSize: theme.fontSize.m,
-		lineHeight: theme.fontSize.m * 1.5,
-	},
-	l: {
-		fontSize: theme.fontSize.l,
-		lineHeight: theme.fontSize.l * 1.5,
-	},
-	xl: {
-		fontSize: theme.fontSize.xl,
-		lineHeight: theme.fontSize.xl * 1.2,
-	},
-	xxl: {
-		fontSize: theme.fontSize.xxl,
-		lineHeight: theme.fontSize.xxl * 1.2,
-	},
-});
+export const AnimatedText = Animated.createAnimatedComponent(
+	createClassComponent(styled(Text)),
+);

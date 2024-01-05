@@ -32,7 +32,7 @@ export default function FloatingButton({
 			layout={Layout}
 			onPress={onPress}
 			className={clsx(
-				"absolute self-center flex-row items-baseline gap-1 bg-primary rounded-full px-8 py-2",
+				"absolute self-center flex-row items-center gap-1 bg-primary rounded-full px-8 py-2",
 			)}
 			style={{
 				bottom: useSafeArea ? insets.bottom : 20,

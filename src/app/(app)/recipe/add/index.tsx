@@ -12,9 +12,7 @@ export default function Add() {
 
 	return (
 		<View className="my-5 mx-4">
-			<Text className="mb-1" type="header">
-				Enter url
-			</Text>
+			<Text className="mb-1 text-3xl font-display">Enter url</Text>
 			<Text className="mb-4" type="body">
 				Enter a URL to import a recipe from.
 			</Text>

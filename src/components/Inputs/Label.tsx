@@ -1,11 +1,17 @@
+import { styled } from "nativewind";
 import React from "react";
 import Text from "../Text";
 
 export type LabelProps = { children?: string };
 
-function Label({ children }: LabelProps) {
+function Label({ children, ...props }: LabelProps) {
 	if (!children) return null;
-	return <Text className="mb-1.5 ml-0.5 text-sm">{children}</Text>;
+
+	return (
+		<Text className="mb-1.5 ml-0.5 text-sm font-body-bold" {...props}>
+			{children}
+		</Text>
+	);
 }
 
-export default Label;
+export default styled(Label);

@@ -24,7 +24,10 @@ export default function Icon({
 }: IconProps) {
 	const c = color ? color : light ? theme.colors.white : theme.colors.text;
 
-	if (name === "logo") return <Logo width={size} height={size} style={style} />;
+	if (name === "logo")
+		return (
+			<Logo width={size} height={size} style={style} className={className} />
+		);
 
 	return (
 		<FeatherIcons

@@ -5,11 +5,11 @@ import { View } from "react-native";
 
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
-import { ControlledInput } from "~/components/Inputs/ControlledInputs";
+import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
 import { signInWithEmail } from "~/features/auth/auth.service";
 
-export type SignInFormData = {
+type SignInFormData = {
 	email: string;
 	password: string;
 };
@@ -33,8 +33,8 @@ function SignIn() {
 	}
 
 	return (
-		<View className="flex-1 justify-center items-center px-4">
-			<Icon name="logo" size={128} className="mb-4" />
+		<View className="flex-1 justify-center items-center px-4 dark:bg-gray-950">
+			<Icon name="logo" size={128} className="mb-4 dark:text-white" />
 			<Text type="header" className="text-5xl mb-10">
 				Dish It Up
 			</Text>
@@ -51,7 +51,7 @@ function SignIn() {
 				label="Password"
 				keyboardType="visible-password"
 				control={control}
-				className="mb-8"
+				className="mb-6"
 			/>
 			<Button
 				loading={loading}

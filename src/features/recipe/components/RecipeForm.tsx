@@ -1,29 +1,29 @@
 import { useCallback } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import {
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
+	View,
+} from "react-native";
 
-import { View } from "react-native";
 import Button from "~/components/Button";
 import { ChipInput } from "~/components/Inputs/ChipInput";
-import {
-	ControlledArrayInput,
-	ControlledInput,
-} from "~/components/Inputs/ControlledInputs";
-import Text from "~/components/Text";
+import ControlledInput from "~/components/Inputs/ControlledInputs";
+import Label from "~/components/Inputs/Label";
 import useFetchCategories from "../hooks/useFetchCategories";
-import { IngredientCreate, Recipe, RecipeUpdate } from "../recipe.types";
+import { Recipe, RecipeUpdate } from "../recipe.types";
 
-const emptyIngredient: IngredientCreate = {
-	name: "",
-	amount: "",
-	unit: "",
+type RecipeUpdateForm = Omit<RecipeUpdate, "ingredients" | "instructions"> & {
+	ingredients: { name: string; id?: number }[];
+	instructions: { value: string }[];
 };
 
-const emtpyRecipe: RecipeUpdate = {
+const emtpyRecipe: RecipeUpdateForm = {
 	name: "",
 	description: "",
 	recipe_yield: "",
-	ingredients: [emptyIngredient],
-	instructions: [""],
+	ingredients: [],
+	instructions: [],
 	total_time: "",
 	categories: [],
 };
@@ -33,11 +33,11 @@ function RecipeForm({
 	onSubmit,
 }: {
 	initialRecipe?: Recipe;
-	onSubmit: (data: RecipeUpdate) => void;
+	onSubmit: (data: RecipeUpdateForm) => void;
 }) {
 	const categoriesQuery = useFetchCategories();
 
-	const getDefaultValues = useCallback(() => {
+	const getDefaultValues = useCallback((): RecipeUpdateForm => {
 		if (!initialRecipe) return emtpyRecipe;
 
 		return {
@@ -45,21 +45,53 @@ function RecipeForm({
 			description: initialRecipe.description || "",
 			recipe_yield: initialRecipe.recipe_yield || "",
 			total_time: initialRecipe.total_time || "",
-			ingredients: initialRecipe.ingredients || [],
-			instructions: initialRecipe.instructions || [],
+			ingredients:
+				initialRecipe.ingredients.map((i) => {
+					const amount = i.amount ?? "";
+					const unit = i.unit ?? "";
+
+					return { name: `${amount} ${unit} ${i.name}`.trim(), id: i.id };
+				}) || "",
+			instructions:
+				initialRecipe.instructions?.map((i) => ({ value: i })) || [],
 			categories: initialRecipe.categories || [],
 		};
 	}, [initialRecipe]);
 
-	const { control, handleSubmit, setValue, getValues, watch } =
-		useForm<RecipeUpdate>({
+	const { control, handleSubmit, setValue, getValues, watch, setFocus } =
+		useForm<RecipeUpdateForm>({
 			defaultValues: getDefaultValues(),
 		});
 
-	const ingredients = useFieldArray({
+	const ingredientsFieldArray = useFieldArray({
 		control,
 		name: "ingredients",
 	});
+
+	const instructionsFieldArray = useFieldArray({
+		control,
+		name: "instructions",
+	});
+
+	function handleSubmitEditing(index: number) {
+		ingredientsFieldArray.insert(
+			index + 1,
+			{ name: "" },
+			{ focusName: `ingredients.${index + 1}.name`, shouldFocus: true },
+		);
+	}
+
+	function handleKeyPress(
+		e: NativeSyntheticEvent<TextInputKeyPressEventData>,
+		index: number,
+	) {
+		const value = getValues(`ingredients.${index}.name`);
+
+		if (e.nativeEvent?.key === "Backspace" && value === "" && index !== 0) {
+			ingredientsFieldArray.remove(index);
+			setFocus(`ingredients.${index - 1}.name`);
+		}
+	}
 
 	return (
 		<View className="flex-1 g-4">
@@ -83,6 +115,7 @@ function RecipeForm({
 				name="recipe_yield"
 				control={control}
 				returnKeyType="next"
+				keyboardType="number-pad"
 			/>
 			<ChipInput
 				label="Categories"
@@ -114,36 +147,38 @@ function RecipeForm({
 				returnKeyType="next"
 			/>
 
-			<Text>Ingredients</Text>
-			{ingredients.fields.map((field, index) => (
-				<View className="flex-row items-center g-2" key={field.id}>
-					<ControlledInput
-						name={`ingredients.${index}.amount`}
-						control={control}
-						placeholder="Amount"
-					/>
-					<Text>{initialRecipe?.ingredients[index].unit}</Text>
-					<ControlledInput
-						name={`ingredients.${index}.name`}
-						control={control}
-						placeholder="Ingredient"
-					/>
+			<View>
+				<Label className="mb-0">Ingredients</Label>
+				<View className="rounded-lg p-2 pl-0">
+					{ingredientsFieldArray.fields.map((f, index) => (
+						<ControlledInput
+							key={f.id}
+							control={control}
+							name={`ingredients.${index}.name`}
+							className="bg-transparent border-none"
+							blurOnSubmit={false}
+							numberOfLines={2}
+							onSubmitEditing={() => handleSubmitEditing(index)}
+							onKeyPress={(e) => handleKeyPress(e, index)}
+						/>
+					))}
 				</View>
-			))}
-			<ControlledArrayInput
-				label="Instructions"
-				name="instructions"
-				control={control}
-				values={watch("instructions") ?? []}
-				onAdd={() =>
-					setValue("instructions", [...(getValues().instructions ?? []), ""])
-				}
-				onRemove={(index) => {
-					const instructions = getValues().instructions;
-					instructions?.splice(index, 1);
-					setValue("instructions", instructions);
-				}}
-			/>
+			</View>
+			<View>
+				<Label className="mb-0">Instructions</Label>
+				<View className="rounded-lg p-2 pl-0">
+					{instructionsFieldArray.fields.map((f, index) => (
+						<ControlledInput
+							key={f.id}
+							control={control}
+							name={`instructions.${index}.value`}
+							className="bg-transparent border-none"
+							multiline
+							numberOfLines={2}
+						/>
+					))}
+				</View>
+			</View>
 			<Button size="large" onPress={handleSubmit(onSubmit)}>
 				Submit
 			</Button>

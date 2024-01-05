@@ -22,7 +22,7 @@ export default function HomeTabLayout() {
 				<Animated.View
 					entering={SlideInRight}
 					exiting={SlideOutRight}
-					className="flex-1 bg-white z-50"
+					className="flex-1 bg-white dark:bg-gray-900 z-50"
 				>
 					<View className="flex-row justify-between px-4 py-2">
 						<IconButton

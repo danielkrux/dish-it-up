@@ -29,8 +29,9 @@ export default function Button({
 				"rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
 				{
 					"opacity-90": loading,
+					"bg-acapulco-300/20": variant === "secondary",
 					"bg-transparent": variant === "ghost",
-					"py-3 self-start": size === "small",
+					"py-1.5 self-start": size === "small",
 					"flex-row g-2": icon,
 					"opacity-25": disabled,
 				},
@@ -40,15 +41,18 @@ export default function Button({
 		>
 			{icon && (
 				<Icon
-					className={clsx("text-white", { "": variant === "ghost" })}
+					className={clsx("text-white", {
+						"text-gray-900": variant === "ghost",
+					})}
 					name={icon}
 					size={16}
 				/>
 			)}
 			{!loading ? (
 				<Text
-					className={clsx("font-bold text-base", {
-						"text-white": variant === "primary",
+					className={clsx("text-base font-body-bold text-white", {
+						"text-acapulco-500": variant === "secondary",
+						"text-gray-900 dark:text-white": variant === "ghost",
 						"text-sm": size === "small",
 					})}
 				>

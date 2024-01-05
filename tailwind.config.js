@@ -43,7 +43,7 @@ module.exports = {
     fontFamily: {
       body: ["Body"],
       display: ["Heading"],
-      bold: ["BodyBold"],
+      "body-bold": ["BodyBold"],
     },
   },
   plugins: [
