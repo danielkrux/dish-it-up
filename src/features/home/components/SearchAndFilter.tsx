@@ -19,7 +19,7 @@ function SeachAndFilter() {
 		<View className="md:mb-4">
 			<View className="flex-row items-center mb-1.5">
 				<InputBase
-					containerStyle="flex-1"
+					containerStyle="flex-1 mb-1"
 					value={q}
 					onChangeText={(text) => {
 						router.setParams({ q: text });

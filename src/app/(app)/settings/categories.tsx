@@ -3,6 +3,7 @@ import { Alert, FlatList, StyleSheet, View } from "react-native";
 import FloatingButton from "~/components/FloatingButton";
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
+import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
 import useCreateCategory from "~/features/recipe/hooks/useCreateCategory";
 import useDeleteCategory from "~/features/recipe/hooks/useDeleteCategory";
 import useUpdateCategory from "~/features/recipe/hooks/useUpdateCategory";
@@ -10,7 +11,7 @@ import { getCategories } from "~/features/recipe/recipe.service";
 import theme, { colors } from "~/theme";
 
 export default function Settings() {
-	const { data } = useQuery(["categories"], getCategories);
+	const { data } = useQuery([CATEGORIES_QUERY_KEY], getCategories);
 	const deleteCategoryMutation = useDeleteCategory();
 	const editCategoryMutation = useUpdateCategory();
 	const createCategoryMutation = useCreateCategory();
