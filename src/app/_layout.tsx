@@ -13,6 +13,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Slot } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
 import { StatusBar } from "react-native";
+import Toast from "react-native-toast-message";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -53,6 +54,7 @@ export default function Root() {
 					<AuthProvider>
 						<StatusBar barStyle="default" />
 						<Slot />
+						<Toast />
 					</AuthProvider>
 				</PortalProvider>
 			</QueryClientProvider>

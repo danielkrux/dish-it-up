@@ -36,7 +36,9 @@ export async function createRecipe(recipe?: RecipeCreate) {
     throw new Error(result.error.message);
   }
 
-  const ingredientsToSave = parseIngredients(ingredients);
+  const ingredientsToSave = parseIngredients(
+    ingredients.map((i) => ({ ...i, recipe_id: result.data?.id }))
+  );
 
   const ingredientSaveResult = await supabase
     .from("ingredients")
@@ -51,7 +53,6 @@ export async function createRecipe(recipe?: RecipeCreate) {
 }
 
 export async function updateRecipe(recipeInput?: RecipeUpdate) {
-  console.log("hu");
   if (!recipeInput || recipeInput === undefined) {
     console.error("No recipe to save");
     throw new Error("No recipe to save");

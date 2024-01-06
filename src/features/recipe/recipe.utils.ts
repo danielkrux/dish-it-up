@@ -13,7 +13,7 @@ export function parseIngredientAmount(amount: string | null) {
 }
 
 export function parseIngredients(
-  _ingredients?: IngredientUpdate[]
+  _ingredients?: IngredientUpdate[] | IngredientCreate[]
 ): IngredientCreate[] {
   if (!_ingredients) return [];
 
@@ -22,7 +22,7 @@ export function parseIngredients(
       const [amount, unit, ...name] = ingredient.name.split(" ");
       if (!name.length) {
         return {
-          id: ingredient.id,
+          ...ingredient,
           amount,
           name: unit,
           unit: null,
@@ -30,14 +30,14 @@ export function parseIngredients(
       }
 
       return {
-        id: ingredient.id,
+        ...ingredient,
         name: name.join(" "),
         amount,
         unit,
       };
     }
     return {
-      id: ingredient.id,
+      ...ingredient,
       name: ingredient.name ?? "",
     };
   });
