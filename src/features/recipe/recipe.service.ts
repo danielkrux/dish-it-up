@@ -74,25 +74,6 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
     .eq("recipe_id", recipeInput.id)
     .in("category_id", categoriesToDelete);
 
-  for (const ingredient of ingredients) {
-    const exists = ingredient.id;
-
-    if (recipe.id && ingredient.name) {
-      if (!exists) {
-        await supabase.from("ingredients").insert({
-          ...ingredient,
-          name: ingredient.name,
-          recipe_id: recipe.id,
-        });
-      } else {
-        await supabase
-          .from("ingredients")
-          .update(ingredient)
-          .eq("id", ingredient.id);
-      }
-    }
-  }
-
   for (const category of categories) {
     const exists = category.id;
 
@@ -114,6 +95,14 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
       }
     }
   }
+
+  await supabase.from("ingredients").upsert(
+    ingredients.map((i) => ({
+      ...i,
+      name: i.name ?? "",
+      recipe_id: recipe.id,
+    }))
+  );
 
   const result = await supabase
     .from("recipes")
