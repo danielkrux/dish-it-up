@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import ChipList from "~/components/ChipList";
 import { getCategories } from "~/features/recipe/recipe.service";
@@ -25,6 +26,7 @@ function RecipeQuickFilter() {
 	});
 
 	function updateParams(value: string) {
+		Toast.show({ type: "info", text1: "Recipe updated" });
 		if (value === DEFAULT_FILTER)
 			return router.setParams({ c: DEFAULT_FILTER });
 		router.setParams({ c: value });

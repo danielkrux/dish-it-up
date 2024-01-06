@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+
 import { deleteRecipe } from "../recipe.service";
 import { Recipe } from "../recipe.types";
 
@@ -12,19 +13,26 @@ function useDeleteRecipe(id?: number, options?: Options) {
   const queryClient = useQueryClient();
   const deleteRecipeMutation = useMutation({
     mutationFn: () => deleteRecipe(id),
-    onSuccess: () => {
-      const currentRecipes = queryClient.getQueryData<Recipe[]>(["recipes"]);
+    onMutate: async () => {
+      await queryClient.cancelQueries(["recipes"]);
+      const previousRecipes = queryClient.getQueryData<Recipe[]>(["recipes"]);
       queryClient.setQueryData(
         ["recipes"],
-        currentRecipes?.filter((recipe: Recipe) => recipe.id !== id)
+        previousRecipes?.filter((recipe: Recipe) => recipe.id !== id)
       );
-      queryClient.invalidateQueries(["recipes"], { exact: false });
+      return { previousRecipes };
+    },
+    onSuccess: () => {
       Toast.show({ type: "success", text1: "Recipe deleted!" });
       options?.onSuccess?.();
     },
-    onError: (error) => {
+    onError: (error, _, context) => {
       console.error(error);
       options?.onError?.(error);
+      queryClient.setQueryData(["recipes"], context?.previousRecipes);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["recipes"]);
     },
   });
 

@@ -21,6 +21,7 @@ import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
 import AuthProvider from "~/AuthContext";
+import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 
 export const supabase = initSupabase();
@@ -54,7 +55,7 @@ export default function Root() {
 					<AuthProvider>
 						<StatusBar barStyle="default" />
 						<Slot />
-						<Toast />
+						<Toast config={toastConfig} topOffset={0} />
 					</AuthProvider>
 				</PortalProvider>
 			</QueryClientProvider>
