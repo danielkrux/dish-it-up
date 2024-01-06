@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { GROCERY_LIST_QUERY_KEY } from "~/features/app/app.constants";
 import { updateGroceryListItem } from "../groceryList.service";
 import { GroceryListItem, GroceryListItemUpdate } from "../groceryList.types";
 
@@ -14,10 +15,10 @@ function useUpdateGroceryListItem(options?: Options) {
     mutationFn: (groceryItem: GroceryListItemUpdate) =>
       updateGroceryListItem(groceryItem),
     onMutate: async (newItem) => {
-      queryClient.cancelQueries({ queryKey: ["groceryList"] });
+      queryClient.cancelQueries({ queryKey: [GROCERY_LIST_QUERY_KEY] });
 
       const previousGroceries = queryClient.getQueryData<GroceryListItem[]>([
-        "groceryList",
+        GROCERY_LIST_QUERY_KEY,
       ]);
 
       const index = previousGroceries?.findIndex(
@@ -26,7 +27,7 @@ function useUpdateGroceryListItem(options?: Options) {
 
       if (typeof index === "undefined") return { previousGroceries };
 
-      queryClient.setQueryData(["groceryList"], (old: any) => {
+      queryClient.setQueryData([GROCERY_LIST_QUERY_KEY], (old: any) => {
         const newArr = [
           ...old.slice(0, index),
           newItem,
@@ -56,10 +57,13 @@ function useUpdateGroceryListItem(options?: Options) {
     onError: (error, _, context) => {
       console.error(error);
       options?.onError?.(error);
-      queryClient.setQueryData(["groceryList"], context?.previousGroceries);
+      queryClient.setQueryData(
+        [GROCERY_LIST_QUERY_KEY],
+        context?.previousGroceries
+      );
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["groceryList"] });
+      queryClient.invalidateQueries({ queryKey: [GROCERY_LIST_QUERY_KEY] });
     },
     onSuccess: () => {
       options?.onSuccess?.();

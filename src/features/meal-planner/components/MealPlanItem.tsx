@@ -7,6 +7,7 @@ import { Swipeable } from "react-native-gesture-handler";
 
 import SwipeableRow from "~/components/SwipeableRow";
 import Text from "~/components/Text";
+import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import theme, { colors } from "~/theme";
 import { deleteMealPlan } from "../mealPlanner.service";
 import { MealPlan } from "../mealPlanner.types";
@@ -20,22 +21,22 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 	const deleteMutation = useMutation({
 		mutationFn: (id: number) => deleteMealPlan(id),
 		onMutate: (id) => {
-			queryClient.cancelQueries(["meal-plans"]);
+			queryClient.cancelQueries([MEAL_PLAN_QUERY_KEY]);
 			const previousItems = queryClient.getQueryData<MealPlan[]>([
-				"meal-plans",
+				MEAL_PLAN_QUERY_KEY,
 			]);
-			queryClient.setQueryData<MealPlan[]>(["meal-plans"], (old) => {
+			queryClient.setQueryData<MealPlan[]>([MEAL_PLAN_QUERY_KEY], (old) => {
 				return old?.filter((mealPlan) => mealPlan.id !== id) ?? [];
 			});
 			return { previousItems };
 		},
 		onError: (error, _, context) => {
 			console.error(error);
-			queryClient.setQueryData(["meal-plans"], context?.previousItems);
+			queryClient.setQueryData([MEAL_PLAN_QUERY_KEY], context?.previousItems);
 		},
 		onSettled: () => {
 			swipeableRef.current?.close();
-			queryClient.invalidateQueries(["meal-plans"]);
+			queryClient.invalidateQueries([MEAL_PLAN_QUERY_KEY]);
 		},
 	});
 

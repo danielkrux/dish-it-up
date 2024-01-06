@@ -6,6 +6,8 @@ import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
+import { RECIPES_QUERY_KEY } from "~/features/app/app.constants";
+import { init } from "~/features/app/app.utils";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
@@ -33,8 +35,10 @@ export default function Home() {
 
 	useHandleUrlShare();
 
+	init();
+
 	const { data, refetch } = useQuery(
-		["recipes", query],
+		[RECIPES_QUERY_KEY, query],
 		() => getRecipes(query),
 		{
 			select: useCallback(

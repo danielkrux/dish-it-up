@@ -16,6 +16,7 @@ import FloatingButton from "~/components/FloatingButton";
 import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
+import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
 
@@ -28,7 +29,7 @@ function MealPlanner() {
 
 	const datesOfWeek = eachDayOfInterval({ start: firstDay, end: lastDay });
 
-	const { data } = useQuery(["meal-plans"], () => fetchMealPlan(), {
+	const { data } = useQuery([MEAL_PLAN_QUERY_KEY], fetchMealPlan, {
 		select: (data) => groupBy(data, (item) => item.date),
 	});
 

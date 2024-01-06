@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { GROCERY_LIST_QUERY_KEY } from "~/features/app/app.constants";
 import { Ingredient, IngredientCreate } from "~/features/recipe/recipe.types";
 import { createGroceryList } from "../groceryList.service";
 import { GroceryListItem } from "../groceryList.types";
@@ -15,14 +16,14 @@ function useCreateGroceryListItem(options?: Options) {
     mutationFn: (items: (Ingredient | IngredientCreate)[]) =>
       createGroceryList(items),
     onMutate: async (items) => {
-      await queryClient.cancelQueries(["groceryList"]);
+      await queryClient.cancelQueries([GROCERY_LIST_QUERY_KEY]);
 
       const previousItems = queryClient.getQueryData<GroceryListItem[]>([
-        "groceryList",
+        GROCERY_LIST_QUERY_KEY,
       ]);
 
       queryClient.setQueryData(
-        ["groceryList"],
+        [GROCERY_LIST_QUERY_KEY],
         [
           ...(previousItems ?? []),
           ...items.map((item) => ({ name: item.name })),
@@ -39,7 +40,7 @@ function useCreateGroceryListItem(options?: Options) {
       options?.onError?.(error);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["groceryList"] });
+      queryClient.invalidateQueries({ queryKey: [GROCERY_LIST_QUERY_KEY] });
     },
   });
 

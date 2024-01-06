@@ -13,6 +13,7 @@ import {
 import Button from "~/components/Button";
 import Check from "~/components/Check";
 import Text from "~/components/Text";
+import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import { createMealPlan } from "~/features/meal-planner/mealPlanner.service";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import { getRecipes } from "~/features/recipe/recipe.service";
@@ -42,7 +43,7 @@ function SelectRecipe() {
 				})),
 			),
 		onSettled: () => {
-			queryClient.invalidateQueries(["meal-plans"]);
+			queryClient.invalidateQueries([MEAL_PLAN_QUERY_KEY]);
 		},
 	});
 
