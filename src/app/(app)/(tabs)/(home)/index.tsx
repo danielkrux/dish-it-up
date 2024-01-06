@@ -7,7 +7,6 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
 import { RECIPES_QUERY_KEY } from "~/features/app/app.constants";
-import { init } from "~/features/app/app.utils";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
@@ -34,8 +33,6 @@ export default function Home() {
 	const query = q;
 
 	useHandleUrlShare();
-
-	init();
 
 	const { data, refetch } = useQuery(
 		[RECIPES_QUERY_KEY, query],

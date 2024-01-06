@@ -1,7 +1,7 @@
-import { Stack, Tabs, useRouter } from "expo-router";
-import ContextMenu from "~/components/ContextMenu/ContextMenu";
+import { Tabs, useRouter } from "expo-router";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
+import { init } from "~/features/app/app.utils";
 import HomeProvider from "~/features/home/HomeContext";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import theme, { isTablet } from "~/theme";
@@ -9,6 +9,8 @@ import theme, { isTablet } from "~/theme";
 function Home() {
 	const currentTheme = useThemeConfig();
 	const router = useRouter();
+
+	init();
 
 	return (
 		<HomeProvider>
