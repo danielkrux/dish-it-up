@@ -60,7 +60,8 @@ export default function Button({
 				</Text>
 			) : (
 				<ActivityIndicator
-					className="my-[2]"
+					className="px-2"
+					size="small"
 					color={
 						variant === "primary"
 							? "#fff"

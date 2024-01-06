@@ -1,3 +1,4 @@
+import { styled } from "nativewind";
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from "react-native";
 import theme from "../theme";
 import Chip, { ChipProps } from "./Chip";
@@ -42,7 +43,7 @@ function ChipList({
 	);
 }
 
-export default ChipList;
+export default styled(ChipList);
 
 const styles = StyleSheet.create({
 	container: {

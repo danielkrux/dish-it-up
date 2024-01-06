@@ -184,6 +184,7 @@ export interface Database {
           id: number
           image_url: string | null
           instructions: string[] | null
+          last_cooked: string | null
           name: string | null
           recipe_yield: string | null
           total_time: string | null
@@ -195,6 +196,7 @@ export interface Database {
           id?: number
           image_url?: string | null
           instructions?: string[] | null
+          last_cooked?: string | null
           name?: string | null
           recipe_yield?: string | null
           total_time?: string | null
@@ -206,6 +208,7 @@ export interface Database {
           id?: number
           image_url?: string | null
           instructions?: string[] | null
+          last_cooked?: string | null
           name?: string | null
           recipe_yield?: string | null
           total_time?: string | null

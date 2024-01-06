@@ -7,6 +7,7 @@ import {
 	NotoSans_700Bold,
 	useFonts,
 } from "@expo-google-fonts/dev";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -53,13 +54,15 @@ export default function Root() {
 		<ThemeProvider value={theme}>
 			<QueryClientProvider client={queryClient}>
 				<PortalProvider>
-					<AuthProvider>
-						<KeyboardProvider>
-							<StatusBar barStyle="default" />
-							<Slot />
-							<Toast config={toastConfig} topOffset={0} />
-						</KeyboardProvider>
-					</AuthProvider>
+					<KeyboardProvider>
+						<BottomSheetModalProvider>
+							<AuthProvider>
+								<StatusBar barStyle="default" />
+								<Slot />
+								<Toast config={toastConfig} topOffset={0} />
+							</AuthProvider>
+						</BottomSheetModalProvider>
+					</KeyboardProvider>
 				</PortalProvider>
 			</QueryClientProvider>
 		</ThemeProvider>

@@ -61,48 +61,53 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
   const { categories, ingredients, ...recipe } = recipeInput;
 
   // remove categories from database if they are not in the recipe anymore
-  const currentRecipeCategories = await getRecipeCategories(recipe.id);
-  const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
-    (category) => category.id
-  );
-  const categoriesToDelete = currentRecipeCategoriesIds?.filter(
-    (categoryId) => !categories.find((category) => category.id === categoryId)
-  );
-  await supabase
-    .from("recipe_categories")
-    .delete()
-    .eq("recipe_id", recipeInput.id)
-    .in("category_id", categoriesToDelete);
+  if (categories) {
+    const currentRecipeCategories = await getRecipeCategories(recipe.id);
+    const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
+      (category) => category.id
+    );
+    const categoriesToDelete = currentRecipeCategoriesIds?.filter(
+      (categoryId) =>
+        !categories?.find((category) => category.id === categoryId)
+    );
+    await supabase
+      .from("recipe_categories")
+      .delete()
+      .eq("recipe_id", recipeInput.id)
+      .in("category_id", categoriesToDelete);
 
-  for (const category of categories) {
-    const exists = category.id;
+    for (const category of categories || []) {
+      const exists = category.id;
 
-    if (recipe.id && category.id && category.name) {
-      if (!exists) {
-        const { data } = await supabase
-          .from("categories")
-          .insert({ name: category.name })
-          .select()
-          .single();
-        if (!data) throw new Error("Could not create category");
-        await supabase
-          .from("recipe_categories")
-          .insert({ recipe_id: recipe.id, category_id: data.id });
-      } else {
-        await supabase
-          .from("recipe_categories")
-          .insert({ recipe_id: recipe.id, category_id: category.id });
+      if (recipe.id && category.id && category.name) {
+        if (!exists) {
+          const { data } = await supabase
+            .from("categories")
+            .insert({ name: category.name })
+            .select()
+            .single();
+          if (!data) throw new Error("Could not create category");
+          await supabase
+            .from("recipe_categories")
+            .insert({ recipe_id: recipe.id, category_id: data.id });
+        } else {
+          await supabase
+            .from("recipe_categories")
+            .insert({ recipe_id: recipe.id, category_id: category.id });
+        }
       }
     }
   }
 
-  await supabase.from("ingredients").upsert(
-    ingredients.map((i) => ({
-      ...i,
-      name: i.name ?? "",
-      recipe_id: recipe.id,
-    }))
-  );
+  if (ingredients) {
+    await supabase.from("ingredients").upsert(
+      ingredients.map((i) => ({
+        ...i,
+        name: i.name ?? "",
+        recipe_id: recipe.id,
+      }))
+    );
+  }
 
   const result = await supabase
     .from("recipes")
