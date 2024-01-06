@@ -1,21 +1,24 @@
+import { styled } from "nativewind";
 import React from "react";
 import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import {
 	NativeSyntheticEvent,
 	TextInputKeyPressEventData,
 	View,
+	ViewProps,
 } from "react-native";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Label from "~/components/Inputs/Label";
-import { RecipeUpdateForm } from ".";
+import { RecipeUpdateForm } from "./types";
 
 export type IngredientsInputProps = {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	form: UseFormReturn<RecipeUpdateForm, any, undefined>;
 	fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "ingredients", "id">;
+	style?: ViewProps["style"];
 };
 
-function IngredientsInput({ form, fieldArray }: IngredientsInputProps) {
+function IngredientsInput({ form, fieldArray, style }: IngredientsInputProps) {
 	function handleSubmitEditing(index: number) {
 		fieldArray.insert(
 			index + 1,
@@ -36,9 +39,9 @@ function IngredientsInput({ form, fieldArray }: IngredientsInputProps) {
 		}
 	}
 	return (
-		<View>
+		<View style={style}>
 			<Label className="mb-2">Ingredients</Label>
-			<View className="bg-gray-100 dark:bg-gray-900 rounded-lg py-1 pl-2">
+			<View className="bg-gray-100 dark:bg-gray-900 rounded-lg py-1 pl-2 min-h-[100]">
 				{fieldArray.fields.map((f, index) => (
 					<ControlledInput
 						key={f.id}
@@ -46,7 +49,6 @@ function IngredientsInput({ form, fieldArray }: IngredientsInputProps) {
 						name={`ingredients.${index}.name`}
 						className="bg-transparent border-none"
 						blurOnSubmit={false}
-						numberOfLines={2}
 						onSubmitEditing={() => handleSubmitEditing(index)}
 						onKeyPress={(e) => handleKeyPress(e, index)}
 					/>
@@ -56,4 +58,4 @@ function IngredientsInput({ form, fieldArray }: IngredientsInputProps) {
 	);
 }
 
-export default IngredientsInput;
+export default styled(IngredientsInput);

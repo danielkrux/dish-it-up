@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ActivityIndicator, Pressable, PressableProps } from "react-native";
-import theme from "../theme";
+import theme, { colors } from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
 
@@ -51,7 +51,7 @@ export default function Button({
 			{!loading ? (
 				<Text
 					className={clsx("text-base font-body-bold text-white", {
-						"text-acapulco-500": variant === "secondary",
+						"text-acapulco-300": variant === "secondary",
 						"text-gray-900 dark:text-white": variant === "ghost",
 						"text-sm": size === "small",
 					})}
@@ -61,7 +61,13 @@ export default function Button({
 			) : (
 				<ActivityIndicator
 					className="my-[2]"
-					color={variant === "primary" ? "#fff" : theme.colors.secondary}
+					color={
+						variant === "primary"
+							? "#fff"
+							: variant === "secondary"
+							  ? colors.primary[400]
+							  : theme.colors.secondary
+					}
 				/>
 			)}
 		</Pressable>

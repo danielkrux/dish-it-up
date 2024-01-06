@@ -13,6 +13,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Slot } from "expo-router";
 import { NativeWindStyleSheet } from "nativewind";
 import { StatusBar } from "react-native";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
@@ -53,9 +54,11 @@ export default function Root() {
 			<QueryClientProvider client={queryClient}>
 				<PortalProvider>
 					<AuthProvider>
-						<StatusBar barStyle="default" />
-						<Slot />
-						<Toast config={toastConfig} topOffset={0} />
+						<KeyboardProvider>
+							<StatusBar barStyle="default" />
+							<Slot />
+							<Toast config={toastConfig} topOffset={0} />
+						</KeyboardProvider>
 					</AuthProvider>
 				</PortalProvider>
 			</QueryClientProvider>

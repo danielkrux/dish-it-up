@@ -1,3 +1,4 @@
+import { styled } from "nativewind";
 import { useState } from "react";
 import {
 	NativeSyntheticEvent,
@@ -6,10 +7,10 @@ import {
 	TextInputKeyPressEventData,
 	TextInputSubmitEditingEventData,
 	View,
+	ViewProps,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import clsx from "clsx";
 import theme, { colors } from "~/theme";
 import { nanoid } from "~/utils/random";
 import Chip, { ChipData } from "../Chip";
@@ -22,25 +23,18 @@ type ChipInputProps = Omit<InputBaseProps, "value"> & {
 	data?: ChipData[];
 	label: string;
 	value?: ChipData[];
+	style?: ViewProps["style"];
 };
 
-export function ChipInput({
+function ChipInput({
 	onAdd,
 	onRemove,
 	data,
 	value = [],
 	label,
+	style,
 }: ChipInputProps) {
 	const [inputValue, setInputValue] = useState("");
-	const [active, setActive] = useState(false);
-
-	function handleBlur() {
-		setActive(false);
-	}
-
-	function handleFocus() {
-		setActive(true);
-	}
 
 	function handleSuggestionPress(chipValue: string) {
 		const item = data?.find((item) => item.value === chipValue);
@@ -76,21 +70,18 @@ export function ChipInput({
 	}
 
 	return (
-		<View>
+		<View style={style}>
 			<Label>{label}</Label>
-			<View className="mt-0 flex-row flex-wrap g-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
+			<View className="mt-0 flex-row flex-wrap g-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 pl-1.5">
 				{value?.map((item, i) => (
 					<Chip
 						key={`${item}-${i}`}
-						className={clsx({ "ml-1": i === 0 })}
 						{...item}
 						onPress={handleSelectChipPress}
 						isSelected
 					/>
 				))}
 				<TextInput
-					onBlur={handleBlur}
-					onFocus={handleFocus}
 					blurOnSubmit={false}
 					value={inputValue}
 					onChangeText={setInputValue}
@@ -100,9 +91,7 @@ export function ChipInput({
 					placeholderTextColor={colors.gray[500]}
 					cursorColor={colors.primary[500]}
 					selectionColor={colors.primary[500]}
-					className={clsx("flex-1 mr-1 py-2 ml-2", {
-						"ml-1": value.length,
-					})}
+					className="flex-1 text-white font-body text-sm mr-1 py-1 ml-2"
 				/>
 			</View>
 			<ScrollView
@@ -125,6 +114,8 @@ export function ChipInput({
 		</View>
 	);
 }
+
+export default styled(ChipInput);
 
 const styles = StyleSheet.create({
 	suggestions: {

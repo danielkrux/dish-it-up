@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
@@ -33,9 +33,12 @@ function SignIn() {
 	}
 
 	return (
-		<View className="flex-1 justify-center items-center px-4 dark:bg-gray-950">
+		<KeyboardAvoidingView
+			behavior="padding"
+			className="flex-1 justify-center items-center px-4 dark:bg-gray-950"
+		>
 			<Icon name="logo" size={128} className="mb-4 dark:text-white" />
-			<Text type="header" className="text-5xl mb-10">
+			<Text type="header" className="text-5xl mb-8">
 				Dish It Up
 			</Text>
 			<ControlledInput
@@ -43,6 +46,7 @@ function SignIn() {
 				label="Email"
 				autoCapitalize="none"
 				keyboardType="email-address"
+				autoComplete="email"
 				control={control}
 				className="mb-2"
 			/>
@@ -50,8 +54,14 @@ function SignIn() {
 				name="password"
 				label="Password"
 				keyboardType="visible-password"
+				autoComplete="password"
+				autoCapitalize="none"
+				secureTextEntry
+				spellCheck={false}
+				autoCorrect={false}
 				control={control}
 				className="mb-6"
+				onSubmitEditing={signIn}
 			/>
 			<Button
 				loading={loading}
@@ -61,7 +71,7 @@ function SignIn() {
 			>
 				Sign In
 			</Button>
-		</View>
+		</KeyboardAvoidingView>
 	);
 }
 

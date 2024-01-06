@@ -1,59 +1,49 @@
-import { useFocusEffect } from "expo-router";
+import { Stack } from "expo-router";
 import { useCallback } from "react";
-import { useForm } from "react-hook-form";
-import { ScrollView, StyleSheet } from "react-native";
-import { AvoidSoftInput } from "react-native-avoid-softinput";
+import { FormProvider } from "react-hook-form";
+import { View } from "react-native";
+import Button from "~/components/Button";
 
 import RecipeForm from "~/features/recipe/components/RecipeForm";
-import { RecipeUpdate } from "~/features/recipe/recipe.types";
-import theme from "~/theme";
-
-type RecipeInputs = {
-	name: string;
-	description: string;
-	recipe_yield: number;
-	ingredients: string[];
-	instructions: string[];
-};
+import useRecipeForm from "~/features/recipe/components/RecipeForm/useRecipeForm";
 
 function AddRecipe() {
-	const { control, handleSubmit, setValue, getValues, watch } =
-		useForm<RecipeInputs>({
-			defaultValues: {
-				name: "",
-				description: "",
-				recipe_yield: 0,
-				ingredients: ["", ""],
-				instructions: [""],
-			},
-		});
+	const form = useRecipeForm();
+	const { handleSubmit } = form;
 
-	const onFocusEffect = useCallback(() => {
-		AvoidSoftInput.setShouldMimicIOSBehavior(true);
-		AvoidSoftInput.setEnabled(true);
-		return () => {
-			AvoidSoftInput.setEnabled(false);
-			AvoidSoftInput.setShouldMimicIOSBehavior(false);
-		};
-	}, []);
+	function handleSave() {
+		handleSubmit((values) => {
+			// return mutate({
+			//   ...data,
+			//   ...values,
+			//   ingredients: parseIngredients(values.ingredients),
+			//   instructions: values.instructions.map((i) => i.value),
+			// });
+		})();
+	}
 
-	useFocusEffect(onFocusEffect);
-
-	const onSubmit = (data: RecipeUpdate) => console.log(data);
+	const renderHeaderRight = useCallback(
+		() => (
+			<Button size="small" variant="secondary" onPress={handleSave}>
+				Save
+			</Button>
+		),
+		[],
+	);
 
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
-			<RecipeForm onSubmit={onSubmit} />
-		</ScrollView>
+		<FormProvider {...form}>
+			<Stack.Screen
+				options={{
+					title: "Create Recipe",
+					headerRight: renderHeaderRight,
+				}}
+			/>
+			<View className="mt-4">
+				<RecipeForm />
+			</View>
+		</FormProvider>
 	);
 }
 
 export default AddRecipe;
-
-const styles = StyleSheet.create({
-	container: {
-		paddingHorizontal: theme.spacing.m,
-		paddingVertical: theme.spacing.xl,
-		gap: theme.spacing.s,
-	},
-});

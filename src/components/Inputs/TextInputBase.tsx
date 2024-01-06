@@ -26,6 +26,7 @@ export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
 	bottomSheet?: boolean;
 	value?: string | null;
 	label?: string;
+	inputStyle?: RNTextInputProps["style"];
 };
 
 const InputBase = forwardRef<RNTextInput, InputBaseProps>(
@@ -38,6 +39,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 			onBlur,
 			label,
 			style,
+      inputStyle,
 			...props
 		},
 		ref,
@@ -67,15 +69,15 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
 			<View style={containerStyle} className="self-stretch">
 				{label && <Label>{label}</Label>}
 				<View
-					className={clsx(" rounded-lg bg-gray-100 dark:bg-gray-900", {
-					})}
+					className="bg-gray-100 dark:bg-gray-900 rounded-lg"
 					style={style}
 				>
 					<RNTextInput
 						ref={innerRef}
 						value={value ?? undefined}
-						className="font-body text-sm px-2 py-2 text-gray-900 dark:text-white"
+						className={clsx("font-body text-sm px-2 py-2  text-gray-900 dark:text-white")}
 						{...props}
+            style={inputStyle}
 						onBlur={handleBlur}
 						onFocus={handleFocus}
 						placeholderTextColor={colors.gray[500]}

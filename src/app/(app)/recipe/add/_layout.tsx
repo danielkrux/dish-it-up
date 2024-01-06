@@ -16,7 +16,6 @@ export default function AddLayout() {
 		>
 			<Stack.Screen name="index" options={{ title: "Add recipe" }} />
 			<Stack.Screen name="[url]" options={{ headerShown: false }} />
-			<Stack.Screen name="custom" options={{ title: "Custom recipe" }} />
 		</Stack>
 	);
 }

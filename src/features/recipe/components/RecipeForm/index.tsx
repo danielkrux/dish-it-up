@@ -1,83 +1,23 @@
-import { useCallback } from "react";
-import { useFieldArray, useForm, useFormState } from "react-hook-form";
-import { View } from "react-native";
+import { styled } from "nativewind";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
-import { useRouter } from "expo-router";
-import Button from "~/components/Button";
-import { ChipInput } from "~/components/Inputs/ChipInput";
+import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import useFetchCategories from "../../hooks/useFetchCategories";
-import { Recipe, RecipeUpdate } from "../../recipe.types";
 import IngredientsInput from "./IngredientsInput";
 import InstructionsInput from "./InstructionsInput";
+import { RecipeUpdateForm } from "./types";
 
-export type RecipeUpdateForm = Omit<
-	RecipeUpdate,
-	"ingredients" | "instructions"
-> & {
-	ingredients: { name: string; id?: number }[];
-	instructions: { value: string }[];
-};
+const KeyboardAwareScrollView = styled(_KeyboardAwareScrollView, {
+	props: { contentContainerStyle: true },
+});
 
-const emtpyRecipe: RecipeUpdateForm = {
-	name: "",
-	description: "",
-	recipe_yield: "",
-	ingredients: [],
-	instructions: [],
-	total_time: "",
-	categories: [],
-};
-
-function RecipeForm({
-	initialRecipe,
-	isLoading,
-	onSubmit,
-}: {
-	initialRecipe?: Recipe;
-	isLoading?: boolean;
-	onSubmit: (data: RecipeUpdateForm) => void;
-}) {
-	const router = useRouter();
+function RecipeForm() {
 	const categoriesQuery = useFetchCategories();
 
-	const getDefaultValues = useCallback((): RecipeUpdateForm => {
-		if (!initialRecipe) return emtpyRecipe;
-
-		const ingredients =
-			initialRecipe.ingredients.map((i) => {
-				const amount = i.amount ?? "";
-				const unit = i.unit ?? "";
-
-				return { name: `${amount} ${unit} ${i.name}`.trim(), id: i.id };
-			}) || [];
-
-		const instructions =
-			initialRecipe.instructions?.map((i) => ({ value: i })) || [];
-
-		return {
-			name: initialRecipe.name || "",
-			description: initialRecipe.description || "",
-			recipe_yield: initialRecipe.recipe_yield || "",
-			total_time: initialRecipe.total_time || "",
-			categories: initialRecipe.categories || [],
-			ingredients,
-			instructions,
-		};
-	}, [initialRecipe]);
-
-	const form = useForm<RecipeUpdateForm>({
-		defaultValues: getDefaultValues(),
-	});
-
-	const {
-		control,
-		getValues,
-		setValue,
-		watch,
-		handleSubmit,
-		formState: { isDirty, isSubmitting },
-	} = form;
+	const form = useFormContext<RecipeUpdateForm>();
+	const { control, setValue, getValues, watch } = form;
 
 	const ingredientsFieldArray = useFieldArray({
 		control,
@@ -89,46 +29,48 @@ function RecipeForm({
 		name: "instructions",
 	});
 
-	function handleSave() {
-		if (!isDirty) {
-			router.back();
-			return;
-		}
-		handleSubmit(onSubmit)();
-	}
-
 	return (
-		<View className="flex-1 g-4">
+		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
 			<ControlledInput
 				label="Name"
 				name="name"
 				control={control}
+				className="mb-4"
 				returnKeyType="next"
+				autoComplete="off"
 			/>
 			<ControlledInput
 				label="Description"
 				name="description"
+				placeholder="Write a short description about your recipe"
 				control={control}
+				className="mb-4"
 				returnKeyType="next"
-				numberOfLines={2}
 				multiline
-				style={{ minHeight: 100 }}
+				inputStyle={{ minHeight: 100 }}
 			/>
 			<ControlledInput
 				label="Total time"
 				name="total_time"
 				control={control}
+				className="mb-4"
 				returnKeyType="next"
+				autoCorrect={false}
+				spellCheck={false}
 			/>
 			<ControlledInput
 				label="Yields"
 				name="recipe_yield"
 				control={control}
+				className="mb-4"
 				returnKeyType="next"
 				keyboardType="number-pad"
+				autoCorrect={false}
+				spellCheck={false}
 			/>
 			<ChipInput
 				label="Categories"
+				className="mb-4"
 				value={watch("categories").map((c) => ({
 					value: String(c.id) ?? "",
 					label: c.name ?? "",
@@ -150,14 +92,17 @@ function RecipeForm({
 					);
 				}}
 			/>
-
-			<IngredientsInput form={form} fieldArray={ingredientsFieldArray} />
-			<InstructionsInput form={form} fieldArray={instructionsFieldArray} />
-
-			<Button loading={isLoading} size="large" onPress={handleSave}>
-				Save
-			</Button>
-		</View>
+			<IngredientsInput
+				className="mb-4"
+				form={form}
+				fieldArray={ingredientsFieldArray}
+			/>
+			<InstructionsInput
+				className="mb-4"
+				form={form}
+				fieldArray={instructionsFieldArray}
+			/>
+		</KeyboardAwareScrollView>
 	);
 }
 
