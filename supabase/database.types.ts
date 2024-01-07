@@ -186,6 +186,7 @@ export interface Database {
           instructions: string[] | null
           last_cooked: string | null
           name: string | null
+          rating: number | null
           recipe_yield: string | null
           total_time: string | null
           user_id: string | null
@@ -198,6 +199,7 @@ export interface Database {
           instructions?: string[] | null
           last_cooked?: string | null
           name?: string | null
+          rating?: number | null
           recipe_yield?: string | null
           total_time?: string | null
           user_id?: string | null
@@ -210,6 +212,7 @@ export interface Database {
           instructions?: string[] | null
           last_cooked?: string | null
           name?: string | null
+          rating?: number | null
           recipe_yield?: string | null
           total_time?: string | null
           user_id?: string | null

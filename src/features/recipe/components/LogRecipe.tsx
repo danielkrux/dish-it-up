@@ -5,6 +5,7 @@ import { View } from "react-native";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
+import RatingStars from "~/components/RatingStars";
 import Text from "~/components/Text";
 import { colors } from "~/theme";
 import useFetchRecipe from "../hooks/useFetchRecipe";
@@ -24,6 +25,7 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
 	const { data } = useFetchRecipe(recipeId);
 	const initialDate = data?.last_cooked ? new Date(data.last_cooked) : TODAY;
 	const [date, setDate] = React.useState(initialDate);
+	const [stars, setStars] = React.useState(data?.rating ?? -1);
 
 	const { mutate, isLoading } = useUpdateRecipe({
 		onSuccess: () => {
@@ -38,8 +40,8 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
 				<Text className="text-sm text-gray-700 dark:text-gray-200">
 					{data?.name}
 				</Text>
-				<View className="flex-row items-center mt-5">
-					<Text className="text-base">Last made on</Text>
+				<View className="flex-row items-center mt-5 mb-4">
+					<Text className="text-base dark:text-gray-200">Last made on</Text>
 					<DateTimePicker
 						value={date}
 						mode="date"
@@ -51,9 +53,17 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
 						}}
 					/>
 				</View>
+				<View className="flex-row g-2">
+					<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
+					<RatingStars initialValue={stars - 1} onChange={setStars} />
+				</View>
 				<Button
 					onPress={() =>
-						mutate({ id: recipeId, last_cooked: date.toISOString() })
+						mutate({
+							id: recipeId,
+							rating: stars,
+							last_cooked: date.toISOString(),
+						})
 					}
 					loading={isLoading}
 					className="mt-auto mb-3"

@@ -49,7 +49,7 @@ function BackdropComponent({ animatedIndex, onPress }: BackDropProps) {
 		<AnimatedPressable
 			onPress={onPress}
 			style={style}
-			className="bg-black/40 absolute top-0 bottom-0 left-0 right-0"
+			className="bg-black/40 dark:bg-black/50 absolute top-0 bottom-0 left-0 right-0"
 		/>
 	);
 }
@@ -61,7 +61,7 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
 		useImperativeHandle(ref, () => innerRef.current!);
 		const insets = useSafeAreaInsets();
 
-		const snapPoints = useMemo(() => ["30%"], []);
+		const snapPoints = useMemo(() => ["35%"], []);
 
 		const renderBackDrop = useCallback(
 			(props: BottomSheetBackdropProps) => (
