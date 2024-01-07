@@ -53,26 +53,20 @@ function SelectGroceries() {
 	function addPerson() {
 		if (!recipeYieldAmount) return;
 
-		const newYieldMultiplier = roundHalf(
-			yieldMultiplier + 1 / recipeYieldAmount,
-		);
+		const newYieldMultiplier = roundHalf(yieldMultiplier + 0.5);
 		setYieldsMultiplier(newYieldMultiplier);
 	}
 
 	function removePerson() {
 		if (!recipeYieldAmount) return;
 
-		const newYieldMultiplier = roundHalf(
-			yieldMultiplier - 1 / recipeYieldAmount - 0.01,
-		);
+		const newYieldMultiplier = roundHalf(yieldMultiplier - 0.5 - 0.01);
 		setYieldsMultiplier(newYieldMultiplier < 1 ? 1 : newYieldMultiplier);
 	}
 
 	return (
 		<View className="flex-1 py-6">
-			<Text className="mx-4" type="header">
-				Select groceries
-			</Text>
+			<Text className="mx-4 font-display text-2xl">Select groceries</Text>
 			<Text className="mx-4 mb-4 text-bold text-gray-300">{data?.name}</Text>
 			{recipeYieldAmount && (
 				<View className="flex-row items-center g-3 mb-4 mx-4">
