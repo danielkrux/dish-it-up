@@ -59,7 +59,7 @@ function RecipeForm() {
 				spellCheck={false}
 			/>
 			<ControlledInput
-				label="Yields"
+				label="Number of servings"
 				name="recipe_yield"
 				control={control}
 				className="mb-4"
@@ -71,7 +71,7 @@ function RecipeForm() {
 			<ChipInput
 				label="Categories"
 				className="mb-4"
-				value={watch("categories").map((c) => ({
+				value={watch("categories")?.map((c) => ({
 					value: String(c.id) ?? "",
 					label: c.name ?? "",
 				}))}
@@ -81,14 +81,14 @@ function RecipeForm() {
 				}))}
 				onAdd={(item) => {
 					setValue("categories", [
-						...getValues("categories"),
-						{ name: item.label, id: Number(item.value) },
+						...(getValues("categories") ?? []),
+						{ name: item.label ?? "", id: Number(item.value) },
 					]);
 				}}
 				onRemove={(item) => {
 					setValue(
 						"categories",
-						getValues("categories").filter((i) => i.id !== Number(item.value)),
+						getValues("categories")?.filter((i) => i.id !== Number(item.value)),
 					);
 				}}
 			/>

@@ -37,13 +37,12 @@ export default function RecipeImageCard({
 			activeOpacity={0.7}
 		>
 			<>
-				{recipe?.image_url && (
-					<Image
-						className="w-24 h-full md:w-32 rounded-2xl mr-4"
-						style={{ minHeight: isTablet ? 128 : 96 }}
-						source={{ uri: recipe?.image_url }}
-					/>
-				)}
+				<Image
+					className="w-24 h-full md:w-32 rounded-2xl mr-4"
+					style={{ minHeight: isTablet ? 128 : 96 }}
+					source={recipe?.image_url}
+					placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
+				/>
 				<View
 					className={clsx("flex-1 p-2 pl-0", {
 						"border-primary": selected,
@@ -56,9 +55,11 @@ export default function RecipeImageCard({
 					>
 						{recipe?.name}
 					</Text>
-					<Text className="text-xs text-gray-600 dark:text-gray-300 mb-2">
-						{recipe?.total_time} | {recipe?.recipe_yield} servings
-					</Text>
+					{recipe?.total_time && recipe.recipe_yield && (
+						<Text className="text-xs text-gray-600 dark:text-gray-300 mb-2">
+							{recipe?.total_time} | {recipe?.recipe_yield} servings
+						</Text>
+					)}
 					<Text
 						className="text-xs leading-5 text-gray-800 dark:text-gray-200 max-w-md"
 						numberOfLines={isTablet ? 3 : 2}

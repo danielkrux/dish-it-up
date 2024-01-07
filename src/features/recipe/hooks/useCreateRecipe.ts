@@ -1,20 +1,36 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
+import recipeKeys from "../recipe.queryKeys";
 import { createRecipe } from "../recipe.service";
+import { Recipe } from "../recipe.types";
 
 function useCreateRecipe() {
+  const router = useRouter();
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
 
-  const createRecipeMutation = useMutation({
-    mutationFn: createRecipe,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["recipes"] });
-      navigation.getParent()?.goBack();
+  const mutation = useMutation(createRecipe, {
+    onMutate: async (recipe) => {
+      await queryClient.cancelQueries(recipeKeys.all);
+      const previousRecipes = queryClient.getQueryData<Recipe[]>(
+        recipeKeys.all
+      );
+
+      queryClient.setQueryData(recipeKeys.all, () => [
+        ...(previousRecipes ?? []),
+        recipe,
+      ]);
+      router.replace("/");
+      return { previousRecipes };
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(recipeKeys.all, context?.previousRecipes);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(recipeKeys.all);
     },
   });
 
-  return createRecipeMutation;
+  return mutation;
 }
 
 export default useCreateRecipe;

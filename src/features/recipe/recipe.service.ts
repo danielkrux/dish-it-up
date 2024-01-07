@@ -1,5 +1,6 @@
 import { Tables } from "supabase/database.types";
 import { supabase } from "~/app/_layout";
+import { TableUpdate } from "~/clients/supabase";
 import { getSession } from "../auth/auth.service";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 import { parseIngredients } from "./recipe.utils";
@@ -25,16 +26,20 @@ export async function createRecipe(recipe?: RecipeCreate) {
     throw new Error("No recipe to save");
   }
 
-  const { ingredients, ...recipeToSave } = recipe;
+  const { ingredients, categories, ...recipeToSave } = recipe;
 
   const result = await supabase
     .from("recipes")
     .insert({ ...recipeToSave, user_id: user?.id })
-    .select()
+    .select("id")
     .single();
 
   if (result.error) {
     throw new Error(result.error.message);
+  }
+
+  if (result.data) {
+    await updateRecipeCategories(result.data.id, recipe.categories, false);
   }
 
   const ingredientsToSave = parseIngredients(
@@ -61,44 +66,7 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
 
   const { categories, ingredients, ...recipe } = recipeInput;
 
-  // remove categories from database if they are not in the recipe anymore
-  if (categories) {
-    const currentRecipeCategories = await getRecipeCategories(recipe.id);
-    const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
-      (category) => category.id
-    );
-    const categoriesToDelete = currentRecipeCategoriesIds?.filter(
-      (categoryId) =>
-        !categories?.find((category) => category.id === categoryId)
-    );
-    await supabase
-      .from("recipe_categories")
-      .delete()
-      .eq("recipe_id", recipeInput.id)
-      .in("category_id", categoriesToDelete);
-
-    for (const category of categories || []) {
-      const exists = category.id;
-
-      if (recipe.id && category.id && category.name) {
-        if (!exists) {
-          const { data } = await supabase
-            .from("categories")
-            .insert({ name: category.name })
-            .select()
-            .single();
-          if (!data) throw new Error("Could not create category");
-          await supabase
-            .from("recipe_categories")
-            .insert({ recipe_id: recipe.id, category_id: data.id });
-        } else {
-          await supabase
-            .from("recipe_categories")
-            .insert({ recipe_id: recipe.id, category_id: category.id });
-        }
-      }
-    }
-  }
+  await updateRecipeCategories(recipe.id, categories);
 
   if (ingredients) {
     await supabase.from("ingredients").upsert(
@@ -259,6 +227,53 @@ export async function getRecipeCategories(recipeId?: number) {
   }
 
   return result.data;
+}
+
+export async function updateRecipeCategories(
+  recipeId?: number,
+  categories: TableUpdate<"categories">[] = [],
+  shouldDelete = true
+) {
+  if (!categories) return;
+
+  if (shouldDelete) {
+    const currentRecipeCategories = await getRecipeCategories(recipeId);
+    const currentRecipeCategoriesIds = currentRecipeCategories?.categories?.map(
+      (category) => category.id
+    );
+    const categoriesToDelete = currentRecipeCategoriesIds?.filter(
+      (categoryId) =>
+        !categories?.find((category) => category.id === categoryId)
+    );
+    await supabase
+      .from("recipe_categories")
+      .delete()
+      .eq("recipe_id", recipeId)
+      .in("category_id", categoriesToDelete);
+  }
+
+  for (const category of categories || []) {
+    const exists = category.id;
+
+    if (!recipeId || !category.name) return;
+
+    if (!exists) {
+      const { data } = await supabase
+        .from("categories")
+        .insert({ name: category.name })
+        .select()
+        .single();
+      if (!data) throw new Error("Could not create category");
+      await supabase
+        .from("recipe_categories")
+        .insert({ recipe_id: recipeId, category_id: data.id });
+    } else {
+      if (!category.id) throw new Error("No category id provided");
+      await supabase
+        .from("recipe_categories")
+        .insert({ recipe_id: recipeId, category_id: category.id });
+    }
+  }
 }
 
 export async function createCategory(name?: string) {

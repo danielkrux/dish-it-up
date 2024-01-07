@@ -5,7 +5,7 @@ export type RecipeCreate = TableCreate<"recipes"> & {
   ingredients: TableCreate<"ingredients">[];
 };
 export type RecipeUpdate = TableUpdate<"recipes"> & {
-  categories?: TableUpdate<"categories">[];
+  categories?: TableCreate<"categories">[];
   ingredients?: TableUpdate<"ingredients">[];
 };
 export type Recipe = Tables<"recipes"> & {
