@@ -15,7 +15,6 @@ import { Pressable, StyleSheet } from "react-native";
 import Animated, {
 	Extrapolate,
 	interpolate,
-	useAnimatedReaction,
 	useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
