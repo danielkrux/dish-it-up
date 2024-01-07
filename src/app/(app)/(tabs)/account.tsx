@@ -1,29 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
-import { supabase } from "~/app/_layout";
 import Button from "~/components/Button";
 import Text from "~/components/Text";
-import { RECIPES_QUERY_KEY } from "~/features/app/app.constants";
+import recipeKeys from "~/features/recipe/recipe.queryKeys";
+import { getLastMadeRecipes } from "~/features/recipe/recipe.service";
 import useAuth from "~/hooks/useAuth";
 import { formatDistanceToNowInDays } from "~/utils/date";
 
 function Account() {
+	const router = useRouter();
 	const { session } = useAuth();
-	const { data } = useQuery([RECIPES_QUERY_KEY, "last-cooked"], async () => {
-		const result = await supabase
-			.from("recipes")
-			.select("*")
-			.not("last_cooked", "is", "NULL")
-			.limit(5)
-			.order("created_at", { ascending: false });
-
-		if (result.error) throw result.error;
-
-		return result.data;
-	});
+	const { data } = useQuery(recipeKeys.lastMade(), getLastMadeRecipes);
 
 	return (
 		<View className="mx-4">
@@ -31,11 +22,15 @@ function Account() {
 
 			<View className="flex-row justify-between">
 				<Text className="font-display text-xl mb-2">Last Made</Text>
-				<Button variant="ghost">See all</Button>
+				{/* <Button variant="ghost">See all</Button> */}
 			</View>
 			<View className="bg-gray-100 rounded-xl p-4 g-4">
 				{data?.map((r) => (
-					<View className="flex-row g-3" key={r.id}>
+					<Pressable
+						onPress={() => router.push(`/recipe/${r.id}/`)}
+						className="flex-row g-3"
+						key={r.id}
+					>
 						{r.image_url && (
 							<Image
 								className="w-20 h-20 rounded-xl"
@@ -53,7 +48,7 @@ function Account() {
 								{formatDistanceToNowInDays(new Date(r?.last_cooked ?? ""))}
 							</Text>
 						</View>
-					</View>
+					</Pressable>
 				))}
 			</View>
 		</View>

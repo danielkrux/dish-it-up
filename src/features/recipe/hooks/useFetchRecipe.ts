@@ -8,10 +8,7 @@ function useFetchRecipe(id?: number) {
 
   const result = useQuery(recipeKeys.detail(id), () => getRecipe(id), {
     initialData: () => {
-      const recipes = queryClient.getQueryData<Recipe[]>([
-        "recipes",
-        undefined,
-      ]);
+      const recipes = queryClient.getQueryData<Recipe[]>(recipeKeys.list());
       return recipes?.find((recipe) => recipe.id === id);
     },
   });

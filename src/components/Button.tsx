@@ -52,7 +52,7 @@ export default function Button({
 				<Text
 					className={clsx("text-base font-body-bold text-white", {
 						"text-acapulco-300": variant === "secondary",
-						"text-gray-950 dark:text-white": variant === "ghost",
+						"text-gray-800 dark:text-white": variant === "ghost",
 						"text-sm": size === "small",
 					})}
 				>

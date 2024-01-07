@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
@@ -7,37 +6,18 @@ import { Swipeable } from "react-native-gesture-handler";
 
 import SwipeableRow from "~/components/SwipeableRow";
 import Text from "~/components/Text";
-import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
-import theme, { colors } from "~/theme";
-import { deleteMealPlan } from "../mealPlanner.service";
+import { colors } from "~/theme";
+import { formatDistanceToNowInDays } from "~/utils/date";
+import useDeleteMealPlan from "../hooks/useDeleteMealPlan";
 import { MealPlan } from "../mealPlanner.types";
 
 function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
-	const queryClient = useQueryClient();
 	const router = useRouter();
 	const swipeableRef = useRef<Swipeable>(null);
 	const recipe = mealPlan.recipes;
 
-	const deleteMutation = useMutation({
-		mutationFn: (id: number) => deleteMealPlan(id),
-		onMutate: (id) => {
-			queryClient.cancelQueries([MEAL_PLAN_QUERY_KEY]);
-			const previousItems = queryClient.getQueryData<MealPlan[]>([
-				MEAL_PLAN_QUERY_KEY,
-			]);
-			queryClient.setQueryData<MealPlan[]>([MEAL_PLAN_QUERY_KEY], (old) => {
-				return old?.filter((mealPlan) => mealPlan.id !== id) ?? [];
-			});
-			return { previousItems };
-		},
-		onError: (error, _, context) => {
-			console.error(error);
-			queryClient.setQueryData([MEAL_PLAN_QUERY_KEY], context?.previousItems);
-		},
-		onSettled: () => {
-			swipeableRef.current?.close();
-			queryClient.invalidateQueries([MEAL_PLAN_QUERY_KEY]);
-		},
+	const deleteMutation = useDeleteMealPlan({
+		onSettled: () => swipeableRef.current?.close(),
 	});
 
 	function handleDeleteMealPlan() {
@@ -66,7 +46,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			onLeftOpen={handleNavigateToGroceriesSelect}
 			onPress={handleNavigateToRecipe}
 		>
-			<View className="flex-row bg-white dark:bg-gray-900 rounded-2xl">
+			<View className="flex-row bg-gray-100 dark:bg-gray-900 rounded-2xl">
 				{recipe?.image_url && (
 					<Image
 						className="w-24 h-full mr-4 rounded-l-2xl"
@@ -75,11 +55,15 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 				)}
 				<View className="flex-1 py-2 mr-3">
 					<Text className="font-display text-base mb-1">{recipe?.name}</Text>
-					<Text className="font-body text-xs text-gray-800 dark:text-gray-300 mb-1">
+					<Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
 						{recipe?.recipe_yield} servings | {recipe?.total_time}
 					</Text>
 					<Text className="font-body text-xs text-gray-800 dark:text-gray-300">
-						Last made 3 weeks ago
+						{recipe?.last_cooked
+							? `Last made ${formatDistanceToNowInDays(
+									new Date(recipe?.last_cooked),
+							  )}`
+							: "New recipe!"}
 					</Text>
 				</View>
 			</View>
@@ -94,6 +78,6 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.red[100],
 	},
 	leftAction: {
-		backgroundColor: theme.colors.primary,
+		backgroundColor: colors.primary[400],
 	},
 });

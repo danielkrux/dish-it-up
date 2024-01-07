@@ -179,6 +179,21 @@ export async function getRecipeByIds(ids?: number[]) {
   return result.data;
 }
 
+export async function getLastMadeRecipes() {
+  const result = await supabase
+    .from("recipes")
+    .select("id, name, image_url, last_cooked")
+    .not("last_cooked", "is", "NULL")
+    .order("last_cooked", { ascending: false })
+    .limit(5);
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
+}
+
 export async function deleteRecipe(id?: number) {
   if (!id) throw new Error("No recipe id provided");
   const result = await supabase.from("recipes").delete().eq("id", id);
