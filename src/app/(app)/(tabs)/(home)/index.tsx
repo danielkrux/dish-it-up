@@ -12,6 +12,7 @@ import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import useHomeContext from "~/features/home/hooks/useHomeContext";
 import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
+import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
@@ -35,7 +36,7 @@ export default function Home() {
 	useHandleUrlShare();
 
 	const { data, refetch } = useQuery(
-		[RECIPES_QUERY_KEY, query],
+		recipeKeys.list(query),
 		() => getRecipes(query),
 		{
 			select: useCallback(
@@ -54,7 +55,7 @@ export default function Home() {
 				if (isTablet) {
 					setRecipeId(item.id);
 				} else {
-					router.push(`/(app)/recipe/${item.id}/`);
+					router.push(`/recipe/${item.id}/`);
 				}
 			};
 

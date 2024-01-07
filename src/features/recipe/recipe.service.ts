@@ -1,3 +1,4 @@
+import { Tables } from "supabase/database.types";
 import { supabase } from "~/app/_layout";
 import { getSession } from "../auth/auth.service";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
@@ -123,13 +124,16 @@ export async function updateRecipe(recipeInput?: RecipeUpdate) {
   return result;
 }
 
-export async function getRecipes(searchQuery?: string) {
+export async function getRecipes(
+  searchQuery?: string,
+  orderBy: keyof Tables<"recipes"> = "created_at"
+) {
   let result = null;
 
   const baseQuery = supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
-    .order("created_at", { ascending: false });
+    .order(orderBy, { ascending: false });
 
   if (searchQuery) {
     result = await baseQuery.ilike("name", `%${searchQuery}%`);

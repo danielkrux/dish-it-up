@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+import recipeKeys from "../recipe.queryKeys";
 import { updateRecipe } from "../recipe.service";
 import { Recipe } from "../recipe.types";
 
@@ -9,14 +10,13 @@ function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
   const updateRecipeMutation = useMutation({
     mutationFn: updateRecipe,
     onMutate: async (variables) => {
-      await queryClient.cancelQueries(["recipes", { id: variables?.id }]);
+      await queryClient.cancelQueries(recipeKeys.detail(variables?.id));
 
-      const previousRecipe = queryClient.getQueryData<Recipe>([
-        "recipes",
-        { id: variables?.id },
-      ]);
+      const previousRecipe = queryClient.getQueryData<Recipe>(
+        recipeKeys.detail(variables?.id)
+      );
 
-      queryClient.setQueryData(["recipes", { id: variables?.id }], () => ({
+      queryClient.setQueryData(recipeKeys.detail(variables?.id), () => ({
         ...previousRecipe,
         ...variables,
       }));
@@ -29,13 +29,13 @@ function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
     },
     onError: (error, variables, context) => {
       queryClient.setQueryData(
-        ["recipes", { id: variables?.id }],
+        recipeKeys.detail(variables?.id),
         context?.previousRecipe
       );
       console.error(error);
     },
     onSettled: (_, error, variables) => {
-      queryClient.invalidateQueries(["recipes", { id: variables?.id }]);
+      queryClient.invalidateQueries(recipeKeys.all);
     },
   });
 
