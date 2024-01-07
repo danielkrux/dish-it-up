@@ -23,7 +23,7 @@ function Account() {
 				<Text className="font-display text-xl mb-2">Last Made</Text>
 				{/* <Button variant="ghost">See all</Button> */}
 			</View>
-			<View className="bg-gray-100 rounded-xl p-4 g-4">
+			<View className=" bg-gray-100 dark:bg-gray-900 rounded-xl p-4 g-4">
 				{data?.map((r) => (
 					<Pressable
 						onPress={() => router.push(`/recipe/${r.id}/`)}
@@ -42,7 +42,7 @@ function Account() {
 							</Text>
 							<Text
 								numberOfLines={1}
-								className="font-body text-gray-500 text-sm"
+								className="font-body text-gray-500 dark:text-gray-300 text-sm"
 							>
 								{formatDistanceToNowInDays(new Date(r?.last_cooked ?? ""))}
 							</Text>
