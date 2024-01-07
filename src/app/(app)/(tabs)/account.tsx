@@ -4,7 +4,6 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
 
-import Button from "~/components/Button";
 import Text from "~/components/Text";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getLastMadeRecipes } from "~/features/recipe/recipe.service";

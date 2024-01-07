@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import * as Menu from "zeego/dropdown-menu";
 
 import Icon from "~/components/Icon";
@@ -72,7 +73,7 @@ function GroceryList() {
 					),
 				}}
 			/>
-			<ScrollView className="px-4">
+			<KeyboardAwareScrollView bottomOffset={20} className="px-4">
 				{groceries.data?.map((grocery) => (
 					<SwipeableRow
 						key={grocery.id}
@@ -103,7 +104,7 @@ function GroceryList() {
 						}
 					/>
 				</View>
-			</ScrollView>
+			</KeyboardAwareScrollView>
 		</View>
 	);
 }
