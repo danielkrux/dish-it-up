@@ -47,12 +47,11 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			onPress={handleNavigateToRecipe}
 		>
 			<View className="flex-row bg-gray-100 dark:bg-gray-900 rounded-2xl">
-				{recipe?.image_url && (
-					<Image
-						className="w-24 h-full mr-4 rounded-l-2xl"
-						source={{ uri: recipe?.image_url }}
-					/>
-				)}
+				<Image
+					className="w-24 h-full mr-4 rounded-l-2xl"
+					source={recipe?.image_url}
+					placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
+				/>
 				<View className="flex-1 py-2 mr-3">
 					<Text className="font-display text-base mb-1">{recipe?.name}</Text>
 					<Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
