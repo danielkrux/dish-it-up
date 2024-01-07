@@ -3,6 +3,7 @@ import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import { init } from "~/features/app/app.utils";
 import HomeProvider from "~/features/home/HomeContext";
+import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import theme, { isTablet } from "~/theme";
 
@@ -11,6 +12,8 @@ function Home() {
 	const router = useRouter();
 
 	init();
+
+	useHandleUrlShare();
 
 	return (
 		<HomeProvider>

@@ -32,8 +32,6 @@ export default function Home() {
 	const { recipeId, setRecipeId } = useHomeContext();
 	const query = q;
 
-	useHandleUrlShare();
-
 	const { data, refetch } = useQuery(
 		recipeKeys.list(query),
 		() => getRecipes(query),

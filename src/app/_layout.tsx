@@ -12,8 +12,8 @@ import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { NativeWindStyleSheet } from "nativewind";
-import { StatusBar } from "react-native";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 
@@ -57,7 +57,7 @@ export default function Root() {
 					<KeyboardProvider>
 						<BottomSheetModalProvider>
 							<AuthProvider>
-								<StatusBar barStyle="default" />
+								<StatusBar />
 								<Slot />
 								<Toast config={toastConfig} topOffset={0} />
 							</AuthProvider>
