@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-nativ
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import useFetchCategories from "../../hooks/useFetchCategories";
+import ImageInput from "./ImageInput";
 import IngredientsInput from "./IngredientsInput";
 import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
@@ -31,6 +32,10 @@ function RecipeForm() {
 
 	return (
 		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
+			<ImageInput
+				initialImages={[getValues("image_url") as string]}
+				onChange={(images) => setValue("image_url", images[0])}
+			/>
 			<ControlledInput
 				label="Name"
 				name="name"

@@ -12,20 +12,23 @@ export default function Add() {
 
 	return (
 		<View className="my-5 mx-4">
-			<Text className="mb-1 text-3xl font-display">Enter url</Text>
-			<Text className="mb-4" type="body">
+			<Text className="mb-4 text-3xl font-display">Add a recipe</Text>
+			<Text className="mb-2" type="body">
 				Enter a URL to import a recipe from.
 			</Text>
 			<InputBase placeholder="Recipe URL" onChangeText={setUrl} value={url} />
 			<Button
 				size="large"
-				className="mt-4 mb-2"
+				className="mt-2 mb-2"
 				onPress={() => router.push(`/recipe/add/${encodeURIComponent(url)}`)}
 			>
 				Import Recipe
 			</Button>
+			<Text className="mb-2 mt-4" type="body">
+				Or create a custom recipe.
+			</Text>
 			<Button
-				variant="ghost"
+				variant="secondary"
 				size="large"
 				onPress={() => router.push("/recipe/add/custom")}
 			>

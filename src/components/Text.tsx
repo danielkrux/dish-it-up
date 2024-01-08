@@ -12,21 +12,6 @@ export type TextProps = {
 } & RNTextProps;
 
 function Text({ type = "body", size, style, ...props }: TextProps) {
-	if (props.children === "Import Recipe") {
-		console.log(
-			clsx("text-gray-950 font-body dark:text-white", {
-				"text-xl": size === "xl",
-				"text-lg": size === "l",
-				"text-base": size === "m",
-				"text-sm": size === "s",
-				"text-xs": size === "xs",
-				"font-body": type === "body",
-				"font-body-bold": type === "bodyBold",
-				"font-display": type === "header",
-			}),
-			console.log(style),
-		);
-	}
 	return (
 		<RNText
 			{...props}

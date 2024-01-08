@@ -8,13 +8,14 @@ export default function AddLayout() {
 		<Stack
 			screenOptions={{
 				headerTintColor: theme.colors.text,
+				headerShadowVisible: false,
 				animation: Platform.select({
 					android: "none",
 					ios: "default",
 				}),
 			}}
 		>
-			<Stack.Screen name="index" options={{ title: "Add recipe" }} />
+			<Stack.Screen name="index" options={{ headerShown: false }} />
 			<Stack.Screen name="[url]" options={{ headerShown: false }} />
 		</Stack>
 	);
