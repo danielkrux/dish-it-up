@@ -3,7 +3,9 @@ import {
   DarkTheme as _DarkTheme,
   DefaultTheme,
 } from "@react-navigation/native";
-import { useColorScheme } from "react-native";
+import { useColorScheme as useNativeWindColorScheme } from "nativewind";
+import { useEffect } from "react";
+import { AppState, useColorScheme } from "react-native";
 
 import { colors } from "~/theme";
 
@@ -29,7 +31,17 @@ const LightTheme: Theme = {
 };
 
 export function useThemeConfig() {
-  const colorScheme = useColorScheme();
+  const currentColorScheme = useColorScheme();
+  const { colorScheme, setColorScheme } = useNativeWindColorScheme();
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      const isActive = state === "active";
+      if (!isActive) return;
+      currentColorScheme && setColorScheme(currentColorScheme);
+    });
+    return () => subscription.remove();
+  }, [currentColorScheme, setColorScheme]);
 
   if (colorScheme === "dark") return DarkTheme;
 
