@@ -29,7 +29,7 @@ function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
     },
     onError: (error, variables, context) => {
       Toast.show({
-        text1: "Something went wrong updating recipe",
+        text1: "Something went wrong",
         type: "error",
       });
       queryClient.setQueryData(

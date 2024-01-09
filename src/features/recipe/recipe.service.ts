@@ -5,7 +5,7 @@ import { TableUpdate } from "~/clients/supabase";
 import { isTruthy } from "~/utils/typescript";
 import { getSession } from "../auth/auth.service";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
-import { parseIngredients } from "./recipe.utils";
+import { parseIngredients, splitImagesByLocalAndRemote } from "./recipe.utils";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
   const result = await supabase.functions.invoke<Recipe>(
@@ -22,17 +22,16 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
 }
 
 async function uploadRecipeImages(
-  recipeId: number,
+  recipeId: number | undefined,
   images: RecipeCreate["images"] | RecipeUpdate["images"]
 ) {
   const BUCKET_NAME = "recipe-images";
-  if (!images) return;
+  if (!images) return [];
 
   const uploadPromises = [];
 
   for (let i = 0; i < images.length; i++) {
     const element = images[i];
-    if (element.startsWith("http")) continue;
     const promise = supabase.storage
       .from(BUCKET_NAME)
       .upload(`${recipeId}/${i}`, decode(element), {
@@ -74,10 +73,12 @@ export async function createRecipe(recipe?: RecipeCreate) {
 
   if (result.data) {
     try {
-      const images = await uploadRecipeImages(result.data.id, recipe.images);
+      const newImages = await uploadRecipeImages(result.data.id, recipe.images);
       await supabase
         .from("recipes")
-        .update({ images })
+        .update({
+          images: newImages,
+        })
         .eq("id", result.data.id);
       await updateRecipeCategories(result.data.id, recipe.categories, false);
     } catch (error) {
@@ -105,6 +106,12 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
   const { categories, ingredients, ...recipe } = recipeInput;
 
   await updateRecipeCategories(recipe.id, categories);
+
+  const { localImages, remoteImages } = splitImagesByLocalAndRemote(
+    recipe.images
+  );
+  const newImages = await uploadRecipeImages(recipeInput.id, localImages);
+  recipe.images = [...remoteImages, ...newImages];
 
   if (ingredients) {
     await supabase.from("ingredients").upsert(

@@ -65,8 +65,8 @@ export default function AddRecipeConfirmScreen() {
 
 	return (
 		<ScrollView className="pb-6" contentContainerStyle={styles.container}>
-			{data.image_url && (
-				<Image className="h-72 mb-5" source={{ uri: data.image_url }} />
+			{data.images?.length && (
+				<Image className="h-72 mb-5" source={data.images[0]} />
 			)}
 			<View
 				className="absolute top-0 left-0 right-0 z-10 flex-row justify-between px-5"

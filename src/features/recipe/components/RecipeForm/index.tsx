@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-nativ
 
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
+import { isTruthy } from "~/utils/typescript";
 import useFetchCategories from "../../hooks/useFetchCategories";
 import ImageInput from "./ImageInput";
 import IngredientsInput from "./IngredientsInput";
@@ -30,12 +31,10 @@ function RecipeForm() {
 		name: "instructions",
 	});
 
-	const initialImages = getValues("images") ? [getValues("images")] : [];
-
 	return (
 		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
 			<ImageInput
-				initialImages={initialImages}
+				initialImages={getValues("images")?.filter(isTruthy)}
 				onChange={(images) => setValue("images", images)}
 			/>
 			<ControlledInput

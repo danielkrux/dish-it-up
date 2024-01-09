@@ -1,4 +1,4 @@
-import { Ingredient, IngredientCreate, IngredientUpdate } from "./recipe.types";
+import { IngredientCreate, IngredientUpdate } from "./recipe.types";
 
 export function findRecipeYieldAmount(recipeYield: string) {
   const numberRegex = new RegExp(/\d+/);
@@ -43,4 +43,15 @@ export function parseIngredients(
   });
 
   return ingredients;
+}
+
+export function splitImagesByLocalAndRemote(
+  images: string[] | null | undefined
+) {
+  if (!images) return { localImages: [], remoteImages: [] };
+
+  const localImages = images.filter((image) => !image?.startsWith("https"));
+  const remoteImages = images.filter((image) => image?.startsWith("https"));
+
+  return { localImages, remoteImages };
 }

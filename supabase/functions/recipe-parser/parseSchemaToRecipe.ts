@@ -1,26 +1,28 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
 import { formatDuration } from "./utils.ts";
 
-function getImage(image?: string | string[]) {
+function getImages(
+  image?: string | string[] | { url: string }
+): string[] | null {
   if (!image) return null;
-  if (typeof image === "string") return image;
+  if (typeof image === "string") return [image];
 
   if (Array.isArray(image)) {
-    image.find((img) => img.includes(".jpg") || img.includes(".png")) ?? "";
+    return image.filter((img) => img.includes(".jpg") || img.includes(".png"));
   }
 
-  return image.url;
+  return [image.url];
 }
 
-function getInstructions(instructions?: string[]) {
+function getInstructions(instructions: any) {
   if (!instructions) return null;
+  if (typeof instructions === "string") return instructions;
+
   if (instructions[0].itemListElement) {
     return getInstructions(instructions[0].itemListElement);
   }
 
-  if (typeof instructions === "string") return instructions;
-
-  return instructions?.map((instruction) => {
+  return instructions?.map((instruction: any) => {
     if (typeof instruction === "string") return instruction;
 
     return instruction.text;
@@ -47,16 +49,16 @@ function getYield(yieldValue?: string | number | number[]) {
 function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
   const ingredients = getIngredients(schema.recipeIngredient);
   const instructions = getInstructions(schema.recipeInstructions);
-  const image = getImage(schema.image);
+  const images = getImages(schema.image);
   const recipeYield = getYield(schema.recipeYield);
   const totalTime = formatDuration(schema.totalTime);
 
   const recipe = {
     name: schema.name,
     description: schema.description,
-    ingredients: ingredients,
-    instructions: instructions,
-    image_url: image,
+    ingredients,
+    instructions,
+    images,
     recipe_yield: recipeYield,
     total_time: totalTime,
     // cook_time: schema.cookTime,
