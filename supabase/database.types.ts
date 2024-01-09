@@ -182,7 +182,7 @@ export interface Database {
           created_at: string
           description: string | null
           id: number
-          image_url: string | null
+          images: string[] | null
           instructions: string[] | null
           last_cooked: string | null
           name: string | null
@@ -195,7 +195,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           id?: number
-          image_url?: string | null
+          images?: string[] | null
           instructions?: string[] | null
           last_cooked?: string | null
           name?: string | null
@@ -208,7 +208,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           id?: number
-          image_url?: string | null
+          images?: string[] | null
           instructions?: string[] | null
           last_cooked?: string | null
           name?: string | null

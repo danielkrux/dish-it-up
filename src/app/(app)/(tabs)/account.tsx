@@ -30,11 +30,8 @@ function Account() {
 						className="flex-row g-3"
 						key={r.id}
 					>
-						{r.image_url && (
-							<Image
-								className="w-20 h-20 rounded-xl"
-								source={{ uri: r.image_url }}
-							/>
+						{r.images?.length && (
+							<Image className="w-20 h-20 rounded-xl" source={r.images[0]} />
 						)}
 						<View className="flex-1">
 							<Text numberOfLines={2} className="font-display text-base">

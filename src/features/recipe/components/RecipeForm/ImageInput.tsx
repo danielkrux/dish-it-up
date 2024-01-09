@@ -12,20 +12,24 @@ import ScrollView from "~/components/ScrollView";
 import { isTruthy } from "~/utils/typescript";
 
 export type ImageInputProps = {
-	initialImages?: string[];
+	initialImages?: (string | null | undefined)[];
 	onChange: (images: string[]) => void;
 };
 
 function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
-	const [images, setImages] = useState<{ base64: string; uri: string }[]>(
-		initialImages.map((i) => ({ base64: i, uri: i })),
-	);
+	const [images, setImages] = useState<
+		{
+			base64: string;
+			uri: string;
+		}[]
+	>(initialImages.filter(isTruthy).map((i) => ({ base64: i, uri: i })));
 
 	async function openImagePicker() {
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsMultipleSelection: true,
-			quality: 1,
+			quality: 0.8,
+			selectionLimit: 5,
 			base64: true,
 		});
 
@@ -37,9 +41,12 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
 				})
 				.filter(isTruthy);
 
-			setImages((prev) => [...prev, ...pickedImages]);
+			setImages((prev) => {
+				const newImages = [...prev, ...pickedImages];
+				onChange?.(newImages.map((i) => i.base64));
+				return newImages;
+			});
 		}
-		onChange?.(images.map((i) => i.uri));
 	}
 
 	function removeImage(index: number) {

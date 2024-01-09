@@ -1,6 +1,8 @@
+import { decode } from "base64-arraybuffer";
 import { Tables } from "supabase/database.types";
 import { supabase } from "~/app/_layout";
 import { TableUpdate } from "~/clients/supabase";
+import { isTruthy } from "~/utils/typescript";
 import { getSession } from "../auth/auth.service";
 import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 import { parseIngredients } from "./recipe.utils";
@@ -17,6 +19,38 @@ export async function parseRecipe(url: string): Promise<Recipe | null> {
   }
 
   return result.data;
+}
+
+async function uploadRecipeImages(
+  recipeId: number,
+  images: RecipeCreate["images"] | RecipeUpdate["images"]
+) {
+  const BUCKET_NAME = "recipe-images";
+  if (!images) return;
+
+  const uploadPromises = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const element = images[i];
+    if (element.startsWith("http")) continue;
+    const promise = supabase.storage
+      .from(BUCKET_NAME)
+      .upload(`${recipeId}/${i}`, decode(element), {
+        contentType: "image/png",
+      });
+    uploadPromises.push(promise);
+  }
+
+  const promiseResult = await Promise.all(uploadPromises);
+  const publicUrls = promiseResult
+    .map(({ data }) => {
+      if (!data) return null;
+      return supabase.storage.from(BUCKET_NAME).getPublicUrl(data.path).data
+        .publicUrl;
+    })
+    .filter(isTruthy);
+
+  return publicUrls;
 }
 
 export async function createRecipe(recipe?: RecipeCreate) {
@@ -39,7 +73,16 @@ export async function createRecipe(recipe?: RecipeCreate) {
   }
 
   if (result.data) {
-    await updateRecipeCategories(result.data.id, recipe.categories, false);
+    try {
+      const images = await uploadRecipeImages(result.data.id, recipe.images);
+      await supabase
+        .from("recipes")
+        .update({ images })
+        .eq("id", result.data.id);
+      await updateRecipeCategories(result.data.id, recipe.categories, false);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const ingredientsToSave = parseIngredients(
@@ -58,12 +101,7 @@ export async function createRecipe(recipe?: RecipeCreate) {
   return result;
 }
 
-export async function updateRecipe(recipeInput?: RecipeUpdate) {
-  if (!recipeInput || recipeInput === undefined) {
-    console.error("No recipe to save");
-    throw new Error("No recipe to save");
-  }
-
+export async function updateRecipe(recipeInput: RecipeUpdate) {
   const { categories, ingredients, ...recipe } = recipeInput;
 
   await updateRecipeCategories(recipe.id, categories);
@@ -150,7 +188,7 @@ export async function getRecipeByIds(ids?: number[]) {
 export async function getLastMadeRecipes() {
   const result = await supabase
     .from("recipes")
-    .select("id, name, image_url, last_cooked")
+    .select("id, name, images, last_cooked")
     .not("last_cooked", "is", "NULL")
     .order("last_cooked", { ascending: false })
     .limit(5);

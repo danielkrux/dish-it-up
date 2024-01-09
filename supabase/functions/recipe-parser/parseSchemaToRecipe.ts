@@ -5,9 +5,11 @@ function getImage(image?: string | string[]) {
   if (!image) return null;
   if (typeof image === "string") return image;
 
-  return (
-    image.find((img) => img.includes(".jpg") || img.includes(".png")) ?? ""
-  );
+  if (Array.isArray(image)) {
+    image.find((img) => img.includes(".jpg") || img.includes(".png")) ?? "";
+  }
+
+  return image.url;
 }
 
 function getInstructions(instructions?: string[]) {

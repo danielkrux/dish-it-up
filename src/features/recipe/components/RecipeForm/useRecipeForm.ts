@@ -6,7 +6,7 @@ import { RecipeUpdateForm } from "./types";
 const emtpyRecipe: RecipeUpdateForm = {
   name: "",
   description: "",
-  image_url: "",
+  images: [],
   recipe_yield: "",
   ingredients: [{ name: "" }],
   instructions: [{ value: "" }],
@@ -32,7 +32,7 @@ function useRecipeForm(initialRecipe?: Recipe) {
     return {
       name: initialRecipe.name || "",
       description: initialRecipe.description || "",
-      image_url: initialRecipe.image_url || "",
+      images: initialRecipe.images || [],
       recipe_yield: initialRecipe.recipe_yield || "",
       total_time: initialRecipe.total_time || "",
       categories: initialRecipe.categories || [],

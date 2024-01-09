@@ -23,9 +23,9 @@ export default function RecipeDetail({
 			<View className="px-20 flex-1">
 				<View className="flex-1 flex-row g-10 mb-10">
 					<ScrollView contentContainerStyle="pt-5" className="flex-1">
-						{data?.image_url && (
+						{data?.images?.length && (
 							<Image
-								source={{ uri: data?.image_url }}
+								source={data.images[0]}
 								className="aspect-square rounded-2xl mb-4"
 							/>
 						)}
@@ -63,11 +63,8 @@ export default function RecipeDetail({
 			<View className="mb-4">
 				<Text className="mb-4 font-display text-4xl">{data?.name}</Text>
 
-				{data?.image_url && (
-					<Image
-						source={{ uri: data?.image_url }}
-						className="aspect-video rounded-2xl"
-					/>
+				{data?.images?.length && (
+					<Image source={data.images[0]} className="aspect-video rounded-2xl" />
 				)}
 			</View>
 			{data?.description && <Text className="mb-4">{data?.description}</Text>}

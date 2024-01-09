@@ -30,11 +30,13 @@ function RecipeForm() {
 		name: "instructions",
 	});
 
+	const initialImages = getValues("images") ? [getValues("images")] : [];
+
 	return (
 		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
 			<ImageInput
-				initialImages={[getValues("image_url") as string]}
-				onChange={(images) => setValue("image_url", images[0])}
+				initialImages={initialImages}
+				onChange={(images) => setValue("images", images)}
 			/>
 			<ControlledInput
 				label="Name"

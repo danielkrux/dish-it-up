@@ -94,7 +94,6 @@ function Item({
 			const upperBound = lowerBound + SCREEN_WIDTH - SIZE * 2;
 			const maxScroll = positions.length * TOTAL_SIZE;
 			const leftToScroll = maxScroll - scrollX.value;
-			console.log(leftToScroll, maxScroll);
 			if (translateX.value < lowerBound) {
 				const diff = Math.min(lowerBound - translateX.value, lowerBound);
 				scrollX.value -= diff;

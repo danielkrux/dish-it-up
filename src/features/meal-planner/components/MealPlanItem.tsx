@@ -49,7 +49,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
 			<View className="flex-row bg-gray-100 dark:bg-gray-900 rounded-2xl">
 				<Image
 					className="w-24 h-full mr-4 rounded-l-2xl"
-					source={recipe?.image_url}
+					source={recipe?.images?.[0]}
 					placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
 				/>
 				<View className="flex-1 py-2 mr-3">
