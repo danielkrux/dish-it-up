@@ -43,7 +43,11 @@ function ChipList({
 	);
 }
 
-export default styled(ChipList);
+export default styled(ChipList, {
+	props: {
+		contentContainerStyle: true,
+	},
+});
 
 const styles = StyleSheet.create({
 	container: {

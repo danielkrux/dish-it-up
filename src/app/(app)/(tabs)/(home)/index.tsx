@@ -8,11 +8,10 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import FloatingButton from "~/components/FloatingButton";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
-import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import useHomeContext from "~/features/home/hooks/useHomeContext";
 import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
-import { getRecipes } from "~/features/recipe/recipe.service";
+import { SortOptionValue, getRecipes } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 import theme, { isTablet } from "~/theme";
@@ -28,13 +27,18 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 
 export default function Home() {
 	const router = useRouter();
-	const { q, c } = useLocalSearchParams<{ q?: string; c?: string }>();
+	const { q, c, s } = useLocalSearchParams<{
+		q?: string;
+		c?: string;
+		s?: SortOptionValue;
+	}>();
 	const { recipeId, setRecipeId } = useHomeContext();
 	const query = q;
+	const sortBy = s;
 
 	const { data, refetch } = useQuery(
-		recipeKeys.list(query),
-		() => getRecipes(query),
+		recipeKeys.list(query, sortBy),
+		() => getRecipes(query, sortBy),
 		{
 			select: useCallback(
 				(data: Recipe[]) => filterRecipesByCategory(data, c),

@@ -2,6 +2,7 @@ import {
 	BottomSheetBackdropProps,
 	BottomSheetModal as _BottomSheetModal,
 	BottomSheetModalProps,
+	BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { styled } from "nativewind";
 import React, {
@@ -11,13 +12,13 @@ import React, {
 	useMemo,
 	useRef,
 } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
 	Extrapolate,
 	interpolate,
 	useAnimatedStyle,
 } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 
 const SBottomSheetModal = styled(_BottomSheetModal, {
 	props: {
@@ -28,7 +29,9 @@ const SBottomSheetModal = styled(_BottomSheetModal, {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-type Props = Omit<BottomSheetModalProps, "snapPoints">;
+type Props = Omit<BottomSheetModalProps, "snapPoints" | "children"> & {
+	children: React.ReactNode;
+};
 
 type BackDropProps = {
 	animatedIndex: Animated.SharedValue<number>;
@@ -81,11 +84,13 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
 				bottomInset={insets.bottom}
 				backdropComponent={renderBackDrop}
 				style={styles.bottomSheet}
-				handleStyle="bg-white dark:bg-gray-900 rounded-t-xl"
+				handleStyle="bg-white dark:bg-gray-950 rounded-t-xl"
 				handleIndicatorStyle="bg-gray-200 dark:bg-gray-700"
 				{...props}
 			>
-				{children}
+				<View className="flex-1 bg-white dark:bg-gray-950 px-4">
+					{children}
+				</View>
 			</SBottomSheetModal>
 		);
 	},
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 16.0,
-
 		elevation: 24,
+		overflow: "hidden",
 	},
 });

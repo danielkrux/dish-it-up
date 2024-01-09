@@ -42,7 +42,7 @@ export default function Button({
 			{icon && (
 				<Icon
 					className={clsx("text-white", {
-						"text-gray-950": variant === "ghost",
+						"text-gray-950 dark:text-white": variant === "ghost",
 					})}
 					name={icon}
 					size={16}

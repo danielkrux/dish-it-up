@@ -8,7 +8,7 @@ import useCreateCategory from "~/features/recipe/hooks/useCreateCategory";
 import useDeleteCategory from "~/features/recipe/hooks/useDeleteCategory";
 import useUpdateCategory from "~/features/recipe/hooks/useUpdateCategory";
 import { getCategories } from "~/features/recipe/recipe.service";
-import theme, { colors } from "~/theme";
+import theme from "~/theme";
 
 export default function Settings() {
 	const { data } = useQuery([CATEGORIES_QUERY_KEY], getCategories);

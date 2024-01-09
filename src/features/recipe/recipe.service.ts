@@ -142,16 +142,20 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
   return result;
 }
 
+export type SortOptionValue = `${keyof Tables<"recipes">}:${"asc" | "desc"}`;
 export async function getRecipes(
   searchQuery?: string,
-  orderBy: keyof Tables<"recipes"> = "created_at"
+  orderBy: SortOptionValue = "created_at:desc"
 ) {
   let result = null;
+
+  const [column, order] = orderBy.split(":");
+  console.log(column, order);
 
   const baseQuery = supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
-    .order(orderBy, { ascending: false });
+    .order(column, { ascending: order === "asc" });
 
   if (searchQuery) {
     result = await baseQuery.ilike("name", `%${searchQuery}%`);

@@ -35,43 +35,41 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
 
 	return (
 		<BottomSheetModal ref={innerRef}>
-			<View className="flex-1 bg-white dark:bg-gray-900 px-4 py-1 rounded-b-xl">
-				<Text className="font-display text-2xl">Log Recipe</Text>
-				<Text className="text-sm text-gray-700 dark:text-gray-200">
-					{data?.name}
-				</Text>
-				<View className="flex-row items-center mt-5 mb-4">
-					<Text className="text-base dark:text-gray-200">Last made on</Text>
-					<DateTimePicker
-						value={date}
-						mode="date"
-						accentColor={colors.primary[500]}
-						maximumDate={TODAY}
-						onChange={(event, selectedDate) => {
-							const currentDate = selectedDate || date;
-							setDate(currentDate);
-						}}
-					/>
-				</View>
-				<View className="flex-row g-2">
-					<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
-					<RatingStars initialValue={stars - 1} onChange={setStars} />
-				</View>
-				<Button
-					onPress={() =>
-						mutate({
-							id: recipeId,
-							rating: stars,
-							last_cooked: date.toISOString(),
-						})
-					}
-					loading={isLoading}
-					className="mt-auto mb-3"
-					size="large"
-				>
-					Save
-				</Button>
+			<Text className="font-display text-2xl">Log Recipe</Text>
+			<Text className="text-sm text-gray-700 dark:text-gray-200">
+				{data?.name}
+			</Text>
+			<View className="flex-row items-center mt-5 mb-4">
+				<Text className="text-base dark:text-gray-200">Last made on</Text>
+				<DateTimePicker
+					value={date}
+					mode="date"
+					accentColor={colors.primary[500]}
+					maximumDate={TODAY}
+					onChange={(event, selectedDate) => {
+						const currentDate = selectedDate || date;
+						setDate(currentDate);
+					}}
+				/>
 			</View>
+			<View className="flex-row g-2">
+				<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
+				<RatingStars initialValue={stars - 1} onChange={setStars} />
+			</View>
+			<Button
+				onPress={() =>
+					mutate({
+						id: recipeId,
+						rating: stars,
+						last_cooked: date.toISOString(),
+					})
+				}
+				loading={isLoading}
+				className="mt-auto mb-3"
+				size="large"
+			>
+				Save
+			</Button>
 		</BottomSheetModal>
 	);
 });

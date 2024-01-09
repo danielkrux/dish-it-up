@@ -5,7 +5,7 @@ import ChipList from "~/components/ChipList";
 import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
 import { getCategories } from "~/features/recipe/recipe.service";
 
-export const DEFAULT_FILTER = "0";
+export const DEFAULT_FILTER = "all";
 
 function RecipeQuickFilter() {
 	const params = useLocalSearchParams<{ c?: string }>();
@@ -35,10 +35,11 @@ function RecipeQuickFilter() {
 
 	return (
 		<ChipList
-			className="mt-1"
+			className="mt-1 pr-"
 			data={data}
 			selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
 			onPress={updateParams}
+			contentContainerStyle="pr-20"
 		/>
 	);
 }
