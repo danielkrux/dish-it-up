@@ -30,9 +30,9 @@ function Account() {
 						className="flex-row g-3"
 						key={r.id}
 					>
-						{r.images?.length && (
+						{r.images?.length ? (
 							<Image className="w-20 h-20 rounded-xl" source={r.images[0]} />
-						)}
+						) : null}
 						<View className="flex-1">
 							<Text numberOfLines={2} className="font-display text-base">
 								{r?.name}

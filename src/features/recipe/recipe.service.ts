@@ -73,11 +73,14 @@ export async function createRecipe(recipe?: RecipeCreate) {
 
   if (result.data) {
     try {
-      const newImages = await uploadRecipeImages(result.data.id, recipe.images);
+      const { remoteImages, localImages } = splitImagesByLocalAndRemote(
+        recipe.images
+      );
+      const newImages = await uploadRecipeImages(result.data.id, localImages);
       await supabase
         .from("recipes")
         .update({
-          images: newImages,
+          images: [...remoteImages, ...newImages],
         })
         .eq("id", result.data.id);
       await updateRecipeCategories(result.data.id, recipe.categories, false);
@@ -107,11 +110,13 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
 
   await updateRecipeCategories(recipe.id, categories);
 
-  const { localImages, remoteImages } = splitImagesByLocalAndRemote(
-    recipe.images
-  );
-  const newImages = await uploadRecipeImages(recipeInput.id, localImages);
-  recipe.images = [...remoteImages, ...newImages];
+  if (recipe.images) {
+    const { localImages, remoteImages } = splitImagesByLocalAndRemote(
+      recipe.images
+    );
+    const newImages = await uploadRecipeImages(recipeInput.id, localImages);
+    recipe.images = [...remoteImages, ...newImages];
+  }
 
   if (ingredients) {
     await supabase.from("ingredients").upsert(
