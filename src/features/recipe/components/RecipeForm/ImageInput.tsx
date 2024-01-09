@@ -17,7 +17,6 @@ export type ImageInputProps = {
 };
 
 function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
-	console.log(initialImages);
 	const [images, setImages] = useState<
 		{
 			base64: string;
