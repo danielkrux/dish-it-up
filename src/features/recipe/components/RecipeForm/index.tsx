@@ -31,6 +31,8 @@ function RecipeForm() {
 		name: "instructions",
 	});
 
+	console.log(watch("images"));
+
 	return (
 		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
 			<ImageInput

@@ -52,7 +52,7 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
 	function removeImage(index: number) {
 		const newImages = images.filter((_, i) => i !== index);
 		setImages(newImages);
-		onChange?.(images.map((i) => i.uri));
+		onChange?.(newImages.map((i) => i.base64));
 	}
 
 	return (
