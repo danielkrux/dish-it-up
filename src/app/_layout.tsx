@@ -25,6 +25,7 @@ import { useOnlineManager } from "../hooks/useOnlineManager";
 import AuthProvider from "~/AuthContext";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
+import { colors } from "~/theme";
 
 export const supabase = initSupabase();
 
@@ -57,7 +58,10 @@ export default function Root() {
 					<KeyboardProvider>
 						<BottomSheetModalProvider>
 							<AuthProvider>
-								<StatusBar />
+								<StatusBar
+									backgroundColor={theme.dark ? colors.gray[950] : colors.white}
+									style="auto"
+								/>
 								<Slot />
 								<Toast config={toastConfig} topOffset={0} />
 							</AuthProvider>
