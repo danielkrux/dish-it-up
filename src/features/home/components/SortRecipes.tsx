@@ -1,11 +1,11 @@
 import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
+import { ImpactFeedbackStyle, impactAsync } from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
 
-import { Tables } from "~/clients/supabase";
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Text from "~/components/Text";
 import { SortOptionValue } from "~/features/recipe/recipe.service";
@@ -33,6 +33,7 @@ function SortRecipes() {
 	const color = colorScheme === "dark" ? colors.gray[950] : colors.white;
 
 	function handleSort(value: SortOptionValue) {
+		impactAsync(ImpactFeedbackStyle.Light);
 		router.setParams({ s: value });
 		bottomSheetRef.current?.dismiss();
 	}
@@ -49,7 +50,9 @@ function SortRecipes() {
 					end={{ x: 0.4, y: 1 }}
 					colors={[hexToRGBA(color, 0.1), color]}
 				>
-					<Text className="font-body-bold">Sort</Text>
+					<Text className="font-body-bold text-gray-600 dark:text-gray-300 mt-1">
+						SORT
+					</Text>
 				</LinearGradient>
 			</Pressable>
 			<BottomSheetModal ref={bottomSheetRef}>
@@ -61,7 +64,7 @@ function SortRecipes() {
 						className="flex-row items-center mb-2"
 					>
 						<View className="flex-row items-center py-2">
-							<View className="border border-acapulco-500 rounded-full h-5 w-5 mr-3" />
+							<View className="border-2 border-acapulco-500 rounded-full h-5 w-5 mr-3" />
 							{(s === sortOption.value ||
 								(!s && sortOption.value === "created_at:desc")) && (
 								<View className="bg-acapulco-500 rounded-full h-3 w-3 absolute left-[4]" />

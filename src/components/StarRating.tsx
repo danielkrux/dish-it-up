@@ -1,11 +1,11 @@
 import { Canvas, Group, Path, fitbox, rect } from "@shopify/react-native-skia";
-import * as Haptics from "expo-haptics";
 import { styled } from "nativewind";
 import React, { useEffect } from "react";
 import { Pressable, View, ViewProps } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS } from "react-native-reanimated";
 
+import { ImpactFeedbackStyle, impactAsync } from "expo-haptics";
 import { colors } from "~/theme";
 import Text from "./Text";
 
@@ -35,20 +35,21 @@ function StarRating({
 
 	const tap = Gesture.Tap().onEnd(({ x }) => {
 		const index = Math.floor(x / (SIZE + 2));
+		runOnJS(impactAsync)(ImpactFeedbackStyle.Light);
 		runOnJS(setSelectedStarIndex)(index);
 	});
 
 	const pan = Gesture.Pan().onChange(({ x }) => {
 		const index = Math.floor(x / (SIZE + 2));
 		const clampedIndex = Math.min(Math.max(index, -1), 4);
-		runOnJS(setSelectedStarIndex)(clampedIndex);
+		if (clampedIndex !== selectedStarIndex) {
+			runOnJS(impactAsync)(ImpactFeedbackStyle.Light);
+			runOnJS(setSelectedStarIndex)(clampedIndex);
+		}
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (selectedStarIndex >= 0) {
-			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-		}
 		onChange?.(selectedStarIndex + 1);
 	}, [selectedStarIndex]);
 
