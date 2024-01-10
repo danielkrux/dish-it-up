@@ -87,9 +87,7 @@ export default function AddRecipeConfirmScreen() {
 				/>
 			</View>
 			<View className="px-4">
-				<Text className="mb-1" type="header">
-					{data.name}
-				</Text>
+				<Text className="mb-1 font-display text-4xl">{data.name}</Text>
 				<Text className="mb-7" type="body">
 					{data.description}
 				</Text>

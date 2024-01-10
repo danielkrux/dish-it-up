@@ -61,6 +61,8 @@ export async function createRecipe(recipe?: RecipeCreate) {
 
   const { ingredients, categories, ...recipeToSave } = recipe;
 
+  console.log(recipeToSave);
+
   const result = await supabase
     .from("recipes")
     .insert({ ...recipeToSave, user_id: user?.id })

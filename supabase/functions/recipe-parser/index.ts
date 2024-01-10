@@ -24,7 +24,7 @@ serve(async (req) => {
     console.log("fetching the url...");
     const html = await response.text();
     const schema = parseHtmlToRecipeSchema(html);
-    const recipe = parseSchemaToRecipe(schema);
+    const recipe = parseSchemaToRecipe(schema, url);
 
     return new Response(JSON.stringify(recipe), {
       headers: { "Content-Type": "application/json" },

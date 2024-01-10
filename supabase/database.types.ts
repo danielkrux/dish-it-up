@@ -188,6 +188,7 @@ export interface Database {
           name: string | null
           rating: number | null
           recipe_yield: string | null
+          source_url: string | null
           total_time: string | null
           user_id: string | null
         }
@@ -201,6 +202,7 @@ export interface Database {
           name?: string | null
           rating?: number | null
           recipe_yield?: string | null
+          source_url?: string | null
           total_time?: string | null
           user_id?: string | null
         }
@@ -214,6 +216,7 @@ export interface Database {
           name?: string | null
           rating?: number | null
           recipe_yield?: string | null
+          source_url?: string | null
           total_time?: string | null
           user_id?: string | null
         }

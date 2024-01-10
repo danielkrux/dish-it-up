@@ -46,7 +46,10 @@ function getYield(yieldValue?: string | number | number[]) {
   return yieldValue[0];
 }
 
-function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
+function parseSchemaToRecipe(
+  schema: Record<keyof RecipeSchema, any>,
+  url: string
+) {
   const ingredients = getIngredients(schema.recipeIngredient);
   const instructions = getInstructions(schema.recipeInstructions);
   const images = getImages(schema.image);
@@ -61,6 +64,7 @@ function parseSchemaToRecipe(schema: Record<keyof RecipeSchema, any>) {
     images,
     recipe_yield: recipeYield,
     total_time: totalTime,
+    source_url: url,
     // cook_time: schema.cookTime,
     // prep_time: schema.prepTime,
     // date_published: schema.datePublished,

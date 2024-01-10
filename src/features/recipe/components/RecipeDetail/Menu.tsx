@@ -1,10 +1,11 @@
 import { useRouter } from "expo-router";
 import React from "react";
+import { Linking } from "react-native";
 import * as Menu from "zeego/dropdown-menu";
 
-import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import IconButton from "~/components/IconButton";
 import useDeleteRecipe from "../../hooks/useDeleteRecipe";
+import useFetchRecipe from "../../hooks/useFetchRecipe";
 
 type RecipeDetailMenuProps = {
 	recipeId: number;
@@ -18,7 +19,7 @@ function RecipeDetailMenu({
 	onShowLogRecipe,
 }: RecipeDetailMenuProps) {
 	const router = useRouter();
-
+	const { data } = useFetchRecipe(recipeId);
 	const { mutate } = useDeleteRecipe(recipeId, {
 		onSuccess: onDeleteSucces,
 	});
@@ -33,7 +34,6 @@ function RecipeDetailMenu({
 					key="edit"
 					onSelect={() => router.push(`/recipe/${recipeId}/edit`)}
 				>
-					<Menu.ItemIcon ios={{ name: "pencil" }} />
 					<Menu.ItemTitle> Edit</Menu.ItemTitle>
 				</Menu.Item>
 				<Menu.Group>
@@ -48,7 +48,16 @@ function RecipeDetailMenu({
 						<Menu.ItemIcon ios={{ name: "cart" }} />
 						<Menu.ItemTitle>Add to grocery list</Menu.ItemTitle>
 					</Menu.Item>
-					<Menu.Sub>
+					{data?.source_url && (
+						<Menu.Item
+							key="visit website"
+							onSelect={() => Linking.openURL(data.source_url ?? "")}
+						>
+							<Menu.ItemIcon ios={{ name: "globe" }} />
+							<Menu.ItemTitle>Visit website</Menu.ItemTitle>
+						</Menu.Item>
+					)}
+					{/* <Menu.Sub>
 						<Menu.SubTrigger key="plan-recipe">
 							<Menu.ItemIcon ios={{ name: "book" }} />
 							<Menu.ItemTitle>Plan recipe...</Menu.ItemTitle>
@@ -58,7 +67,7 @@ function RecipeDetailMenu({
 							<Menu.Item key="tomorrow">Tomorrow</Menu.Item>
 							<Menu.Item key="other">Other...</Menu.Item>
 						</Menu.SubContent>
-					</Menu.Sub>
+					</Menu.Sub> */}
 				</Menu.Group>
 				<Menu.Item key="delete" onSelect={mutate} destructive>
 					<Menu.ItemIcon ios={{ name: "trash" }} />
