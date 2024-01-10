@@ -11,9 +11,11 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
+import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { NativeWindStyleSheet } from "nativewind";
+import { useEffect } from "react";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 
@@ -26,6 +28,7 @@ import AuthProvider from "~/AuthContext";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors } from "~/theme";
+import { Platform } from "react-native";
 
 export const supabase = initSupabase();
 
@@ -36,6 +39,13 @@ NativeWindStyleSheet.setOutput({
 export default function Root() {
 	const theme = useThemeConfig();
 	useOnlineManager();
+
+	useEffect(() => {
+		if (Platform.OS !== "android") return;
+		NavigationBar.setBackgroundColorAsync(
+			theme.dark ? colors.gray[950] : colors.white,
+		);
+	}, [theme.dark]);
 
 	useAppState(async (state) => {
 		setQueryClientFocus(state);

@@ -1,6 +1,7 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef } from "react";
+import FloatingButton from "~/components/FloatingButton";
 
 import IconButton from "~/components/IconButton";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
@@ -10,7 +11,8 @@ import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail
 export default function RecipeDetailPage() {
 	const ref = useRef<BottomSheetModal>(null);
 
-	const { id } = useLocalSearchParams();
+	const params = useLocalSearchParams();
+	const id = Number(params.id);
 	const router = useRouter();
 
 	return (
@@ -30,13 +32,19 @@ export default function RecipeDetailPage() {
 						<RecipeDetailMenu
 							onShowLogRecipe={() => ref.current?.present()}
 							onDeleteSucces={() => router.push("/")}
-							recipeId={Number(id)}
+							recipeId={id}
 						/>
 					),
 				}}
 			/>
-			<RecipeDetail id={Number(id)} logRecipeRef={ref} />
-			<LogRecipe recipeId={Number(id)} ref={ref} />
+			<RecipeDetail id={id} logRecipeRef={ref} />
+			<FloatingButton
+				onPress={() => router.push(`/recipe/${id}/cook`)}
+				useSafeArea
+			>
+				Start cooking
+			</FloatingButton>
+			<LogRecipe recipeId={id} ref={ref} />
 		</>
 	);
 }
