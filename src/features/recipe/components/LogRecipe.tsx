@@ -5,7 +5,7 @@ import { View } from "react-native";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
-import RatingStars from "~/components/RatingStars";
+import StarRating from "~/components/StarRating";
 import Text from "~/components/Text";
 import { colors } from "~/theme";
 import useFetchRecipe from "../hooks/useFetchRecipe";
@@ -54,7 +54,7 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
 			</View>
 			<View className="flex-row g-2">
 				<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
-				<RatingStars initialValue={stars - 1} onChange={setStars} />
+				<StarRating initialValue={stars - 1} onChange={setStars} />
 			</View>
 			<Button
 				onPress={() =>

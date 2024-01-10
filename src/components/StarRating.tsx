@@ -15,7 +15,7 @@ export type RatingStarsProps = {
 	onChange: (rating: number) => void;
 };
 
-function RatingStars({ initialValue, onChange }: RatingStarsProps) {
+function StarRating({ initialValue, onChange }: RatingStarsProps) {
 	const [selectedStarIndex, setSelectedStarIndex] = React.useState(
 		initialValue ?? -1,
 	);
@@ -71,4 +71,4 @@ function Star({ selected }: { selected: boolean }) {
 	);
 }
 
-export default RatingStars;
+export default StarRating;
