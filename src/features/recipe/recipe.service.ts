@@ -61,8 +61,6 @@ export async function createRecipe(recipe?: RecipeCreate) {
 
   const { ingredients, categories, ...recipeToSave } = recipe;
 
-  console.log(recipeToSave);
-
   const result = await supabase
     .from("recipes")
     .insert({ ...recipeToSave, user_id: user?.id })
@@ -152,7 +150,6 @@ export async function getRecipes(
   let result = null;
 
   const [column, order] = orderBy.split(":");
-  console.log(column, order);
 
   const baseQuery = supabase
     .from("recipes")

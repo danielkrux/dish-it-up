@@ -16,7 +16,7 @@ function Home() {
 		init();
 	}, []);
 
-	useHandleUrlShare();
+	// useHandleUrlShare();
 
 	return (
 		<HomeProvider>
@@ -39,7 +39,7 @@ function Home() {
 						fontSize: theme.fontSize.xxl,
 						fontWeight: "bold",
 					},
-					freezeOnBlur: true,
+					// freezeOnBlur: true,
 				}}
 			>
 				<Tabs.Screen
