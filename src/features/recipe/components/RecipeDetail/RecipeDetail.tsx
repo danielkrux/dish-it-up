@@ -1,7 +1,9 @@
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
 import { ReactNode } from "react";
 import { View } from "react-native";
 
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
 import StarRating from "~/components/StarRating";
@@ -15,7 +17,12 @@ import Meta from "./Meta";
 export default function RecipeDetail({
 	id,
 	header,
-}: { id: number; header?: ReactNode }) {
+	logRecipeRef,
+}: {
+	id: number;
+	header?: ReactNode;
+	logRecipeRef: React.RefObject<BottomSheetModalMethods>;
+}) {
 	const { data } = useFetchRecipe(id);
 	const { containerSize, onLayout } = useContainerBreakpoint();
 
@@ -62,7 +69,12 @@ export default function RecipeDetail({
 			<View className="mb-4">
 				<View className="flex-row justify-between items-end mb-4 g-4">
 					<Text className="font-display text-4xl">{data?.name}</Text>
-					<StarRating initialValue={data?.rating} short className="mb-1.5" />
+					<StarRating
+						onPress={() => logRecipeRef?.current?.present()}
+						initialValue={data?.rating}
+						short
+						className="mb-1.5"
+					/>
 				</View>
 
 				<Image

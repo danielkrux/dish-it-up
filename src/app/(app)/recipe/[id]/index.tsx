@@ -35,7 +35,7 @@ export default function RecipeDetailPage() {
 					),
 				}}
 			/>
-			<RecipeDetail id={Number(id)} />
+			<RecipeDetail id={Number(id)} logRecipeRef={ref} />
 			<LogRecipe recipeId={Number(id)} ref={ref} />
 		</>
 	);

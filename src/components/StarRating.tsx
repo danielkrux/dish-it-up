@@ -2,7 +2,7 @@ import { Canvas, Group, Path, fitbox, rect } from "@shopify/react-native-skia";
 import * as Haptics from "expo-haptics";
 import { styled } from "nativewind";
 import React, { useEffect } from "react";
-import { View, ViewProps } from "react-native";
+import { Pressable, View, ViewProps } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS } from "react-native-reanimated";
 
@@ -14,15 +14,17 @@ const array = new Array(5).fill(0).map((_, i) => i);
 
 export type RatingStarsProps = {
 	initialValue?: number | null;
-	onChange?: (rating: number) => void;
 	short?: boolean;
 	style?: ViewProps["style"];
+	onChange?: (rating: number) => void;
+	onPress?: () => void;
 };
 
 function StarRating({
 	initialValue,
 	short = false,
 	onChange,
+	onPress,
 	...props
 }: RatingStarsProps) {
 	const [selectedStarIndex, setSelectedStarIndex] = React.useState(
@@ -38,7 +40,8 @@ function StarRating({
 
 	const pan = Gesture.Pan().onChange(({ x }) => {
 		const index = Math.floor(x / (SIZE + 2));
-		runOnJS(setSelectedStarIndex)(index);
+		const clampedIndex = Math.min(Math.max(index, -1), 4);
+		runOnJS(setSelectedStarIndex)(clampedIndex);
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -53,12 +56,18 @@ function StarRating({
 		if (selectedStarIndex < 0) return;
 
 		return (
-			<View style={props.style} className="flex-row items-center g-2">
+			<Pressable
+				onPress={onPress}
+				style={props.style}
+				className="flex-row items-center g-1.5"
+			>
 				<Canvas style={{ width: SIZE, height: SIZE }}>
 					<Star selected={Boolean(selectedStarIndex)} />
 				</Canvas>
-				<Text className="font-body-bold text-base">{initialValue}</Text>
-			</View>
+				<Text className="font-body-bold text-base text-gray-700 dark:text-gray-200">
+					{initialValue}
+				</Text>
+			</Pressable>
 		);
 	}
 
@@ -90,7 +99,7 @@ function Star({ selected }: { selected: boolean }) {
 		<Group transform={fitbox("contain", src, dst)}>
 			<Path
 				path="M 128 0 L 168 80 L 256 93 L 192 155 L 207 244 L 128 202 L 49 244 L 64 155 L 0 93 L 88 80 L 128 0 Z"
-				color={selected ? colors.primary[300] : colors.primary[500]}
+				color={selected ? colors.primary[300] : colors.primary[400]}
 				opacity={selected ? 1 : 0.3}
 			/>
 		</Group>
