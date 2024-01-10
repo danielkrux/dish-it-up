@@ -4,6 +4,7 @@ import { View } from "react-native";
 
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
+import StarRating from "~/components/StarRating";
 import Text from "~/components/Text";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
@@ -59,7 +60,10 @@ export default function RecipeDetail({
 		>
 			{header}
 			<View className="mb-4">
-				<Text className="mb-4 font-display text-4xl">{data?.name}</Text>
+				<View className="flex-row justify-between items-end mb-4 g-4">
+					<Text className="font-display text-4xl">{data?.name}</Text>
+					<StarRating initialValue={data?.rating} short className="mb-1.5" />
+				</View>
 
 				<Image
 					source={data?.images?.[0]}

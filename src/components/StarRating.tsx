@@ -1,21 +1,30 @@
 import { Canvas, Group, Path, fitbox, rect } from "@shopify/react-native-skia";
 import * as Haptics from "expo-haptics";
+import { styled } from "nativewind";
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { View, ViewProps } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS } from "react-native-reanimated";
 
 import { colors } from "~/theme";
+import Text from "./Text";
 
 const SIZE = 24;
 const array = new Array(5).fill(0).map((_, i) => i);
 
 export type RatingStarsProps = {
-	initialValue?: number;
-	onChange: (rating: number) => void;
+	initialValue?: number | null;
+	onChange?: (rating: number) => void;
+	short?: boolean;
+	style?: ViewProps["style"];
 };
 
-function StarRating({ initialValue, onChange }: RatingStarsProps) {
+function StarRating({
+	initialValue,
+	short = false,
+	onChange,
+	...props
+}: RatingStarsProps) {
 	const [selectedStarIndex, setSelectedStarIndex] = React.useState(
 		initialValue ?? -1,
 	);
@@ -34,12 +43,27 @@ function StarRating({ initialValue, onChange }: RatingStarsProps) {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-		onChange(selectedStarIndex + 1);
+		if (selectedStarIndex >= 0) {
+			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+		}
+		onChange?.(selectedStarIndex + 1);
 	}, [selectedStarIndex]);
 
+	if (short) {
+		if (selectedStarIndex < 0) return;
+
+		return (
+			<View style={props.style} className="flex-row items-center g-2">
+				<Canvas style={{ width: SIZE, height: SIZE }}>
+					<Star selected={Boolean(selectedStarIndex)} />
+				</Canvas>
+				<Text className="font-body-bold text-base">{initialValue}</Text>
+			</View>
+		);
+	}
+
 	return (
-		<View style={{ height: SIZE, width: CONTAINER_WIDTH }}>
+		<View style={[props.style, { height: SIZE, width: CONTAINER_WIDTH }]}>
 			<Canvas style={{ flex: 1, height: SIZE }}>
 				{array.map((i) => (
 					<Group key={i} transform={[{ translateX: SIZE_MARGIN * i }]}>
@@ -57,6 +81,8 @@ function StarRating({ initialValue, onChange }: RatingStarsProps) {
 	);
 }
 
+export default styled(StarRating);
+
 function Star({ selected }: { selected: boolean }) {
 	const src = rect(0, 0, 256, 256);
 	const dst = rect(0, 0, SIZE, SIZE);
@@ -70,5 +96,3 @@ function Star({ selected }: { selected: boolean }) {
 		</Group>
 	);
 }
-
-export default StarRating;
