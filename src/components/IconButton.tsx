@@ -45,7 +45,7 @@ function IconButton({
 			{...props}
 		>
 			<Icon
-				className="text-gray-900 dark:text-gray-200"
+				className="text-gray-900 dark:text-gray-400"
 				name={icon}
 				size={sizeMap[size]}
 			/>

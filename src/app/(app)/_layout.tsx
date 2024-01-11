@@ -33,11 +33,11 @@ function Layout() {
 			<Stack.Screen
 				name="recipe/[id]/cook"
 				options={{
-					presentation: "modal",
+					presentation: "fullScreenModal",
 					headerShown: false,
 					animation: Platform.select({
 						android: "fade_from_bottom",
-						ios: "fade_from_bottom",
+						ios: "default",
 					}),
 				}}
 			/>
