@@ -31,7 +31,6 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 			[0, 1],
 			[SCREEN_HEIGHT * 0.35 - 70, SCREEN_HEIGHT * 0.85],
 		);
-		console.log(height);
 		return {
 			height,
 		};

@@ -2,11 +2,17 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useRef } from "react";
 import { ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
+	Extrapolate,
+	interpolate,
+	runOnJS,
+	useAnimatedReaction,
 	useAnimatedScrollHandler,
 	useAnimatedStyle,
+	useDerivedValue,
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
+import { FlatList } from "react-native-gesture-handler";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
@@ -14,7 +20,6 @@ import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "~/theme";
 import Button from "~/components/Button";
-import { FlatList } from "react-native-gesture-handler";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
 
 const ITEM_SIZE = SCREEN_WIDTH * 0.8;
@@ -23,29 +28,53 @@ const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
 function Cook() {
 	const params = useLocalSearchParams();
 	const id = Number(params.id);
+	const { data } = useFetchRecipe(id);
+	const instructionsLength = data?.instructions?.length ?? 0;
 
 	const insets = useSafeAreaInsets();
 	const extraPadding = Platform.OS === "ios" ? 0 : 10;
 
 	const ref = useRef<FlatList<string>>(null);
+	const [currentIndex, setCurrentIndex] = React.useState(0);
 	const index = useSharedValue(0);
-
 	const bottomSheetPosition = useSharedValue(0);
-
 	const [actionsY, setActionsY] = React.useState(0);
 
-	const { data } = useFetchRecipe(id);
+	useAnimatedReaction(
+		() => index.value,
+		(value) => {
+			const clampedIndex = Math.max(
+				0,
+				Math.min(value, (data?.instructions?.length ?? 0) - 1),
+			);
+			return runOnJS(setCurrentIndex)(Math.round(clampedIndex));
+		},
+	);
 
 	const handleScroll = useAnimatedScrollHandler((e) => {
-		index.value = e.contentOffset.x / e.layoutMeasurement.width;
+		index.value =
+			e.contentOffset.x / (e.layoutMeasurement.width - ITEM_SPACING);
 	});
 
-	const actionsStyle = useAnimatedStyle(() => {
-		return {
-			opacity: withTiming(bottomSheetPosition.value > actionsY + 50 ? 1 : 0),
-			transform: [{ translateY: bottomSheetPosition.value - actionsY - 70 }],
-		};
+	const actionsStyle = useAnimatedStyle(() => ({
+		opacity: withTiming(bottomSheetPosition.value > actionsY + 50 ? 1 : 0),
+		transform: [{ translateY: bottomSheetPosition.value - actionsY - 70 }],
+	}));
+
+	const progressBarTranslate = useDerivedValue(() => {
+		// SCREEN_WIDTH - OUTER_PADDING - LEFT_ARROW - RIGHT_ARROW - INNER_PADDING
+		const progressBarWidth = SCREEN_WIDTH - (16 * 2 + 44 * 2 + 12 * 2);
+		return interpolate(
+			index.value,
+			[0, instructionsLength - 1],
+			[-progressBarWidth, 0],
+			Extrapolate.CLAMP,
+		);
 	});
+
+	const progressBarStyle = useAnimatedStyle(() => ({
+		transform: [{ translateX: progressBarTranslate.value }],
+	}));
 
 	function renderInstruction(item: ListRenderItemInfo<string>) {
 		return (
@@ -93,13 +122,35 @@ function Cook() {
 				style={actionsStyle}
 				className="flex-row mx-4 g-3 items-center"
 			>
-				<IconButton size="large" icon="chevron-left" />
-				<View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 h-full items-center py-3">
-					<Text className="font-body-bold text-gray-400">
-						{/* {stepIndex} / {data?.instructions?.length} */}
+				<IconButton
+					onPress={() =>
+						ref.current?.scrollToOffset({
+							offset: (ITEM_SIZE + ITEM_SPACING) * (currentIndex - 1),
+							animated: true,
+						})
+					}
+					size="large"
+					icon="chevron-left"
+				/>
+				<View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 h-full overflow-hidden">
+					<Animated.View
+						style={progressBarStyle}
+						className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/80"
+					/>
+					<Text className="mt-3 font-body-bold self-center text-gray-50">
+						{currentIndex + 1} / {data?.instructions?.length}
 					</Text>
 				</View>
-				<IconButton size="large" icon="chevron-right" />
+				<IconButton
+					onPress={() =>
+						ref.current?.scrollToOffset({
+							offset: (ITEM_SIZE + ITEM_SPACING) * (currentIndex + 1),
+							animated: true,
+						})
+					}
+					size="large"
+					icon="chevron-right"
+				/>
 			</Animated.View>
 			<IngredientsSheet
 				position={bottomSheetPosition}
