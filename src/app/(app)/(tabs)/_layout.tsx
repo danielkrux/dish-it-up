@@ -16,7 +16,7 @@ function Home() {
 		init();
 	}, []);
 
-	// useHandleUrlShare();
+	useHandleUrlShare();
 
 	return (
 		<HomeProvider>
