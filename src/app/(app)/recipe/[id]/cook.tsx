@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useRef } from "react";
+import React, { ReactNode, useRef } from "react";
 import { ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
 	Extrapolate,
@@ -76,13 +76,45 @@ function Cook() {
 		transform: [{ translateX: progressBarTranslate.value }],
 	}));
 
-	function renderInstruction(item: ListRenderItemInfo<string>) {
+	function renderInstruction({ item, index }: ListRenderItemInfo<string>) {
+		const words: string[] = item.split(" ");
+		const instrucitonWithHightlights: ReactNode[] | string[] = words;
+
+		// rege that ignores parenthesis and points
+		const regex = new RegExp(/[\(\)\.]/, "g");
+
+		//check if ingredient name is in instruction and replace with <Text/>
+		for (let i = 0; i < words.length; i++) {
+			const word = words[i];
+			const ingredient = data?.ingredients.find((ingredient) => {
+				const ingredientName = ingredient.name.toLowerCase().replace(regex, "");
+				const wordSanitized = word.toLowerCase().replace(regex, "");
+
+				return (
+					ingredientName.startsWith(wordSanitized.toLowerCase()) ||
+					wordSanitized.toLowerCase().startsWith(ingredientName)
+				);
+			});
+
+			if (ingredient) {
+				words.filter((w) => w !== word);
+				instrucitonWithHightlights[i] = (
+					<Text className="font-body text-xl text-acapulco-500">{word} </Text>
+				);
+			}
+		}
+
+		const instruction = instrucitonWithHightlights.map((word) => {
+			if (typeof word !== "string") return word;
+			return `${word} `;
+		});
+
 		return (
 			<View style={{ width: ITEM_SIZE }}>
-				<Text className="font-display text-5xl text-gray-400 self-start">
-					Step {item.index + 1}
+				<Text className="font-display text-5xl mb-2 text-gray-400 self-start">
+					Step {index + 1}
 				</Text>
-				<Text className="font-body text-xl">{item.item}</Text>
+				<Text className="font-body text-xl">{instruction}</Text>
 			</View>
 		);
 	}
@@ -110,6 +142,7 @@ function Cook() {
 					justifyContent: "center",
 					alignItems: "center",
 				}}
+				keyExtractor={(item, index) => `${item}-${index}`}
 				showsVerticalScrollIndicator={false}
 				snapToInterval={ITEM_SIZE + ITEM_SPACING}
 				decelerationRate="fast"

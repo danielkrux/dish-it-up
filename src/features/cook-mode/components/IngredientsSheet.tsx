@@ -59,7 +59,7 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 					renderItem={({ item }) => (
 						<View className="flex-row justify-between mx-4 my-1 g-4">
 							<Text className="font-body text-base flex-1">
-								{item.amount} {item.name}
+								{`${item.amount ?? ""} ${item.unit ?? ""} ${item.name}`.trim()}
 							</Text>
 							<IconButton icon="check" size="medium" />
 						</View>
