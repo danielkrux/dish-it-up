@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import Animated, {
+	Extrapolate,
 	interpolate,
 	useAnimatedStyle,
 	useSharedValue,
@@ -30,6 +31,7 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 			sheetIndex.value,
 			[0, 1],
 			[SCREEN_HEIGHT * 0.35 - 70, SCREEN_HEIGHT * 0.85],
+			Extrapolate.CLAMP,
 		);
 		return {
 			height,

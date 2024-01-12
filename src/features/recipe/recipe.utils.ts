@@ -19,19 +19,25 @@ export function parseIngredients(
 
   const ingredients = _ingredients.map((ingredient) => {
     if (ingredient.name?.match(/^\d/) || ingredient.name?.startsWith("½")) {
-      const [amount, unit, ...name] = ingredient.name.split(" ");
+      const bracketsRegex = new RegExp(/\(([^)]+)\)/);
+      const brackets = ingredient.name?.match(bracketsRegex);
+      const [amount, unit, ...name] = ingredient.name
+        .replace(bracketsRegex, "")
+        .trim()
+        .split(" ");
+
       if (!name.length) {
         return {
           ...ingredient,
           amount,
-          name: unit,
+          name: `${unit} ${brackets?.[0]}`,
           unit: null,
         };
       }
 
       return {
         ...ingredient,
-        name: name.join(" "),
+        name: `${name.join(" ")} ${brackets?.[0] ?? ""}`,
         amount,
         unit,
       };

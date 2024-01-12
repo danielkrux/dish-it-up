@@ -80,19 +80,19 @@ function Cook() {
 		const words: string[] = item.split(" ");
 		const instrucitonWithHightlights: ReactNode[] | string[] = words;
 
-		// rege that ignores parenthesis and points
-		const regex = new RegExp(/[\(\)\.]/, "g");
+		// rege that ignores parenthesis, points, commas
+		const regex = new RegExp(/[\(\)\.\,]/, "g");
 
 		//check if ingredient name is in instruction and replace with <Text/>
 		for (let i = 0; i < words.length; i++) {
 			const word = words[i];
 			const ingredient = data?.ingredients.find((ingredient) => {
-				const ingredientName = ingredient.name.toLowerCase().replace(regex, "");
+				const ingredientName = ingredient.name.toLowerCase();
 				const wordSanitized = word.toLowerCase().replace(regex, "");
 
 				return (
-					ingredientName.startsWith(wordSanitized.toLowerCase()) ||
-					wordSanitized.toLowerCase().startsWith(ingredientName)
+					ingredientName.startsWith(wordSanitized) ||
+					wordSanitized.startsWith(ingredientName)
 				);
 			});
 
