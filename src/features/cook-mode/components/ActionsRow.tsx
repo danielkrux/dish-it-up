@@ -1,6 +1,6 @@
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import React from "react";
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 import Animated, {
 	Extrapolate,
 	interpolate,
@@ -61,6 +61,7 @@ function ActionsRow({
 		>
 			<IconButton
 				onPress={() =>
+					// @ts-ignore
 					stepsListRef.current?.scrollToOffset({
 						offset: (ITEM_SIZE + ITEM_SPACING) * (index - 1),
 						animated: true,
@@ -74,12 +75,13 @@ function ActionsRow({
 					style={progressBarStyle}
 					className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/80"
 				/>
-				<Text className="mt-3 font-body-bold self-center text-gray-50">
+				<Text className="mt-3 font-body-bold self-center text-gray-800 dark:text-gray-50">
 					{index + 1} / {instructionsLength}
 				</Text>
 			</View>
 			<IconButton
 				onPress={() =>
+					// @ts-ignore
 					stepsListRef.current?.scrollToOffset({
 						offset: (ITEM_SIZE + ITEM_SPACING) * (index + 1),
 						animated: true,

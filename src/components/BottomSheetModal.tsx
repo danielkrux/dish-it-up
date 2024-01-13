@@ -2,7 +2,6 @@ import {
 	BottomSheetBackdropProps,
 	BottomSheetModal as _BottomSheetModal,
 	BottomSheetModalProps,
-	BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { styled } from "nativewind";
 import React, {
@@ -52,7 +51,7 @@ function BackdropComponent({ animatedIndex, onPress }: BackDropProps) {
 		<AnimatedPressable
 			onPress={onPress}
 			style={style}
-			className="bg-black/40 dark:bg-black/50 absolute top-0 bottom-0 left-0 right-0"
+			className="bg-black/40  absolute top-0 bottom-0 left-0 right-0"
 		/>
 	);
 }
