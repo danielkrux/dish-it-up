@@ -9,6 +9,7 @@ export type IconButtonProps = {
 	icon: IconName;
 	size?: "small" | "medium" | "large";
 	ghost?: boolean;
+	variant?: "primary" | "secondary";
 } & PressableProps;
 
 function IconButton({
@@ -16,6 +17,7 @@ function IconButton({
 	size = "small",
 	style,
 	ghost,
+	variant = "primary",
 	...props
 }: IconButtonProps) {
 	const [isPressed, setIsPressed] = useState(false);
@@ -35,6 +37,7 @@ function IconButton({
 				"p-3 rounded-full items-center justify-center bg-gray-100 dark:bg-gray-900",
 				{
 					"bg-transparent": ghost,
+					"bg-acapulco-300/30": variant === "secondary",
 					"opacity-80": isPressed,
 					"p-1.5": size === "small",
 					"p-2": size === "medium",
@@ -45,7 +48,9 @@ function IconButton({
 			{...props}
 		>
 			<Icon
-				className="text-gray-900 dark:text-gray-400"
+				className={clsx("text-gray-900 dark:text-gray-400", {
+					"text-acapulco-400": variant === "secondary",
+				})}
 				name={icon}
 				size={sizeMap[size]}
 			/>

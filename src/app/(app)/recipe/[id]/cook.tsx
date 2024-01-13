@@ -119,7 +119,7 @@ function Cook() {
 			className="flex-1 bg-white dark:bg-gray-950"
 			style={{ paddingTop: insets.top + extraPadding }}
 		>
-			<View className="flex-row mx-4 justify-between">
+			<View className="flex-row mx-4 items-center justify-between">
 				<IconButton icon="x" size="medium" onPress={router.back} />
 				<Button
 					onPress={() => logRecipeRef.current?.present()}

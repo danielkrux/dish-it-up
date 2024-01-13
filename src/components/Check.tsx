@@ -1,16 +1,23 @@
 import clsx from "clsx";
-import { View } from "react-native";
+import { Pressable, View, ViewProps } from "react-native";
 import Icon from "./Icon";
+import { styled } from "nativewind";
 
-function Check({ selected }: { selected: boolean }) {
+function Check({
+	selected,
+	style,
+	onPress,
+}: { selected: boolean; style?: ViewProps["style"]; onPress?: () => void }) {
 	return (
-		<View
+		<Pressable
+			onPress={onPress}
 			className={clsx(
-				"w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-900 items-center justify-center",
+				"w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center",
 				{
 					"bg-primary": selected,
 				},
 			)}
+			style={style}
 		>
 			{selected && (
 				<Icon
@@ -19,8 +26,8 @@ function Check({ selected }: { selected: boolean }) {
 					className="text-white dark:text-gray-800"
 				/>
 			)}
-		</View>
+		</Pressable>
 	);
 }
 
-export default Check;
+export default styled(Check);

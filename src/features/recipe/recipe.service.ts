@@ -119,13 +119,19 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
   }
 
   if (ingredients) {
-    await supabase.from("ingredients").upsert(
+    const { error } = await supabase.from("ingredients").upsert(
       ingredients.map((i) => ({
         ...i,
+        id: i.id ?? undefined,
         name: i.name ?? "",
         recipe_id: recipe.id,
-      }))
+      })),
+      {
+        defaultToNull: false,
+      }
     );
+
+    if (error) throw new Error(error.message);
   }
 
   const result = await supabase
