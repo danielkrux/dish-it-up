@@ -87,7 +87,9 @@ function Cook() {
 			if (ingredient) {
 				words.filter((w) => w !== word);
 				instrucitonWithHightlights[i] = (
-					<Text className="font-body text-xl text-acapulco-500">{word} </Text>
+					<Text className="font-body-bold text-xl text-acapulco-400 dark:text-acapulco-500">
+						{word}{" "}
+					</Text>
 				);
 			}
 		}

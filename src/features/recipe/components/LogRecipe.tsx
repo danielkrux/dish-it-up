@@ -38,12 +38,12 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(
 
 		return (
 			<BottomSheetModal ref={innerRef}>
-				<Text className="font-display text-2xl">Log Recipe</Text>
-				<Text className="text-sm text-gray-700 dark:text-gray-200">
+				<Text className="font-display text-2xl mb-1">Log Recipe</Text>
+				<Text className="text-base text-gray-700 dark:text-gray-200">
 					{data?.name}
 				</Text>
-				<View className="flex-row items-center mt-5 mb-4">
-					<Text className="text-base dark:text-gray-200">Last made on</Text>
+				<View className="flex-row items-center mt-6 mb-4">
+					<Text className="text-base dark:text-gray-300">Last made on</Text>
 					<DateTimePicker
 						value={date}
 						mode="date"
@@ -56,7 +56,7 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(
 					/>
 				</View>
 				<View className="flex-row g-2">
-					<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
+					<Text className="text-base mb-2 dark:text-gray-300">Rating</Text>
 					<StarRating initialValue={stars - 1} onChange={setStars} />
 				</View>
 				<Button
