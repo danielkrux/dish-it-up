@@ -18,7 +18,7 @@ export type ActionsRowProps = {
 	index: number;
 	instructionsLength: number;
 	animatedIndex: Animated.SharedValue<number>;
-	stepsListRef: React.RefObject<FlatList<string>>;
+	stepsListRef: React.RefObject<Animated.FlatList<string>>;
 	bottomSheetPosition: Animated.SharedValue<number>;
 };
 

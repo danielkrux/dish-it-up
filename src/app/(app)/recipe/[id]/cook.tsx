@@ -30,7 +30,7 @@ function Cook() {
 	const { data } = useFetchRecipe(id);
 	const instructionsLength = data?.instructions?.length ?? 0;
 
-	const ref = useRef<FlatList<string>>(null);
+	const ref = useRef<Animated.FlatList<string>>(null);
 	const logRecipeRef = useRef<BottomSheetModal>(null);
 
 	const [currentIndex, setCurrentIndex] = React.useState(0);
