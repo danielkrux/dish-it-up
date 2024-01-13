@@ -2,6 +2,8 @@ import React, { useMemo, useState } from "react";
 import { View } from "react-native";
 import Animated, {
 	Extrapolate,
+	FadeIn,
+	FadeOut,
 	interpolate,
 	useAnimatedStyle,
 	useDerivedValue,
@@ -13,17 +15,56 @@ import { SCREEN_HEIGHT } from "~/theme";
 import { Ingredient } from "~/features/recipe/recipe.types";
 import BottomSheet from "~/components/BottomSheet";
 import Check from "~/components/Check";
+import clsx from "clsx";
+
+export function getMatchedIngredients(
+	instruction: string,
+	ingredients: Ingredient[] | undefined,
+) {
+	if (!ingredients) return [];
+
+	const regex = new RegExp(/[\(\)\.\,]/, "g");
+	const words = instruction.split(" ");
+	const matchedIngredients: Ingredient[] = [];
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i];
+		const ingredient = ingredients.find((ingredient) => {
+			const ingredientName = ingredient.name.toLowerCase();
+			const wordSanitized = word.toLowerCase().replace(regex, "");
+
+			return (
+				ingredientName.startsWith(wordSanitized) ||
+				wordSanitized.startsWith(ingredientName)
+			);
+		});
+
+		if (ingredient) {
+			matchedIngredients.push(ingredient);
+		}
+	}
+	return matchedIngredients;
+}
 
 export type IngredientsSheetProps = {
 	position: Animated.SharedValue<number>;
+	currentInstruction: string;
 	ingredients?: Ingredient[];
 };
 
-function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
+function IngredientsSheet({
+	position,
+	currentInstruction,
+	ingredients,
+}: IngredientsSheetProps) {
 	const [completeIngredientIds, setCompleteIngredientIds] = useState<number[]>(
 		[],
 	);
 	const sheetIndex = useSharedValue(0);
+
+	const matchedIngredients = getMatchedIngredients(
+		currentInstruction,
+		ingredients,
+	);
 
 	const snapPoints = useMemo(
 		() => [SCREEN_HEIGHT * 0.35, SCREEN_HEIGHT * 0.85],
@@ -52,6 +93,14 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 		});
 	}
 
+	const sortedIngredients = useMemo(() => {
+		if (!ingredients) return [];
+		const copy = [...ingredients];
+		return copy.sort(
+			(a, b) => matchedIngredients.indexOf(b) - matchedIngredients.indexOf(a),
+		);
+	}, [ingredients, matchedIngredients]);
+
 	return (
 		<BottomSheet
 			animateOnMount={false}
@@ -63,22 +112,33 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 			contentHeight={height}
 		>
 			<View className=" bg-gray-100 dark:bg-gray-900 flex-1">
-				<Text className="font-display text-2xl mx-4 my-2">All Ingredients</Text>
+				<Text className="font-display text-2xl mx-4 my-2">Ingredients</Text>
 				<Animated.FlatList
 					style={flatListStyle}
 					contentContainerStyle={{ paddingBottom: 30 }}
 					keyExtractor={(item, index) => `${item}-${index}`}
-					data={ingredients}
+					data={sortedIngredients}
 					renderItem={({ item }) => {
 						const isComplete = completeIngredientIds.includes(item.id);
+						const isMatched = matchedIngredients.some((i) => i.id === item.id);
+
 						return (
-							<View className="flex-row justify-between mx-4 mb-4 g-4">
+							<Animated.View
+								entering={FadeIn.duration(200)}
+								exiting={FadeOut.duration(100)}
+								className="flex-row justify-between mx-4 mb-4 g-4"
+							>
 								<Check
 									onPress={() => toggleIngredient(item.id)}
 									selected={isComplete}
 								/>
 								<Text
-									className={"font-body text-base flex-1"}
+									className={clsx(
+										"font-body text-base flex-1 text-gray-700 dark:text-gray-200",
+										{
+											"font-body-bold text-gray-950 dark:text-white": isMatched,
+										},
+									)}
 									style={{
 										textDecorationLine: isComplete ? "line-through" : undefined,
 									}}
@@ -87,7 +147,7 @@ function IngredientsSheet({ position, ingredients }: IngredientsSheetProps) {
 										item.name
 									}`.trim()}
 								</Text>
-							</View>
+							</Animated.View>
 						);
 					}}
 				/>

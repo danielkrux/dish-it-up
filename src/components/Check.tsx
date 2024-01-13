@@ -12,7 +12,7 @@ function Check({
 		<Pressable
 			onPress={onPress}
 			className={clsx(
-				"w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center",
+				"w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-800 items-center justify-center",
 				{
 					"bg-primary": selected,
 				},

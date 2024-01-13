@@ -8,6 +8,8 @@ import Animated, {
 	useSharedValue,
 } from "react-native-reanimated";
 import { ScrollView } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
@@ -17,8 +19,6 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "~/theme";
 import Button from "~/components/Button";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import Toast from "react-native-toast-message";
 import ActionsRow from "~/features/cook-mode/components/ActionsRow";
 
 const ITEM_SIZE = SCREEN_WIDTH * 0.8;
@@ -158,6 +158,7 @@ function Cook() {
 				stepsListRef={ref}
 			/>
 			<IngredientsSheet
+				currentInstruction={data?.instructions?.[currentIndex] ?? ""}
 				position={bottomSheetPosition}
 				ingredients={data?.ingredients}
 			/>
