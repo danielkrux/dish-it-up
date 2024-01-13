@@ -12,66 +12,70 @@ import useFetchRecipe from "../hooks/useFetchRecipe";
 import useUpdateRecipe from "../hooks/useUpdateRecipe";
 
 type Props = {
-	recipeId: number;
+	recipeId: number | undefined;
+	onSave?: () => void;
 };
 
 const TODAY = new Date();
 
-const LogRecipe = forwardRef<_BottomSheetModal, Props>(({ recipeId }, ref) => {
-	const innerRef = useRef<_BottomSheetModal>(null);
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
-	useImperativeHandle(ref, () => innerRef.current!);
+const LogRecipe = forwardRef<_BottomSheetModal, Props>(
+	({ recipeId, onSave }, ref) => {
+		const innerRef = useRef<_BottomSheetModal>(null);
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		useImperativeHandle(ref, () => innerRef.current!);
 
-	const { data } = useFetchRecipe(recipeId);
-	const initialDate = data?.last_cooked ? new Date(data.last_cooked) : TODAY;
-	const [date, setDate] = React.useState(initialDate);
-	const [stars, setStars] = React.useState(data?.rating ?? -1);
+		const { data } = useFetchRecipe(recipeId);
+		const initialDate = data?.last_cooked ? new Date(data.last_cooked) : TODAY;
+		const [date, setDate] = React.useState(initialDate);
+		const [stars, setStars] = React.useState(data?.rating ?? -1);
 
-	const { mutate, isLoading } = useUpdateRecipe({
-		onSuccess: () => {
-			innerRef.current?.dismiss();
-		},
-	});
+		const { mutate, isLoading } = useUpdateRecipe({
+			onSuccess: () => {
+				innerRef.current?.dismiss();
+				onSave?.();
+			},
+		});
 
-	return (
-		<BottomSheetModal ref={innerRef}>
-			<Text className="font-display text-2xl">Log Recipe</Text>
-			<Text className="text-sm text-gray-700 dark:text-gray-200">
-				{data?.name}
-			</Text>
-			<View className="flex-row items-center mt-5 mb-4">
-				<Text className="text-base dark:text-gray-200">Last made on</Text>
-				<DateTimePicker
-					value={date}
-					mode="date"
-					accentColor={colors.primary[500]}
-					maximumDate={TODAY}
-					onChange={(event, selectedDate) => {
-						const currentDate = selectedDate || date;
-						setDate(currentDate);
-					}}
-				/>
-			</View>
-			<View className="flex-row g-2">
-				<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
-				<StarRating initialValue={stars - 1} onChange={setStars} />
-			</View>
-			<Button
-				onPress={() =>
-					mutate({
-						id: recipeId,
-						rating: stars,
-						last_cooked: date.toISOString(),
-					})
-				}
-				loading={isLoading}
-				className="mt-auto mb-3"
-				size="large"
-			>
-				Save
-			</Button>
-		</BottomSheetModal>
-	);
-});
+		return (
+			<BottomSheetModal ref={innerRef}>
+				<Text className="font-display text-2xl">Log Recipe</Text>
+				<Text className="text-sm text-gray-700 dark:text-gray-200">
+					{data?.name}
+				</Text>
+				<View className="flex-row items-center mt-5 mb-4">
+					<Text className="text-base dark:text-gray-200">Last made on</Text>
+					<DateTimePicker
+						value={date}
+						mode="date"
+						accentColor={colors.primary[500]}
+						maximumDate={TODAY}
+						onChange={(event, selectedDate) => {
+							const currentDate = selectedDate || date;
+							setDate(currentDate);
+						}}
+					/>
+				</View>
+				<View className="flex-row g-2">
+					<Text className="text-base mb-2 dark:text-gray-200">Rating</Text>
+					<StarRating initialValue={stars - 1} onChange={setStars} />
+				</View>
+				<Button
+					onPress={() =>
+						mutate({
+							id: recipeId,
+							rating: stars,
+							last_cooked: date.toISOString(),
+						})
+					}
+					loading={isLoading}
+					className="mt-auto mb-3"
+					size="large"
+				>
+					Save
+				</Button>
+			</BottomSheetModal>
+		);
+	},
+);
 
 export default LogRecipe;

@@ -2,17 +2,12 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { ReactNode, useRef } from "react";
 import { ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
-	Extrapolate,
-	interpolate,
 	runOnJS,
 	useAnimatedReaction,
 	useAnimatedScrollHandler,
-	useAnimatedStyle,
-	useDerivedValue,
 	useSharedValue,
-	withTiming,
 } from "react-native-reanimated";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
@@ -21,6 +16,10 @@ import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "~/theme";
 import Button from "~/components/Button";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
+import LogRecipe from "~/features/recipe/components/LogRecipe";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import Toast from "react-native-toast-message";
+import ActionsRow from "~/features/cook-mode/components/ActionsRow";
 
 const ITEM_SIZE = SCREEN_WIDTH * 0.8;
 const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
@@ -31,14 +30,15 @@ function Cook() {
 	const { data } = useFetchRecipe(id);
 	const instructionsLength = data?.instructions?.length ?? 0;
 
-	const insets = useSafeAreaInsets();
-	const extraPadding = Platform.OS === "ios" ? 0 : 10;
-
 	const ref = useRef<FlatList<string>>(null);
+	const logRecipeRef = useRef<BottomSheetModal>(null);
+
 	const [currentIndex, setCurrentIndex] = React.useState(0);
 	const index = useSharedValue(0);
 	const bottomSheetPosition = useSharedValue(0);
-	const [actionsY, setActionsY] = React.useState(0);
+
+	const insets = useSafeAreaInsets();
+	const extraPadding = Platform.OS === "ios" ? 0 : 10;
 
 	useAnimatedReaction(
 		() => index.value,
@@ -56,25 +56,13 @@ function Cook() {
 			e.contentOffset.x / (e.layoutMeasurement.width - ITEM_SPACING);
 	});
 
-	const actionsStyle = useAnimatedStyle(() => ({
-		opacity: withTiming(bottomSheetPosition.value > actionsY + 50 ? 1 : 0),
-		transform: [{ translateY: bottomSheetPosition.value - actionsY - 70 }],
-	}));
-
-	const progressBarTranslate = useDerivedValue(() => {
-		// SCREEN_WIDTH - OUTER_PADDING - LEFT_ARROW - RIGHT_ARROW - INNER_PADDING
-		const progressBarWidth = SCREEN_WIDTH - (16 * 2 + 44 * 2 + 12 * 2);
-		return interpolate(
-			index.value,
-			[0, instructionsLength - 1],
-			[-progressBarWidth, 0],
-			Extrapolate.CLAMP,
-		);
-	});
-
-	const progressBarStyle = useAnimatedStyle(() => ({
-		transform: [{ translateX: progressBarTranslate.value }],
-	}));
+	function handleLogSave() {
+		router.back();
+		Toast.show({
+			type: "success",
+			text1: "Recipe logged!",
+		});
+	}
 
 	function renderInstruction({ item, index }: ListRenderItemInfo<string>) {
 		const words: string[] = item.split(" ");
@@ -114,7 +102,14 @@ function Cook() {
 				<Text className="font-display text-5xl mb-2 text-gray-400 self-start">
 					Step {index + 1}
 				</Text>
-				<Text className="font-body text-xl">{instruction}</Text>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={{ maxHeight: SCREEN_HEIGHT * 0.3 }}
+				>
+					<Text adjustsFontSizeToFit className="font-body text-xl">
+						{instruction}
+					</Text>
+				</ScrollView>
 			</View>
 		);
 	}
@@ -126,7 +121,12 @@ function Cook() {
 		>
 			<View className="flex-row mx-4 justify-between">
 				<IconButton icon="x" size="medium" onPress={router.back} />
-				<Button variant="secondary">DONE</Button>
+				<Button
+					onPress={() => logRecipeRef.current?.present()}
+					variant="secondary"
+				>
+					DONE
+				</Button>
 			</View>
 			<Animated.FlatList
 				ref={ref}
@@ -135,7 +135,7 @@ function Cook() {
 				onScroll={handleScroll}
 				renderItem={renderInstruction}
 				showsHorizontalScrollIndicator={false}
-				style={{ flexGrow: 0, marginTop: SCREEN_HEIGHT / 8 }}
+				style={{ flexGrow: 0, marginTop: 30 }}
 				contentContainerStyle={{
 					gap: ITEM_SPACING,
 					paddingHorizontal: ITEM_SPACING,
@@ -148,46 +148,21 @@ function Cook() {
 				decelerationRate="fast"
 				scrollEventThrottle={16}
 			/>
-			<Animated.View
-				onLayout={(e) => {
-					setActionsY(e.nativeEvent.layout.y);
-				}}
-				style={actionsStyle}
-				className="flex-row mx-4 g-3 items-center"
-			>
-				<IconButton
-					onPress={() =>
-						ref.current?.scrollToOffset({
-							offset: (ITEM_SIZE + ITEM_SPACING) * (currentIndex - 1),
-							animated: true,
-						})
-					}
-					size="large"
-					icon="chevron-left"
-				/>
-				<View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 h-full overflow-hidden">
-					<Animated.View
-						style={progressBarStyle}
-						className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/80"
-					/>
-					<Text className="mt-3 font-body-bold self-center text-gray-50">
-						{currentIndex + 1} / {data?.instructions?.length}
-					</Text>
-				</View>
-				<IconButton
-					onPress={() =>
-						ref.current?.scrollToOffset({
-							offset: (ITEM_SIZE + ITEM_SPACING) * (currentIndex + 1),
-							animated: true,
-						})
-					}
-					size="large"
-					icon="chevron-right"
-				/>
-			</Animated.View>
+			<ActionsRow
+				animatedIndex={index}
+				bottomSheetPosition={bottomSheetPosition}
+				index={currentIndex}
+				instructionsLength={instructionsLength}
+				stepsListRef={ref}
+			/>
 			<IngredientsSheet
 				position={bottomSheetPosition}
 				ingredients={data?.ingredients}
+			/>
+			<LogRecipe
+				ref={logRecipeRef}
+				recipeId={data?.id}
+				onSave={handleLogSave}
 			/>
 		</View>
 	);
