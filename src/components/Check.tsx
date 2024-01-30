@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Pressable, View, ViewProps } from "react-native";
+import { Pressable, ViewProps } from "react-native";
 import Icon from "./Icon";
 import { styled } from "nativewind";
 

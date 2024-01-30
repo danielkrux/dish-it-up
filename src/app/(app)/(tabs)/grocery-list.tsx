@@ -75,20 +75,20 @@ function GroceryList() {
 			/>
 			<KeyboardAwareScrollView bottomOffset={20} className="px-4">
 				{groceries.data?.map((grocery) => (
-					<SwipeableRow
-						key={grocery.id}
-						rightIcon="trash-2"
-						onRightOpen={() => {}}
-						rightStyle={styles.rightSwipeAction}
-					>
-						<ListButton
-							label={grocery.name ?? ""}
-							onPress={() => handleGroceryItemPress(grocery)}
-							selected={grocery.completed}
-							selectable
-							className="bg-white dark:bg-gray-950"
-						/>
-					</SwipeableRow>
+					// <SwipeableRow
+					// 	key={grocery.id}
+					// 	rightIcon="trash-2"
+					// 	onRightOpen={() => {}}
+					// 	rightStyle={styles.rightSwipeAction}
+					// >
+					<ListButton
+						label={grocery.name ?? ""}
+						onPress={() => handleGroceryItemPress(grocery)}
+						selected={grocery.completed}
+						selectable
+						className="bg-white dark:bg-gray-950"
+					/>
+					// </SwipeableRow>
 				))}
 				<View className="py-3 flex-row items-center flex-1  g-3">
 					<Icon size={24} name="plus" className="text-gray-500" />

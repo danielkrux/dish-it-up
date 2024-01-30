@@ -72,7 +72,10 @@ function SelectRecipe() {
 					recipe={item}
 					onPress={() => handleRecipePress(item)}
 				/>
-				<Check selected={selectedRecipes.includes(item.id)} />
+				<Check
+					onPress={() => handleRecipePress(item)}
+					selected={selectedRecipes.includes(item.id)}
+				/>
 			</Pressable>
 		);
 	}

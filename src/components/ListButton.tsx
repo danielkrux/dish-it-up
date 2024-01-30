@@ -27,7 +27,7 @@ function ListButton({
 			onPress={onPress}
 			style={style}
 		>
-			{selectable && <Check selected={selected} />}
+			{selectable && <Check onPress={onPress} selected={selected} />}
 			{icon && (
 				<Icon name={icon} size={24} className="text-black dark:text-white" />
 			)}
