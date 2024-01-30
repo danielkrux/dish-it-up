@@ -15,6 +15,7 @@ function getImages(
 }
 
 function getInstructions(instructions: any) {
+  console.log(instructions);
   if (!instructions) return null;
   if (typeof instructions === "string") return instructions;
 
@@ -40,7 +41,7 @@ function getIngredients(ingredients?: string[]) {
 function getYield(yieldValue?: string | number | number[]) {
   if (!yieldValue) return null;
 
-  if (typeof yieldValue === "string") return null;
+  if (typeof yieldValue === "string") return yieldValue;
   if (typeof yieldValue === "number") return yieldValue;
 
   return yieldValue[0];
@@ -50,6 +51,7 @@ function parseSchemaToRecipe(
   schema: Record<keyof RecipeSchema, any>,
   url: string
 ) {
+  console.log(schema);
   const ingredients = getIngredients(schema.recipeIngredient);
   const instructions = getInstructions(schema.recipeInstructions);
   const images = getImages(schema.image);
