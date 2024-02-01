@@ -17,6 +17,9 @@ import BottomSheet from "~/components/BottomSheet";
 import Check from "~/components/Check";
 import clsx from "clsx";
 
+const parenthesisRegex = new RegExp(/\([^)]*\)/, "g");
+const dotsAndCommasRegex = new RegExp(/[.,]/, "g");
+
 export function getMatchedIngredients(
 	instruction: string,
 	ingredients: Ingredient[] | undefined,
@@ -29,12 +32,19 @@ export function getMatchedIngredients(
 	for (let i = 0; i < words.length; i++) {
 		const word = words[i];
 		const ingredient = ingredients.find((ingredient) => {
-			const ingredientName = ingredient.name.toLowerCase();
-			const wordSanitized = word.toLowerCase().replace(regex, "");
+			const ingredientName = ingredient.name
+				.toLowerCase()
+				.trim()
+				.replace(parenthesisRegex, "")
+				.replace(dotsAndCommasRegex, "");
+			const wordSanitized = word
+				.toLowerCase()
+				.trim()
+				.replace(parenthesisRegex, "")
+				.replace(dotsAndCommasRegex, "");
 
 			return (
-				ingredientName.startsWith(wordSanitized) ||
-				wordSanitized.startsWith(ingredientName)
+				ingredientName === wordSanitized || wordSanitized === ingredientName
 			);
 		});
 

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode, memo, useCallback, useRef } from "react";
 import { ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
 	runOnJS,
@@ -20,9 +20,18 @@ import Button from "~/components/Button";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import ActionsRow from "~/features/cook-mode/components/ActionsRow";
+import { Ingredient, Recipe } from "~/features/recipe/recipe.types";
 
 const ITEM_SIZE = SCREEN_WIDTH * 0.8;
 const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
+
+// regex that removes parenthises and it's contents
+const parenthesisRegex = new RegExp(/\([^)]*\)/, "g");
+const dotsAndCommasRegex = new RegExp(/[.,]/, "g");
+
+function keyExtractor(item: string, index: number) {
+	return `${item}-${index}`;
+}
 
 function Cook() {
 	const params = useLocalSearchParams();
@@ -64,57 +73,12 @@ function Cook() {
 		});
 	}
 
-	function renderInstruction({ item, index }: ListRenderItemInfo<string>) {
-		const words: string[] = item.split(" ");
-		const instrucitonWithHightlights: ReactNode[] | string[] = words;
-
-		// rege that ignores parenthesis, points, commas
-		const regex = new RegExp(/[\(\)\.\,]/, "g");
-
-		//check if ingredient name is in instruction and replace with <Text/>
-		for (let i = 0; i < words.length; i++) {
-			const word = words[i];
-			const ingredient = data?.ingredients.find((ingredient) => {
-				const ingredientName = ingredient.name.toLowerCase();
-				const wordSanitized = word.toLowerCase().replace(regex, "");
-
-				return (
-					ingredientName.startsWith(wordSanitized) ||
-					wordSanitized.startsWith(ingredientName)
-				);
-			});
-
-			if (ingredient) {
-				words.filter((w) => w !== word);
-				instrucitonWithHightlights[i] = (
-					<Text className="font-body-bold text-xl text-acapulco-400 dark:text-acapulco-500">
-						{word}{" "}
-					</Text>
-				);
-			}
-		}
-
-		const instruction = instrucitonWithHightlights.map((word) => {
-			if (typeof word !== "string") return word;
-			return `${word} `;
-		});
-
-		return (
-			<View style={{ width: ITEM_SIZE }}>
-				<Text className="font-display text-5xl mb-2 text-gray-400 self-start">
-					Step {index + 1}
-				</Text>
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={{ maxHeight: SCREEN_HEIGHT * 0.3 }}
-				>
-					<Text adjustsFontSizeToFit className="font-body text-xl">
-						{instruction}
-					</Text>
-				</ScrollView>
-			</View>
-		);
-	}
+	const renderInstruction = useCallback(
+		({ item, index }: ListRenderItemInfo<string>) => (
+			<Instruction data={data} item={item} index={index} />
+		),
+		[data],
+	);
 
 	return (
 		<View
@@ -144,11 +108,14 @@ function Cook() {
 					justifyContent: "center",
 					alignItems: "center",
 				}}
-				keyExtractor={(item, index) => `${item}-${index}`}
+				keyExtractor={keyExtractor}
 				showsVerticalScrollIndicator={false}
 				snapToInterval={ITEM_SIZE + ITEM_SPACING}
 				decelerationRate="fast"
 				scrollEventThrottle={16}
+				initialNumToRender={1}
+				maxToRenderPerBatch={1}
+				// windowSize={3}
 			/>
 			<ActionsRow
 				animatedIndex={index}
@@ -172,3 +139,63 @@ function Cook() {
 }
 
 export default Cook;
+
+const Instruction = memo(
+	({
+		data,
+		item,
+		index,
+	}: { data: Recipe | undefined; item: string; index: number }) => {
+		const words: string[] = item.split(" ");
+		const instructionWithHighlights: ReactNode[] | string[] = words;
+
+		//check if ingredient name is in instruction and replace with <Text/>
+		for (let i = 0; i < words.length; i++) {
+			const word = words[i];
+			const ingredient = data?.ingredients.find((ingredient) => {
+				const ingredientName = ingredient.name
+					.toLowerCase()
+					.trim()
+					.replace(parenthesisRegex, "")
+					.replace(dotsAndCommasRegex, "");
+				const wordSanitized = word
+					.toLowerCase()
+					.trim()
+					.replace(parenthesisRegex, "")
+					.replace(dotsAndCommasRegex, "");
+
+				return ingredientName === wordSanitized;
+			});
+
+			if (ingredient) {
+				words.filter((w) => w !== word);
+				instructionWithHighlights[i] = (
+					<Text className="font-body-bold text-xl text-acapulco-400 dark:text-acapulco-500">
+						{word}{" "}
+					</Text>
+				);
+			}
+		}
+
+		const instruction = instructionWithHighlights.map((word) => {
+			if (typeof word !== "string") return word;
+			return `${word} `;
+		});
+
+		return (
+			<View style={{ width: ITEM_SIZE }}>
+				<Text className="font-display text-5xl mb-2 text-gray-400 self-start">
+					Step {index + 1}
+				</Text>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={{ maxHeight: SCREEN_HEIGHT * 0.3 }}
+				>
+					<Text adjustsFontSizeToFit className="font-body text-xl">
+						{instruction}
+					</Text>
+				</ScrollView>
+			</View>
+		);
+	},
+);
