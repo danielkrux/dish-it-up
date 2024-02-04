@@ -16,9 +16,7 @@ import { Ingredient } from "~/features/recipe/recipe.types";
 import BottomSheet from "~/components/BottomSheet";
 import Check from "~/components/Check";
 import clsx from "clsx";
-
-const parenthesisRegex = new RegExp(/\([^)]*\)/, "g");
-const dotsAndCommasRegex = new RegExp(/[.,]/, "g");
+import { findMatchingIngredient } from "../utils";
 
 export function getMatchedIngredients(
 	instruction: string,
@@ -26,27 +24,11 @@ export function getMatchedIngredients(
 ) {
 	if (!ingredients) return [];
 
-	const regex = new RegExp(/[\(\)\.\,]/, "g");
 	const words = instruction.split(" ");
 	const matchedIngredients: Ingredient[] = [];
 	for (let i = 0; i < words.length; i++) {
 		const word = words[i];
-		const ingredient = ingredients.find((ingredient) => {
-			const ingredientName = ingredient.name
-				.toLowerCase()
-				.trim()
-				.replace(parenthesisRegex, "")
-				.replace(dotsAndCommasRegex, "");
-			const wordSanitized = word
-				.toLowerCase()
-				.trim()
-				.replace(parenthesisRegex, "")
-				.replace(dotsAndCommasRegex, "");
-
-			return (
-				ingredientName === wordSanitized || wordSanitized === ingredientName
-			);
-		});
+		const ingredient = findMatchingIngredient(word, ingredients);
 
 		if (ingredient) {
 			matchedIngredients.push(ingredient);

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import React, { ReactNode, memo, useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
 	runOnJS,
@@ -7,27 +7,19 @@ import Animated, {
 	useAnimatedScrollHandler,
 	useSharedValue,
 } from "react-native-reanimated";
-import { ScrollView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import IconButton from "~/components/IconButton";
-import Text from "~/components/Text";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "~/theme";
+import { SCREEN_WIDTH } from "~/theme";
 import Button from "~/components/Button";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import ActionsRow from "~/features/cook-mode/components/ActionsRow";
-import { Ingredient, Recipe } from "~/features/recipe/recipe.types";
-
-const ITEM_SIZE = SCREEN_WIDTH * 0.8;
-const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
-
-// regex that removes parenthises and it's contents
-const parenthesisRegex = new RegExp(/\([^)]*\)/, "g");
-const dotsAndCommasRegex = new RegExp(/[.,]/, "g");
+import Instruction from "~/features/cook-mode/components/Instruction";
+import { ITEM_SIZE, ITEM_SPACING } from "~/features/cook-mode/constants";
 
 function keyExtractor(item: string, index: number) {
 	return `${item}-${index}`;
@@ -115,7 +107,6 @@ function Cook() {
 				scrollEventThrottle={16}
 				initialNumToRender={1}
 				maxToRenderPerBatch={1}
-				// windowSize={3}
 			/>
 			<ActionsRow
 				animatedIndex={index}
@@ -139,63 +130,3 @@ function Cook() {
 }
 
 export default Cook;
-
-const Instruction = memo(
-	({
-		data,
-		item,
-		index,
-	}: { data: Recipe | undefined; item: string; index: number }) => {
-		const words: string[] = item.split(" ");
-		const instructionWithHighlights: ReactNode[] | string[] = words;
-
-		//check if ingredient name is in instruction and replace with <Text/>
-		for (let i = 0; i < words.length; i++) {
-			const word = words[i];
-			const ingredient = data?.ingredients.find((ingredient) => {
-				const ingredientName = ingredient.name
-					.toLowerCase()
-					.trim()
-					.replace(parenthesisRegex, "")
-					.replace(dotsAndCommasRegex, "");
-				const wordSanitized = word
-					.toLowerCase()
-					.trim()
-					.replace(parenthesisRegex, "")
-					.replace(dotsAndCommasRegex, "");
-
-				return ingredientName === wordSanitized;
-			});
-
-			if (ingredient) {
-				words.filter((w) => w !== word);
-				instructionWithHighlights[i] = (
-					<Text className="font-body-bold text-xl text-acapulco-400 dark:text-acapulco-500">
-						{word}{" "}
-					</Text>
-				);
-			}
-		}
-
-		const instruction = instructionWithHighlights.map((word) => {
-			if (typeof word !== "string") return word;
-			return `${word} `;
-		});
-
-		return (
-			<View style={{ width: ITEM_SIZE }}>
-				<Text className="font-display text-5xl mb-2 text-gray-400 self-start">
-					Step {index + 1}
-				</Text>
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={{ maxHeight: SCREEN_HEIGHT * 0.3 }}
-				>
-					<Text adjustsFontSizeToFit className="font-body text-xl">
-						{instruction}
-					</Text>
-				</ScrollView>
-			</View>
-		);
-	},
-);
