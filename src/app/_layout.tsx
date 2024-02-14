@@ -18,6 +18,8 @@ import { NativeWindStyleSheet } from "nativewind";
 import { useEffect } from "react";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
+import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -28,7 +30,6 @@ import AuthProvider from "~/AuthContext";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors } from "~/theme";
-import { Platform } from "react-native";
 
 export const supabase = initSupabase();
 
@@ -62,23 +63,27 @@ export default function Root() {
 	}
 
 	return (
-		<ThemeProvider value={theme}>
-			<QueryClientProvider client={queryClient}>
-				<PortalProvider>
-					<KeyboardProvider>
-						<BottomSheetModalProvider>
-							<AuthProvider>
-								<StatusBar
-									backgroundColor={theme.dark ? colors.gray[950] : colors.white}
-									style="auto"
-								/>
-								<Slot />
-								<Toast config={toastConfig} topOffset={0} />
-							</AuthProvider>
-						</BottomSheetModalProvider>
-					</KeyboardProvider>
-				</PortalProvider>
-			</QueryClientProvider>
-		</ThemeProvider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<ThemeProvider value={theme}>
+				<QueryClientProvider client={queryClient}>
+					<PortalProvider>
+						<KeyboardProvider>
+							<BottomSheetModalProvider>
+								<AuthProvider>
+									<StatusBar
+										backgroundColor={
+											theme.dark ? colors.gray[950] : colors.white
+										}
+										style="auto"
+									/>
+									<Slot />
+									<Toast config={toastConfig} topOffset={0} />
+								</AuthProvider>
+							</BottomSheetModalProvider>
+						</KeyboardProvider>
+					</PortalProvider>
+				</QueryClientProvider>
+			</ThemeProvider>
+		</GestureHandlerRootView>
 	);
 }
