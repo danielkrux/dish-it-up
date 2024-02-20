@@ -1579,6 +1579,13 @@
   resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-1.4.1.tgz#dd8ee6e14a5d74cbeb2eb9824a43c61bb5c460e4"
   integrity sha512-88fR2CQxQ4YLs2BUDuywWYQpUKgU3A3sTezANFc/4LGKQFFLV2yX+F7QAdZVkMHfA+RD9Xg178HomM/6mnTNPA==
 
+"@dev-plugins/react-query@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@dev-plugins/react-query/-/react-query-0.0.5.tgz#889fadec02677b2dc23f94f7342189f27499e3c8"
+  integrity sha512-GMzjuRk6oTo4FdQjw3bO9SxGgZHrBvrJ8JltAYzlEu2OMHkfcYdx1DFyixf9Wbxqq5p3q3TZGtTNBlaf9e7jCw==
+  dependencies:
+    flatted "^3.2.9"
+
 "@dominicstop/ts-event-emitter@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@dominicstop/ts-event-emitter/-/ts-event-emitter-1.1.0.tgz#1f3d3fa878a1ccab686931280757954719cf88e4"
@@ -5308,6 +5315,11 @@ find-yarn-workspace-root@^2.0.0, find-yarn-workspace-root@~2.0.0:
   integrity sha512-1IMnbjt4KzsQfnhnzNd8wUEgXZ44IzZaZmnLYx7D5FZlaHt2gW20Cri8Q+E/t5tIj4+epTBub+2Zxu/vNILzqQ==
   dependencies:
     micromatch "^4.0.2"
+
+flatted@^3.2.9:
+  version "3.2.13"
+  resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.13.tgz#7c952605508c972b154440d8ec7574e91d06c809"
+  integrity sha512-al0sOeWDRucu1NuY4JaahaNOa4Yy0uDzIrtQn0EugTH8c7t/h5UV/dOeQs9Bl/nOgKdO3gkmnxREGoWM6X+9oQ==
 
 flow-enums-runtime@^0.0.6:
   version "0.0.6"

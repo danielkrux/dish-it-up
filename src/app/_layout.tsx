@@ -20,6 +20,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useReactQueryDevTools } from "@dev-plugins/react-query";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -38,6 +39,8 @@ NativeWindStyleSheet.setOutput({
 });
 
 export default function Root() {
+	useReactQueryDevTools(queryClient);
+
 	const theme = useThemeConfig();
 	useOnlineManager();
 
