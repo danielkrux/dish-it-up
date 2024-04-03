@@ -4,6 +4,10 @@ Dish It Up is an app to easily import, organize and manage your recipes in one a
 
 You can import recipes from pretty much any website. If the app won't import your recipe, don't hesitate to let me know by opening an issue.
 
+![screenshot1](/assets/screenshots/IMG_2075.PNG) ![screenshot2](/assets/screenshots/IMG_2076.PNG) ![screenshot3](/assets/screenshots/IMG_2077.PNG) ![screenshot4](/assets/screenshots/IMG_2078.PNG)
+
+![screenshot2](/assets/screenshots/IMG_2079.PNG "title-2") ![screenshot2](/assets/screenshots/IMG_2080.PNG "title-2") ![screenshot2](/assets/screenshots/IMG_2081.PNG "title-2")
+
 ## Features
 
 1.  Import and manage recipes
