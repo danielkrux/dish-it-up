@@ -11,6 +11,8 @@ web-build/
 ios/
 android/
 
+.env
+
 # Native
 *.orig.*
 *.jks

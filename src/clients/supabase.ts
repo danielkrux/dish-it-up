@@ -18,9 +18,8 @@ export type DbResultOk<T> = T extends PromiseLike<{ data: infer U }>
   : never;
 export type DbResultErr = PostgrestError;
 
-const supabaseUrl = "https://qfsraezjniacsdtipuzs.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmc3JhZXpqbmlhY3NkdGlwdXpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2OTUxMzYsImV4cCI6MjAwNzI3MTEzNn0.8UiRac7tOtI48l36PNBmC2G7WfT9R-5h4y4qI5P3jSc";
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY;
 
 const ExpoSecureStoreAdapter = {
   getItem: (key: string) => {
@@ -35,6 +34,9 @@ const ExpoSecureStoreAdapter = {
 };
 
 export const initSupabase = () => {
+  console.log(supabaseKey, supabaseUrl);
+  if (!supabaseUrl || !supabaseKey) return;
+
   return createClient<Database>(supabaseUrl, supabaseKey, {
     auth: {
       storage: Platform.OS === "web" ? localStorage : ExpoSecureStoreAdapter,
