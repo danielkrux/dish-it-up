@@ -18,8 +18,10 @@ export type DbResultOk<T> = T extends PromiseLike<{ data: infer U }>
   : never;
 export type DbResultErr = PostgrestError;
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY;
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY!;
 
 const ExpoSecureStoreAdapter = {
   getItem: (key: string) => {
@@ -34,12 +36,14 @@ const ExpoSecureStoreAdapter = {
 };
 
 export const initSupabase = () => {
-  console.log(supabaseKey, supabaseUrl);
-  if (!supabaseUrl || !supabaseKey) return;
-
-  return createClient<Database>(supabaseUrl, supabaseKey, {
+  const client = createClient<Database>(supabaseUrl, supabaseKey, {
     auth: {
       storage: Platform.OS === "web" ? localStorage : ExpoSecureStoreAdapter,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
     },
   });
+
+  return client;
 };

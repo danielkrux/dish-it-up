@@ -2,10 +2,10 @@ import "react-native-get-random-values";
 import "react-native-url-polyfill/auto";
 
 import {
-	JosefinSans_700Bold,
-	NotoSans_500Medium,
-	NotoSans_700Bold,
-	useFonts,
+  JosefinSans_700Bold,
+  NotoSans_500Medium,
+  NotoSans_700Bold,
+  useFonts,
 } from "@expo-google-fonts/dev";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
@@ -35,58 +35,58 @@ import { colors } from "~/theme";
 export const supabase = initSupabase();
 
 NativeWindStyleSheet.setOutput({
-	default: "native",
+  default: "native",
 });
 
 export default function Root() {
-	useReactQueryDevTools(queryClient);
+  useReactQueryDevTools(queryClient);
 
-	const theme = useThemeConfig();
-	useOnlineManager();
+  const theme = useThemeConfig();
+  useOnlineManager();
 
-	useEffect(() => {
-		if (Platform.OS !== "android") return;
-		NavigationBar.setBackgroundColorAsync(
-			theme.dark ? colors.gray[950] : colors.white,
-		);
-	}, [theme.dark]);
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+    NavigationBar.setBackgroundColorAsync(
+      theme.dark ? colors.gray[950] : colors.white
+    );
+  }, [theme.dark]);
 
-	useAppState(async (state) => {
-		setQueryClientFocus(state);
-	});
+  useAppState(async (state) => {
+    setQueryClientFocus(state);
+  });
 
-	const [loaded] = useFonts({
-		Heading: JosefinSans_700Bold,
-		Body: NotoSans_500Medium,
-		BodyBold: NotoSans_700Bold,
-	});
+  const [loaded] = useFonts({
+    Heading: JosefinSans_700Bold,
+    Body: NotoSans_500Medium,
+    BodyBold: NotoSans_700Bold,
+  });
 
-	if (!loaded) {
-		return null;
-	}
+  if (!loaded) {
+    return null;
+  }
 
-	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
-			<ThemeProvider value={theme}>
-				<QueryClientProvider client={queryClient}>
-					<PortalProvider>
-						<KeyboardProvider>
-							<BottomSheetModalProvider>
-								<AuthProvider>
-									<StatusBar
-										backgroundColor={
-											theme.dark ? colors.gray[950] : colors.white
-										}
-										style="auto"
-									/>
-									<Slot />
-									<Toast config={toastConfig} topOffset={0} />
-								</AuthProvider>
-							</BottomSheetModalProvider>
-						</KeyboardProvider>
-					</PortalProvider>
-				</QueryClientProvider>
-			</ThemeProvider>
-		</GestureHandlerRootView>
-	);
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={theme}>
+        <QueryClientProvider client={queryClient}>
+          <PortalProvider>
+            <KeyboardProvider>
+              <BottomSheetModalProvider>
+                <AuthProvider>
+                  <StatusBar
+                    backgroundColor={
+                      theme.dark ? colors.gray[950] : colors.white
+                    }
+                    style="auto"
+                  />
+                  <Slot />
+                  <Toast config={toastConfig} topOffset={0} />
+                </AuthProvider>
+              </BottomSheetModalProvider>
+            </KeyboardProvider>
+          </PortalProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
+  );
 }

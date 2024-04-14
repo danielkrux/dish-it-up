@@ -1,5 +1,4 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
@@ -7,39 +6,24 @@ import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
-import { signInWithEmail } from "~/features/auth/auth.service";
 
-type SignInFormData = {
+type SignUpFormData = {
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
-function SignIn() {
-  const [loading, setLoading] = useState(false);
-  const { control, getValues } = useForm<SignInFormData>({
+export default function SignUp() {
+  const [loading, setLoading] = React.useState(false);
+  const { control, getValues } = useForm<SignUpFormData>({
     defaultValues: {
-      email: "danielmartijn@gmail.com",
-      password: "TestPass",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
-  async function signIn() {
-    try {
-      setLoading(true);
-      const { email, password } = getValues();
-      await signInWithEmail({ email, password });
-
-      router.replace("/(app)/(tabs)/(home)");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function navigateToSignUp() {
-    router.push("/sign-up");
-  }
+  async function signUp() {}
 
   return (
     <KeyboardAvoidingView
@@ -63,34 +47,34 @@ function SignIn() {
         name="password"
         label="Password"
         keyboardType="visible-password"
-        autoComplete="current-password"
+        autoComplete="new-password"
+        autoCapitalize="none"
+        secureTextEntry
+        spellCheck={false}
+        autoCorrect={false}
+        control={control}
+        className="mb-2"
+      />
+      <ControlledInput
+        name="confirmPassword"
+        label="Confirm Password"
+        keyboardType="visible-password"
+        autoComplete="new-password"
         autoCapitalize="none"
         secureTextEntry
         spellCheck={false}
         autoCorrect={false}
         control={control}
         className="mb-6"
-        onSubmitEditing={signIn}
       />
       <Button
         loading={loading}
         className="self-stretch mb-2"
         size="large"
-        onPress={signIn}
-      >
-        Sign In
-      </Button>
-      <Button
-        disabled={loading}
-        className="self-stretch mb-2"
-        size="large"
-        variant="secondary"
-        onPress={navigateToSignUp}
+        onPress={signUp}
       >
         Sign Up
       </Button>
     </KeyboardAvoidingView>
   );
 }
-
-export default SignIn;

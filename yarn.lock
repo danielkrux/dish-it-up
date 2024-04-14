@@ -7732,10 +7732,10 @@ react-native-ios-utilities@^4.2.3:
   resolved "https://registry.yarnpkg.com/react-native-ios-utilities/-/react-native-ios-utilities-4.2.3.tgz#62ce45318de376585e765775e33fe65069423479"
   integrity sha512-CmdvzmrrSGdL7PgT/KHubXtJdDen2gQtyfzPULOLPHi0nnnbhKx6hgLO0sR/FzXhW+FqqRoiqe6TWLn0tnLl7Q==
 
-react-native-keyboard-controller@^1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/react-native-keyboard-controller/-/react-native-keyboard-controller-1.10.1.tgz#cd7c1fd7b996751b7764de2cc9cf4b2cd2745c31"
-  integrity sha512-bnO5Xw+LW5S64ivUBlb1JyzKCgz4udk6ficeUrTaxGDELpvk3StRLO0t6hUEStjxTdJJZh3MazAzQJH0Pms/6Q==
+react-native-keyboard-controller@^1.11.6:
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-controller/-/react-native-keyboard-controller-1.11.6.tgz#4c9f2950f872a42745f32f46c21475cd1e4a7154"
+  integrity sha512-EFx17Uqccsf8jRqEJxqgTIwOdwSKLhA53qQ5Y6z9rvTO0q99/wQbq6F1otEE/oq27HlVGkYk1aYJ7U2nKrtqKw==
 
 react-native-mmkv@^2.11.0:
   version "2.11.0"
