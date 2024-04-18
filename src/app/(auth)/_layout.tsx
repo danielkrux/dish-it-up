@@ -6,7 +6,11 @@ function AutLayout() {
     <Stack screenOptions={{ headerShadowVisible: false }}>
       <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       <Stack.Screen
-        name="sign-up"
+        name="sign-up/index"
+        options={{ headerBackTitle: "Back to Sign In", headerTitle: "" }}
+      />
+      <Stack.Screen
+        name="sign-up/success"
         options={{ headerBackTitle: "Back to Sign In", headerTitle: "" }}
       />
     </Stack>

@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Alert } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import Button from "~/components/Button";
@@ -29,8 +30,11 @@ function SignIn() {
       const { email, password } = getValues();
       await signInWithEmail({ email, password });
 
-      router.replace("/(app)/(tabs)/(home)");
-    } catch (error) {
+      router.replace("/");
+
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    } catch (error: any) {
+      Alert.alert("Something went wrong!", error.message);
       console.error(error);
     } finally {
       setLoading(false);
@@ -38,7 +42,7 @@ function SignIn() {
   }
 
   function navigateToSignUp() {
-    router.push("/sign-up");
+    router.push("/sign-up/");
   }
 
   return (
@@ -80,8 +84,8 @@ function SignIn() {
       >
         Sign In
       </Button>
+      <Text className="text-center mb-2">or</Text>
       <Button
-        disabled={loading}
         className="self-stretch mb-2"
         size="large"
         variant="secondary"

@@ -1,18 +1,17 @@
 import {
-	forwardRef,
-	useCallback,
-	useImperativeHandle,
-	useRef,
-	useState,
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
 } from "react";
 import {
-	Animated,
-	NativeSyntheticEvent,
-	TextInput as RNTextInput,
-	TextInputFocusEventData,
-	TextInputProps as RNTextInputProps,
-	View,
-	ViewProps,
+  Animated,
+  NativeSyntheticEvent,
+  TextInput as RNTextInput,
+  TextInputFocusEventData,
+  TextInputProps as RNTextInputProps,
+  View,
 } from "react-native";
 
 import clsx from "clsx";
@@ -20,82 +19,86 @@ import { styled } from "nativewind";
 import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
 import Label from "./Label";
+import Text from "../Text";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
-	containerStyle?: ViewProps["style"];
-	bottomSheet?: boolean;
-	value?: string | null;
-	label?: string;
-	inputStyle?: RNTextInputProps["style"];
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  containerStyle?: any;
+  bottomSheet?: boolean;
+  value?: string | null;
+  label?: string;
+  error?: string;
+  inputStyle?: RNTextInputProps["style"];
 };
 
 const InputBase = forwardRef<RNTextInput, InputBaseProps>(
-	(
-		{
-			bottomSheet,
+  (
+    {
+      bottomSheet,
       containerStyle,
-			value,
-			onFocus,
-			onBlur,
-			label,
-			style,
+      value,
+      onFocus,
+      onBlur,
+      label,
+      style,
       inputStyle,
-			...props
-		},
-		ref,
-	) => {
-		const innerRef = useRef<RNTextInput>(null);
-		useImperativeHandle(ref, () => innerRef.current as RNTextInput);
+      error,
+      ...props
+    },
+    ref
+  ) => {
+    const innerRef = useRef<RNTextInput>(null);
+    useImperativeHandle(ref, () => innerRef.current as RNTextInput);
 
-		const [active, setActive] = useState(false);
+    const [active, setActive] = useState(false);
 
-		const handleBlur = useCallback(
-			(e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-				onBlur?.(e);
-				return setActive(false);
-			},
-			[onBlur],
-		);
+    const handleBlur = useCallback(
+      (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+        onBlur?.(e);
+        return setActive(false);
+      },
+      [onBlur]
+    );
 
-		const handleFocus = useCallback(
-			(e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-				onFocus?.(e);
-				return setActive(true);
-			},
-			[onFocus],
-		);
+    const handleFocus = useCallback(
+      (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+        onFocus?.(e);
+        return setActive(true);
+      },
+      [onFocus]
+    );
 
-		return (
-			<View style={containerStyle} className="self-stretch">
-				{label && <Label>{label}</Label>}
-				<View
-					className="bg-gray-100 dark:bg-gray-900 rounded-lg"
-					style={style}
-				>
-					<RNTextInput
-						ref={innerRef}
-						value={value ?? undefined}
-						className={clsx("font-body text-sm px-2 py-2  text-gray-900 dark:text-white")}
-						{...props}
+    return (
+      <View style={containerStyle} className="self-stretch">
+        {label && <Label>{label}</Label>}
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg" style={style}>
+          <RNTextInput
+            ref={innerRef}
+            value={value ?? undefined}
+            className={clsx(
+              "font-body text-sm px-2 py-2  text-gray-900 dark:text-white"
+            )}
+            {...props}
             style={inputStyle}
-						onBlur={handleBlur}
-						onFocus={handleFocus}
-						placeholderTextColor={colors.gray[500]}
-						cursorColor={colors.primary[500]}
-						selectionColor={colors.primary[500]}
-					/>
-				</View>
-			</View>
-		);
-	},
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            placeholderTextColor={colors.gray[500]}
+            cursorColor={colors.primary[500]}
+            selectionColor={colors.primary[500]}
+          />
+        </View>
+        {error && <Text className="text-red-400 text-xs">{error}</Text>}
+      </View>
+    );
+  }
 );
 
 export default styled(InputBase, {
-	props: {
-		containerStyle: true,
-	},
+  props: {
+    containerStyle: true,
+  },
 });
 
 export const AnimatedTextInput = Animated.createAnimatedComponent(
-	createClassComponent(InputBase),
+  createClassComponent(InputBase)
 );

@@ -5,13 +5,13 @@ import Text from "../Text";
 export type LabelProps = { children?: string };
 
 function Label({ children, ...props }: LabelProps) {
-	if (!children) return null;
+  if (!children) return null;
 
-	return (
-		<Text className="mb-1.5 ml-0.5 text-sm font-body-bold" {...props}>
-			{children}
-		</Text>
-	);
+  return (
+    <Text className="mb-1.5 ml-0.5 text-sm font-body text-gray-800" {...props}>
+      {children}
+    </Text>
+  );
 }
 
 export default styled(Label);

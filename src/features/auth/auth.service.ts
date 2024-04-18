@@ -1,4 +1,5 @@
-import { Alert } from "react-native";
+import { z } from "zod";
+
 import { supabase } from "~/app/_layout";
 
 export async function getSession() {
@@ -10,6 +11,11 @@ export async function getSession() {
 
   return data.session;
 }
+
+export const signInSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
 
 export async function signInWithEmail({
   email,
@@ -23,8 +29,24 @@ export async function signInWithEmail({
     password: password,
   });
 
-  if (error) Alert.alert(error.message);
+  if (error) {
+    throw new Error(error.message);
+  }
 }
+
+export const signUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(8, { message: "Password is too short" })
+      .max(20, { message: "Password is too long" }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export async function signUpWithEmail({
   email,
@@ -33,13 +55,14 @@ export async function signUpWithEmail({
   email: string;
   password: string;
 }) {
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: email,
     password: password,
   });
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function signOut() {
