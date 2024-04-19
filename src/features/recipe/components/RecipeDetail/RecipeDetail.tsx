@@ -20,7 +20,7 @@ export default function RecipeDetail({
 }: {
   id: number;
   header?: ReactNode;
-  logRecipeRef: React.RefObject<BottomSheetModalMethods>;
+  logRecipeRef?: React.RefObject<BottomSheetModalMethods>;
 }) {
   const { data } = useFetchRecipe(id);
   const { containerSize, onLayout } = useContainerBreakpoint();

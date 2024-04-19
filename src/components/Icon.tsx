@@ -1,41 +1,39 @@
-import FeatherIcons from "@expo/vector-icons/Feather";
 import { StyleProp, ViewStyle } from "react-native";
+import { icons } from "lucide-react-native";
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
+import { styled, useColorScheme } from "nativewind";
 
-export type IconName = keyof typeof FeatherIcons.glyphMap | "logo";
+export type IconName = keyof typeof icons | "logo";
 
 export type IconProps = {
-	name: IconName;
-	color?: string;
-	size: number;
-	light?: boolean;
-	style?: StyleProp<ViewStyle>;
-	className?: string;
+  name: IconName;
+  color?: string;
+  size: number;
+  light?: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 
-export default function Icon({
-	name,
-	size,
-	color,
-	light,
-	style,
-	className,
-}: IconProps) {
-	const c = color ? color : light ? theme.colors.white : theme.colors.text;
+function Icon({ name, size, color, light, style }: IconProps) {
+  const { colorScheme } = useColorScheme();
 
-	if (name === "logo")
-		return (
-			<Logo width={size} height={size} style={style} className={className} />
-		);
+  if (name === "logo") return <Logo width={size} height={size} style={style} />;
 
-	return (
-		<FeatherIcons
-			className={className}
-			name={name}
-			color={c}
-			size={size}
-			style={style}
-		/>
-	);
+  // @ts-ignore
+  const LucideIcon = icons[name as string];
+
+  if (!LucideIcon) return null;
+
+  const isLightIcon =
+    typeof light === "undefined" ? colorScheme === "light" : light;
+
+  const c = color
+    ? color
+    : isLightIcon
+    ? theme.colors.black
+    : theme.colors.white;
+
+  return <LucideIcon color={c} size={size} />;
 }
+
+export default styled(Icon);

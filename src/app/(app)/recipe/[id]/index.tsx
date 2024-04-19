@@ -9,42 +9,42 @@ import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 
 export default function RecipeDetailPage() {
-	const ref = useRef<BottomSheetModal>(null);
+  const ref = useRef<BottomSheetModal>(null);
 
-	const params = useLocalSearchParams();
-	const id = Number(params.id);
-	const router = useRouter();
+  const params = useLocalSearchParams();
+  const id = Number(params.id);
+  const router = useRouter();
 
-	return (
-		<>
-			<Stack.Screen
-				options={{
-					title: "Recipe",
-					headerTitleAlign: "center",
-					headerLeft: () => (
-						<IconButton
-							onPress={router.back}
-							icon="chevron-left"
-							size="medium"
-						/>
-					),
-					headerRight: () => (
-						<RecipeDetailMenu
-							onShowLogRecipe={() => ref.current?.present()}
-							onDeleteSucces={() => router.push("/")}
-							recipeId={id}
-						/>
-					),
-				}}
-			/>
-			<RecipeDetail id={id} logRecipeRef={ref} />
-			<FloatingButton
-				onPress={() => router.push(`/recipe/${id}/cook`)}
-				useSafeArea
-			>
-				Start cooking
-			</FloatingButton>
-			<LogRecipe recipeId={id} ref={ref} />
-		</>
-	);
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          title: "Recipe",
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <IconButton
+              onPress={router.back}
+              icon="ChevronLeft"
+              size="medium"
+            />
+          ),
+          headerRight: () => (
+            <RecipeDetailMenu
+              onShowLogRecipe={() => ref.current?.present()}
+              onDeleteSucces={() => router.push("/")}
+              recipeId={id}
+            />
+          ),
+        }}
+      />
+      <RecipeDetail id={id} logRecipeRef={ref} />
+      <FloatingButton
+        onPress={() => router.push(`/recipe/${id}/cook`)}
+        useSafeArea
+      >
+        Start cooking
+      </FloatingButton>
+      <LogRecipe recipeId={id} ref={ref} />
+    </>
+  );
 }
