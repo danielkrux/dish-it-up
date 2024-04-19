@@ -6,6 +6,7 @@ import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import FloatingButton from "~/components/FloatingButton";
+import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
@@ -73,13 +74,14 @@ export default function Home() {
   return (
     <View className="flex-1">
       {!data?.length ? (
-        <View className="bg-gray-100 rounded mx-3 p-10 py-12 mt-12">
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
+          <Icon className="mb-5" name="BookDashed" size={64} />
           <Text type="header" size="l" className="text-center mb-2">
             You have not added any recipes yet!
           </Text>
           <Text className="text-center">
             Add a recipe with the button below or open recipe in a browser and
-            share it to this app!
+            share it to Dish It Up!
           </Text>
         </View>
       ) : (

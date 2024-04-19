@@ -33,7 +33,7 @@ function Icon({ name, size, color, light, style }: IconProps) {
     ? theme.colors.black
     : theme.colors.white;
 
-  return <LucideIcon color={c} size={size} />;
+  return <LucideIcon color={c} size={size} style={style} />;
 }
 
 export default styled(Icon);

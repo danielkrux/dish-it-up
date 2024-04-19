@@ -48,7 +48,7 @@ function Home() {
             title: "Home",
             headerTitle: "Get cooking today!",
             tabBarIcon: ({ color }) => (
-              <Icon name="Home" size={24} color={color} />
+              <Icon name="BookText" size={24} color={color} />
             ),
           }}
         />
