@@ -47,13 +47,7 @@ function IconButton({
       style={style as any}
       {...props}
     >
-      <Icon
-        // className={clsx("text-gray-900 dark:text-gray-400", {
-        // 	"text-acapulco-400": variant === "secondary",
-        // })}
-        name={icon}
-        size={sizeMap[size]}
-      />
+      <Icon name={icon} size={sizeMap[size]} />
     </Pressable>
   );
 }

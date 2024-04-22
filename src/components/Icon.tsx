@@ -1,8 +1,8 @@
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle, useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
-import { styled, useColorScheme } from "nativewind";
+import { styled } from "nativewind";
 
 export type IconName = keyof typeof icons | "logo";
 
@@ -15,7 +15,7 @@ export type IconProps = {
 };
 
 function Icon({ name, size, color, light, style }: IconProps) {
-  const { colorScheme } = useColorScheme();
+  const colorScheme = useColorScheme();
 
   if (name === "logo") return <Logo width={size} height={size} style={style} />;
 

@@ -11,105 +11,105 @@ import useFetchRecipes from "~/features/recipe/hooks/useFetchRecipes";
 import { Ingredient } from "~/features/recipe/recipe.types";
 
 function GroceryList() {
-	const router = useRouter();
-	const { ids } = useLocalSearchParams<{ ids: string }>();
-	const idsArray = ids.split(",").map((id) => Number(id));
-	const { data } = useFetchRecipes(idsArray);
-	const allIngredients = data?.flatMap((recipe) => recipe.ingredients ?? []);
+  const router = useRouter();
+  const { ids } = useLocalSearchParams<{ ids: string }>();
+  const idsArray = ids.split(",").map((id) => Number(id));
+  const { data } = useFetchRecipes(idsArray);
+  const allIngredients = data?.flatMap((recipe) => recipe.ingredients ?? []);
 
-	const [selected, setSelected] = useState<Ingredient[]>(allIngredients ?? []);
+  const [selected, setSelected] = useState<Ingredient[]>(allIngredients ?? []);
 
-	const { mutate } = useCreateGroceryListItem({
-		onSuccess: () => router.back(),
-	});
+  const { mutate } = useCreateGroceryListItem({
+    onSuccess: () => router.back(),
+  });
 
-	function handleIngredientPress(ingredient: Ingredient) {
-		if (selected.find((item) => item.id === ingredient.id)) {
-			return setSelected((prev) =>
-				prev.filter((item) => item.id !== ingredient.id),
-			);
-		}
-		return setSelected((prev) => [...prev, ingredient]);
-	}
+  function handleIngredientPress(ingredient: Ingredient) {
+    if (selected.find((item) => item.id === ingredient.id)) {
+      return setSelected((prev) =>
+        prev.filter((item) => item.id !== ingredient.id)
+      );
+    }
+    return setSelected((prev) => [...prev, ingredient]);
+  }
 
-	function mergeSelectedIngredients() {
-		const mergedIngredients = selected.reduce<Ingredient[]>(
-			(acc, ingredient) => {
-				const existingIngredient = acc.find(
-					(i) => i.name === ingredient.name && i.unit === ingredient.unit,
-				);
+  function mergeSelectedIngredients() {
+    const mergedIngredients = selected.reduce<Ingredient[]>(
+      (acc, ingredient) => {
+        const existingIngredient = acc.find(
+          (i) => i.name === ingredient.name && i.unit === ingredient.unit
+        );
 
-				if (!existingIngredient) {
-					acc.push(ingredient);
-					return acc;
-				}
+        if (!existingIngredient) {
+          acc.push(ingredient);
+          return acc;
+        }
 
-				return acc.map((i) => {
-					const exsits =
-						i.name === ingredient.name && i.unit === ingredient.unit;
+        return acc.map((i) => {
+          const exsits =
+            i.name === ingredient.name && i.unit === ingredient.unit;
 
-					if (!exsits) return i;
+          if (!exsits) return i;
 
-					const newAmount =
-						Number(existingIngredient.amount) + Number(ingredient.amount);
+          const newAmount =
+            Number(existingIngredient.amount) + Number(ingredient.amount);
 
-					return { ...i, amount: newAmount.toString() };
-				});
-			},
-			[],
-		);
+          return { ...i, amount: newAmount.toString() };
+        });
+      },
+      []
+    );
 
-		return mergedIngredients;
-	}
+    return mergedIngredients;
+  }
 
-	function handleSave() {
-		const mergedIngredients = mergeSelectedIngredients();
-		mutate(mergedIngredients);
-	}
+  function handleSave() {
+    const mergedIngredients = mergeSelectedIngredients();
+    mutate(mergedIngredients);
+  }
 
-	return (
-		<View className="flex-1 py-6">
-			<ScrollView
-				className="px-4"
-				contentContainerStyle={{ paddingBottom: 75 }}
-			>
-				<Text className="mb-2" type="header">
-					Grocery List
-				</Text>
-				{data?.map((recipe) => (
-					<View className="mb-6" key={recipe.id}>
-						<View className="flex-1 flex-row items-start">
-							<Text className="flex-1" type="bodyBold" size="l">
-								{recipe.name}
-							</Text>
-						</View>
-						{recipe.ingredients?.map((ingredient) => {
-							const name = ingredient.name ?? "";
-							const parsedAmount = ingredient.amount;
-							const amount = parsedAmount ? parsedAmount : "";
-							const unit = ingredient.unit ?? "";
+  return (
+    <View className="flex-1 py-6">
+      <ScrollView
+        className="px-4"
+        contentContainerStyle={{ paddingBottom: 75 }}
+      >
+        <Text size="xl" className="mb-2" type="header">
+          Create Grocery List
+        </Text>
+        {data?.map((recipe) => (
+          <View className="mb-6" key={recipe.id}>
+            <View className="flex-1 flex-row items-start">
+              <Text className="flex-1" type="bodyBold" size="l">
+                {recipe.name}
+              </Text>
+            </View>
+            {recipe.ingredients?.map((ingredient) => {
+              const name = ingredient.name ?? "";
+              const parsedAmount = ingredient.amount;
+              const amount = parsedAmount ? parsedAmount : "";
+              const unit = ingredient.unit ?? "";
 
-							const label = `${amount} ${unit} ${name}`.trim();
+              const label = `${amount} ${unit} ${name}`.trim();
 
-							return (
-								<ListButton
-									key={ingredient.id}
-									selectable
-									selected={selected?.includes(ingredient)}
-									onPress={() => handleIngredientPress(ingredient)}
-									label={label}
-									className="dark:bg-gray-950"
-								/>
-							);
-						})}
-					</View>
-				))}
-			</ScrollView>
-			<FloatingButton useSafeArea onPress={handleSave}>
-				Save
-			</FloatingButton>
-		</View>
-	);
+              return (
+                <ListButton
+                  key={ingredient.id}
+                  selectable
+                  selected={selected?.includes(ingredient)}
+                  onPress={() => handleIngredientPress(ingredient)}
+                  label={label}
+                  className="dark:bg-gray-950"
+                />
+              );
+            })}
+          </View>
+        ))}
+      </ScrollView>
+      <FloatingButton useSafeArea onPress={handleSave}>
+        Save
+      </FloatingButton>
+    </View>
+  );
 }
 
 export default GroceryList;

@@ -3,7 +3,6 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
-import Icon from "~/components/Icon";
 
 import Text from "~/components/Text";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
@@ -48,7 +47,7 @@ function Account() {
           </Pressable>
         ))}
         {data?.length === 0 && (
-          <Text className="text-gray-300 text-center">
+          <Text className="text-gray-500 dark:text-gray-300 text-center">
             You haven't made any recipes yet!
           </Text>
         )}
