@@ -30,8 +30,8 @@ export default function RecipeDetailPage() {
           ),
           headerRight: () => (
             <RecipeDetailMenu
-              onShowLogRecipe={() => ref.current?.present()}
-              onDeleteSucces={() => router.push("/")}
+              onShowLogRecipe={ref.current?.present}
+              onDeleteSucces={router.back}
               recipeId={id}
             />
           ),

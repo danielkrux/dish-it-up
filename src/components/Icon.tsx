@@ -25,13 +25,13 @@ function Icon({ name, size, color, light, style }: IconProps) {
   if (!LucideIcon) return null;
 
   const isLightIcon =
-    typeof light === "undefined" ? colorScheme === "light" : light;
+    typeof light === "undefined" ? colorScheme === "dark" : light;
 
   const c = color
     ? color
     : isLightIcon
-    ? theme.colors.black
-    : theme.colors.white;
+    ? theme.colors.white
+    : theme.colors.black;
 
   return <LucideIcon color={c} size={size} style={style} />;
 }

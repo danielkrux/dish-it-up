@@ -38,7 +38,7 @@ function RecipeDetailMenu({
         </Menu.Item>
         <Menu.Group>
           <Menu.Item key="cooked" onSelect={onShowLogRecipe}>
-            <Menu.ItemIcon ios={{ name: "checkmark" }} />
+            <Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
             <Menu.ItemTitle>Log recipe</Menu.ItemTitle>
           </Menu.Item>
           <Menu.Item
