@@ -9,7 +9,8 @@ import {
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -20,6 +21,7 @@ import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -30,6 +32,7 @@ import AuthProvider from "~/AuthContext";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors } from "~/theme";
+import { clientPersister } from "~/utils/storage";
 
 export const supabase = initSupabase();
 
@@ -67,7 +70,10 @@ export default function Root() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={theme}>
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: clientPersister }}
+        >
           <PortalProvider>
             <KeyboardProvider>
               <BottomSheetModalProvider>
@@ -84,7 +90,7 @@ export default function Root() {
               </BottomSheetModalProvider>
             </KeyboardProvider>
           </PortalProvider>
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );

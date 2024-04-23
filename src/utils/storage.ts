@@ -1,3 +1,4 @@
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { Asset } from "expo-asset";
 import { MMKV } from "react-native-mmkv";
 
@@ -22,3 +23,7 @@ export async function fetchLocalFile(uri: string) {
   const downloadedFile = await fetch(file.uri);
   return downloadedFile.text();
 }
+
+export const clientPersister = createAsyncStoragePersister({
+  storage: { setItem, getItem, removeItem },
+});
