@@ -11,6 +11,7 @@
     "eas-build:android:preview": "npx eas build --platform android --profile preview",
     "eas-build:ios:preview": "npx eas build --platform ios --profile preview",
     "eas-build:ios:production": "npx eas build --platform ios --profile production",
+    "update:production": "eas update --branch production --message: 'x'",
     "prebuild": "npx expo prebuild --no-install",
     "api:serve": "supabase functions serve",
     "api:deploy": "supabase functions deploy",
