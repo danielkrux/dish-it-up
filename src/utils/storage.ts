@@ -17,10 +17,8 @@ export async function removeItem(key: string) {
   storage.delete(key);
 }
 
-export async function fetchLocalFile(uri: string) {
-  const file = Asset.fromModule(uri);
-  await file.downloadAsync();
-  const downloadedFile = await fetch(file.uri);
+export async function fetchFile(uri: string) {
+  const downloadedFile = await fetch(uri);
   return downloadedFile.text();
 }
 
