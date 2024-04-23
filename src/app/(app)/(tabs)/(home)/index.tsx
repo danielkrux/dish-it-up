@@ -1,24 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { ListRenderItemInfo, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
-import SeachAndFilter from "~/features/home/components/SearchAndFilter";
-import useHomeContext from "~/features/home/hooks/useHomeContext";
-import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
+import RecipeList from "~/features/home/components/RecipeList";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { SortOptionValue, getRecipes } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
-import theme, { isTablet } from "~/theme";
-
-const extractKey = (item: Recipe) => item.id.toString();
 
 function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
   if (!categoryId || categoryId === DEFAULT_FILTER) return recipes;
@@ -34,11 +27,10 @@ export default function Home() {
     c?: string;
     s?: SortOptionValue;
   }>();
-  const { recipeId, setRecipeId } = useHomeContext();
   const query = q;
   const sortBy = s;
 
-  const { data, refetch } = useQuery(
+  const { data, refetch, isLoading } = useQuery(
     recipeKeys.list(query, sortBy),
     () => getRecipes(query, sortBy),
     {
@@ -52,28 +44,9 @@ export default function Home() {
 
   useRefreshOnFocus(refetch);
 
-  const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<Recipe>) => {
-      const handlePress = () => {
-        if (isTablet) {
-          setRecipeId(item.id);
-        } else {
-          router.push(`/recipe/${item.id}/`);
-        }
-      };
-
-      return (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <RecipeImageCardWithContext recipe={item} onPress={handlePress} />
-        </Animated.View>
-      );
-    },
-    [setRecipeId, router]
-  );
-
   return (
     <View className="flex-1">
-      {!data?.length ? (
+      {!data?.length && !isLoading ? (
         <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
           <Icon className="mb-5" name="BookDashed" size={64} />
           <Text type="header" size="l" className="text-center mb-2">
@@ -85,22 +58,7 @@ export default function Home() {
           </Text>
         </View>
       ) : (
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={extractKey}
-          ListHeaderComponent={SeachAndFilter}
-          contentContainerStyle={styles.recipeListContent}
-          className="px-3 md:px-8 mt-1"
-          numColumns={isTablet && !recipeId ? 2 : 1}
-          ItemSeparatorComponent={() => (
-            <View className="border-b border-b-gray-50 dark:border-b-gray-900 h-1 w-[255] self-end" />
-          )}
-          columnWrapperStyle={
-            isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
-          }
-          key={recipeId ? "single-column" : "multi-column"}
-        />
+        <RecipeList data={data} isLoading={isLoading} />
       )}
       <FloatingButton onPress={() => router.push("/recipe/add/")}>
         Add recipe
@@ -108,13 +66,3 @@ export default function Home() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  recipeListContent: {
-    paddingBottom: 100,
-    gap: theme.spacing.m,
-  },
-  recipeColumnWrapper: {
-    gap: theme.spacing.m,
-  },
-});
