@@ -1,10 +1,9 @@
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import ListButton from "~/components/ListButton";
 import { signOut } from "~/features/auth/auth.service";
-import theme from "~/theme";
 
 export default function Settings() {
   const router = useRouter();
@@ -13,26 +12,40 @@ export default function Settings() {
     router.push("/settings/categories");
   }
 
+  function goToPrivacyPolicy() {
+    router.push("/settings/privacy-policy");
+  }
+
+  function goToTermsAndConditions() {
+    router.push("/settings/terms-conditions");
+  }
+
   return (
     <View>
       <ListButton
         label="Manage Categories"
         onPress={goToCategories}
         icon="Tag"
-        style={styles.listButton}
+        className="mx-4"
       />
       <ListButton
         label="Sign out"
         onPress={signOut}
         icon="LogOut"
-        style={styles.listButton}
+        className="mx-4 mt-12"
+      />
+      <ListButton
+        label="Privacy Policy"
+        onPress={goToPrivacyPolicy}
+        icon="Text"
+        className="mx-4 mt-12"
+      />
+      <ListButton
+        label="Terms & Conditions"
+        onPress={goToTermsAndConditions}
+        icon="Text"
+        className="mx-4"
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  listButton: {
-    paddingHorizontal: theme.spacing.m,
-  },
-});

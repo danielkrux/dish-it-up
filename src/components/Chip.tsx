@@ -39,7 +39,9 @@ function Chip({
       style={[style]}
     >
       {icon && <Icon size={16} name={icon} className="text-white" />}
-      {isSelected && <Icon size={16} name="Check" className="text-white" />}
+      {isSelected && (
+        <Icon size={16} name="Check" className="text-white" light />
+      )}
       <Text
         className={clsx("text-gray-900 dark:text-white font-body-bold", {
           "text-white": isSelected,

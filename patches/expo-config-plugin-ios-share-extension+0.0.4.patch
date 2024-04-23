@@ -1,3 +1,34 @@
+diff --git a/node_modules/expo-config-plugin-ios-share-extension/build/withShareExtensionXcodeTarget.js b/node_modules/expo-config-plugin-ios-share-extension/build/withShareExtensionXcodeTarget.js
+index d5d454d..b04d6ac 100644
+--- a/node_modules/expo-config-plugin-ios-share-extension/build/withShareExtensionXcodeTarget.js
++++ b/node_modules/expo-config-plugin-ios-share-extension/build/withShareExtensionXcodeTarget.js
+@@ -20,7 +20,17 @@ const withShareExtensionXcodeTarget = (config) => {
+         const storyboardFilePath = (0, writeShareExtensionFiles_1.getShareExtensionStoryboardFilePath)(platformProjectRoot);
+         await (0, writeShareExtensionFiles_1.writeShareExtensionFiles)(platformProjectRoot, scheme, appIdentifier);
+         const pbxProject = config.modResults;
+-        const target = pbxProject.addTarget(extensionName, 'app_extension', extensionName);
++        let target = pbxProject.getTarget('com.apple.product-type.app-extension');
++        if (target) {
++          console.log(`Found existing target with name: ${extensionName}`);
++          return config;
++        }
++
++        console.log(`Making new target with name: ${extensionName}...`);
++      
++        if (!target) {
++          target = pbxProject.addTarget(extensionName, 'app_extension', extensionName);
++        }
+         // Add a new PBXSourcesBuildPhase for our ShareViewController
+         // (we can't add it to the existing one because an extension is kind of an extra app)
+         pbxProject.addBuildPhase([], 'PBXSourcesBuildPhase', 'Sources', target.uuid);
+@@ -52,6 +62,7 @@ const withShareExtensionXcodeTarget = (config) => {
+                     buildSettingsObj['SWIFT_EMIT_LOC_STRINGS'] = 'YES';
+                     buildSettingsObj['SWIFT_VERSION'] = '5.0';
+                     buildSettingsObj['TARGETED_DEVICE_FAMILY'] = `"1,2"`;
++                    buildSettingsObj['DEVELOPMENT_TEAM'] = config.extra?.ios?.teamId;
+                 }
+             }
+         }
 diff --git a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js b/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
 index 5f0e1db..19c8be5 100644
 --- a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
