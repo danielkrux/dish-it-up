@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#BFCFBC"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "buildNumber": "1",
       "supportsTablet": true,
@@ -55,9 +57,13 @@
       [
         "./src/plugins/withAndroidShareExtension/index.js",
         {
-          "androidIntentFilters": ["text/*", "image/*"]
+          "androidIntentFilters": [
+            "text/*",
+            "image/*"
+          ]
         }
-      ]
+      ],
+      "expo-font"
     ],
     "scheme": "dish-it-up",
     "experiments": {

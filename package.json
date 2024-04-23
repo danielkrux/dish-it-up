@@ -19,6 +19,8 @@
   "dependencies": {
     "@dev-plugins/react-query": "^0.0.5",
     "@expo-google-fonts/dev": "^0.2.3",
+    "@expo-google-fonts/josefin-sans": "^0.2.3",
+    "@expo-google-fonts/noto-sans": "^0.2.3",
     "@expo/config-plugins": "~7.8.0",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^4",
@@ -44,7 +46,7 @@
     "expo-config-plugin-ios-share-extension": "^0.0.4",
     "expo-constants": "~15.4.5",
     "expo-dev-client": "~3.3.8",
-    "expo-font": "~11.10.2",
+    "expo-font": "~11.10.3",
     "expo-haptics": "~12.8.1",
     "expo-image": "~1.10.6",
     "expo-image-picker": "~14.7.1",

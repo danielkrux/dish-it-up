@@ -1,12 +1,11 @@
 import "react-native-get-random-values";
 import "react-native-url-polyfill/auto";
 
+import { JosefinSans_700Bold, useFonts } from "@expo-google-fonts/josefin-sans";
 import {
-  JosefinSans_700Bold,
-  NotoSans_500Medium,
   NotoSans_700Bold,
-  useFonts,
-} from "@expo-google-fonts/dev";
+  NotoSans_500Medium,
+} from "@expo-google-fonts/noto-sans";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
