@@ -50,13 +50,13 @@ export default function SignUp() {
     <KeyboardAvoidingView
       behavior="padding"
       keyboardVerticalOffset={100}
-      className="flex-1 items-center justify-center px-4 dark:bg-gray-950"
+      className="flex-1 items-center justify-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
     >
       <Icon name="logo" size={128} className="mb-4 dark:text-white" />
       <Text type="header" className="text-5xl mb-8">
         Dish It Up
       </Text>
-      <View className="w-full">
+      <View className="self-stretch">
         <ControlledInput
           name="email"
           label="Email"

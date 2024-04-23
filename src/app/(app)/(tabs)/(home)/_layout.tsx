@@ -34,7 +34,7 @@ export default function HomeTabLayout() {
               <IconButton
                 size="medium"
                 icon="Maximize2"
-                onPress={() => router.push(`/(app)/recipe/${recipeId}/`)}
+                onPress={() => router.push(`/recipe/${recipeId}/`)}
               />
               <RecipeDetailMenu
                 recipeId={recipeId}

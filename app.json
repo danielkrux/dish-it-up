@@ -11,12 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#BFCFBC"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "1",
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.danielkrux.dishitup"
     },
     "android": {
@@ -57,10 +55,7 @@
       [
         "./src/plugins/withAndroidShareExtension/index.js",
         {
-          "androidIntentFilters": [
-            "text/*",
-            "image/*"
-          ]
+          "androidIntentFilters": ["text/*", "image/*"]
         }
       ],
       "expo-font"

@@ -48,7 +48,7 @@ function SignIn() {
   return (
     <KeyboardAvoidingView
       behavior="padding"
-      className="flex-1 justify-center items-center px-4 dark:bg-gray-950"
+      className="flex-1 justify-center items-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
     >
       <Icon name="logo" size={128} className="mb-4 dark:text-white" />
       <Text type="header" className="text-5xl mb-8">

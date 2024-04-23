@@ -16,7 +16,7 @@ function Account() {
   const { data } = useQuery(recipeKeys.lastMade(), getLastMadeRecipes);
 
   return (
-    <View className="mx-4">
+    <View className="mx-4 md:mx-8">
       <Text className="mb-8">{session?.user.email}</Text>
 
       <View className="flex-row justify-between">

@@ -73,7 +73,7 @@ function GroceryList() {
           ),
         }}
       />
-      <KeyboardAwareScrollView bottomOffset={20} className="px-4">
+      <KeyboardAwareScrollView bottomOffset={20} className="px-4 md:px-8">
         {groceries.data?.map((grocery) => (
           // <SwipeableRow
           // 	key={grocery.id}

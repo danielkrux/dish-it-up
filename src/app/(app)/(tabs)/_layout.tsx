@@ -1,5 +1,6 @@
 import { Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
+
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import { init } from "~/features/app/app.utils";
@@ -42,7 +43,6 @@ function Home() {
             fontSize: theme.fontSize.xxl,
             fontWeight: "bold",
           },
-          // freezeOnBlur: true,
         }}
       >
         <Tabs.Screen
