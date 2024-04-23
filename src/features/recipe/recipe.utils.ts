@@ -30,18 +30,19 @@ export function parseIngredients(
         return {
           ...ingredient,
           amount,
-          name: `${unit} ${brackets?.[0]}`,
+          name: `${unit} ${brackets?.[0] ?? ""}`.trim(),
           unit: null,
         };
       }
 
       return {
         ...ingredient,
-        name: `${name.join(" ")} ${brackets?.[0] ?? ""}`,
+        name: `${name.join(" ")} ${brackets?.[0] ?? ""}`.trim(),
         amount,
         unit,
       };
     }
+
     return {
       ...ingredient,
       name: ingredient.name ?? "",

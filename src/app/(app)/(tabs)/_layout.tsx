@@ -26,9 +26,6 @@ function Home() {
           headerShown: true,
           tabBarActiveTintColor: currentTheme.colors.primary,
           tabBarInactiveTintColor: currentTheme.colors.text,
-          tabBarStyle: {
-            borderTopWidth: 0,
-          },
           headerTitle: "",
           headerShadowVisible: false,
           headerRightContainerStyle: {
