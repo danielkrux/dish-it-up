@@ -71,7 +71,7 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
         {!images.length && (
           <Pressable
             onPress={openImagePicker}
-            className="flex-row items-center justify-center w-32 h-32 bg-gray-100 rounded"
+            className="flex-row items-center justify-center w-32 h-32 bg-gray-100 dark:bg-gray-900 rounded"
           >
             <IconButton icon="Plus" size="large" />
           </Pressable>

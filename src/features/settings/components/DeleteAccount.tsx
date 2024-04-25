@@ -15,6 +15,7 @@ function DeleteAccount() {
     try {
       setIsLoading(true);
       await supabase.functions.invoke("delete-account");
+      Modal.hide();
       await signOut();
       Toast.show({
         type: "success",
