@@ -19,8 +19,8 @@ function SignIn() {
   const [loading, setLoading] = useState(false);
   const { control, getValues } = useForm<SignInFormData>({
     defaultValues: {
-      email: "danielmartijn@gmail.com",
-      password: "TestPass",
+      email: "",
+      password: "",
     },
   });
 

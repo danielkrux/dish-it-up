@@ -26,9 +26,9 @@ export default function SignUp() {
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: "danielkrux@icloud.com",
-      password: "testpass",
-      confirmPassword: "testpass",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
