@@ -23,7 +23,7 @@ function ListButton({
 }: ListButtonProps) {
   return (
     <Pressable
-      className="py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4 dark:bg-gray-900 dark:border-b-gray-800"
+      className="py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4 dark:bg-gray-950 dark:border-b-gray-900"
       onPress={onPress}
       style={style}
     >

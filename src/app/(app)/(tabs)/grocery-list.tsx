@@ -1,13 +1,12 @@
 import { Tabs } from "expo-router";
 import { useRef } from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import * as Menu from "zeego/dropdown-menu";
 
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import ListButton from "~/components/ListButton";
-import SwipeableRow from "~/components/SwipeableRow";
 import { GroceryListItem } from "~/features/grocery-list/groceryList.types";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";

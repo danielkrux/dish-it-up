@@ -21,7 +21,6 @@ import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -55,6 +54,14 @@ export default function Root() {
 
   useAppState(async (state) => {
     setQueryClientFocus(state);
+  });
+
+  useAppState(async (state) => {
+    if (state === "active") {
+      supabase.auth.startAutoRefresh();
+    } else {
+      supabase.auth.stopAutoRefresh();
+    }
   });
 
   const [loaded] = useFonts({

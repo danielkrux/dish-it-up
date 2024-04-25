@@ -25,6 +25,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
   const router = useRouter();
 
   const { recipeId, setRecipeId } = useHomeContext();
+
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<Recipe>) => {
       const handlePress = () => {

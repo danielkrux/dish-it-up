@@ -4,6 +4,7 @@ import { View } from "react-native";
 
 import ListButton from "~/components/ListButton";
 import { signOut } from "~/features/auth/auth.service";
+import DeleteAccount from "~/features/settings/components/DeleteAccount";
 
 export default function Settings() {
   const router = useRouter();
@@ -34,11 +35,12 @@ export default function Settings() {
         icon="LogOut"
         className="mx-4 mt-12"
       />
+      <DeleteAccount />
       <ListButton
         label="Privacy Policy"
         onPress={goToPrivacyPolicy}
         icon="Text"
-        className="mx-4 mt-12"
+        className="mx-4"
       />
       <ListButton
         label="Terms & Conditions"

@@ -1,8 +1,7 @@
-import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import parseHtmlToRecipeSchema from "./parseHtmlToRecipeSchema.ts";
 import parseSchemaToRecipe from "./parseSchemaToRecipe.ts";
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   const { searchParams } = new URL(req.url);
   const url = searchParams.get("url");
 

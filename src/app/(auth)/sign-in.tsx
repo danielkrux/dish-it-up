@@ -50,8 +50,12 @@ function SignIn() {
       behavior="padding"
       className="flex-1 justify-center items-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
     >
-      <Icon name="logo" size={128} className="mb-4 dark:text-white" />
-      <Text type="header" className="text-5xl mb-8">
+      <Icon
+        name="logo"
+        size={128}
+        className="mb-4 text-gray-950 dark:text-acapulco-100"
+      />
+      <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
         Dish It Up
       </Text>
       <ControlledInput

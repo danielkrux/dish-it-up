@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { supabase } from "~/app/_layout";
+import { queryClient } from "~/clients/reactQuery";
 
 export async function getSession() {
   const { data, error } = await supabase.auth.getSession();
@@ -67,6 +68,7 @@ export async function signUpWithEmail({
 
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
+  queryClient.removeQueries();
 
   if (error) {
     throw new Error(error.message);
