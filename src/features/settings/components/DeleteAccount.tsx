@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Toast from "react-native-toast-message";
 import { supabase } from "~/app/_layout";
 import ListButton from "~/components/ListButton";

@@ -1,29 +1,35 @@
 {
-	"cli": {
-		"version": ">= 5.9.1",
-		"promptToConfigurePushNotifications": false
-	},
-	"build": {
-		"development": {
-			"developmentClient": true,
-			"distribution": "internal",
-			"android": {
-				"gradleCommand": ":app:assembleDebug"
-			},
-			"ios": {
-				"buildConfiguration": "Debug"
-			},
-			"channel": "development"
-		},
-		"preview": {
-			"channel": "preview",
-			"distribution": "internal"
-		},
-		"production": {
-			"channel": "production"
-		}
-	},
-	"submit": {
-		"production": {}
-	}
+  "cli": {
+    "version": ">= 5.9.1",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      },
+      "channel": "development"
+    },
+    "preview": {
+      "channel": "preview",
+      "distribution": "internal"
+    },
+    "production": {
+      "channel": "production",
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
 }
