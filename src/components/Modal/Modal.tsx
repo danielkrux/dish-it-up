@@ -5,7 +5,6 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
-import { ModalProps } from "react-native";
 import ModalUI from "./ModalUI";
 import { ModalRef, ModalRefObj, ModalShowParams } from "./types";
 
@@ -13,12 +12,13 @@ let refs: ModalRefObj[] = [];
 
 const ModalRoot = forwardRef(function ModalRoot(_, ref) {
   const [isVisible, setIsVisible] = useState(false);
-  const [data, setData] = useState<ModalProps>();
+  const [data, setData] = useState<ModalShowParams>();
 
   const show = useCallback((params: ModalShowParams) => {
     setData(params);
     setIsVisible(true);
   }, []);
+
   const hide = useCallback(() => setIsVisible(false), []);
 
   useImperativeHandle(

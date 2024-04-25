@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
+
 import FloatingButton from "~/components/FloatingButton";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
+import Modal from "~/components/Modal";
 import Text from "~/components/Text";
 import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
 import useCreateCategory from "~/features/recipe/hooks/useCreateCategory";
@@ -18,48 +20,30 @@ export default function Settings() {
   const createCategoryMutation = useCreateCategory();
 
   function addCategory() {
-    Alert.prompt(
-      "Add Category",
-      "Enter a name for this category",
-      [
-        { text: "Cancel" },
-        {
-          text: "Confirm",
-          onPress: (value) => createCategoryMutation.mutate(value),
-        },
-      ],
-      "plain-text"
-    );
+    Modal.show({
+      title: "Add Category",
+      description: "Enter a name for the new category",
+      withPrompt: true,
+      onConfirm: (value) => createCategoryMutation.mutate(value),
+    });
   }
 
   function updateCategory(id: number, name?: string | null) {
-    Alert.prompt(
-      "Update Category",
-      "Enter a new name for this category",
-      [
-        { text: "Cancel" },
-        {
-          text: "Confirm",
-          onPress: (value) => editCategoryMutation.mutate({ id, name: value }),
-        },
-      ],
-      "plain-text",
-      name ?? ""
-    );
+    Modal.show({
+      title: "Edit Category",
+      description: "Enter a name for this category",
+      withPrompt: true,
+      defaultValue: name,
+      onConfirm: (value) => editCategoryMutation.mutate({ id, name: value }),
+    });
   }
 
   function deleteCategory(id: number) {
-    Alert.alert(
-      "Delete Category",
-      "Are you sure you want to delete this category?",
-      [
-        { text: "No", isPreferred: true },
-        {
-          text: "Yes",
-          onPress: () => deleteCategoryMutation.mutate(id),
-        },
-      ]
-    );
+    Modal.show({
+      title: "Delete Category",
+      description: "Are you sure you want to delete this category?",
+      onConfirm: () => deleteCategoryMutation.mutate(id),
+    });
   }
 
   return (

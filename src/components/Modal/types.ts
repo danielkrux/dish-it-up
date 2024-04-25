@@ -1,6 +1,9 @@
 export type ModalShowParams = {
   title: string;
-  children?: React.ReactNode;
+  description?: string;
+  withPrompt?: boolean;
+  defaultValue?: string | null;
+  onConfirm: (value?: string) => void;
 };
 
 export type ModalRef = {

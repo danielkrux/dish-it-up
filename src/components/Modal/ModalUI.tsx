@@ -1,22 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { LayoutChangeEvent, View } from "react-native";
 
 import IconButton from "../IconButton";
 import Text from "../Text";
+import TextInputBase from "../Inputs/TextInputBase";
+import Button from "../Button";
 
 export type ModalProps = {
   title?: string;
-  children?: React.ReactNode;
+  description?: string;
   isVisble?: boolean;
+  defaultValue?: string | null;
+  withPrompt?: boolean;
+  onConfirm?: (value?: string) => void;
   hide: () => void;
 };
 
-function Modal({ title, isVisble, hide, children }: ModalProps) {
+function Modal({
+  title,
+  description,
+  isVisble,
+  withPrompt,
+  defaultValue,
+  onConfirm,
+  hide,
+}: ModalProps) {
   const [height, setHeight] = useState(0);
+  const [value, setValue] = useState(defaultValue ?? "");
+
+  useEffect(() => {
+    setValue(defaultValue ?? "");
+  }, [defaultValue]);
 
   function handleLayout(event: LayoutChangeEvent) {
     setHeight(event.nativeEvent.layout.height);
+  }
+
+  function handleConfirm() {
+    onConfirm?.(value || undefined);
+
+    setValue("");
+    hide();
   }
 
   if (!isVisble) return null;
@@ -46,7 +71,16 @@ function Modal({ title, isVisble, hide, children }: ModalProps) {
             onPress={hide}
           />
         </View>
-        {children}
+        <Text className="mb-2">{description}</Text>
+        {withPrompt && <TextInputBase value={value} onChangeText={setValue} />}
+        <View className="flex-row self-end mt-4">
+          <Button variant="ghost" onPress={hide}>
+            Cancel
+          </Button>
+          <Button variant="secondary" onPress={handleConfirm}>
+            Confirm
+          </Button>
+        </View>
       </Animated.View>
     </>
   );

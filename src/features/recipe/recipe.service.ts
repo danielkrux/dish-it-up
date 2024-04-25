@@ -338,7 +338,11 @@ export async function updateRecipeCategories(
 export async function createCategory(name?: string) {
   if (!name) throw new Error("No category name provided");
 
-  const result = await supabase.from("categories").insert({ name });
+  const { user } = await getSession();
+
+  const result = await supabase
+    .from("categories")
+    .insert({ name, user_id: user?.id });
 
   if (result.error) {
     throw new Error(result.error.message);
