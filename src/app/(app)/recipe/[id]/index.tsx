@@ -1,6 +1,7 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useRef } from "react";
+import Toast from "react-native-toast-message";
 import FloatingButton from "~/components/FloatingButton";
 
 import IconButton from "~/components/IconButton";
@@ -14,6 +15,14 @@ export default function RecipeDetailPage() {
   const params = useLocalSearchParams();
   const id = Number(params.id);
   const router = useRouter();
+
+  function handleDeleteSuccess() {
+    router.back();
+    Toast.show({
+      type: "success",
+      text1: "Recipe deleted",
+    });
+  }
 
   return (
     <>
@@ -31,7 +40,7 @@ export default function RecipeDetailPage() {
           headerRight: () => (
             <RecipeDetailMenu
               onShowLogRecipe={ref.current?.present}
-              onDeleteSucces={router.back}
+              onDeleteSucces={handleDeleteSuccess}
               recipeId={id}
             />
           ),

@@ -10,7 +10,6 @@ import { signOut } from "~/features/auth/auth.service";
 
 function DeleteAccount() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
   async function deleteAccount() {
     try {
@@ -29,42 +28,40 @@ function DeleteAccount() {
     }
   }
 
+  function handleShowConfirmation() {
+    Modal.show({
+      title: "Delete Account?",
+      children: (
+        <>
+          <Text>
+            Are you sure you wish to delete your account? If you accept we will
+            also delete all your data.
+          </Text>
+          <View className="flex-row self-end pt-8 gap-2">
+            <Button size="small" variant="ghost" onPress={() => Modal.hide()}>
+              No
+            </Button>
+            <Button
+              loading={isLoading}
+              size="small"
+              variant="secondary"
+              onPress={deleteAccount}
+            >
+              Yes
+            </Button>
+          </View>
+        </>
+      ),
+    });
+  }
+
   return (
-    <>
-      <ListButton
-        label="Delete Account"
-        onPress={() => setIsVisible(true)}
-        icon="UserRoundX"
-        className="mx-4 mt-12"
-      />
-      <Modal
-        title="Delete Account?"
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-      >
-        <Text>
-          Are you sure you wish to delete your account? If you accept we will
-          also delete all your data.
-        </Text>
-        <View className="flex-row self-end pt-8 gap-2">
-          <Button
-            size="small"
-            variant="ghost"
-            onPress={() => setIsVisible(false)}
-          >
-            No
-          </Button>
-          <Button
-            loading={isLoading}
-            size="small"
-            variant="secondary"
-            onPress={deleteAccount}
-          >
-            Yes
-          </Button>
-        </View>
-      </Modal>
-    </>
+    <ListButton
+      label="Delete Account"
+      onPress={handleShowConfirmation}
+      icon="UserRoundX"
+      className="mx-4 mt-12"
+    />
   );
 }
 

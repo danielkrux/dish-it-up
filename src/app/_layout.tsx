@@ -32,6 +32,7 @@ import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors } from "~/theme";
 import { clientPersister } from "~/utils/storage";
+import Modal from "~/components/Modal";
 
 export const supabase = initSupabase();
 
@@ -93,6 +94,7 @@ export default function Root() {
                   />
                   <Slot />
                   <Toast config={toastConfig} topOffset={0} />
+                  <Modal />
                 </AuthProvider>
               </BottomSheetModalProvider>
             </KeyboardProvider>
