@@ -6,14 +6,12 @@ import { Recipe } from "../recipe.types";
 function useFetchRecipes(ids?: number[]) {
   const queryClient = useQueryClient();
 
-  const result = useQuery(recipeKeys.all, () => getRecipeByIds(ids), {
-    initialData: () => {
-      const recipes = queryClient.getQueryData<Recipe[]>([
-        "recipes",
-        undefined,
-      ]);
-      return recipes?.filter((recipe) => ids?.includes(recipe.id));
-    },
+  const recipes = queryClient.getQueryData<Recipe[]>(recipeKeys.all, {
+    exact: false,
+  });
+
+  const result = useQuery(recipeKeys.mealPlan(), () => getRecipeByIds(ids), {
+    initialData: () => recipes?.filter((recipe) => ids?.includes(recipe.id)),
   });
 
   return result;

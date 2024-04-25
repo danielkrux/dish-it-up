@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -15,9 +15,13 @@ function GroceryList() {
   const { ids } = useLocalSearchParams<{ ids: string }>();
   const idsArray = ids.split(",").map((id) => Number(id));
   const { data } = useFetchRecipes(idsArray);
-  const allIngredients = data?.flatMap((recipe) => recipe.ingredients ?? []);
 
-  const [selected, setSelected] = useState<Ingredient[]>(allIngredients ?? []);
+  const [selected, setSelected] = useState<Ingredient[]>([]);
+
+  useEffect(() => {
+    const allIngredients = data?.flatMap((recipe) => recipe.ingredients ?? []);
+    setSelected(allIngredients ?? []);
+  }, [data]);
 
   const { mutate } = useCreateGroceryListItem({
     onSuccess: () => router.back(),
@@ -73,13 +77,13 @@ function GroceryList() {
         className="px-4"
         contentContainerStyle={{ paddingBottom: 75 }}
       >
-        <Text size="xl" className="mb-2" type="header">
+        <Text size="2xl" className="mb-2" type="header">
           Create Grocery List
         </Text>
         {data?.map((recipe) => (
           <View className="mb-6" key={recipe.id}>
             <View className="flex-1 flex-row items-start">
-              <Text className="flex-1" type="bodyBold" size="l">
+              <Text className="flex-1" type="bodyBold" size="m">
                 {recipe.name}
               </Text>
             </View>
