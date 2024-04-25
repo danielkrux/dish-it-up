@@ -8,7 +8,10 @@ function Label({ children, ...props }: LabelProps) {
   if (!children) return null;
 
   return (
-    <Text className="mb-1.5 ml-0.5 text-sm font-body text-gray-400" {...props}>
+    <Text
+      className="mb-1.5 ml-0.5 text-sm font-body text-gray-600 dark:text-gray-100"
+      {...props}
+    >
       {children}
     </Text>
   );
