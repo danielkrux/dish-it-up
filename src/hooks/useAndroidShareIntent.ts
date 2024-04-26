@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
-import { AppState } from "react-native";
+import { AppState, Platform } from "react-native";
 
 import ReceiveSharingIntent from "react-native-receive-sharing-intent";
 
@@ -57,6 +57,10 @@ export default function useAndroidShareIntent() {
     null
   );
   const [error, setError] = useState<string | undefined>();
+
+  if (Platform.OS !== "android") {
+    return {};
+  }
 
   const refreshShareIntent = async () => {
     try {

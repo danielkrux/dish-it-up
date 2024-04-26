@@ -7,7 +7,7 @@ import InputBase from "~/components/Inputs/TextInputBase";
 import RecipeQuickFilter from "./RecipeFilters";
 
 import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
-import Animated, { FadeIn, FadeOut, Layout } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import SortRecipes from "./SortRecipes";
 
 function SeachAndFilter() {
@@ -27,7 +27,7 @@ function SeachAndFilter() {
   return (
     <View className="md:mb-4">
       <View className="flex-row items-center mb-1.5">
-        <Animated.View className="flex-1" layout={Layout}>
+        <Animated.View className="flex-1">
           <InputBase
             containerStyle="flex-1"
             value={q}

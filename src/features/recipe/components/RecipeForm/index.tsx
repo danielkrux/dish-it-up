@@ -12,104 +12,104 @@ import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 
 const KeyboardAwareScrollView = styled(_KeyboardAwareScrollView, {
-	props: { contentContainerStyle: true },
+  props: { contentContainerStyle: true },
 });
 
 function RecipeForm() {
-	const categoriesQuery = useFetchCategories();
+  const categoriesQuery = useFetchCategories();
 
-	const form = useFormContext<RecipeUpdateForm>();
-	const { control, setValue, getValues, watch } = form;
+  const form = useFormContext<RecipeUpdateForm>();
+  const { control, setValue, getValues, watch } = form;
 
-	const ingredientsFieldArray = useFieldArray({
-		control,
-		name: "ingredients",
-	});
+  const ingredientsFieldArray = useFieldArray({
+    control,
+    name: "ingredients",
+  });
 
-	const instructionsFieldArray = useFieldArray({
-		control,
-		name: "instructions",
-	});
+  const instructionsFieldArray = useFieldArray({
+    control,
+    name: "instructions",
+  });
 
-	return (
-		<KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
-			<ImageInput
+  return (
+    <KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
+      {/* <ImageInput
 				initialImages={getValues("images")?.filter(isTruthy)}
 				onChange={(images) => setValue("images", images)}
-			/>
-			<ControlledInput
-				label="Name"
-				name="name"
-				control={control}
-				className="mb-4"
-				returnKeyType="next"
-				autoComplete="off"
-			/>
-			<ControlledInput
-				label="Description"
-				name="description"
-				placeholder="Write a short description about your recipe"
-				control={control}
-				className="mb-4"
-				returnKeyType="next"
-				multiline
-				inputStyle={{ minHeight: 100 }}
-			/>
-			<ControlledInput
-				label="Total time"
-				name="total_time"
-				control={control}
-				className="mb-4"
-				returnKeyType="next"
-				autoCorrect={false}
-				spellCheck={false}
-			/>
-			<ControlledInput
-				label="Number of servings"
-				name="recipe_yield"
-				control={control}
-				className="mb-4"
-				returnKeyType="next"
-				keyboardType="number-pad"
-				autoCorrect={false}
-				spellCheck={false}
-			/>
-			<ChipInput
-				label="Categories"
-				className="mb-4"
-				value={watch("categories")?.map((c) => ({
-					value: String(c.id) ?? "",
-					label: c.name ?? "",
-				}))}
-				data={categoriesQuery.data?.map((c) => ({
-					value: String(c.id) ?? "",
-					label: c.name ?? "",
-				}))}
-				onAdd={(item) => {
-					setValue("categories", [
-						...(getValues("categories") ?? []),
-						{ name: item.label ?? "", id: Number(item.value) },
-					]);
-				}}
-				onRemove={(item) => {
-					setValue(
-						"categories",
-						getValues("categories")?.filter((i) => i.id !== Number(item.value)),
-					);
-				}}
-			/>
-			<IngredientsInput
-				className="mb-4"
-				form={form}
-				fieldArray={ingredientsFieldArray}
-			/>
-			<InstructionsInput
-				className="mb-4"
-				form={form}
-				fieldArray={instructionsFieldArray}
-			/>
-		</KeyboardAwareScrollView>
-	);
+			/> */}
+      <ControlledInput
+        label="Name"
+        name="name"
+        control={control}
+        className="mb-4"
+        returnKeyType="next"
+        autoComplete="off"
+      />
+      <ControlledInput
+        label="Description"
+        name="description"
+        placeholder="Write a short description about your recipe"
+        control={control}
+        className="mb-4"
+        returnKeyType="next"
+        multiline
+        inputStyle={{ minHeight: 100 }}
+      />
+      <ControlledInput
+        label="Total time"
+        name="total_time"
+        control={control}
+        className="mb-4"
+        returnKeyType="next"
+        autoCorrect={false}
+        spellCheck={false}
+      />
+      <ControlledInput
+        label="Number of servings"
+        name="recipe_yield"
+        control={control}
+        className="mb-4"
+        returnKeyType="next"
+        keyboardType="number-pad"
+        autoCorrect={false}
+        spellCheck={false}
+      />
+      <ChipInput
+        label="Categories"
+        className="mb-4"
+        value={watch("categories")?.map((c) => ({
+          value: String(c.id) ?? "",
+          label: c.name ?? "",
+        }))}
+        data={categoriesQuery.data?.map((c) => ({
+          value: String(c.id) ?? "",
+          label: c.name ?? "",
+        }))}
+        onAdd={(item) => {
+          setValue("categories", [
+            ...(getValues("categories") ?? []),
+            { name: item.label ?? "", id: Number(item.value) },
+          ]);
+        }}
+        onRemove={(item) => {
+          setValue(
+            "categories",
+            getValues("categories")?.filter((i) => i.id !== Number(item.value))
+          );
+        }}
+      />
+      <IngredientsInput
+        className="mb-4"
+        form={form}
+        fieldArray={ingredientsFieldArray}
+      />
+      <InstructionsInput
+        className="mb-4"
+        form={form}
+        fieldArray={instructionsFieldArray}
+      />
+    </KeyboardAwareScrollView>
+  );
 }
 
 export default RecipeForm;
