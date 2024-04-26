@@ -1,12 +1,13 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert } from "react-native";
+import { View } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
+import Modal from "~/components/Modal";
 import Text from "~/components/Text";
 import { signInWithEmail } from "~/features/auth/auth.service";
 
@@ -34,7 +35,10 @@ function SignIn() {
 
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } catch (error: any) {
-      Alert.alert("Something went wrong!", error.message);
+      Modal.show({
+        title: "Something went wrong",
+        description: "Please try again.",
+      });
       console.error(error);
     } finally {
       setLoading(false);
@@ -48,16 +52,19 @@ function SignIn() {
   return (
     <KeyboardAvoidingView
       behavior="padding"
+      keyboardVerticalOffset={1}
       className="flex-1 justify-center items-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
     >
-      <Icon
-        name="logo"
-        size={128}
-        className="mb-4 text-gray-950 dark:text-acapulco-100"
-      />
-      <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
-        Dish It Up
-      </Text>
+      <View>
+        <Icon
+          name="logo"
+          size={128}
+          className="mb-4 mx-auto text-gray-950 dark:text-acapulco-100"
+        />
+        <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
+          Dish It Up
+        </Text>
+      </View>
       <ControlledInput
         name="email"
         label="Email"
@@ -65,6 +72,8 @@ function SignIn() {
         keyboardType="email-address"
         autoComplete="email"
         control={control}
+        spellCheck={false}
+        autoCorrect={false}
         className="mb-2"
       />
       <ControlledInput
@@ -75,7 +84,7 @@ function SignIn() {
         autoCapitalize="none"
         secureTextEntry
         spellCheck={false}
-        autoCorrect={false}
+        clearTextOnFocus={false}
         control={control}
         className="mb-6"
         onSubmitEditing={signIn}

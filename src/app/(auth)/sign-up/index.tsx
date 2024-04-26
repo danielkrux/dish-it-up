@@ -57,7 +57,7 @@ export default function SignUp() {
         size={128}
         className="mb-4 text-gray-950 dark:text-acapulco-100"
       />
-      <Text type="header" className="text-5xl mb-8">
+      <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
         Dish It Up
       </Text>
       <View className="self-stretch">
@@ -68,6 +68,8 @@ export default function SignUp() {
           keyboardType="email-address"
           autoComplete="email"
           control={control}
+          spellCheck={false}
+          autoCorrect={false}
           error={errors.email?.message}
           containerStyle="mb-2"
         />
@@ -80,6 +82,7 @@ export default function SignUp() {
           secureTextEntry
           spellCheck={false}
           autoCorrect={false}
+          clearTextOnFocus={false}
           control={control}
           error={errors.password?.message}
           containerStyle="mb-2"
@@ -94,6 +97,7 @@ export default function SignUp() {
           secureTextEntry
           spellCheck={false}
           autoCorrect={false}
+          clearTextOnFocus={false}
           control={control}
           error={errors.confirmPassword?.message}
           containerStyle="mb-6"

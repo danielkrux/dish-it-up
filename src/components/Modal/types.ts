@@ -3,7 +3,7 @@ export type ModalShowParams = {
   description?: string;
   withPrompt?: boolean;
   defaultValue?: string | null;
-  onConfirm: (value?: string) => void;
+  onConfirm?: (value?: string) => void;
 };
 
 export type ModalRef = {
