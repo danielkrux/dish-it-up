@@ -16,12 +16,20 @@ function parseHtmlToRecipeSchema(
   })?.innerHTML;
 
   if (!recipeSchemaStr) {
-    throw new Error("Recipe schema not found");
+    throw new Error("Recipe JSON-LD not found in the HTML");
   }
 
   const cleanSchema = clean(recipeSchemaStr);
 
-  const schema = JSON.parse(cleanSchema);
+  let schema = JSON.parse(cleanSchema);
+
+  if (Array.isArray(schema)) {
+    schema = schema[0];
+  }
+
+  if (schema.recipeIngredient) {
+    return schema;
+  }
 
   if (!schema["@type"] || schema["@type"] !== "Recipe") {
     // get recipe if jsonld has @graph
@@ -33,9 +41,9 @@ function parseHtmlToRecipeSchema(
       if (recipe) {
         return recipe;
       }
+    } else {
+      throw new Error("Could not find recipe in JSON-LD");
     }
-
-    throw new Error("Recipe schema not found");
   }
 
   return schema;
