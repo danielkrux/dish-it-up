@@ -1,21 +1,18 @@
 import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
-import { formatDuration } from "./utils.ts";
+import { formatDuration, isValidURL } from "./utils.ts";
 
-function getImages(
-  image?: string | string[] | { url: string }
-): string[] | null {
-  if (!image) return null;
+function getImages(image?: string | string[] | { url: string }): string[] {
+  if (!image) return [];
   if (typeof image === "string") return [image];
 
   if (Array.isArray(image)) {
-    return image.filter((img) => img.includes(".jpg") || img.includes(".png"));
+    return [...image];
   }
 
   return [image.url];
 }
 
 function getInstructions(instructions: any) {
-  console.log(instructions);
   if (!instructions) return null;
   if (typeof instructions === "string") return instructions;
 
@@ -51,10 +48,9 @@ function parseSchemaToRecipe(
   schema: Record<keyof RecipeSchema, any>,
   url: string
 ) {
-  console.log(schema);
   const ingredients = getIngredients(schema.recipeIngredient);
   const instructions = getInstructions(schema.recipeInstructions);
-  const images = getImages(schema.image);
+  const images = getImages(schema.image).filter(isValidURL);
   const recipeYield = getYield(schema.recipeYield);
   const totalTime = formatDuration(schema.totalTime);
 
