@@ -1,7 +1,5 @@
-export type ChangeEventPayload = {
-  value: string;
-};
-
-export type ReactNativeOcrViewProps = {
-  name: string;
+type OCRResult = {
+  text: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  boundingBox: any;
 };

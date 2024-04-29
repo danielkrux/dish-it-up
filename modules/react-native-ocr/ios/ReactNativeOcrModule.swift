@@ -29,20 +29,31 @@ public func performTextRecognition<ResultType>(_ completion: @escaping ([VNRecog
     }
 }
 
-class Result {
+struct Result {
     let text: String
     let boundingBox: CGRect
-    
-    init(text: String, boundingBox: CGRect) {
-        self.text = text
-        self.boundingBox = boundingBox
-    }
+}
+
+func encodeResult(_ result: Result) -> [String: Any]? {
+    return [
+        "text": result.text,
+        "boundingBox": [
+            "origin": [
+                "x": result.boundingBox.origin.x,
+                "y": result.boundingBox.origin.y
+            ],
+            "size": [
+                "width": result.boundingBox.size.width,
+                "height": result.boundingBox.size.height
+            ]
+        ]
+    ]
 }
 
 public class ReactNativeOcrModule: Module {
     
     let textRecognitionFunction = performTextRecognition { observations in
-        var results: [Result] = []
+        var results = [[String: Any]?]()
         for currentObservation in observations {
             let topCandidate = currentObservation.topCandidates(1).first
         
@@ -50,7 +61,7 @@ public class ReactNativeOcrModule: Module {
             let boundingBox = currentObservation.boundingBox
             
             let r = Result(text: text, boundingBox: boundingBox);
-            results.append(r)
+            results.append(encodeResult(r))
         }
         return results
     }
