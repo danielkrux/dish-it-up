@@ -1,3 +1,4 @@
+import { OCRResult } from "./src/ReactNativeOcr.types";
 import ReactNativeOcrModule from "./src/ReactNativeOcrModule";
 
 export async function getTextFromImage(
@@ -5,3 +6,5 @@ export async function getTextFromImage(
 ): Promise<OCRResult[]> {
   return ReactNativeOcrModule.getTextFromImage(imageBase64);
 }
+
+export { OCRResult };
