@@ -58,7 +58,8 @@
           "androidIntentFilters": ["text/*", "image/*"]
         }
       ],
-      "expo-font"
+      "expo-font",
+      "./modules/react-native-ocr/app.plugin.js"
     ],
     "scheme": "dish-it-up",
     "experiments": {

@@ -1,5 +1,10 @@
-export type OCRResult = {
+export type TextBlock = {
   text: string;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  boundingBox: any;
+  boundingBox: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  lines: string[];
 };

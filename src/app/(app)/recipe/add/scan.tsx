@@ -3,6 +3,9 @@ import { View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import {
   Canvas,
+  Group,
+  Mask,
+  Rect,
   RoundedRect,
   Image as SkImage,
   Skia,
@@ -15,8 +18,12 @@ import { nanoid } from "nanoid";
 
 import Button from "~/components/Button";
 import { SCREEN_WIDTH } from "~/theme";
+import Text from "~/components/Text";
+import Icon from "~/components/Icon";
+import IconButton from "~/components/IconButton";
+import { router } from "expo-router";
 
-type OCRResult = { id: string } & OCR.OCRResult;
+export type OCRResult = { id: string } & OCR.OCRResult;
 
 function Scan() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
@@ -33,7 +40,6 @@ function Scan() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
       base64: true,
-      exif: true,
     });
 
     if (!result.canceled) {
@@ -45,7 +51,8 @@ function Scan() {
       if (!manipResult.base64) return;
       setImage(manipResult);
       const textBlocks = await OCR.getTextFromImage(manipResult.base64);
-
+      console.log(JSON.stringify(textBlocks, null, 2));
+      setOcrResult([]);
       setOcrResult(textBlocks.map((b) => ({ id: nanoid(), ...b })));
     }
   }
@@ -67,7 +74,6 @@ function Scan() {
     if (!imageWidth || !imageHeight) return;
     const x = event.x;
     const y = event.y;
-
     const selected = scaledBlocks.find((block) => {
       const blockX = block.boundingBox.x;
       const blockY = block.boundingBox.y;
@@ -82,7 +88,6 @@ function Scan() {
         return true;
       }
     });
-
     if (selected) {
       const selectedBloxExists = selectedBlocks.find(
         (b) => b.id === selected.id
@@ -99,7 +104,13 @@ function Scan() {
   });
 
   return (
-    <View>
+    <View className="flex-1 bg-black justify-center">
+      <View className="absolute top-0 right-0 left-0 flex-row justify-between px-4 py-4">
+        <Button onPress={() => router.back()} variant="secondary">
+          Cancel
+        </Button>
+        <Button>Continue</Button>
+      </View>
       {image && (
         <>
           <Canvas
@@ -114,21 +125,43 @@ function Scan() {
               width={SCREEN_WIDTH}
               height={scaledImageHeight}
             />
-            {scaledBlocks.map((block, index) => (
-              <RoundedRect
-                key={block.id}
-                x={block.boundingBox.x}
-                y={block.boundingBox.y}
-                width={block.boundingBox.width}
-                height={block.boundingBox.height}
-                color={
-                  selectedBlocks?.find((b) => b.id === block.id)
-                    ? "#46867150"
-                    : "#00000040"
-                }
-                r={2}
+            <Mask
+              mode="luminance"
+              mask={
+                <Group>
+                  <Rect
+                    color="white"
+                    x={0}
+                    y={0}
+                    width={SCREEN_WIDTH}
+                    height={scaledImageHeight}
+                  />
+                  {scaledBlocks.map((block) => (
+                    <RoundedRect
+                      key={block.id}
+                      x={block.boundingBox.x}
+                      y={block.boundingBox.y}
+                      width={block.boundingBox.width}
+                      height={block.boundingBox.height}
+                      color={
+                        selectedBlocks?.find((b) => b.id === block.id)
+                          ? "black"
+                          : "#00000000"
+                      }
+                      r={2}
+                    />
+                  ))}
+                </Group>
+              }
+            >
+              <Rect
+                color="#00000080"
+                x={0}
+                y={0}
+                width={SCREEN_WIDTH}
+                height={scaledImageHeight}
               />
-            ))}
+            </Mask>
           </Canvas>
           <GestureDetector gesture={gesture}>
             <Animated.View
@@ -138,9 +171,21 @@ function Scan() {
           </GestureDetector>
         </>
       )}
-      <Button className="mt-20" onPress={openImagePicker}>
-        Choose Image
-      </Button>
+      {!image && (
+        <Button className="mx-auto" variant="ghost" onPress={openImagePicker}>
+          Choose Image
+        </Button>
+      )}
+      {image && (
+        <View className="absolute bottom-0 right-0 left-0 items-center pb-10">
+          <View className="flex-row items-center gap-2">
+            <View className="flex-row items-center gap-1">
+              <Icon color="#a7aeac" size={20} name="ChevronsUpDown" />
+              <Text className="text-gray-300 font-body-bold">CHOOSE...</Text>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
