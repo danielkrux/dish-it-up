@@ -11,6 +11,9 @@ web-build/
 ios/
 android/
 
+!modules/**/ios
+!modules/**/android
+
 .env
 
 # Native

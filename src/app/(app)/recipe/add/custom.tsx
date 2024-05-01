@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { FormProvider } from "react-hook-form";
 import { View } from "react-native";
@@ -10,50 +10,62 @@ import useCreateRecipe from "~/features/recipe/hooks/useCreateRecipe";
 import { parseIngredients } from "~/features/recipe/recipe.utils";
 
 function AddRecipe() {
-	const form = useRecipeForm();
-	const { handleSubmit } = form;
+  const params = useLocalSearchParams<{
+    title: string;
+    description: string;
+    ingredients: string;
+    instructions: string;
+  }>();
 
-	const { mutate, isLoading } = useCreateRecipe();
+  const form = useRecipeForm({
+    ...params,
+    ingredients: JSON.parse(params.ingredients),
+    instructions: JSON.parse(params.instructions),
+  });
 
-	function handleSave() {
-		handleSubmit(async (values) => {
-			return mutate({
-				...values,
-				categories: values.categories ?? [],
-				ingredients: parseIngredients(values.ingredients),
-				instructions: values.instructions.map((i) => i.value),
-			});
-		})();
-	}
+  const { handleSubmit } = form;
 
-	const renderHeaderRight = useCallback(
-		() => (
-			<Button
-				loading={isLoading}
-				size="small"
-				variant="secondary"
-				onPress={handleSave}
-			>
-				Save
-			</Button>
-		),
-		[isLoading],
-	);
+  const { mutate, isLoading } = useCreateRecipe();
 
-	return (
-		<FormProvider {...form}>
-			<Stack.Screen
-				options={{
-					title: "Create Recipe",
-					headerRight: renderHeaderRight,
-					headerBackTitleVisible: false,
-				}}
-			/>
-			<View className="mt-4">
-				<RecipeForm />
-			</View>
-		</FormProvider>
-	);
+  function handleSave() {
+    handleSubmit(async (values) => {
+      return mutate({
+        ...values,
+        categories: values.categories ?? [],
+        ingredients: parseIngredients(values.ingredients),
+        instructions: values.instructions.map((i) => i.value),
+      });
+    })();
+  }
+
+  const renderHeaderRight = useCallback(
+    () => (
+      <Button
+        loading={isLoading}
+        size="small"
+        variant="secondary"
+        onPress={handleSave}
+      >
+        Save
+      </Button>
+    ),
+    [isLoading]
+  );
+
+  return (
+    <FormProvider {...form}>
+      <Stack.Screen
+        options={{
+          title: "Create Recipe",
+          headerRight: renderHeaderRight,
+          headerBackTitleVisible: false,
+        }}
+      />
+      <View className="mt-4">
+        <RecipeForm />
+      </View>
+    </FormProvider>
+  );
 }
 
 export default AddRecipe;
