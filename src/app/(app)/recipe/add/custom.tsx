@@ -10,13 +10,18 @@ import useCreateRecipe from "~/features/recipe/hooks/useCreateRecipe";
 import { parseIngredients } from "~/features/recipe/recipe.utils";
 
 function AddRecipe() {
-  const params = useLocalSearchParams();
-  const title = decodeURIComponent(params.name || "");
-  const instructions = JSON.parse(
-    decodeURIComponent(params.instructions || "[]")
-  );
+  const params = useLocalSearchParams<{
+    title: string;
+    description: string;
+    ingredients: string;
+    instructions: string;
+  }>();
 
-  const form = useRecipeForm({ instructions, name: title });
+  const form = useRecipeForm({
+    ...params,
+    ingredients: JSON.parse(params.ingredients),
+    instructions: JSON.parse(params.instructions),
+  });
 
   const { handleSubmit } = form;
 

@@ -21,10 +21,9 @@ import Button from "~/components/Button";
 import { SCREEN_WIDTH } from "~/theme";
 import { router } from "expo-router";
 import TypeMenu from "~/features/scan/components/TypeMenu";
-import { RecipeFieldType } from "~/features/scan/types";
+import { RecipeFieldType, TextBlock } from "~/features/scan/types";
 import Icon from "~/components/Icon";
-
-export type TextBlock = { id: string; type?: RecipeFieldType } & OCR.TextBlock;
+import { prepareTextBlocksForForm } from "~/features/scan/utils";
 
 function Scan() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
@@ -111,29 +110,12 @@ function Scan() {
   }
 
   function handleContinue() {
-    const selectedBlocks = textBlocks.filter((block) => block.type);
-    const ingredients = selectedBlocks
-      .filter((block) => block.type === "ingredient")
-      .map((block) => block.text);
-    const instructions = selectedBlocks
-      .filter((block) => block.type === "instruction")
-      .map((block) => block.text);
-    const title = selectedBlocks.find((block) => block.type === "title")?.text;
-    const description = selectedBlocks.find(
-      (block) => block.type === "description"
-    )?.text;
+    const initialValues = prepareTextBlocksForForm(textBlocks);
 
-    const encodedTitle = encodeURIComponent(title || "");
-    const encodedDescription = encodeURIComponent(description || "");
-    const encodedInstructions = encodeURIComponent(
-      JSON.stringify(instructions)
-    );
-    const encodedIngredients = encodeURIComponent(JSON.stringify(ingredients));
-
-    router.push(
-      // @ts-ignore
-      `/recipe/add/custom?instructions=${encodedInstructions}&ingredients=${encodedIngredients}&name=${encodedTitle}&description=${encodedDescription}`
-    );
+    router.navigate({
+      pathname: "/recipe/add/custom",
+      params: initialValues,
+    });
   }
 
   const currentSelectedBlock =

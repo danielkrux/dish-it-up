@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Recipe } from "../../recipe.types";
+import { Recipe, RecipeUpdate } from "../../recipe.types";
 import { RecipeUpdateForm } from "./types";
 
 const emtpyRecipe: RecipeUpdateForm = {
@@ -14,7 +14,7 @@ const emtpyRecipe: RecipeUpdateForm = {
   categories: [],
 };
 
-function useRecipeForm(initialRecipe?: Recipe) {
+function useRecipeForm(initialRecipe?: RecipeUpdate) {
   const getDefaultValues = useCallback((): RecipeUpdateForm => {
     if (!initialRecipe) return emtpyRecipe;
 
