@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#BFCFBC"
+      "backgroundColor": "#68A691"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#BFCFBC"
+        "backgroundColor": "#68A691"
       },
       "package": "com.danielkrux.dishitup",
       "softwareKeyboardLayoutMode": "resize"
