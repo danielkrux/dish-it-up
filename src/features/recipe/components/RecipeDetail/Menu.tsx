@@ -57,17 +57,6 @@ function RecipeDetailMenu({
               <Menu.ItemTitle>Visit website</Menu.ItemTitle>
             </Menu.Item>
           )}
-          {/* <Menu.Sub>
-						<Menu.SubTrigger key="plan-recipe">
-							<Menu.ItemIcon ios={{ name: "book" }} />
-							<Menu.ItemTitle>Plan recipe...</Menu.ItemTitle>
-						</Menu.SubTrigger>
-						<Menu.SubContent>
-							<Menu.Item key="today">Today</Menu.Item>
-							<Menu.Item key="tomorrow">Tomorrow</Menu.Item>
-							<Menu.Item key="other">Other...</Menu.Item>
-						</Menu.SubContent>
-					</Menu.Sub> */}
         </Menu.Group>
         <Menu.Item key="delete" onSelect={mutate} destructive>
           <Menu.ItemIcon ios={{ name: "trash" }} />

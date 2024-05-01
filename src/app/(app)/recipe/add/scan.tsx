@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import {
   Canvas,
   Group,
   Mask,
+  Paint,
   Rect,
   RoundedRect,
   Image as SkImage,
@@ -18,22 +19,24 @@ import { nanoid } from "nanoid";
 
 import Button from "~/components/Button";
 import { SCREEN_WIDTH } from "~/theme";
-import Text from "~/components/Text";
-import Icon from "~/components/Icon";
-import IconButton from "~/components/IconButton";
 import { router } from "expo-router";
+import TypeMenu from "~/features/scan/components/TypeMenu";
+import { RecipeFieldType } from "~/features/scan/types";
+import Icon from "~/components/Icon";
 
-export type OCRResult = { id: string } & OCR.OCRResult;
+export type TextBlock = { id: string; type?: RecipeFieldType } & OCR.TextBlock;
 
 function Scan() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
-  const [ocrResult, setOcrResult] = useState<OCRResult[]>([]);
-  const [selectedBlocks, setSelectedBlocks] = useState<OCRResult[]>([]);
+  const [textBlocks, setTextBlocks] = useState<TextBlock[]>([]);
+  const [currentSelectedIndex, setCurrentSelectedIndex] = useState<number>();
 
   const data = Skia.Data.fromBase64(image?.base64 || "");
   const skImage = Skia.Image.MakeImageFromEncoded(data);
   const imageWidth = skImage?.width() ?? 0;
   const imageHeight = skImage?.height() ?? 0;
+
+  const scaledImageHeight = (imageHeight * SCREEN_WIDTH) / imageWidth;
 
   async function openImagePicker() {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -50,31 +53,28 @@ function Scan() {
       });
       if (!manipResult.base64) return;
       setImage(manipResult);
+      const scaleRatio = SCREEN_WIDTH / manipResult.width;
       const textBlocks = await OCR.getTextFromImage(manipResult.base64);
-      console.log(JSON.stringify(textBlocks, null, 2));
-      setOcrResult([]);
-      setOcrResult(textBlocks.map((b) => ({ id: nanoid(), ...b })));
+      const scaledBlocks = textBlocks.map((block) => ({
+        ...block,
+        id: nanoid(),
+        boundingBox: {
+          x: block.boundingBox.x * scaleRatio,
+          y: block.boundingBox.y * scaleRatio,
+          width: block.boundingBox.width * scaleRatio,
+          height: block.boundingBox.height * scaleRatio,
+        },
+      }));
+      setTextBlocks([]);
+      setTextBlocks(scaledBlocks);
     }
   }
-
-  const scaleRatio = SCREEN_WIDTH / imageWidth;
-  const scaledImageHeight = (imageHeight * SCREEN_WIDTH) / imageWidth;
-
-  const scaledBlocks = ocrResult.map((block) => ({
-    ...block,
-    boundingBox: {
-      x: block.boundingBox.x * scaleRatio,
-      y: block.boundingBox.y * scaleRatio,
-      width: block.boundingBox.width * scaleRatio,
-      height: block.boundingBox.height * scaleRatio,
-    },
-  }));
 
   const gesture = Gesture.Tap().onEnd((event) => {
     if (!imageWidth || !imageHeight) return;
     const x = event.x;
     const y = event.y;
-    const selected = scaledBlocks.find((block) => {
+    const selectedIndex = textBlocks.findIndex((block) => {
       const blockX = block.boundingBox.x;
       const blockY = block.boundingBox.y;
       const blockWidth = block.boundingBox.width;
@@ -88,20 +88,31 @@ function Scan() {
         return true;
       }
     });
-    if (selected) {
-      const selectedBloxExists = selectedBlocks.find(
-        (b) => b.id === selected.id
-      );
-      if (selectedBloxExists) {
-        const newSelectedBlocks = selectedBlocks.filter(
-          (b) => b.id !== selected.id
-        );
-        runOnJS(setSelectedBlocks)(newSelectedBlocks);
-      } else {
-        runOnJS(setSelectedBlocks)([...selectedBlocks, selected]);
-      }
-    }
+    if (selectedIndex === -1) return;
+    runOnJS(setCurrentSelectedIndex)(selectedIndex);
   });
+
+  function handleTypeChange(type: RecipeFieldType) {
+    if (!currentSelectedIndex) return;
+    const currentBlock = textBlocks[currentSelectedIndex];
+    const updatedBlock = { ...currentBlock, type };
+    const updatedBlocks = [...textBlocks];
+    updatedBlocks[currentSelectedIndex] = updatedBlock;
+    setTextBlocks(updatedBlocks);
+  }
+
+  function handleRemoveType() {
+    if (!currentSelectedIndex) return;
+    const currentBlock = textBlocks[currentSelectedIndex];
+    const updatedBlock = { ...currentBlock, type: undefined };
+    const updatedBlocks = [...textBlocks];
+    updatedBlocks[currentSelectedIndex] = updatedBlock;
+    setTextBlocks(updatedBlocks);
+  }
+
+  const currentSelectedBlock = currentSelectedIndex
+    ? textBlocks[currentSelectedIndex]
+    : undefined;
 
   return (
     <View className="flex-1 bg-black justify-center">
@@ -136,21 +147,22 @@ function Scan() {
                     width={SCREEN_WIDTH}
                     height={scaledImageHeight}
                   />
-                  {scaledBlocks.map((block) => (
-                    <RoundedRect
-                      key={block.id}
-                      x={block.boundingBox.x}
-                      y={block.boundingBox.y}
-                      width={block.boundingBox.width}
-                      height={block.boundingBox.height}
-                      color={
-                        selectedBlocks?.find((b) => b.id === block.id)
-                          ? "black"
-                          : "#00000000"
-                      }
-                      r={2}
-                    />
-                  ))}
+                  {textBlocks.map((block, index) => {
+                    const isSelected =
+                      index === currentSelectedIndex || textBlocks[index].type;
+
+                    return (
+                      <RoundedRect
+                        key={block.id}
+                        x={block.boundingBox.x}
+                        y={block.boundingBox.y}
+                        width={block.boundingBox.width}
+                        height={block.boundingBox.height}
+                        color={isSelected ? "black" : "#00000000"}
+                        r={2}
+                      />
+                    );
+                  })}
                 </Group>
               }
             >
@@ -162,10 +174,22 @@ function Scan() {
                 height={scaledImageHeight}
               />
             </Mask>
+            {currentSelectedBlock ? (
+              <RoundedRect
+                x={currentSelectedBlock.boundingBox.x}
+                y={currentSelectedBlock.boundingBox.y}
+                width={currentSelectedBlock.boundingBox.width}
+                height={currentSelectedBlock.boundingBox.height}
+                r={2}
+                color="#00000000"
+              >
+                <Paint color="#68a691" style="stroke" strokeWidth={1} />
+              </RoundedRect>
+            ) : null}
           </Canvas>
           <GestureDetector gesture={gesture}>
             <Animated.View
-              className="absolute bg-red-500/10"
+              className="absolute"
               style={{ width: SCREEN_WIDTH, height: scaledImageHeight }}
             />
           </GestureDetector>
@@ -177,13 +201,20 @@ function Scan() {
         </Button>
       )}
       {image && (
-        <View className="absolute bottom-0 right-0 left-0 items-center pb-10">
-          <View className="flex-row items-center gap-2">
-            <View className="flex-row items-center gap-1">
-              <Icon color="#a7aeac" size={20} name="ChevronsUpDown" />
-              <Text className="text-gray-300 font-body-bold">CHOOSE...</Text>
-            </View>
-          </View>
+        <View className="absolute bottom-0 right-0 left-0 items-center pb-10 flex-row justify-center">
+          <TypeMenu
+            currentType={
+              currentSelectedIndex
+                ? textBlocks[currentSelectedIndex].type
+                : undefined
+            }
+            onTypeChange={handleTypeChange}
+          />
+          {currentSelectedBlock?.type ? (
+            <Pressable onPress={handleRemoveType} className="ml-3">
+              <Icon color="#a7aeac" size={18} name="CircleX" />
+            </Pressable>
+          ) : null}
         </View>
       )}
     </View>
