@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 
 import Button from "~/components/Button";
 import InputBase from "~/components/Inputs/TextInputBase";
@@ -34,14 +34,16 @@ export default function Add() {
       >
         Custom recipe
       </Button>
-      <Button
-        className="mt-2"
-        variant="secondary"
-        size="large"
-        onPress={() => router.push("/recipe/add/scan/")}
-      >
-        Recipe from image
-      </Button>
+      {Platform.OS === "ios" ? (
+        <Button
+          className="mt-2"
+          variant="secondary"
+          size="large"
+          onPress={() => router.push("/recipe/add/scan/")}
+        >
+          Recipe from image
+        </Button>
+      ) : null}
     </View>
   );
 }
