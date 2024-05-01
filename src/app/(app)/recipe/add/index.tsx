@@ -35,6 +35,7 @@ export default function Add() {
         Custom recipe
       </Button>
       <Button
+        className="mt-2"
         variant="secondary"
         size="large"
         onPress={() => router.push("/recipe/add/scan/")}
