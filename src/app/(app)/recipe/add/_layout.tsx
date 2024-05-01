@@ -21,7 +21,7 @@ export default function AddLayout() {
         options={{ headerTitle: "Add Recipe", headerShown: false }}
       />
       <Stack.Screen name="[url]" options={{ headerShown: false }} />
-      <Stack.Screen name="scan" options={{ headerShown: false }} />
+      <Stack.Screen name="scan/index" options={{ headerShown: false }} />
     </Stack>
   );
 }

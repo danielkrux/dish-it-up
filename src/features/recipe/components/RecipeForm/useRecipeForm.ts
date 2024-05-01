@@ -19,7 +19,7 @@ function useRecipeForm(initialRecipe?: Recipe) {
     if (!initialRecipe) return emtpyRecipe;
 
     const ingredients =
-      initialRecipe.ingredients.map((i) => {
+      initialRecipe.ingredients?.map((i) => {
         const amount = i.amount ?? "";
         const unit = i.unit ?? "";
 

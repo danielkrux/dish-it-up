@@ -110,6 +110,26 @@ function Scan() {
     setTextBlocks(updatedBlocks);
   }
 
+  function handleContinue() {
+    const selectedBlocks = textBlocks.filter((block) => block.type);
+    const ingredients = selectedBlocks
+      .filter((block) => block.type === "ingredient")
+      .map((block) => block.text);
+    const instructions = selectedBlocks
+      .filter((block) => block.type === "instruction")
+      .map((block) => block.text);
+    const title = selectedBlocks.find((block) => block.type === "title")?.text;
+
+    console.log(JSON.stringify({ title, ingredients, instructions }, null, 2));
+
+    router.push(
+      // @ts-ignore
+      `/recipe/add/custom/?instructions=${encodeURIComponent(
+        JSON.stringify(instructions)
+      )}`
+    );
+  }
+
   const currentSelectedBlock = currentSelectedIndex
     ? textBlocks[currentSelectedIndex]
     : undefined;
@@ -120,7 +140,7 @@ function Scan() {
         <Button onPress={() => router.back()} variant="secondary">
           Cancel
         </Button>
-        <Button>Continue</Button>
+        <Button onPress={handleContinue}>Continue</Button>
       </View>
       {image && (
         <>

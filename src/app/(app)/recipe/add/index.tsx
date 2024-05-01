@@ -37,7 +37,7 @@ export default function Add() {
       <Button
         variant="secondary"
         size="large"
-        onPress={() => router.push("/recipe/add/scan")}
+        onPress={() => router.push("/recipe/add/scan/")}
       >
         Recipe from image
       </Button>
