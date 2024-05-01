@@ -93,7 +93,7 @@ function Scan() {
   });
 
   function handleTypeChange(type: RecipeFieldType) {
-    if (!currentSelectedIndex) return;
+    if (typeof currentSelectedIndex === "undefined") return;
     const currentBlock = textBlocks[currentSelectedIndex];
     const updatedBlock = { ...currentBlock, type };
     const updatedBlocks = [...textBlocks];
@@ -119,20 +119,27 @@ function Scan() {
       .filter((block) => block.type === "instruction")
       .map((block) => block.text);
     const title = selectedBlocks.find((block) => block.type === "title")?.text;
+    const description = selectedBlocks.find(
+      (block) => block.type === "description"
+    )?.text;
 
-    console.log(JSON.stringify({ title, ingredients, instructions }, null, 2));
+    const encodedTitle = encodeURIComponent(title || "");
+    const encodedDescription = encodeURIComponent(description || "");
+    const encodedInstructions = encodeURIComponent(
+      JSON.stringify(instructions)
+    );
+    const encodedIngredients = encodeURIComponent(JSON.stringify(ingredients));
 
     router.push(
       // @ts-ignore
-      `/recipe/add/custom/?instructions=${encodeURIComponent(
-        JSON.stringify(instructions)
-      )}`
+      `/recipe/add/custom?instructions=${encodedInstructions}&ingredients=${encodedIngredients}&name=${encodedTitle}&description=${encodedDescription}`
     );
   }
 
-  const currentSelectedBlock = currentSelectedIndex
-    ? textBlocks[currentSelectedIndex]
-    : undefined;
+  const currentSelectedBlock =
+    typeof currentSelectedIndex !== "undefined"
+      ? textBlocks[currentSelectedIndex]
+      : undefined;
 
   return (
     <View className="flex-1 bg-black justify-center">
@@ -224,7 +231,7 @@ function Scan() {
         <View className="absolute bottom-0 right-0 left-0 items-center pb-10 flex-row justify-center">
           <TypeMenu
             currentType={
-              currentSelectedIndex
+              typeof currentSelectedIndex !== "undefined"
                 ? textBlocks[currentSelectedIndex].type
                 : undefined
             }

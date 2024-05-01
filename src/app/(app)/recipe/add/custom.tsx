@@ -11,11 +11,13 @@ import { parseIngredients } from "~/features/recipe/recipe.utils";
 
 function AddRecipe() {
   const params = useLocalSearchParams();
+  const title = decodeURIComponent(params.name || "");
   const instructions = JSON.parse(
     decodeURIComponent(params.instructions || "[]")
   );
-  console.log(instructions);
-  const form = useRecipeForm({ instructions });
+
+  const form = useRecipeForm({ instructions, name: title });
+
   const { handleSubmit } = form;
 
   const { mutate, isLoading } = useCreateRecipe();
