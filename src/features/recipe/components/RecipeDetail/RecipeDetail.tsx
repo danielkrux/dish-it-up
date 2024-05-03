@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
 import { ReactNode } from "react";
 import { View } from "react-native";
-
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
 import StarRating from "~/components/StarRating";

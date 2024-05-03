@@ -9,12 +9,12 @@ export type IconName = keyof typeof icons | "logo";
 export type IconProps = {
   name: IconName;
   color?: string;
-  size: number;
+  size?: number;
   light?: boolean;
   style?: StyleProp<ViewStyle>;
 };
 
-function Icon({ name, size, color, light, style }: IconProps) {
+function Icon({ name, size = 24, color, light, style }: IconProps) {
   const colorScheme = useColorScheme();
 
   if (name === "logo") return <Logo width={size} height={size} style={style} />;

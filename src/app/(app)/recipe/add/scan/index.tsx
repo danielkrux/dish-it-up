@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import {
   Canvas,
@@ -18,12 +18,13 @@ import Animated, { runOnJS } from "react-native-reanimated";
 import { nanoid } from "nanoid";
 
 import Button from "~/components/Button";
-import { SCREEN_WIDTH } from "~/theme";
+import { SCREEN_WIDTH, colors } from "~/theme";
 import { router } from "expo-router";
 import TypeMenu from "~/features/scan/components/TypeMenu";
 import { RecipeFieldType, TextBlock } from "~/features/scan/types";
 import Icon from "~/components/Icon";
 import { prepareTextBlocksForForm } from "~/features/scan/utils";
+import Text from "~/components/Text";
 
 function Scan() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
@@ -129,7 +130,9 @@ function Scan() {
         <Button onPress={() => router.back()} variant="secondary">
           Cancel
         </Button>
-        <Button onPress={handleContinue}>Continue</Button>
+        <Button disabled onPress={handleContinue}>
+          Continue
+        </Button>
       </View>
       {image && (
         <>
@@ -192,7 +195,11 @@ function Scan() {
                 r={2}
                 color="#00000000"
               >
-                <Paint color="#68a691" style="stroke" strokeWidth={1} />
+                <Paint
+                  color={colors.primary[400]}
+                  style="stroke"
+                  strokeWidth={1}
+                />
               </RoundedRect>
             ) : null}
           </Canvas>
@@ -205,9 +212,23 @@ function Scan() {
         </>
       )}
       {!image && (
-        <Button className="mx-auto" variant="ghost" onPress={openImagePicker}>
-          Choose Image
-        </Button>
+        <View className="px-20 gap-y-4">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            className="flex-row gap-2 items-center"
+            onPress={openImagePicker}
+          >
+            <Icon name="Images" color={colors.primary[400]} size={24} />
+            <Text className="text-primary">Image Library</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+            activeOpacity={0.8}
+            className="flex-row gap-2 items-center"
+          >
+            <Icon name="Camera" color={colors.primary[400]} size={24} />
+            <Text className="text-primary">Camera</Text>
+          </TouchableOpacity> */}
+        </View>
       )}
       {image && (
         <View className="absolute bottom-0 right-0 left-0 items-center pb-10 flex-row justify-center">
@@ -221,7 +242,7 @@ function Scan() {
           />
           {currentSelectedBlock?.type ? (
             <Pressable onPress={handleRemoveType} className="ml-3">
-              <Icon color="#a7aeac" size={18} name="CircleX" />
+              <Icon color={colors.gray[300]} size={18} name="CircleX" />
             </Pressable>
           ) : null}
         </View>
