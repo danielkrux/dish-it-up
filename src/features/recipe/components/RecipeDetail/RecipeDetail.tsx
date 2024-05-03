@@ -12,6 +12,7 @@ import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import Meta from "./Meta";
+import clsx from "clsx";
 
 export default function RecipeDetail({
   id,
@@ -23,7 +24,7 @@ export default function RecipeDetail({
   logRecipeRef?: React.RefObject<BottomSheetModalMethods>;
 }) {
   const { data } = useFetchRecipe(id);
-  const { containerSize, onLayout } = useContainerBreakpoint();
+  const { containerSize, onLayout, isLoading } = useContainerBreakpoint();
 
   if (containerSize === "md") {
     return (
@@ -62,19 +63,19 @@ export default function RecipeDetail({
     <ScrollView
       onLayout={onLayout}
       contentInsetAdjustmentBehavior="automatic"
-      className="flex-1 pt-4 px-4"
+      className={clsx("flex-1 pt-4 px-4 opacity-0", { "opacity-1": isLoading })}
       contentContainerStyle="pb-20"
     >
       {header}
       <View className="mb-4">
         <View className="flex-row justify-between items-end mb-4 g-4">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          <StarRating
+          {/* <StarRating
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
             className="mb-1.5"
-          />
+          /> */}
         </View>
 
         <Image

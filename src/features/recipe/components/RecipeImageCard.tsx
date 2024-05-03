@@ -3,9 +3,10 @@ import { Image } from "expo-image";
 import { TouchableOpacity, View } from "react-native";
 
 import Text from "~/components/Text";
-import useHomeContext from "~/features/home/hooks/useHomeContext";
-import { SCREEN_WIDTH, isTablet } from "~/theme";
+import { isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
+import { useLocalSearchParams } from "expo-router";
+import { HomeSearchParams } from "~/features/home/types";
 
 export type RecipeImageCardProps = {
   recipe?: Recipe;
@@ -18,10 +19,9 @@ export default function RecipeImageCard({
   onPress,
   classsName,
 }: RecipeImageCardProps) {
-  const { recipeId } = useHomeContext();
-  const cardWidth = SCREEN_WIDTH / 2.2;
+  const { recipe: recipeId } = useLocalSearchParams<HomeSearchParams>();
 
-  const selected = recipeId === recipe?.id;
+  const selected = Number(recipeId) === recipe?.id;
 
   return (
     <TouchableOpacity
@@ -29,45 +29,39 @@ export default function RecipeImageCard({
         "md:px-2 md:py-2 rounded-2xl flex-row bg-white dark:bg-gray-950",
         classsName,
         {
-          "bg-acapulco-100": selected,
+          "bg-acapulco-100 dark:bg-acapulco-600": selected,
         }
       )}
-      style={isTablet ? { width: cardWidth, borderRadius: 24 } : {}}
+      style={isTablet ? { borderRadius: 24 } : {}}
       onPress={onPress}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
     >
-      <>
-        <Image
-          className="w-24 h-full md:w-32 rounded-2xl mr-4"
-          style={{ minHeight: isTablet ? 128 : 96 }}
-          source={recipe?.images?.[0]}
-          placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
-        />
-        <View
-          className={clsx("flex-1 p-2 pl-0", {
-            "border-primary": selected,
-          })}
+      <Image
+        className="w-24 h-full md:w-32 rounded-2xl mr-4"
+        style={{ minHeight: isTablet ? 128 : 96 }}
+        source={recipe?.images?.[0]}
+        placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
+      />
+      <View className="flex-1 p-2 pl-0">
+        <Text
+          className="text-base leading-5 md:text-xl mb-1"
+          numberOfLines={2}
+          type="header"
         >
-          <Text
-            className="text-base leading-5 md:text-xl mb-1"
-            numberOfLines={2}
-            type="header"
-          >
-            {recipe?.name}
+          {recipe?.name}
+        </Text>
+        {recipe?.total_time && recipe.recipe_yield && (
+          <Text className="text-xs text-gray-600 dark:text-gray-300 mb-2">
+            {recipe?.total_time} | {recipe?.recipe_yield} servings
           </Text>
-          {recipe?.total_time && recipe.recipe_yield && (
-            <Text className="text-xs text-gray-600 dark:text-gray-300 mb-2">
-              {recipe?.total_time} | {recipe?.recipe_yield} servings
-            </Text>
-          )}
-          <Text
-            className="text-xs leading-5 text-gray-800 dark:text-gray-200 max-w-md"
-            numberOfLines={isTablet ? 3 : 2}
-          >
-            {recipe?.description}
-          </Text>
-        </View>
-      </>
+        )}
+        <Text
+          className="text-xs leading-5 text-gray-800 dark:text-gray-200 max-w-md"
+          numberOfLines={isTablet ? 3 : 2}
+        >
+          {recipe?.description}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }

@@ -8,8 +8,9 @@ import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import RecipeList from "~/features/home/components/RecipeList";
+import { HomeSearchParams } from "~/features/home/types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
-import { SortOptionValue, getRecipes } from "~/features/recipe/recipe.service";
+import { getRecipes } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 
@@ -22,11 +23,7 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 
 export default function Home() {
   const router = useRouter();
-  const { q, c, s } = useLocalSearchParams<{
-    q?: string;
-    c?: string;
-    s?: SortOptionValue;
-  }>();
+  const { q, c, s } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
   const sortBy = s;
 

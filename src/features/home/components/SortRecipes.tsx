@@ -11,6 +11,7 @@ import Text from "~/components/Text";
 import { SortOptionValue } from "~/features/recipe/recipe.service";
 import { colors } from "~/theme";
 import { hexToRGBA } from "~/utils/color";
+import { HomeSearchParams } from "../types";
 
 type SortOption = {
   label: string;
@@ -27,14 +28,14 @@ const sortOptions: SortOption[] = [
 function SortRecipes() {
   const { colorScheme } = useColorScheme();
   const router = useRouter();
-  const { s } = useLocalSearchParams<{ s?: string }>();
+  const { s } = useLocalSearchParams<HomeSearchParams>();
   const bottomSheetRef = useRef<_BotomSheetModal>(null);
 
   const color = colorScheme === "dark" ? colors.gray[950] : colors.white;
 
   function handleSort(value: SortOptionValue) {
     impactAsync(ImpactFeedbackStyle.Light);
-    router.setParams({ s: value });
+    router.setParams<HomeSearchParams>({ s: value });
     bottomSheetRef.current?.dismiss();
   }
 
