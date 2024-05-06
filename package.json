@@ -94,6 +94,7 @@
     "react-native-toast-message": "^2.2.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "^0.19.7",
+    "tailwind-merge": "^2.3.0",
     "zeego": "^1.7.2",
     "zod": "^3.22.4"
   },

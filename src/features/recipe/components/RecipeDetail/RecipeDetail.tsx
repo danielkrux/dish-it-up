@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { ReactNode } from "react";
 import { View } from "react-native";
+import { twMerge } from "tailwind-merge";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import clsx from "clsx";
 
@@ -63,7 +64,11 @@ export default function RecipeDetail({
     <ScrollView
       onLayout={onLayout}
       contentInsetAdjustmentBehavior="automatic"
-      className={clsx("flex-1 pt-4 px-4 opacity-0", { "opacity-1": isLoading })}
+      className={twMerge(
+        clsx("flex-1 pt-4 px-4 opacity-0", {
+          "opacity-1": !isLoading,
+        })
+      )}
       contentContainerClassName="pb-40"
     >
       {header}
