@@ -2,8 +2,13 @@ import { useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
+import { cssInterop } from "nativewind";
 
 export type IconName = keyof typeof icons | "logo";
+
+cssInterop(Logo, {
+  className: "style",
+});
 
 export type IconProps = {
   name: IconName;

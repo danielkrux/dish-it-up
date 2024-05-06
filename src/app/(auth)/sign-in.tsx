@@ -74,7 +74,7 @@ function SignIn() {
         control={control}
         spellCheck={false}
         autoCorrect={false}
-        className="mb-2"
+        containerClassName="mb-2"
       />
       <ControlledInput
         name="password"
@@ -86,7 +86,7 @@ function SignIn() {
         spellCheck={false}
         clearTextOnFocus={false}
         control={control}
-        className="mb-6"
+        containerClassName="mb-6"
         onSubmitEditing={signIn}
       />
       <Button

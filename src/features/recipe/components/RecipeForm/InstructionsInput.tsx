@@ -64,12 +64,11 @@ function IngredientsInput({
               key={f.id}
               control={form.control}
               name={`instructions.${index}.value`}
-              containerClassName="bg-transparent border-nonem flex-1"
+              containerClassName="bg-transparent border-none flex-1"
               blurOnSubmit={true}
               multiline={true}
               onSubmitEditing={() => handleSubmitEditing(index)}
               onKeyPress={(e) => handleKeyPress(e, index)}
-              hitSlop={{ right: 200 }}
             />
           </View>
         ))}
