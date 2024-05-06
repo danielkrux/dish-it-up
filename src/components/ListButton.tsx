@@ -24,7 +24,7 @@ function ListButton({
   return (
     <Pressable
       className={clsx(
-        "py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4 dark:bg-gray-950 dark:border-b-gray-900",
+        "py-3 flex-row items-center border-b border-b-gray-100 bg-white gap-4 dark:bg-gray-950 dark:border-b-gray-900",
         className
       )}
       onPress={onPress}

@@ -112,7 +112,7 @@ function MealPlanner() {
                   icon="Plus"
                 />
               </View>
-              <View className="g-4">
+              <View className="gap-4">
                 {mealPlans?.map((item) => (
                   <MealPlanItem key={item.id} mealPlan={item} />
                 ))}

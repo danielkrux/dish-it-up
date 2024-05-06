@@ -66,7 +66,7 @@ function SelectRecipe() {
     return (
       <Pressable
         onPress={() => handleRecipePress(item)}
-        className="flex-row justify-between items-center g-2"
+        className="flex-row justify-between items-center gap-2"
       >
         <RecipeImageCard
           classsName="flex-1"

@@ -5,11 +5,11 @@ import { Recipe } from "../../recipe.types";
 function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
   return (
     <View className={props.className}>
-      <View className="g-1">
+      <View className="gap-1">
         {recipe?.ingredients?.map((ingredient, i) => (
           <View
             key={`${ingredient}-${i}`}
-            className="flex-row items-center g-1"
+            className="flex-row items-center gap-1"
           >
             <Text>
               {ingredient.amount && (

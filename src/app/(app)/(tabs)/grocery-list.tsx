@@ -89,7 +89,7 @@ function GroceryList() {
           />
           // </SwipeableRow>
         ))}
-        <View className="py-3 flex-row items-center flex-1  g-3">
+        <View className="py-3 flex-row items-center flex-1  gap-3">
           <Icon size={24} name="Plus" />
           <TextInput
             ref={addRef}

@@ -66,7 +66,7 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle="pl-2 g-4 pt-2 items-end"
+        contentContainerStyle="pl-2 gap-4 pt-2 items-end"
       >
         {!images.length && (
           <Pressable

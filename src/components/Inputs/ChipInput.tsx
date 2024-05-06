@@ -71,7 +71,7 @@ function ChipInput({
   return (
     <View className={className}>
       <Label>{label}</Label>
-      <View className="mt-0 flex-row flex-wrap g-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 pl-1.5">
+      <View className="mt-0 flex-row flex-wrap gap-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 pl-1.5">
         {value?.map((item, i) => (
           <Chip
             key={`${item}-${i}`}

@@ -29,7 +29,7 @@ export default function RecipeDetail({
   if (containerSize === "md") {
     return (
       <View className="px-20 pb- flex-1">
-        <View className="flex-1 flex-row g-10 mb-10">
+        <View className="flex-1 flex-row gap-10 mb-10">
           <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
               source={data?.images?.[0]}
@@ -68,7 +68,7 @@ export default function RecipeDetail({
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 g-4">
+        <View className="flex-row justify-between items-end mb-4 gap-4">
           <Text className="font-display text-4xl">{data?.name}</Text>
           {/* <StarRating
             onPress={() => logRecipeRef?.current?.present()}

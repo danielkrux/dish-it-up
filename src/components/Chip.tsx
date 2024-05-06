@@ -32,7 +32,7 @@ function Chip({
       onPress={() => onPress?.(value)}
       onLongPress={() => onLongPress?.(value)}
       className={clsx(
-        "flex-row justify-evenly items-center bg-gray-100 dark:bg-gray-900 rounded-lg g-1 px-2 py-1.5 min-w-[75] min-h-[30]",
+        "flex-row justify-evenly items-center bg-gray-100 dark:bg-gray-900 rounded-lg gap-1 px-2 py-1.5 min-w-[75] min-h-[30]",
         { "bg-primary": isSelected },
         className
       )}

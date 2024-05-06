@@ -24,7 +24,7 @@ export default function HomeTabLayout() {
       {recipeId && (
         <View className="flex-1">
           <View className="flex-row justify-between px-4 py-2">
-            <View className="flex-row g-2 ml-auto">
+            <View className="flex-row gap-2 ml-auto">
               <IconButton
                 size="medium"
                 icon="Maximize2"

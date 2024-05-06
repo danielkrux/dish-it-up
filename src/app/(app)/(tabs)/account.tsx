@@ -23,11 +23,11 @@ function Account() {
         <Text className="font-display text-xl mb-2">Last Made</Text>
         {/* <Button variant="ghost">See all</Button> */}
       </View>
-      <View className=" bg-gray-100 dark:bg-gray-900 rounded-xl p-4 g-4">
+      <View className=" bg-gray-100 dark:bg-gray-900 rounded-xl p-4 gap-4">
         {data?.map((r) => (
           <Pressable
             onPress={() => router.push(`/recipe/${r.id}/`)}
-            className="flex-row g-3"
+            className="flex-row gap-3"
             key={r.id}
           >
             {r.images?.length ? (

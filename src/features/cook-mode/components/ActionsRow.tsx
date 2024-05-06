@@ -57,7 +57,7 @@ function ActionsRow({
         setActionsY(e.nativeEvent.layout.y);
       }}
       style={actionsStyle}
-      className="flex-row mx-4 g-3 items-center"
+      className="flex-row mx-4 gap-3 items-center"
     >
       <IconButton
         onPress={() =>

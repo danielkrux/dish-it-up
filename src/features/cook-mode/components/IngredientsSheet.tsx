@@ -118,7 +118,7 @@ function IngredientsSheet({
               <Animated.View
                 entering={FadeIn.duration(200)}
                 exiting={FadeOut.duration(100)}
-                className="flex-row justify-between mx-4 mb-4 g-4"
+                className="flex-row justify-between mx-4 mb-4 gap-4"
               >
                 <Check
                   onPress={() => toggleIngredient(item.id)}

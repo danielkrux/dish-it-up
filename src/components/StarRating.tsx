@@ -59,7 +59,7 @@ function StarRating({
     return (
       <Pressable
         onPress={onPress}
-        className={clsx("flex-row items-center g-1.5", props.className)}
+        className={clsx("flex-row items-center gap-1.5", props.className)}
       >
         <Canvas style={{ width: SIZE, height: SIZE }}>
           <Star selected={Boolean(selectedStarIndex)} />

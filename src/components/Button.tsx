@@ -32,7 +32,7 @@ function Button({
           "bg-acapulco-300/20": variant === "secondary",
           "bg-transparent": variant === "ghost",
           "py-1.5 self-start": size === "small",
-          "flex-row g-2": icon,
+          "flex-row gap-2": icon,
           "opacity-50": disabled,
         }
       )}

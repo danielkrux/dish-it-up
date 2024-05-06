@@ -9,9 +9,9 @@ export type InstructionsProps = { recipe?: Recipe; className?: string };
 function Instructions({ recipe, ...props }: InstructionsProps) {
   return (
     <View {...props}>
-      <View className="md:g-5 md:2">
+      <View className="md:gap-5 md:2">
         {recipe?.instructions?.map((instruction, i) => (
-          <View key={`${instruction}-${i}`} className="mb-3 flex-row g-3">
+          <View key={`${instruction}-${i}`} className="mb-3 flex-row gap-3">
             <Text type="header" size="m">
               {i + 1}
             </Text>
