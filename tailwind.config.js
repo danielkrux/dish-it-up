@@ -43,6 +43,9 @@ module.exports = {
       gridTemplateColumns: {
         dashboard: "270px 1fr",
       },
+      gridTemplateRows: {
+        dashboard: "100vh",
+      },
     },
     fontFamily: {
       body: ["Body"],

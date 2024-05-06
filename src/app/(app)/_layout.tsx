@@ -17,7 +17,7 @@ function Layout() {
   }
 
   return (
-    <View className="flex-1 md:mt-8 lg:mt-10 lg:px-16 max-h-screen w-screen">
+    <View className="flex-1 lg:px-16 max-h-screen w-screen">
       <Stack
         screenOptions={{
           headerShadowVisible: false,
