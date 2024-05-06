@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { Platform } from "react-native";
 
 import Icon from "~/components/Icon";
-import IconButton from "~/components/IconButton";
 import ListButton from "~/components/ListButton";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
@@ -25,27 +24,25 @@ function Home() {
   if (Platform.OS === "web") {
     return (
       <Navigator router={TabRouter}>
-        <div className="h-screen w-screen">
-          <Header />
-          <div className="grid grid-cols-dashboard px-16">
-            <aside className="w-60">
-              <ListButton label="Home" onPress={() => router.navigate("/")} />
-              <ListButton
-                label="Groceries"
-                onPress={() => router.navigate("/grocery-list")}
-              />
-              <ListButton
-                label="Mealplanner"
-                onPress={() => router.navigate("/meal-planner")}
-              />
-              <ListButton
-                label="Account"
-                onPress={() => router.navigate("/account")}
-              />
-            </aside>
-            <div className="grid max-h-[calc(100vh-40px)]">
-              <Slot />
-            </div>
+        <Header />
+        <div className="grid grid-cols-dashboard">
+          <aside className="w-60">
+            <ListButton label="Home" onPress={() => router.navigate("/")} />
+            <ListButton
+              label="Groceries"
+              onPress={() => router.navigate("/grocery-list")}
+            />
+            <ListButton
+              label="Mealplanner"
+              onPress={() => router.navigate("/meal-planner")}
+            />
+            <ListButton
+              label="Account"
+              onPress={() => router.navigate("/account")}
+            />
+          </aside>
+          <div className="grid max-h-[calc(100vh-40px)] -mt-10">
+            <Slot />
           </div>
         </div>
       </Navigator>
@@ -111,13 +108,6 @@ function Home() {
           headerTitle: "Account",
           tabBarIcon: ({ color }) => (
             <Icon name="User" size={24} color={color} />
-          ),
-          headerRight: () => (
-            <IconButton
-              onPress={() => router.push("/settings/")}
-              icon="Settings"
-              size="medium"
-            />
           ),
         }}
       />

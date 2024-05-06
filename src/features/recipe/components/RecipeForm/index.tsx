@@ -41,7 +41,7 @@ function RecipeForm() {
         label="Name"
         name="name"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         autoComplete="off"
       />
@@ -50,7 +50,7 @@ function RecipeForm() {
         name="description"
         placeholder="Write a short description about your recipe"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         multiline
         inputStyle={{ minHeight: 100 }}
@@ -59,7 +59,7 @@ function RecipeForm() {
         label="Total time"
         name="total_time"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         autoCorrect={false}
         spellCheck={false}
@@ -68,7 +68,7 @@ function RecipeForm() {
         label="Number of servings"
         name="recipe_yield"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         keyboardType="number-pad"
         autoCorrect={false}

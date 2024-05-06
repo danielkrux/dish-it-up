@@ -7,7 +7,7 @@ function Header() {
   const currentDescriptor = descriptors[state.routes[state.index].key];
 
   return (
-    <div className="flex justify-between px-16 h-10">
+    <div className="flex justify-between h-10">
       <Text type="header" size="2xl">
         Dish It Up
       </Text>

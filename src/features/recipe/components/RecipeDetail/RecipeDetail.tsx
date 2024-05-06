@@ -27,7 +27,7 @@ export default function RecipeDetail({
   const { data } = useFetchRecipe(id);
   const { containerSize, onLayout, isLoading } = useContainerBreakpoint();
 
-  if (containerSize === "md") {
+  if (containerSize === "lg") {
     return (
       <View className="px-20 pb- flex-1">
         <View className="flex-1 flex-row gap-10 mb-10">
@@ -73,14 +73,14 @@ export default function RecipeDetail({
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 gap-4">
+        <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          {/* <StarRating
+          <StarRating
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
             className="mb-1.5"
-          /> */}
+          />
         </View>
 
         <Image

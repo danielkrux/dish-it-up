@@ -26,7 +26,7 @@ function Button({
     <Pressable
       style={style}
       className={clsx(
-        "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
+        "rounded-lg items-center justify-center py-2 px-4 self-stretch bg-primary",
         {
           "opacity-90": loading,
           "bg-acapulco-300/20": variant === "secondary",

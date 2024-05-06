@@ -13,7 +13,6 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import IconButton from "~/components/IconButton";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import { SCREEN_WIDTH } from "~/theme";
 import Button from "~/components/Button";
 import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
 import LogRecipe from "~/features/recipe/components/LogRecipe";

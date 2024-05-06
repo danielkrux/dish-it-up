@@ -64,7 +64,7 @@ function IngredientsInput({
               key={f.id}
               control={form.control}
               name={`instructions.${index}.value`}
-              className="bg-transparent border-nonem flex-1"
+              containerClassName="bg-transparent border-nonem flex-1"
               blurOnSubmit={true}
               multiline={true}
               onSubmitEditing={() => handleSubmitEditing(index)}

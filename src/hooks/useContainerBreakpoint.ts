@@ -3,11 +3,19 @@ import { LayoutChangeEvent } from "react-native";
 
 export default function useContainerBreakpoint() {
   const [isLoading, setIsLoading] = useState(true);
-  const [containerSize, setContainerSize] = useState<"sm" | "md">("sm");
+  const [containerSize, setContainerSize] = useState<"sm" | "md" | "lg">("sm");
 
   const onLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    setContainerSize(width >= 768 ? "md" : "sm");
+    console.log(width);
+    if (width >= 1024) {
+      setContainerSize("lg");
+    } else if (width >= 768) {
+      setContainerSize("md");
+    } else {
+      setContainerSize("sm");
+    }
+
     setIsLoading(false);
   };
 

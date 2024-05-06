@@ -2,15 +2,19 @@ import { Slot, router, useGlobalSearchParams } from "expo-router";
 import { View } from "react-native";
 
 import IconButton from "~/components/IconButton";
+import Text from "~/components/Text";
 import { HomeSearchParams } from "~/features/home/types";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import { isTablet } from "~/theme";
 
 export default function HomeTabLayout() {
   const params = useGlobalSearchParams<HomeSearchParams>();
 
   const recipeId = params.recipe;
+
+  const { data } = useFetchRecipe(Number(recipeId));
 
   function removeParam() {
     // @ts-ignore
@@ -25,6 +29,9 @@ export default function HomeTabLayout() {
       {recipeId && isTablet && (
         <View className="flex-1">
           <View className="flex-row justify-between px-4 py-2">
+            <Text type="header" size="2xl">
+              {data?.name}
+            </Text>
             <View className="flex-row gap-2 ml-auto">
               <IconButton
                 size="medium"

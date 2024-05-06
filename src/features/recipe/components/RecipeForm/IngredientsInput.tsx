@@ -50,7 +50,7 @@ function IngredientsInput({
             key={f.id}
             control={form.control}
             name={`ingredients.${index}.name`}
-            className="bg-transparent border-none"
+            containerClassName="bg-transparent border-none"
             blurOnSubmit={false}
             onSubmitEditing={() => handleSubmitEditing(index)}
             onKeyPress={(e) => handleKeyPress(e, index)}

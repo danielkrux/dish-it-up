@@ -69,15 +69,14 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     return (
       <View className={clsx("self-stretch", containerClassName)}>
         {label && <Label>{label}</Label>}
-        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg" style={style}>
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg">
           <RNTextInput
             ref={innerRef}
             value={value ?? undefined}
+            {...props}
             className={clsx(
               "font-body text-sm px-2 py-2  text-gray-900 dark:text-white"
             )}
-            {...props}
-            style={inputStyle}
             onBlur={handleBlur}
             onFocus={handleFocus}
             placeholderTextColor={colors.gray[500]}
