@@ -33,16 +33,16 @@ import { colors } from "~/theme";
 import { clientPersister } from "~/utils/storage";
 import Modal from "~/components/Modal";
 
-cssInterop(Image, { className: "style" });
-
 import "../../styles.css";
 import { cssInterop } from "nativewind";
 import { Image } from "expo-image";
 
 export const supabase = initSupabase();
 
+cssInterop(Image, { className: "style" });
+
 export default function Root() {
-  useReactQueryDevTools(queryClient);
+  // useReactQueryDevTools(queryClient);
 
   const theme = useThemeConfig();
   useOnlineManager();

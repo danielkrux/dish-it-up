@@ -23,5 +23,4 @@ config.resolver.sourceExts = [...config.resolver.sourceExts, "mjs", "cjs"];
 
 module.exports = withNativeWind(config, {
   input: "./styles.css",
-  configPath: "./tailwind.config.js",
 });

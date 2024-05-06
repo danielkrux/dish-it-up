@@ -5,6 +5,7 @@ import IconButton from "~/components/IconButton";
 import { HomeSearchParams } from "~/features/home/types";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
+import { isTablet } from "~/theme";
 
 export default function HomeTabLayout() {
   const params = useGlobalSearchParams<HomeSearchParams>();
@@ -21,7 +22,7 @@ export default function HomeTabLayout() {
       <View className="flex-1 max-w-xl">
         <Slot />
       </View>
-      {recipeId && (
+      {recipeId && isTablet && (
         <View className="flex-1">
           <View className="flex-row justify-between px-4 py-2">
             <View className="flex-row gap-2 ml-auto">

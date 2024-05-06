@@ -40,6 +40,9 @@ module.exports = {
           950: "#272a29",
         },
       },
+      gridTemplateColumns: {
+        dashboard: "270px 1fr",
+      },
     },
     fontFamily: {
       body: ["Body"],
@@ -47,16 +50,5 @@ module.exports = {
       "body-bold": ["BodyBold"],
     },
   },
-  plugins: [
-    // plugin(({ matchUtilities, theme }) => {
-    //   matchUtilities(
-    //     {
-    //       g: (value) => ({
-    //         gap: value,
-    //       }),
-    //     },
-    //     { values: theme("g") }
-    //   );
-    // }),
-  ],
+  plugins: [],
 };

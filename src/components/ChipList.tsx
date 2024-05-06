@@ -1,5 +1,5 @@
 import Chip, { ChipProps } from "./Chip";
-import ScrollView from "./ScrollView";
+import { ScrollView } from "react-native";
 import clsx from "clsx";
 
 function ChipList({

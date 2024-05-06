@@ -66,7 +66,7 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle="pl-2 gap-4 pt-2 items-end"
+        contentContainerClassName="pl-2 gap-4 pt-2 items-end"
       >
         {!images.length && (
           <Pressable
@@ -83,7 +83,7 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
                 "w-32 h-32": index === 0,
               })}
               source={i.uri}
-              placeholder="gray"
+              // placeholder="gray"
             />
             <IconButton
               icon="Minus"

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -23,7 +23,7 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 
 export default function Home() {
   const router = useRouter();
-  const { q, c, s } = useLocalSearchParams<HomeSearchParams>();
+  const { q, c, s, recipe } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
   const sortBy = s;
 
@@ -40,6 +40,12 @@ export default function Home() {
   );
 
   useRefreshOnFocus(refetch);
+
+  useEffect(() => {
+    if (!recipe && data?.length) {
+      router.navigate({ params: { recipe: data?.[0].id.toString() } });
+    }
+  }, [recipe, data, router]);
 
   return (
     <View className="flex-1">
