@@ -1,7 +1,6 @@
 import { TabRouter } from "@react-navigation/native";
 import { Navigator, Slot, Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { Platform } from "react-native";
 
 import Icon from "~/components/Icon";
 import ListButton from "~/components/ListButton";
@@ -9,7 +8,7 @@ import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
-import theme, { isTablet } from "~/theme";
+import theme, { isDesktop, isTablet, isWeb } from "~/theme";
 
 function Home() {
   const currentTheme = useThemeConfig();
@@ -21,7 +20,7 @@ function Home() {
 
   useHandleUrlShare();
 
-  if (Platform.OS === "web") {
+  if (isWeb && isDesktop) {
     return (
       <Navigator router={TabRouter}>
         <Header />
