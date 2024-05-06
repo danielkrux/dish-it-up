@@ -1,4 +1,3 @@
-import { styled } from "nativewind";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
@@ -10,9 +9,10 @@ import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 import ImageInput from "./ImageInput";
 import { isTruthy } from "~/utils/typescript";
+import { remapProps } from "nativewind";
 
-const KeyboardAwareScrollView = styled(_KeyboardAwareScrollView, {
-  props: { contentContainerStyle: true },
+const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
+  contentContainerClassName: "contentContainerStyle",
 });
 
 function RecipeForm() {
@@ -32,7 +32,7 @@ function RecipeForm() {
   });
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
+    <KeyboardAwareScrollView contentContainerClassName="px-4 pb-10">
       <ImageInput
         initialImages={getValues("images")?.filter(isTruthy)}
         onChange={(images) => setValue("images", images)}

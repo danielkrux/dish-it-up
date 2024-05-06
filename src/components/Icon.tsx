@@ -1,8 +1,7 @@
-import { StyleProp, ViewStyle, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
-import { styled } from "nativewind";
 
 export type IconName = keyof typeof icons | "logo";
 
@@ -11,13 +10,14 @@ export type IconProps = {
   color?: string;
   size?: number;
   light?: boolean;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 };
 
-function Icon({ name, size = 24, color, light, style }: IconProps) {
+function Icon({ name, size = 24, color, light, className }: IconProps) {
   const colorScheme = useColorScheme();
 
-  if (name === "logo") return <Logo width={size} height={size} style={style} />;
+  if (name === "logo")
+    return <Logo width={size} height={size} className={className} />;
 
   // @ts-ignore
   const LucideIcon = icons[name as string];
@@ -33,7 +33,7 @@ function Icon({ name, size = 24, color, light, style }: IconProps) {
     ? theme.colors.white
     : theme.colors.black;
 
-  return <LucideIcon color={c} size={size} style={style} />;
+  return <LucideIcon color={c} size={size} className={className} />;
 }
 
-export default styled(Icon);
+export default Icon;

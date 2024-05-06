@@ -1,11 +1,10 @@
-import { styled } from "nativewind";
 import { View, ViewProps } from "react-native";
 import Text from "~/components/Text";
 import { Recipe } from "../../recipe.types";
 
 function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
   return (
-    <View style={props.style}>
+    <View className={props.className}>
       <View className="g-1">
         {recipe?.ingredients?.map((ingredient, i) => (
           <View
@@ -28,4 +27,4 @@ function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
   );
 }
 
-export default styled(Ingredients);
+export default Ingredients;

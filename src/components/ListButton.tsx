@@ -1,8 +1,8 @@
-import { styled } from "nativewind";
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import Check from "./Check";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
+import clsx from "clsx";
 
 type ListButtonProps = {
   onPress: () => void;
@@ -10,7 +10,7 @@ type ListButtonProps = {
   icon?: IconName;
   selectable?: boolean;
   selected?: boolean;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 };
 
 function ListButton({
@@ -18,14 +18,16 @@ function ListButton({
   icon,
   selectable,
   selected = false,
-  style,
+  className,
   onPress,
 }: ListButtonProps) {
   return (
     <Pressable
-      className="py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4 dark:bg-gray-950 dark:border-b-gray-900"
+      className={clsx(
+        "py-3 flex-row items-center border-b border-b-gray-100 bg-white g-4 dark:bg-gray-950 dark:border-b-gray-900",
+        className
+      )}
       onPress={onPress}
-      style={style}
     >
       {selectable && <Check onPress={onPress} selected={selected} />}
       {icon && <Icon name={icon} size={24} />}
@@ -34,4 +36,4 @@ function ListButton({
   );
 }
 
-export default styled(ListButton);
+export default ListButton;

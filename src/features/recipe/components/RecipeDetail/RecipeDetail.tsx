@@ -2,6 +2,7 @@ import { Image } from "expo-image";
 import { ReactNode } from "react";
 import { View } from "react-native";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import clsx from "clsx";
 
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
@@ -12,7 +13,6 @@ import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import Meta from "./Meta";
-import clsx from "clsx";
 
 export default function RecipeDetail({
   id,
@@ -30,7 +30,7 @@ export default function RecipeDetail({
     return (
       <View className="px-20 pb- flex-1">
         <View className="flex-1 flex-row g-10 mb-10">
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
               source={data?.images?.[0]}
               className="aspect-square rounded-2xl mb-4"
@@ -48,10 +48,10 @@ export default function RecipeDetail({
             )}
             <Meta recipe={data} className="mb-4" />
           </ScrollView>
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Instructions recipe={data} className="mx-4 mb-5" />
           </ScrollView>
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Ingredients recipe={data} className="mb-2 mx-4" />
           </ScrollView>
         </View>
@@ -64,7 +64,7 @@ export default function RecipeDetail({
       onLayout={onLayout}
       contentInsetAdjustmentBehavior="automatic"
       className={clsx("flex-1 pt-4 px-4 opacity-0", { "opacity-1": isLoading })}
-      contentContainerStyle="pb-20"
+      contentContainerClassName="pb-40"
     >
       {header}
       <View className="mb-4">

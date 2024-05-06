@@ -2,7 +2,8 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
   theme: {
     g: ({ theme }) => theme("spacing"),
     extend: {
@@ -47,15 +48,15 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          g: (value) => ({
-            gap: value,
-          }),
-        },
-        { values: theme("g") }
-      );
-    }),
+    // plugin(({ matchUtilities, theme }) => {
+    //   matchUtilities(
+    //     {
+    //       g: (value) => ({
+    //         gap: value,
+    //       }),
+    //     },
+    //     { values: theme("g") }
+    //   );
+    // }),
   ],
 };

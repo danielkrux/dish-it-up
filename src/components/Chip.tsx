@@ -2,7 +2,6 @@ import clsx from "clsx";
 import React from "react";
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 
-import { styled } from "nativewind";
 import Icon, { IconName } from "./Icon";
 import Text from "./Text";
 
@@ -16,7 +15,7 @@ export type ChipProps = ChipData & {
   isSelected?: boolean;
   onPress?: (value: string) => void;
   onLongPress?: (value: string) => void;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
 };
 
 function Chip({
@@ -26,7 +25,7 @@ function Chip({
   icon,
   onPress,
   onLongPress,
-  style,
+  className,
 }: ChipProps) {
   return (
     <Pressable
@@ -34,9 +33,9 @@ function Chip({
       onLongPress={() => onLongPress?.(value)}
       className={clsx(
         "flex-row justify-evenly items-center bg-gray-100 dark:bg-gray-900 rounded-lg g-1 px-2 py-1.5 min-w-[75] min-h-[30]",
-        { "bg-primary": isSelected }
+        { "bg-primary": isSelected },
+        className
       )}
-      style={[style]}
     >
       {icon && <Icon size={16} name={icon} className="text-white" />}
       {isSelected && (
@@ -53,4 +52,4 @@ function Chip({
   );
 }
 
-export default styled(Chip);
+export default Chip;

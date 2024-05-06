@@ -3,7 +3,7 @@ import {
   BottomSheetModal as _BottomSheetModal,
   BottomSheetModalProps,
 } from "@gorhom/bottom-sheet";
-import { styled } from "nativewind";
+import { remapProps } from "nativewind";
 import React, {
   forwardRef,
   useCallback,
@@ -20,12 +20,11 @@ import Animated, {
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_WIDTH, isTablet } from "~/theme";
 
-const SBottomSheetModal = styled(_BottomSheetModal, {
-  props: {
-    handleStyle: true,
-    handleIndicatorStyle: true,
-    containerStyle: true,
-  },
+const SBottomSheetModal = remapProps(_BottomSheetModal, {
+  className: "style",
+  containerClassName: "containerStyle",
+  handleClassName: "handleStyle",
+  handleIndicatorClassName: "handleIndicatorStyle",
 });
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -85,8 +84,8 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
         bottomInset={insets.bottom + 5}
         backdropComponent={renderBackDrop}
         style={styles.bottomSheet}
-        handleStyle="bg-white dark:bg-gray-950 rounded-t-xl"
-        handleIndicatorStyle="bg-gray-200 dark:bg-gray-700"
+        handleClassName="bg-white dark:bg-gray-950 rounded-t-xl"
+        handleIndicatorClassName="bg-gray-200 dark:bg-gray-700"
         containerStyle={
           isTablet
             ? {

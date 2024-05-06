@@ -1,10 +1,9 @@
+import { remapProps } from "nativewind";
 import { ScrollView as RNScrollView } from "react-native";
-import { styled } from "nativewind";
 
-const ScrollView = styled(RNScrollView, {
-	props: {
-		contentContainerStyle: true,
-	},
+const ScrollView = remapProps(RNScrollView, {
+  className: "style",
+  contentContainerClassName: "contentContainerStyle",
 });
 
 export default ScrollView;

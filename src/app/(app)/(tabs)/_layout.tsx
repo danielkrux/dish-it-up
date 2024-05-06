@@ -1,8 +1,10 @@
-import { Tabs, useRouter } from "expo-router";
+import { Slot, Tabs, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { Platform, View } from "react-native";
 
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
+import Text from "~/components/Text";
 import { init } from "~/features/app/app.utils";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
@@ -17,6 +19,21 @@ function Home() {
   }, []);
 
   useHandleUrlShare();
+
+  if (Platform.OS === "web") {
+    return (
+      <div className="grid [grid-template-columns: 1fr 4fr]">
+        <aside>
+          <Text type="header" size="2xl">
+            Dish It Up
+          </Text>
+        </aside>
+        <div style={{ flex: 1 }}>
+          <Slot />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Tabs

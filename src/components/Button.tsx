@@ -3,7 +3,6 @@ import { ActivityIndicator, Pressable, PressableProps } from "react-native";
 import theme, { colors } from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
-import { styled } from "nativewind";
 
 export type ButtonProps = {
   size?: "small" | "large";
@@ -68,6 +67,4 @@ function Button({
   );
 }
 
-export default styled(Button, {
-  props: {},
-});
+export default Button;

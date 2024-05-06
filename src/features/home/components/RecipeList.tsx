@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { ListRenderItemInfo, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { ListRenderItemInfo, StyleSheet } from "react-native";
+import { FlatList } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
@@ -9,6 +9,7 @@ import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { Recipe } from "~/features/recipe/recipe.types";
 import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
 import { HomeSearchParams } from "../types";
+import { verifyInstallation } from "nativewind";
 
 const extractKey = (item: Recipe) => item.id.toString();
 
@@ -68,9 +69,9 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       ListHeaderComponent={SeachAndFilter}
       contentContainerStyle={styles.recipeListContent}
       className="px-3 md:px-8 mt-1"
-      ItemSeparatorComponent={() => (
-        <View className="border-b border-b-gray-50 dark:border-b-gray-900 h-1 w-[255] self-end" />
-      )}
+      // ItemSeparatorComponent={() => (
+      //   <View className="border-b border-b-gray-50 dark:border-b-gray-900 h-1 w-[255] self-end" />
+      // )}
     />
   );
 }
