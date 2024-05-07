@@ -2,11 +2,10 @@ import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import * as Menu from "zeego/dropdown-menu";
 
 import Icon from "~/components/Icon";
-import IconButton from "~/components/IconButton";
 import ListButton from "~/components/ListButton";
+import GroceryListMenu from "~/features/grocery-list/components/GroceryListMenu";
 import { GroceryListItem } from "~/features/grocery-list/groceryList.types";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
@@ -50,26 +49,7 @@ function GroceryList() {
     <View className="flex-1">
       <Tabs.Screen
         options={{
-          headerRight: () => (
-            <Menu.Root>
-              <Menu.Trigger>
-                <IconButton size="medium" icon="EllipsisVertical" />
-              </Menu.Trigger>
-              <Menu.Content>
-                <Menu.Item
-                  key="clear-completed"
-                  onSelect={() => handleDelete(true)}
-                >
-                  <Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
-                  <Menu.ItemTitle>Clear completed</Menu.ItemTitle>
-                </Menu.Item>
-                <Menu.Item key="delete" destructive onSelect={handleDelete}>
-                  <Menu.ItemIcon ios={{ name: "trash" }} />
-                  <Menu.ItemTitle>Delete</Menu.ItemTitle>
-                </Menu.Item>
-              </Menu.Content>
-            </Menu.Root>
-          ),
+          headerRight: () => <GroceryListMenu />,
         }}
       />
       <KeyboardAwareScrollView bottomOffset={20} className="px-4 md:px-8">
@@ -81,6 +61,7 @@ function GroceryList() {
           // 	rightStyle={styles.rightSwipeAction}
           // >
           <ListButton
+            key={grocery.id}
             label={grocery.name ?? ""}
             onPress={() => handleGroceryItemPress(grocery)}
             selected={grocery.completed}
