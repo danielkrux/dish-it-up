@@ -53,5 +53,5 @@ module.exports = {
       "body-bold": ["BodyBold"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
