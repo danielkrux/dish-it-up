@@ -19,8 +19,6 @@ function ChipList({
 }) {
   if (!data?.length) return null;
 
-  console.log(selectedValues);
-
   return (
     <ScrollView
       contentContainerClassName={cn(contentContainerClassName, "gap-2")}
