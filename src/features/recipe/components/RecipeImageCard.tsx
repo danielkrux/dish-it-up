@@ -1,12 +1,14 @@
 import { clsx } from "clsx";
 import { Image } from "expo-image";
 import { TouchableOpacity, View } from "react-native";
+import { twMerge } from "tailwind-merge";
+import { useLocalSearchParams } from "expo-router";
 
 import Text from "~/components/Text";
 import { isTablet } from "~/theme";
 import { Recipe } from "../recipe.types";
-import { useLocalSearchParams } from "expo-router";
 import { HomeSearchParams } from "~/features/home/types";
+import { cn } from "~/utils/tailwind";
 
 export type RecipeImageCardProps = {
   recipe?: Recipe;
@@ -21,15 +23,15 @@ export default function RecipeImageCard({
 }: RecipeImageCardProps) {
   const { recipe: recipeId } = useLocalSearchParams<HomeSearchParams>();
 
-  const selected = Number(recipeId) === recipe?.id;
+  const selected = isTablet && Number(recipeId) === recipe?.id;
 
   return (
     <TouchableOpacity
-      className={clsx(
+      className={cn(
         "md:px-2 md:py-2 rounded-2xl flex-row bg-white dark:bg-gray-950",
         classsName,
         {
-          "bg-acapulco-100 dark:bg-acapulco-600": selected,
+          "bg-gray-100 dark:bg-gray-800": selected,
         }
       )}
       style={isTablet ? { borderRadius: 24 } : {}}
@@ -37,8 +39,7 @@ export default function RecipeImageCard({
       activeOpacity={0.8}
     >
       <Image
-        className="w-24 h-full md:w-32 rounded-2xl mr-4"
-        style={{ minHeight: isTablet ? 128 : 96 }}
+        className="w-24 h-full md:w-32 rounded-2xl mr-4 min-h-[96px] md:min-h[128px]"
         source={recipe?.images?.[0]}
         placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
       />

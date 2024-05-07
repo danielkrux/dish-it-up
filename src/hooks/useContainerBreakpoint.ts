@@ -7,7 +7,7 @@ export default function useContainerBreakpoint() {
 
   const onLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    console.log(width);
+
     if (width >= 1024) {
       setContainerSize("lg");
     } else if (width >= 768) {

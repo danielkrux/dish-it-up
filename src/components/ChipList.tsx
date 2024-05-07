@@ -1,6 +1,6 @@
 import Chip, { ChipProps } from "./Chip";
 import { ScrollView } from "react-native";
-import clsx from "clsx";
+import { cn } from "~/utils/tailwind";
 
 function ChipList({
   data,
@@ -19,9 +19,11 @@ function ChipList({
 }) {
   if (!data?.length) return null;
 
+  console.log(selectedValues);
+
   return (
     <ScrollView
-      contentContainerClassName={clsx(contentContainerClassName, "gap-2")}
+      contentContainerClassName={cn(contentContainerClassName, "gap-2")}
       showsHorizontalScrollIndicator={false}
       horizontal
       className={className}

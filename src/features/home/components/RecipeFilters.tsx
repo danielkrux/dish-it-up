@@ -42,7 +42,7 @@ function RecipeQuickFilter() {
         ]}
         selectedValues={[]}
         onPress={updateParams}
-        contentContainerStyle="pr-20"
+        contentContainerClassName="pr-20"
       />
     );
 
@@ -50,11 +50,11 @@ function RecipeQuickFilter() {
 
   return (
     <ChipList
-      className="mt-1 pr-"
+      className="mt-1"
       data={data}
       selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
       onPress={updateParams}
-      contentContainerStyle="pr-20"
+      contentContainerClassName="pr-20"
     />
   );
 }

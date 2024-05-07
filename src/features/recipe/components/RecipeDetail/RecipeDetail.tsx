@@ -29,14 +29,13 @@ export default function RecipeDetail({
 
   if (containerSize === "lg") {
     return (
-      <View className="px-20 pb- flex-1">
+      <View className="px-4 flex-1">
         <View className="flex-1 flex-row gap-10 mb-10">
           <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
               source={data?.images?.[0]}
               className="aspect-square rounded-2xl mb-4"
             />
-            <Text className="mb-4 font-display text-xl">{data?.name}</Text>
             <ChipList
               className="mb-2"
               data={data?.categories.map((c) => ({
@@ -75,12 +74,12 @@ export default function RecipeDetail({
       <View className="mb-4">
         <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          <StarRating
+          {/* <StarRating
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
             className="mb-1.5"
-          />
+          /> */}
         </View>
 
         <Image

@@ -23,11 +23,11 @@ export default function HomeTabLayout() {
 
   return (
     <View className="flex-1 flex-row">
-      <View className="flex-1 max-w-xl">
+      <View className="flex-1 max-w-xl border-r dark:border-r-gray-800">
         <Slot />
       </View>
       {recipeId && isTablet && (
-        <View className="flex-1">
+        <View className="flex-1 pt-10">
           <View className="flex-row justify-between px-4 py-2">
             <Text type="header" size="2xl">
               {data?.name}

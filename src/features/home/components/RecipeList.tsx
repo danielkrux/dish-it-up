@@ -67,7 +67,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       keyExtractor={extractKey}
       ListHeaderComponent={SeachAndFilter}
       contentContainerClassName="gap-4 pb-24"
-      className="px-3 md:px-8"
+      className="px-3 md:px-8 md:pt-10"
     />
   );
 }
