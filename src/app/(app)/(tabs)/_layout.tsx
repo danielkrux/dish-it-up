@@ -47,7 +47,7 @@ function Home() {
     return (
       <Navigator router={TabRouter}>
         <div className="grid grid-cols-dashboard grid-rows-dashboard">
-          <aside className="w-[270px] border-r dark:border-r-gray-800 pr-10 pt-10">
+          <aside className="w-[270px] border-r border-r-gray-100 dark:border-r-gray-800 pr-10 pt-10">
             <h1 className="font-display text-4xl dark:text-white">
               Dish It Up
             </h1>

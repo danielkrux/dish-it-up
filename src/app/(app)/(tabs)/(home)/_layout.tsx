@@ -23,7 +23,7 @@ export default function HomeTabLayout() {
 
   return (
     <View className="flex-1 flex-row">
-      <View className="flex-1 max-w-xl border-r dark:border-r-gray-800">
+      <View className="flex-1 max-w-xl border-r border-r-gray-100 dark:border-r-gray-800">
         <Slot />
       </View>
       {recipeId && isTablet && (
