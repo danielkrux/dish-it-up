@@ -44,7 +44,7 @@ function SeachAndFilter() {
           </Animated.View>
         )}
       </View>
-      <View>
+      <View className="flex-row items-center">
         <RecipeQuickFilter />
         <SortRecipes />
       </View>

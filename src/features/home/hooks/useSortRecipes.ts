@@ -3,24 +3,29 @@ import { ImpactFeedbackStyle, impactAsync } from "expo-haptics";
 
 import { HomeSearchParams } from "../types";
 import { SortOptionValue } from "~/features/recipe/recipe.service";
+import { Platform } from "react-native";
+import { IconName } from "~/components/Icon";
 
 type SortOption = {
+  icon: IconName;
   label: string;
   value: SortOptionValue;
 };
 
 const sortOptions: SortOption[] = [
-  { label: "Newest", value: "created_at:desc" },
-  { label: "Oldest", value: "created_at:asc" },
-  { label: "Rating", value: "rating:desc" },
-  { label: "Total time (shortest)", value: "total_time:asc" },
+  { icon: "ArrowBigUp", label: "Newest", value: "created_at:desc" },
+  { icon: "ArrowBigDown", label: "Oldest", value: "created_at:asc" },
+  { icon: "Star", label: "Rating", value: "rating:desc" },
+  { icon: "Timer", label: "Total time (shortest)", value: "total_time:asc" },
 ];
 
 function useSortRecipes({ onSortComplete }: { onSortComplete: () => void }) {
   const { s } = useLocalSearchParams<HomeSearchParams>();
 
   function handleSort(value: SortOptionValue) {
-    impactAsync(ImpactFeedbackStyle.Light);
+    if (Platform.OS !== "web") {
+      impactAsync(ImpactFeedbackStyle.Light);
+    }
     router.setParams<HomeSearchParams>({ s: value });
     onSortComplete();
   }
@@ -31,7 +36,7 @@ function useSortRecipes({ onSortComplete }: { onSortComplete: () => void }) {
     );
   }
 
-  return { sortOptions, handleSort, isSelected };
+  return { sortOptions, s, handleSort, isSelected };
 }
 
 export default useSortRecipes;
