@@ -2,7 +2,6 @@ import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
@@ -12,7 +11,7 @@ import Text from "~/components/Text";
 import Icon from "~/components/Icon";
 
 function SortRecipes() {
-  const { sortOptions, handleSort, s, isSelected } = useSortRecipes({
+  const { sortOptions, handleSort, s } = useSortRecipes({
     onSortComplete: () => {},
   });
 

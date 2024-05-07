@@ -34,7 +34,7 @@ function RecipeDetailMenu({
           key="edit"
           onSelect={() => router.push(`/recipe/${recipeId}/edit`)}
         >
-          <Menu.ItemTitle> Edit</Menu.ItemTitle>
+          <Menu.ItemTitle>Edit</Menu.ItemTitle>
         </Menu.Item>
         <Menu.Group>
           <Menu.Item key="cooked" onSelect={onShowLogRecipe}>
