@@ -28,13 +28,12 @@ export default function RecipeImageCard({
   return (
     <TouchableOpacity
       className={cn(
-        "md:px-2 md:py-2 rounded-2xl flex-row bg-white dark:bg-gray-950",
+        "p-0 md:px-2 md:py-2 rounded-2xl flex-row bg-white dark:bg-gray-950 md:rounded-3xl",
         classsName,
         {
           "bg-gray-100 dark:bg-gray-800": selected,
         }
       )}
-      style={isTablet ? { borderRadius: 24 } : {}}
       onPress={onPress}
       activeOpacity={0.8}
     >

@@ -3,7 +3,6 @@ import {
   BottomSheetModal as _BottomSheetModal,
   BottomSheetModalProps,
 } from "@gorhom/bottom-sheet";
-import { remapProps } from "nativewind";
 import React, {
   forwardRef,
   useCallback,
@@ -17,15 +16,9 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { SBottomSheetModal } from "~/app/_layout";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_WIDTH, isTablet } from "~/theme";
-
-const SBottomSheetModal = remapProps(_BottomSheetModal, {
-  className: "style",
-  containerClassName: "containerStyle",
-  handleClassName: "handleStyle",
-  handleIndicatorClassName: "handleIndicatorStyle",
-});
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 

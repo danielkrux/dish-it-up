@@ -9,6 +9,7 @@ import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { Recipe } from "~/features/recipe/recipe.types";
 import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
 import { HomeSearchParams } from "../types";
+import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 
 const extractKey = (item: Recipe) => item.id.toString();
 
@@ -53,7 +54,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
 
       return (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <RecipeImageCardWithContext recipe={item} onPress={handlePress} />
+          <RecipeImageCard recipe={item} onPress={handlePress} />
         </Animated.View>
       );
     },
@@ -66,7 +67,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       renderItem={renderItem}
       keyExtractor={extractKey}
       ListHeaderComponent={SeachAndFilter}
-      contentContainerClassName="gap-4 pb-24"
+      contentContainerClassName="gap-y-4 pb-24"
       className="px-3 md:px-8 md:pt-10 native:md:pt-0"
     />
   );

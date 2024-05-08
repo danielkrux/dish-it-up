@@ -22,7 +22,7 @@ function SeachAndFilter() {
   }
 
   return (
-    <View className="md:mb-4">
+    <View>
       <View className="flex-row items-center mb-1.5">
         <Animated.View className="flex-1">
           <InputBase

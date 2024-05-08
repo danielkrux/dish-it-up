@@ -16,12 +16,12 @@ function RecipeImageCardWithContext(props: RecipeImageCardWithContextProps) {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <RecipeImageCard classsName="p-1" {...props} />
+        <RecipeImageCard {...props} />
       </ContextMenu.Trigger>
       {Platform.OS === "ios" && (
         <ContextMenu.Content>
-          <ContextMenu.Preview borderRadius={16} preferredCommitStyle="pop">
-            <RecipeImageCard classsName="w-screen p-1" {...props} />
+          <ContextMenu.Preview isResizeAnimated={false} borderRadius={16}>
+            <RecipeImageCard {...props} />
           </ContextMenu.Preview>
           <ContextMenu.Item
             key="edit"
