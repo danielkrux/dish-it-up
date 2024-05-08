@@ -8,7 +8,6 @@ import { twMerge } from "tailwind-merge";
 export type TextProps = {
   type?: "header" | "body" | "bodyBold";
   size?: "2xl" | "xl" | "l" | "m" | "s" | "xs";
-  light?: boolean;
 } & RNTextProps;
 
 function Text({ type = "body", size, className, ...props }: TextProps) {

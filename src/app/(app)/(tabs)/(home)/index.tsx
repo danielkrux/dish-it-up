@@ -63,7 +63,11 @@ export default function Home() {
       ) : (
         <RecipeList data={data} isLoading={isLoading} />
       )}
-      <FloatingButton onPress={() => router.push("/recipe/add/")}>
+      <FloatingButton
+        onPress={() =>
+          router.navigate({ pathname: "/recipe/add/", params: { recipe } })
+        }
+      >
         Add recipe
       </FloatingButton>
     </View>

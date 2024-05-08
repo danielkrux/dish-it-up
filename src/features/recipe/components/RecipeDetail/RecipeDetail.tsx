@@ -72,14 +72,14 @@ export default function RecipeDetail({
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex">
+        <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex native:md:hidden">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          {/* <StarRating
+          <StarRating
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
-            className="mb-1.5"
-          /> */}
+            className="mb-1.5 native:hidden"
+          />
         </View>
 
         <Image
