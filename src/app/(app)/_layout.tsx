@@ -17,7 +17,7 @@ function Layout() {
   }
 
   return (
-    <View className="flex-1 lg:px-16 native:lg:px-0 max-h-screen w-screen dark:bg-gray-950">
+    <View className="flex-1 px-0 lg:px-16 lg:native:px-0 max-h-screen w-screen dark:bg-gray-950">
       <Stack
         screenOptions={{
           headerShadowVisible: false,
