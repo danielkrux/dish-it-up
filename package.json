@@ -17,7 +17,7 @@
     "api:deploy": "supabase functions deploy",
     "generate": "supabase gen types typescript --project-id qfsraezjniacsdtipuzs > supabase/database.types.ts",
     "postinstall": "patch-package",
-    "deploy": "gh-pages -t -d dist",
+    "deploy": "netlify deploy --dir dist --prod",
     "predeploy": "expo export -p web"
   },
   "dependencies": {
@@ -70,10 +70,12 @@
     "expo-status-bar": "~1.11.1",
     "expo-system-ui": "~2.9.3",
     "expo-updates": "~0.24.10",
+    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "lucide-react-native": "^0.372.0",
     "nanoid": "^4.0.2",
     "nativewind": "^4.0.1",
+    "netlify-cli": "^17.23.2",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",

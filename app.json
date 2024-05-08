@@ -64,8 +64,7 @@
     "scheme": "dish-it-up",
     "experiments": {
       "typedRoutes": true,
-      "tsconfigPaths": true,
-      "baseUrl": "/dish-it-up"
+      "tsconfigPaths": true
     },
     "extra": {
       "ios": {

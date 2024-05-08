@@ -2,13 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import {
-  FlatList,
-  ListRenderItemInfo,
-  Pressable,
-  StyleSheet,
-  View,
-} from "react-native";
+import { FlatList, ListRenderItemInfo, Pressable, View } from "react-native";
 
 import Button from "~/components/Button";
 import Check from "~/components/Check";
@@ -20,7 +14,6 @@ import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import theme from "~/theme";
 
 function keyExtractor(recipe: Recipe) {
   return recipe.id.toString();
@@ -88,10 +81,13 @@ function SelectRecipe() {
           data={data}
           renderItem={renderRecipe}
           keyExtractor={keyExtractor}
-          contentContainerStyle={styles.recipeList}
+          contentContainerClassName="gap-4 px-5 pb-20"
           ListHeaderComponent={
-            <Text type="header" size="xl">
-              Select Recipes for {format(date, "EEEE")}
+            <Text className="mb-2 mt-2" type="header" size="2xl">
+              Select Recipes for{" "}
+              <Text type="header" className="text-acapulco-400">
+                {format(date, "EEEE")}
+              </Text>
             </Text>
           }
         />
@@ -101,8 +97,8 @@ function SelectRecipe() {
         </Text>
       )}
       <Button
+        className="absolute mx-5 left-0 right-0"
         style={{ bottom: insets.bottom }}
-        className="absolute mx-4 left-0 right-0"
         onPress={handleSave}
         size="large"
         loading={mutation.isLoading}
@@ -114,11 +110,3 @@ function SelectRecipe() {
 }
 
 export default SelectRecipe;
-
-const styles = StyleSheet.create({
-  recipeList: {
-    gap: theme.spacing.m,
-    paddingHorizontal: theme.spacing.m,
-    paddingBottom: 100,
-  },
-});

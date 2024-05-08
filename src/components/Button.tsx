@@ -37,7 +37,8 @@ function Button({
             "py-1.5 self-start": size === "small",
             "flex-row gap-2": icon,
             "opacity-50": disabled,
-          }
+          },
+          props.className
         )
       )}
       disabled={disabled}

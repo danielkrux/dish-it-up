@@ -6,6 +6,8 @@ import { SortOptionValue } from "~/features/recipe/recipe.service";
 import { Platform } from "react-native";
 import { IconName } from "~/components/Icon";
 
+const DEFAULT_SORT: SortOptionValue = "created_at:desc";
+
 type SortOption = {
   icon: IconName;
   label: string;
@@ -31,12 +33,10 @@ function useSortRecipes({ onSortComplete }: { onSortComplete: () => void }) {
   }
 
   function isSelected(sortOption: SortOption) {
-    return (
-      s === sortOption.value || (!s && sortOption.value === "created_at:desc")
-    );
+    return s === sortOption.value || (!s && sortOption.value === DEFAULT_SORT);
   }
 
-  return { sortOptions, s, handleSort, isSelected };
+  return { sortOptions, s, DEFAULT_SORT, handleSort, isSelected };
 }
 
 export default useSortRecipes;

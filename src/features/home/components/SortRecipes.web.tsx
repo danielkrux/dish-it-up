@@ -11,7 +11,7 @@ import Text from "~/components/Text";
 import Icon from "~/components/Icon";
 
 function SortRecipes() {
-  const { sortOptions, handleSort, s } = useSortRecipes({
+  const { sortOptions, handleSort, s, DEFAULT_SORT } = useSortRecipes({
     onSortComplete: () => {},
   });
 
@@ -23,7 +23,7 @@ function SortRecipes() {
         </Text>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup value={s}>
+        <DropdownMenuRadioGroup value={s ?? DEFAULT_SORT}>
           {sortOptions.map((sortItem) => {
             return (
               <DropdownMenuRadioItem
