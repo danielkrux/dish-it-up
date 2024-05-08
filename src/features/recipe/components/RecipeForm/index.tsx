@@ -1,4 +1,3 @@
-import { styled } from "nativewind";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
@@ -10,9 +9,10 @@ import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 import ImageInput from "./ImageInput";
 import { isTruthy } from "~/utils/typescript";
+import { remapProps } from "nativewind";
 
-const KeyboardAwareScrollView = styled(_KeyboardAwareScrollView, {
-  props: { contentContainerStyle: true },
+const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
+  contentContainerClassName: "contentContainerStyle",
 });
 
 function RecipeForm() {
@@ -32,7 +32,7 @@ function RecipeForm() {
   });
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle="px-4 pb-10">
+    <KeyboardAwareScrollView contentContainerClassName="px-4 pb-10">
       <ImageInput
         initialImages={getValues("images")?.filter(isTruthy)}
         onChange={(images) => setValue("images", images)}
@@ -41,7 +41,7 @@ function RecipeForm() {
         label="Name"
         name="name"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         autoComplete="off"
       />
@@ -50,7 +50,7 @@ function RecipeForm() {
         name="description"
         placeholder="Write a short description about your recipe"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         multiline
         inputStyle={{ minHeight: 100 }}
@@ -59,7 +59,7 @@ function RecipeForm() {
         label="Total time"
         name="total_time"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         autoCorrect={false}
         spellCheck={false}
@@ -68,7 +68,7 @@ function RecipeForm() {
         label="Number of servings"
         name="recipe_yield"
         control={control}
-        className="mb-4"
+        containerClassName="mb-4"
         returnKeyType="next"
         keyboardType="number-pad"
         autoCorrect={false}

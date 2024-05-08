@@ -1,49 +1,51 @@
-import { Slot, useRouter } from "expo-router";
+import { Slot, router, useGlobalSearchParams } from "expo-router";
 import { View } from "react-native";
-import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 
 import IconButton from "~/components/IconButton";
-import useHomeContext from "~/features/home/hooks/useHomeContext";
+import Text from "~/components/Text";
+import { HomeSearchParams } from "~/features/home/types";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
+import { isTablet } from "~/theme";
 
 export default function HomeTabLayout() {
-  const router = useRouter();
-  const { recipeId, setRecipeId } = useHomeContext();
+  const params = useGlobalSearchParams<HomeSearchParams>();
 
-  function handleDelete() {
-    setRecipeId(undefined);
+  const recipeId = params.recipe;
+
+  const { data } = useFetchRecipe(Number(recipeId));
+
+  function removeParam() {
+    // @ts-ignore
+    router.setParams<HomeSearchParams>({ ...params, recipe: undefined });
   }
 
   return (
     <View className="flex-1 flex-row">
-      <Slot />
-      {recipeId && (
-        <Animated.View
-          entering={SlideInRight}
-          exiting={SlideOutRight}
-          className="flex-1 bg-white dark:bg-gray-900 z-50"
-        >
+      <View className="flex-1 max-w-xl border-r border-r-gray-100 dark:border-r-gray-800">
+        <Slot />
+      </View>
+      {recipeId && isTablet && (
+        <View className="flex-1 pt-10">
           <View className="flex-row justify-between px-4 py-2">
-            <IconButton
-              size="medium"
-              icon="X"
-              onPress={() => setRecipeId(undefined)}
-            />
-            <View className="flex-row g-2">
+            <Text type="header" size="2xl">
+              {data?.name}
+            </Text>
+            <View className="flex-row gap-2 ml-auto">
               <IconButton
                 size="medium"
                 icon="Maximize2"
-                onPress={() => router.push(`/recipe/${recipeId}/`)}
+                onPress={() => router.navigate(`/recipe/${recipeId}/`)}
               />
               <RecipeDetailMenu
-                recipeId={recipeId}
-                onDeleteSucces={handleDelete}
+                recipeId={Number(recipeId)}
+                onDeleteSucces={removeParam}
               />
             </View>
           </View>
-          <RecipeDetail id={recipeId} />
-        </Animated.View>
+          <RecipeDetail id={Number(recipeId)} />
+        </View>
       )}
     </View>
   );

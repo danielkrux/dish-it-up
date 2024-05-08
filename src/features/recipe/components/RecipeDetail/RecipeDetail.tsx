@@ -1,7 +1,9 @@
 import { Image } from "expo-image";
 import { ReactNode } from "react";
 import { View } from "react-native";
+import { twMerge } from "tailwind-merge";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import clsx from "clsx";
 
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
@@ -23,18 +25,17 @@ export default function RecipeDetail({
   logRecipeRef?: React.RefObject<BottomSheetModalMethods>;
 }) {
   const { data } = useFetchRecipe(id);
-  const { containerSize, onLayout } = useContainerBreakpoint();
+  const { containerSize, onLayout, isLoading } = useContainerBreakpoint();
 
-  if (containerSize === "md") {
+  if (containerSize === "lg") {
     return (
-      <View className="px-20 pb- flex-1">
-        <View className="flex-1 flex-row g-10 mb-10">
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+      <View className="px-4 flex-1">
+        <View className="flex-1 flex-row gap-10 mb-10">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
               source={data?.images?.[0]}
               className="aspect-square rounded-2xl mb-4"
             />
-            <Text className="mb-4 font-display text-xl">{data?.name}</Text>
             <ChipList
               className="mb-2"
               data={data?.categories.map((c) => ({
@@ -47,10 +48,10 @@ export default function RecipeDetail({
             )}
             <Meta recipe={data} className="mb-4" />
           </ScrollView>
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Instructions recipe={data} className="mx-4 mb-5" />
           </ScrollView>
-          <ScrollView contentContainerStyle="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Ingredients recipe={data} className="mb-2 mx-4" />
           </ScrollView>
         </View>
@@ -62,19 +63,23 @@ export default function RecipeDetail({
     <ScrollView
       onLayout={onLayout}
       contentInsetAdjustmentBehavior="automatic"
-      className="flex-1 pt-4 px-4"
-      contentContainerStyle="pb-20"
+      className={twMerge(
+        clsx("flex-1 pt-4 px-4 opacity-0", {
+          "opacity-1": !isLoading,
+        })
+      )}
+      contentContainerClassName="pb-40"
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 g-4">
+        <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          <StarRating
+          {/* <StarRating
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
             className="mb-1.5"
-          />
+          /> */}
         </View>
 
         <Image

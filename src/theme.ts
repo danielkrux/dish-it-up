@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 export const colors = {
   white: "#ffffff",
@@ -56,6 +56,8 @@ export const SCREEN_WIDTH = Dimensions.get("window").width;
 export const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export const isTablet = SCREEN_WIDTH > 600;
+export const isDesktop = SCREEN_WIDTH > 1024;
+export const isWeb = Platform.OS === "web";
 
 export default {
   colors: {

@@ -1,22 +1,19 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, View } from "react-native";
+import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import Button from "~/components/Button";
 import InputBase from "~/components/Inputs/TextInputBase";
 import RecipeQuickFilter from "./RecipeFilters";
 
-import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import SortRecipes from "./SortRecipes";
+import { HomeSearchParams } from "../types";
 
 function SeachAndFilter() {
   const router = useRouter();
-  const { q, s } = useLocalSearchParams<{
-    q?: string;
-    c?: string;
-    s?: string;
-  }>();
+  const { q } = useLocalSearchParams<HomeSearchParams>();
   const [isSearching, setIsSearching] = useState(false);
 
   function cancelSearch() {
@@ -29,7 +26,6 @@ function SeachAndFilter() {
       <View className="flex-row items-center mb-1.5">
         <Animated.View className="flex-1">
           <InputBase
-            containerStyle="flex-1"
             value={q}
             onChangeText={(text) => {
               router.setParams({ q: text });
@@ -48,7 +44,7 @@ function SeachAndFilter() {
           </Animated.View>
         )}
       </View>
-      <View>
+      <View className="flex-row items-center">
         <RecipeQuickFilter />
         <SortRecipes />
       </View>

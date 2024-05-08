@@ -14,7 +14,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { NativeWindStyleSheet } from "nativewind";
 import { useEffect } from "react";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
@@ -34,14 +33,16 @@ import { colors } from "~/theme";
 import { clientPersister } from "~/utils/storage";
 import Modal from "~/components/Modal";
 
+import "../../styles.css";
+import { cssInterop } from "nativewind";
+import { Image } from "expo-image";
+
 export const supabase = initSupabase();
 
-NativeWindStyleSheet.setOutput({
-  default: "native",
-});
+cssInterop(Image, { className: "style" });
 
 export default function Root() {
-  useReactQueryDevTools(queryClient);
+  // useReactQueryDevTools(queryClient);
 
   const theme = useThemeConfig();
   useOnlineManager();

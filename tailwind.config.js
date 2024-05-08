@@ -2,7 +2,8 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
   theme: {
     g: ({ theme }) => theme("spacing"),
     extend: {
@@ -39,6 +40,12 @@ module.exports = {
           950: "#272a29",
         },
       },
+      gridTemplateColumns: {
+        dashboard: "270px 1fr",
+      },
+      gridTemplateRows: {
+        dashboard: "100vh",
+      },
     },
     fontFamily: {
       body: ["Body"],
@@ -46,16 +53,5 @@ module.exports = {
       "body-bold": ["BodyBold"],
     },
   },
-  plugins: [
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          g: (value) => ({
-            gap: value,
-          }),
-        },
-        { values: theme("g") }
-      );
-    }),
-  ],
+  plugins: [require("tailwindcss-animate")],
 };

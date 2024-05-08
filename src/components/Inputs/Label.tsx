@@ -1,20 +1,27 @@
-import { styled } from "nativewind";
 import React from "react";
+import clsx from "clsx";
+
 import Text from "../Text";
+import { twMerge } from "tailwind-merge";
 
-export type LabelProps = { children?: string };
+export type LabelProps = { children?: string; className?: string };
 
-function Label({ children, ...props }: LabelProps) {
+function Label({ children, className, ...props }: LabelProps) {
   if (!children) return null;
 
   return (
     <Text
-      className="mb-1.5 ml-0.5 text-sm font-body text-gray-600 dark:text-gray-100"
       {...props}
+      className={twMerge(
+        clsx(
+          "mb-1.5 ml-0.5 text-sm font-body text-gray-600 dark:text-gray-100",
+          className
+        )
+      )}
     >
       {children}
     </Text>
   );
 }
 
-export default styled(Label);
+export default Label;

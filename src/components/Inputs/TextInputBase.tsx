@@ -15,15 +15,13 @@ import {
 } from "react-native";
 
 import clsx from "clsx";
-import { styled } from "nativewind";
 import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
 import Label from "./Label";
 import Text from "../Text";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  containerStyle?: any;
+  containerClassName?: string;
   bottomSheet?: boolean;
   value?: string | null;
   label?: string;
@@ -35,7 +33,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
   (
     {
       bottomSheet,
-      containerStyle,
+      containerClassName,
       value,
       onFocus,
       onBlur,
@@ -69,17 +67,16 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     );
 
     return (
-      <View style={containerStyle} className="self-stretch">
+      <View className={clsx("self-stretch", containerClassName)}>
         {label && <Label>{label}</Label>}
-        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg" style={style}>
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg">
           <RNTextInput
             ref={innerRef}
             value={value ?? undefined}
+            {...props}
             className={clsx(
               "font-body text-sm px-2 py-2  text-gray-900 dark:text-white"
             )}
-            {...props}
-            style={inputStyle}
             onBlur={handleBlur}
             onFocus={handleFocus}
             placeholderTextColor={colors.gray[500]}
@@ -93,11 +90,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
   }
 );
 
-export default styled(InputBase, {
-  props: {
-    containerStyle: true,
-  },
-});
+export default InputBase;
 
 export const AnimatedTextInput = Animated.createAnimatedComponent(
   createClassComponent(InputBase)

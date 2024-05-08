@@ -69,7 +69,7 @@ function SelectGroceries() {
       <Text className="mx-4 font-display text-2xl">Select groceries</Text>
       <Text className="mx-4 mb-4 text-bold text-gray-300">{data?.name}</Text>
       {recipeYieldAmount && (
-        <View className="flex-row items-center g-3 mb-4 mx-4">
+        <View className="flex-row items-center gap-3 mb-4 mx-4">
           <IconButton size="small" icon="Minus" onPress={removePerson} />
           <Text>{recipeYieldAmount * yieldMultiplier} persons</Text>
           <IconButton size="small" icon="Plus" onPress={addPerson} />

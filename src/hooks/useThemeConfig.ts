@@ -34,14 +34,14 @@ export function useThemeConfig() {
   const currentColorScheme = useColorScheme();
   const { colorScheme, setColorScheme } = useNativeWindColorScheme();
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", (state) => {
-      const isActive = state === "active";
-      if (!isActive) return;
-      currentColorScheme && setColorScheme(currentColorScheme);
-    });
-    return () => subscription.remove();
-  }, [currentColorScheme, setColorScheme]);
+  // useEffect(() => {
+  //   const subscription = AppState.addEventListener("change", (state) => {
+  //     const isActive = state === "active";
+  //     if (!isActive) return;
+  //     currentColorScheme && setColorScheme(currentColorScheme);
+  //   });
+  //   return () => subscription.remove();
+  // }, [currentColorScheme, setColorScheme]);
 
   if (colorScheme === "dark") return DarkTheme;
 

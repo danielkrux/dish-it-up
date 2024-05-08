@@ -1,42 +1,24 @@
 import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
-import { ImpactFeedbackStyle, impactAsync } from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Text from "~/components/Text";
-import { SortOptionValue } from "~/features/recipe/recipe.service";
 import { colors } from "~/theme";
 import { hexToRGBA } from "~/utils/color";
-
-type SortOption = {
-  label: string;
-  value: SortOptionValue;
-};
-
-const sortOptions: SortOption[] = [
-  { label: "Newest", value: "created_at:desc" },
-  { label: "Oldest", value: "created_at:asc" },
-  { label: "Rating", value: "rating:desc" },
-  { label: "Total time (shortest)", value: "total_time:asc" },
-];
+import useSortRecipes from "../hooks/useSortRecipes";
 
 function SortRecipes() {
   const { colorScheme } = useColorScheme();
-  const router = useRouter();
-  const { s } = useLocalSearchParams<{ s?: string }>();
   const bottomSheetRef = useRef<_BotomSheetModal>(null);
 
-  const color = colorScheme === "dark" ? colors.gray[950] : colors.white;
+  const { sortOptions, handleSort, isSelected } = useSortRecipes({
+    onSortComplete: () => bottomSheetRef.current?.dismiss(),
+  });
 
-  function handleSort(value: SortOptionValue) {
-    impactAsync(ImpactFeedbackStyle.Light);
-    router.setParams({ s: value });
-    bottomSheetRef.current?.dismiss();
-  }
+  const color = colorScheme === "dark" ? colors.gray[950] : colors.white;
 
   return (
     <>
@@ -57,24 +39,24 @@ function SortRecipes() {
       </Pressable>
       <BottomSheetModal ref={bottomSheetRef}>
         <Text className="font-display text-2xl mt-1 mb-2">Sort recipes by</Text>
-        {sortOptions.map((sortOption) => (
-          <Pressable
-            onPress={() => handleSort(sortOption.value)}
-            key={sortOption.label}
-            className="flex-row items-center mb-2"
-          >
-            <View className="flex-row items-center py-2">
-              <View className="border-2 border-acapulco-500 rounded-full h-5 w-5 mr-3" />
-              {(s === sortOption.value ||
-                (!s && sortOption.value === "created_at:desc")) && (
-                <View className="bg-acapulco-500 rounded-full h-3 w-3 absolute left-[4]" />
-              )}
-            </View>
-            <Text className="text-base dark:text-gray-200">
-              {sortOption.label}
-            </Text>
-          </Pressable>
-        ))}
+        {sortOptions.map((sortOption) => {
+          return (
+            <Pressable
+              onPress={() => handleSort(sortOption.value)}
+              key={sortOption.label}
+              className="flex-row items-center mb-2"
+            >
+              <View className="items-center justify-center py-2 border-2 border-acapulco-500 rounded-full h-5 w-5 mr-3">
+                {isSelected(sortOption) && (
+                  <View className="bg-acapulco-500 rounded-full h-3 w-3 absolute" />
+                )}
+              </View>
+              <Text className="text-base dark:text-gray-200">
+                {sortOption.label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </BottomSheetModal>
     </>
   );

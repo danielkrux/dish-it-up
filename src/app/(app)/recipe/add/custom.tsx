@@ -19,8 +19,10 @@ function AddRecipe() {
 
   const form = useRecipeForm({
     ...params,
-    ingredients: JSON.parse(params.ingredients),
-    instructions: JSON.parse(params.instructions),
+    // ingredients: JSON.parse(params.ingredients ?? []),
+    // instructions: JSON.parse(params.instructions ?? []),
+    ingredients: [],
+    instructions: [],
   });
 
   const { handleSubmit } = form;

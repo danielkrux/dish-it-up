@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, PressableProps } from "react-native";
 import theme, { colors } from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
-import { styled } from "nativewind";
+import { twMerge } from "tailwind-merge";
 
 export type ButtonProps = {
   size?: "small" | "large";
@@ -26,28 +26,33 @@ function Button({
   return (
     <Pressable
       style={style}
-      className={clsx(
-        "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
-        {
-          "opacity-90": loading,
-          "bg-acapulco-300/20": variant === "secondary",
-          "bg-transparent": variant === "ghost",
-          "py-1.5 self-start": size === "small",
-          "flex-row g-2": icon,
-          "opacity-50": disabled,
-        }
+      {...props}
+      className={twMerge(
+        clsx(
+          "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
+          {
+            "opacity-90": loading,
+            "bg-acapulco-300/20": variant === "secondary",
+            "bg-transparent": variant === "ghost",
+            "py-1.5 self-start": size === "small",
+            "flex-row gap-2": icon,
+            "opacity-50": disabled,
+          },
+          props.className
+        )
       )}
       disabled={disabled}
-      {...props}
     >
       {icon && <Icon name={icon} size={16} light />}
       {!loading ? (
         <Text
-          className={clsx("text-base font-body-bold text-white", {
-            "text-acapulco-300": variant === "secondary",
-            "text-gray-800 dark:text-white": variant === "ghost",
-            "text-sm": size === "small",
-          })}
+          className={twMerge(
+            clsx("text-base font-body-bold text-white", {
+              "text-gray-800 dark:text-white": variant === "ghost",
+              "text-acapulco-400": variant === "secondary",
+              "text-sm": size === "small",
+            })
+          )}
         >
           {children}
         </Text>
@@ -68,6 +73,4 @@ function Button({
   );
 }
 
-export default styled(Button, {
-  props: {},
-});
+export default Button;

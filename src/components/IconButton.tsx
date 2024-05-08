@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { styled } from "nativewind";
 import { useState } from "react";
 import { Pressable, PressableProps } from "react-native";
 import theme from "../theme";
@@ -41,7 +40,8 @@ function IconButton({
           "opacity-80": isPressed,
           "p-1.5": size === "small",
           "p-2": size === "medium",
-        }
+        },
+        props.className
       )}
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       style={style as any}
@@ -52,4 +52,4 @@ function IconButton({
   );
 }
 
-export default styled(IconButton);
+export default IconButton;

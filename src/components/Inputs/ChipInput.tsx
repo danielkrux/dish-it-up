@@ -1,4 +1,3 @@
-import { styled } from "nativewind";
 import { useState } from "react";
 import {
   NativeSyntheticEvent,
@@ -23,7 +22,7 @@ type ChipInputProps = Omit<InputBaseProps, "value"> & {
   data?: ChipData[];
   label: string;
   value?: ChipData[];
-  style?: ViewProps["style"];
+  className?: string;
 };
 
 function ChipInput({
@@ -32,7 +31,7 @@ function ChipInput({
   data,
   value = [],
   label,
-  style,
+  className,
 }: ChipInputProps) {
   const [inputValue, setInputValue] = useState("");
 
@@ -70,9 +69,9 @@ function ChipInput({
   }
 
   return (
-    <View style={style}>
+    <View className={className}>
       <Label>{label}</Label>
-      <View className="mt-0 flex-row flex-wrap g-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 pl-1.5">
+      <View className="mt-0 flex-row flex-wrap gap-1 rounded-lg items-center py-1 bg-gray-100 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 pl-1.5">
         {value?.map((item, i) => (
           <Chip
             key={`${item}-${i}`}
@@ -115,7 +114,7 @@ function ChipInput({
   );
 }
 
-export default styled(ChipInput);
+export default ChipInput;
 
 const styles = StyleSheet.create({
   suggestions: {

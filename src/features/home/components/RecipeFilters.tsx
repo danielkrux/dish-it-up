@@ -4,11 +4,12 @@ import { router, useLocalSearchParams } from "expo-router";
 import ChipList from "~/components/ChipList";
 import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
 import { getCategories } from "~/features/recipe/recipe.service";
+import { HomeSearchParams } from "../types";
 
 export const DEFAULT_FILTER = "all";
 
 function RecipeQuickFilter() {
-  const params = useLocalSearchParams<{ c?: string }>();
+  const params = useLocalSearchParams<HomeSearchParams>();
   const appliedCategory = params.c;
 
   const { data, isLoading } = useQuery([CATEGORIES_QUERY_KEY], getCategories, {
@@ -27,8 +28,8 @@ function RecipeQuickFilter() {
 
   function updateParams(value: string) {
     if (value === DEFAULT_FILTER)
-      return router.setParams({ c: DEFAULT_FILTER });
-    router.setParams({ c: value });
+      return router.setParams<HomeSearchParams>({ c: DEFAULT_FILTER });
+    router.setParams<HomeSearchParams>({ c: value });
   }
 
   if (isLoading)
@@ -41,7 +42,7 @@ function RecipeQuickFilter() {
         ]}
         selectedValues={[]}
         onPress={updateParams}
-        contentContainerStyle="pr-20"
+        contentContainerClassName="pr-20"
       />
     );
 
@@ -49,11 +50,11 @@ function RecipeQuickFilter() {
 
   return (
     <ChipList
-      className="mt-1 pr-"
+      className="mt-1"
       data={data}
       selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
       onPress={updateParams}
-      contentContainerStyle="pr-20"
+      contentContainerClassName="pr-20"
     />
   );
 }

@@ -26,7 +26,7 @@ function BlurButton({
       <BlurView
         intensity={100}
         tint={isDark ? "dark" : "light"}
-        className={clsx("px-3 py-1 flex-row items-center g-2", {
+        className={clsx("px-3 py-1 flex-row items-center gap-2", {
           "p-1": iconOnly,
         })}
       >

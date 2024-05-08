@@ -1,16 +1,15 @@
-import { styled } from "nativewind";
 import { View, ViewProps } from "react-native";
 import Text from "~/components/Text";
 import { Recipe } from "../../recipe.types";
 
 function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
   return (
-    <View style={props.style}>
-      <View className="g-1">
+    <View className={props.className}>
+      <View className="gap-1">
         {recipe?.ingredients?.map((ingredient, i) => (
           <View
             key={`${ingredient}-${i}`}
-            className="flex-row items-center g-1"
+            className="flex-row items-center gap-1"
           >
             <Text>
               {ingredient.amount && (
@@ -28,4 +27,4 @@ function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
   );
 }
 
-export default styled(Ingredients);
+export default Ingredients;

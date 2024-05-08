@@ -13,7 +13,7 @@ function TermsConditions() {
   );
 
   return (
-    <ScrollView contentContainerStyle="mx-4 pb-12">
+    <ScrollView contentContainerClassName="mx-4 pb-12">
       <Markdown>{data ?? ""}</Markdown>
     </ScrollView>
   );

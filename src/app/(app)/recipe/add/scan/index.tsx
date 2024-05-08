@@ -89,6 +89,7 @@ function Scan() {
       }
     });
     if (selectedIndex === -1) return;
+
     runOnJS(setCurrentSelectedIndex)(selectedIndex);
   });
 
@@ -111,11 +112,11 @@ function Scan() {
   }
 
   function handleContinue() {
-    const initialValues = prepareTextBlocksForForm(textBlocks);
+    const params = prepareTextBlocksForForm(textBlocks);
 
     router.navigate({
-      pathname: "/recipe/add/custom",
-      params: initialValues,
+      pathname: "recipe/add/custom/",
+      params: params,
     });
   }
 
@@ -130,7 +131,7 @@ function Scan() {
         <Button onPress={() => router.back()} variant="secondary">
           Cancel
         </Button>
-        <Button disabled onPress={handleContinue}>
+        <Button disabled={!textBlocks.length} onPress={handleContinue}>
           Continue
         </Button>
       </View>

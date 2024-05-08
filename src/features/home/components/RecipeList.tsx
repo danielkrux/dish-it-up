@@ -1,14 +1,14 @@
 import React, { useCallback } from "react";
-import { ListRenderItemInfo, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { ListRenderItemInfo } from "react-native";
+import { FlatList } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
-import theme, { isTablet } from "~/theme";
-import useHomeContext from "~/features/home/hooks/useHomeContext";
+import { isTablet } from "~/theme";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { Recipe } from "~/features/recipe/recipe.types";
 import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
+import { HomeSearchParams } from "../types";
 
 const extractKey = (item: Recipe) => item.id.toString();
 
@@ -23,16 +23,21 @@ export type RecipeListProps = {
 
 function RecipeList({ data, isLoading }: RecipeListProps) {
   const router = useRouter();
-
-  const { recipeId, setRecipeId } = useHomeContext();
+  const searchParams = useLocalSearchParams<HomeSearchParams>();
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<Recipe>) => {
       const handlePress = () => {
         if (isTablet) {
-          setRecipeId(item.id);
+          router.navigate({
+            pathname: "/",
+            params: {
+              ...searchParams,
+              recipe: String(item.id),
+            } satisfies HomeSearchParams,
+          });
         } else {
-          router.push(`/recipe/${item.id}/`);
+          router.navigate(`/recipe/${item.id}/`);
         }
       };
 
@@ -52,7 +57,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
         </Animated.View>
       );
     },
-    [setRecipeId, router, isLoading]
+    [router, isLoading, searchParams]
   );
 
   return (
@@ -61,28 +66,10 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       renderItem={renderItem}
       keyExtractor={extractKey}
       ListHeaderComponent={SeachAndFilter}
-      contentContainerStyle={styles.recipeListContent}
-      className="px-3 md:px-8 mt-1"
-      numColumns={isTablet && !recipeId ? 2 : 1}
-      ItemSeparatorComponent={() => (
-        <View className="border-b border-b-gray-50 dark:border-b-gray-900 h-1 w-[255] self-end" />
-      )}
-      columnWrapperStyle={
-        isTablet && !recipeId ? styles.recipeColumnWrapper : undefined
-      }
-      key={recipeId ? "single-column" : "multi-column"}
+      contentContainerClassName="gap-4 pb-24"
+      className="px-3 md:px-8 md:pt-10"
     />
   );
 }
 
 export default RecipeList;
-
-const styles = StyleSheet.create({
-  recipeListContent: {
-    paddingBottom: 100,
-    gap: theme.spacing.m,
-  },
-  recipeColumnWrapper: {
-    gap: theme.spacing.m,
-  },
-});
