@@ -13,7 +13,7 @@ function Meta({ recipe, className }: { recipe?: Recipe; className?: string }) {
       )}
     >
       <View className="items-center">
-        <Text className="text-acapulco-600 dark:text-acapulco-100 font-display text-xl">
+        <Text className="text-acapulco-600 dark:text-acapulco-100 font-display text-2xl">
           {recipe?.recipe_yield}
         </Text>
         <Text
@@ -24,7 +24,7 @@ function Meta({ recipe, className }: { recipe?: Recipe; className?: string }) {
         </Text>
       </View>
       <View className="items-center">
-        <Text className="text-acapulco-600 dark:text-acapulco-100 font-display text-xl">
+        <Text className="text-acapulco-600 dark:text-acapulco-100 font-display text-2xl">
           {recipe?.total_time}
         </Text>
         <Text

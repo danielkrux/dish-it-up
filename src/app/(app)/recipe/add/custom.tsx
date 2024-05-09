@@ -19,10 +19,12 @@ function AddRecipe() {
 
   const form = useRecipeForm({
     ...params,
-    // ingredients: JSON.parse(params.ingredients ?? []),
-    // instructions: JSON.parse(params.instructions ?? []),
-    ingredients: [],
-    instructions: [],
+    ingredients: params.ingredients?.length
+      ? JSON.parse(params.ingredients)
+      : [{ name: "" }],
+    instructions: params.instructions?.length
+      ? JSON.parse(params.instructions)
+      : [""],
   });
 
   const { handleSubmit } = form;
@@ -31,10 +33,12 @@ function AddRecipe() {
 
   function handleSave() {
     handleSubmit(async (values) => {
+      const parsedIngredients = parseIngredients(values.ingredients);
+
       return mutate({
         ...values,
         categories: values.categories ?? [],
-        ingredients: parseIngredients(values.ingredients),
+        ingredients: parsedIngredients,
         instructions: values.instructions.map((i) => i.value),
       });
     })();

@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
 import recipeKeys from "../recipe.queryKeys";
 import { createRecipe } from "../recipe.service";
 import { Recipe } from "../recipe.types";
+import { router } from "expo-router";
 
 function useCreateRecipe() {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(createRecipe, {
@@ -19,7 +18,7 @@ function useCreateRecipe() {
         ...(previousRecipes ?? []),
         recipe,
       ]);
-      router.replace("/");
+      router.navigate("/");
       return { previousRecipes };
     },
     onError: (err, variables, context) => {

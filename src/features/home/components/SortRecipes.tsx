@@ -22,36 +22,32 @@ function SortRecipes() {
 
   return (
     <>
-      <Pressable
-        onPress={() => bottomSheetRef.current?.present()}
-        className="absolute right-0 top-0 bottom-0 "
-      >
+      <Pressable onPress={() => bottomSheetRef.current?.present()}>
         <LinearGradient
-          className="flex-1 justify-center pl-10 pr-1"
           start={{ x: 0, y: 1 }}
           end={{ x: 0.4, y: 1 }}
           colors={[hexToRGBA(color, 0.1), color]}
         >
-          <Text className="font-body-bold text-gray-600 dark:text-gray-300 mt-1">
+          <Text className="font-body-bold text-gray-600 dark:text-gray-300 mt-4">
             SORT
           </Text>
         </LinearGradient>
       </Pressable>
       <BottomSheetModal ref={bottomSheetRef}>
-        <Text className="font-display text-2xl mt-1 mb-2">Sort recipes by</Text>
+        <Text className="font-display text-3xl mt-2 mb-4">Sort recipes by</Text>
         {sortOptions.map((sortOption) => {
           return (
             <Pressable
               onPress={() => handleSort(sortOption.value)}
               key={sortOption.label}
-              className="flex-row items-center mb-2"
+              className="flex-row items-center mb-4"
             >
               <View className="items-center justify-center py-2 border-2 border-acapulco-500 rounded-full h-5 w-5 mr-3">
                 {isSelected(sortOption) && (
                   <View className="bg-acapulco-500 rounded-full h-3 w-3 absolute" />
                 )}
               </View>
-              <Text className="text-base dark:text-gray-200">
+              <Text className="text-base dark:text-gray-200 text-lg">
                 {sortOption.label}
               </Text>
             </Pressable>

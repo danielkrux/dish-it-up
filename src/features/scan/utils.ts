@@ -22,7 +22,11 @@ export function prepareTextBlocksForForm(textBlocks: TextBlock[]) {
     // remove parentheses from description otherwise expo router wont pass description
     description:
       description?.replaceAll("(", "%28").replaceAll(")", "%29") ?? "",
-    instructions: JSON.stringify(instructions),
-    ingredients: JSON.stringify(ingredients),
+    instructions: JSON.stringify(instructions)
+      .replaceAll("(", "%28")
+      .replaceAll(")", "%29"),
+    ingredients: JSON.stringify(ingredients.map((i) => ({ name: i })))
+      .replaceAll("(", "%28")
+      .replaceAll(")", "%29"),
   };
 }
