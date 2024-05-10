@@ -58,8 +58,7 @@ module.exports = {
   },
   plugins: [
     "expo-font",
-    "expo-build-properties",
-    "./modules/react-native-ocr/app.plugin.js",
+    // "./modules/react-native-ocr/app.plugin.js",
     [
       "expo-router",
       {

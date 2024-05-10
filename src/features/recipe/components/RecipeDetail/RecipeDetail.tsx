@@ -78,7 +78,7 @@ export default function RecipeDetail({
             onPress={() => logRecipeRef?.current?.present()}
             initialValue={data?.rating}
             short
-            className="mb-1.5 native:hidden"
+            className="mb-1.5"
           />
         </View>
 
@@ -87,7 +87,9 @@ export default function RecipeDetail({
           className="aspect-video rounded-2xl"
         />
       </View>
-      {data?.description && <Text className="mb-4">{data?.description}</Text>}
+      {data?.description && (
+        <Text className="mb-4 max-w-3xl">{data?.description}</Text>
+      )}
       <Meta recipe={data} className="mb-5" />
       <ChipList
         className="mb-5"

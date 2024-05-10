@@ -1,4 +1,4 @@
-package com.danielkrux.react-native-ocr
+package com.danielkrux.reactnativeocr
 
 import android.content.Context
 import expo.modules.kotlin.AppContext

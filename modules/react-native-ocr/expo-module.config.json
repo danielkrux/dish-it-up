@@ -4,6 +4,6 @@
     "modules": ["ReactNativeOcrModule"]
   },
   "android": {
-    "modules": ["com.danielkrux.react-native-ocr.ReactNativeOcrModule"]
+    "modules": ["com.danielkrux.reactnativeocr.ReactNativeOcrModule"]
   }
 }

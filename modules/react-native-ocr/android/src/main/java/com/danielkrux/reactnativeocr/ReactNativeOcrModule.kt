@@ -1,4 +1,4 @@
-package com.danielkrux.react-native-ocr
+package com.danielkrux.reactnativeocr
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition

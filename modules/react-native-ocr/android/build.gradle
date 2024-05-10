@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-group = 'com.danielkrux.react-native-ocr'
+group = 'com.danielkrux.reactnativeocr'
 version = '0.5.0'
 
 buildscript {
@@ -65,7 +65,7 @@ android {
     }
   }
 
-  namespace "com.danielkrux.react-native-ocr"
+  namespace "com.danielkrux.reactnativeocr"
   defaultConfig {
     minSdkVersion safeExtGet("minSdkVersion", 21)
     targetSdkVersion safeExtGet("targetSdkVersion", 34)
