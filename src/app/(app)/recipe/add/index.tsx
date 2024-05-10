@@ -34,6 +34,7 @@ export default function Add() {
       >
         Custom recipe
       </Button>
+      {/* TODO: implement android */}
       {Platform.OS === "ios" ? (
         <Button
           className="mt-2"

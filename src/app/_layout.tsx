@@ -6,10 +6,7 @@ import {
   NotoSans_700Bold,
   NotoSans_500Medium,
 } from "@expo-google-fonts/noto-sans";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -39,19 +36,12 @@ import { clientPersister } from "~/utils/storage";
 import Modal from "~/components/Modal";
 
 import "../../styles.css";
-import { cssInterop, remapProps } from "nativewind";
+import { cssInterop } from "nativewind";
 import { Image } from "expo-image";
 
 export const supabase = initSupabase();
 
 cssInterop(Image, { className: "style" });
-
-export const SBottomSheetModal = remapProps(BottomSheetModal, {
-  className: "style",
-  containerClassName: "containerStyle",
-  handleClassName: "handleStyle",
-  handleIndicatorClassName: "handleIndicatorStyle",
-});
 
 export default function Root() {
   // useReactQueryDevTools(queryClient);

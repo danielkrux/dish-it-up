@@ -1,7 +1,7 @@
 import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
@@ -38,23 +38,26 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(
 
     return (
       <BottomSheetModal ref={innerRef}>
-        <Text className="font-display text-2xl mb-1">Log Recipe</Text>
-        <Text className="text-base text-gray-700 dark:text-gray-200">
+        <Text className="font-display text-3xl mb-1">Log Recipe</Text>
+        <Text className="text-base text-gray-700 dark:text-gray-300">
           {data?.name}
         </Text>
-        <View className="flex-row items-center mt-6 mb-4">
-          <Text className="text-base dark:text-gray-300">Last made on</Text>
-          <DateTimePicker
-            value={date}
-            mode="date"
-            accentColor={colors.primary[500]}
-            maximumDate={TODAY}
-            onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || date;
-              setDate(currentDate);
-            }}
-          />
-        </View>
+        {/* TODO: implement android */}
+        {Platform.OS === "ios" && (
+          <View className="flex-row items-center mt-6 mb-6">
+            <Text className="text-base dark:text-gray-300">Last made on</Text>
+            <DateTimePicker
+              value={date}
+              mode="date"
+              accentColor={colors.primary[500]}
+              maximumDate={TODAY}
+              onChange={(event, selectedDate) => {
+                const currentDate = selectedDate || date;
+                setDate(currentDate);
+              }}
+            />
+          </View>
+        )}
         <View className="flex-row gap-2">
           <Text className="text-base mb-2 dark:text-gray-300">Rating</Text>
           <StarRating initialValue={stars - 1} onChange={setStars} />

@@ -3,6 +3,7 @@ import {
   BottomSheetModal as _BottomSheetModal,
   BottomSheetModalProps,
 } from "@gorhom/bottom-sheet";
+import { useColorScheme } from "nativewind";
 import React, {
   forwardRef,
   useCallback,
@@ -16,9 +17,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { SBottomSheetModal } from "~/app/_layout";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import { SCREEN_WIDTH, isTablet } from "~/theme";
+import { SCREEN_WIDTH, colors, isTablet } from "~/theme";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -50,8 +50,17 @@ function BackdropComponent({ animatedIndex, onPress }: BackDropProps) {
   );
 }
 
+function HandleComponent() {
+  return (
+    <View className="flex items-center justify-center py-2 bg-white dark:bg-gray-950">
+      <View className="w-12 h-2 bg-gray-200 dark:bg-gray-800 rounded-full" />
+    </View>
+  );
+}
+
 const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
   ({ children, ...props }, ref) => {
+    const colorScheme = useColorScheme();
     const innerRef = useRef<_BottomSheetModal>(null);
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     useImperativeHandle(ref, () => innerRef.current!);
@@ -69,16 +78,17 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
       []
     );
 
+    const renderHandle = useCallback(() => <HandleComponent />, []);
+
     return (
-      <SBottomSheetModal
+      <_BottomSheetModal
         ref={innerRef}
         detached
         snapPoints={snapPoints}
         bottomInset={insets.bottom + 5}
         backdropComponent={renderBackDrop}
         style={styles.bottomSheet}
-        handleClassName="bg-white dark:bg-gray-950 rounded-t-xl"
-        handleIndicatorClassName="bg-gray-200 dark:bg-gray-700"
+        handleComponent={renderHandle}
         containerStyle={
           isTablet
             ? {
@@ -89,10 +99,10 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
         }
         {...props}
       >
-        <View className="flex-1 bg-white dark:bg-gray-950 px-4">
+        <View className="flex-1 bg-white dark:bg-gray-950 py-2 px-6">
           {children}
         </View>
-      </SBottomSheetModal>
+      </_BottomSheetModal>
     );
   }
 );
@@ -102,8 +112,8 @@ export default BottomSheetModal;
 const styles = StyleSheet.create({
   bottomSheet: {
     marginHorizontal: 16,
-    backgroundColor: "white",
     borderRadius: 16,
+    backgroundColor: "white",
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: {
       width: 0,
