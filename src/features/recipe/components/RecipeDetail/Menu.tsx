@@ -9,7 +9,7 @@ import useFetchRecipe from "../../hooks/useFetchRecipe";
 
 type RecipeDetailMenuProps = {
   recipeId: number;
-  onDeleteSucces: () => void;
+  onDeleteSucces?: () => void;
   onShowLogRecipe?: () => void;
 };
 

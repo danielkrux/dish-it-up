@@ -33,8 +33,9 @@ function AddRecipe() {
 
   function handleSave() {
     handleSubmit(async (values) => {
-      const parsedIngredients = parseIngredients(values.ingredients);
-
+      const parsedIngredients = parseIngredients(
+        values.ingredients.map((i) => ({ name: i.name }))
+      );
       return mutate({
         ...values,
         categories: values.categories ?? [],

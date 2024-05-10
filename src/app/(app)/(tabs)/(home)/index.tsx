@@ -35,17 +35,19 @@ export default function Home() {
         (data: Recipe[]) => filterRecipesByCategory(data, c),
         [c]
       ),
-      keepPreviousData: true,
     }
   );
 
   useRefreshOnFocus(refetch);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (!recipe && data?.length) {
-      router.navigate({ params: { recipe: data?.[0].id.toString() } });
+    if (data?.length) {
+      router.setParams({
+        recipe: data?.[0].id.toString(),
+      });
     }
-  }, [recipe, data, router]);
+  }, [data]);
 
   return (
     <View className="flex-1">

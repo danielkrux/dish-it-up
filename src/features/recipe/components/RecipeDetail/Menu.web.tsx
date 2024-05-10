@@ -12,10 +12,19 @@ import IconButton from "~/components/IconButton";
 import useFetchRecipe from "../../hooks/useFetchRecipe";
 import useDeleteRecipe from "../../hooks/useDeleteRecipe";
 
-export default function Menu({ recipeId }: { recipeId: number }) {
+type RecipeDetailMenuProps = {
+  recipeId: number;
+  onDeleteSucces: () => void;
+  onShowLogRecipe?: () => void;
+};
+
+export default function Menu({
+  recipeId,
+  onDeleteSucces,
+}: RecipeDetailMenuProps) {
   const { data } = useFetchRecipe(recipeId);
   const { mutate } = useDeleteRecipe(recipeId, {
-    onSuccess: () => {},
+    onSuccess: onDeleteSucces,
   });
 
   return (

@@ -14,6 +14,7 @@ import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import Meta from "./Meta";
+import { isWeb } from "~/theme";
 
 export default function RecipeDetail({
   id,
@@ -74,12 +75,14 @@ export default function RecipeDetail({
       <View className="mb-4">
         <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex native:md:hidden">
           <Text className="font-display text-4xl">{data?.name}</Text>
-          <StarRating
-            onPress={() => logRecipeRef?.current?.present()}
-            initialValue={data?.rating}
-            short
-            className="mb-1.5"
-          />
+          {!isWeb && (
+            <StarRating
+              onPress={() => logRecipeRef?.current?.present()}
+              initialValue={data?.rating}
+              short
+              className="mb-1.5"
+            />
+          )}
         </View>
 
         <Image

@@ -18,12 +18,6 @@ export function parseIngredients(
   if (!_ingredients) return [];
 
   const ingredients = _ingredients.map((ingredient) => {
-    if (typeof ingredient.id === "undefined") {
-      return {
-        name: ingredient.name ?? "",
-      };
-    }
-
     if (ingredient.name?.match(/^\d/) || ingredient.name?.startsWith("½")) {
       const bracketsRegex = new RegExp(/\(([^)]+)\)/);
       const brackets = ingredient.name?.match(bracketsRegex);

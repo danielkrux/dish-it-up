@@ -10,21 +10,14 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import { isTablet } from "~/theme";
+import { isTablet, isWeb } from "~/theme";
 
 export default function HomeTabLayout() {
   const ref = useRef<BottomSheetModal>(null);
 
   const params = useGlobalSearchParams<HomeSearchParams>();
-
   const recipeId = params.recipe;
-
   const { data } = useFetchRecipe(Number(recipeId));
-
-  function removeParam() {
-    // @ts-ignore
-    router.setParams<HomeSearchParams>({ ...params, recipe: undefined });
-  }
 
   return (
     <View className="flex-1 flex-row">
@@ -32,12 +25,15 @@ export default function HomeTabLayout() {
         <Slot />
       </View>
       {recipeId && isTablet && (
-        <View className="flex-1 pt-0 lg:pt-10 lg:native:pt-0">
+        <View
+          style={{ paddingTop: isTablet && isWeb ? 40 : 0 }}
+          className="flex-1 pt-0"
+        >
           <View className="flex-row justify-between px-4 py-2">
-            <Text type="header" size="2xl">
+            <Text type="header" className="text-5xl">
               {data?.name}
             </Text>
-            <View className="flex-row gap-2 ml-auto">
+            <View className="flex-row items-center gap-2 ml-auto">
               <IconButton
                 size="medium"
                 icon="Maximize2"
@@ -46,7 +42,6 @@ export default function HomeTabLayout() {
               <RecipeDetailMenu
                 recipeId={Number(recipeId)}
                 onShowLogRecipe={ref.current?.present}
-                onDeleteSucces={removeParam}
               />
             </View>
           </View>
