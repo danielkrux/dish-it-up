@@ -31,7 +31,7 @@ export default function Settings() {
       />
       <ListButton
         label="Sign out"
-        onPress={signOut}
+        onPress={() => signOut()}
         icon="LogOut"
         className="mx-4 mt-12"
       />

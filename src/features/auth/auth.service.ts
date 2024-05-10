@@ -67,6 +67,7 @@ export async function signUpWithEmail({
 }
 
 export async function signOut() {
+  console.log("here");
   const { error } = await supabase.auth.signOut();
   queryClient.removeQueries();
 

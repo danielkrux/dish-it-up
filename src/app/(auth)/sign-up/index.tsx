@@ -71,7 +71,7 @@ export default function SignUp() {
           spellCheck={false}
           autoCorrect={false}
           error={errors.email?.message}
-          containerStyle="mb-2"
+          containerClassName="mb-2"
         />
         <ControlledInput
           name="password"
@@ -85,7 +85,7 @@ export default function SignUp() {
           clearTextOnFocus={false}
           control={control}
           error={errors.password?.message}
-          containerStyle="mb-2"
+          containerClassName="mb-2"
         />
 
         <ControlledInput
@@ -100,7 +100,7 @@ export default function SignUp() {
           clearTextOnFocus={false}
           control={control}
           error={errors.confirmPassword?.message}
-          containerStyle="mb-6"
+          containerClassName="mb-6"
         />
       </View>
       <Button

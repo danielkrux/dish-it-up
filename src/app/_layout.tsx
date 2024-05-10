@@ -107,6 +107,7 @@ export default function Root() {
                   />
                   <Head>
                     <meta property="expo:handoff" content="true" />
+                    <meta name="apple-itunes-app" content="app-id=6474765614" />
                   </Head>
                   <Slot />
                   <Toast config={toastConfig} topOffset={0} />

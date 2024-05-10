@@ -3,6 +3,8 @@ process.env.EXPO_TUNNEL_SUBDOMAIN = "dish-it-up";
 
 const ngrokUrl = `${process.env.EXPO_TUNNEL_SUBDOMAIN}.ngrok.io`;
 
+const URL = "dish-it-up.danielkrux.dev";
+
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
   // ...
@@ -25,6 +27,20 @@ module.exports = {
     },
     package: "com.danielkrux.dishitup",
     softwareKeyboardLayoutMode: "resize",
+    intentFilters: [
+      {
+        action: "VIEW",
+        autoVerify: true,
+        data: [
+          {
+            scheme: "https",
+            host: `*.${URL}`,
+            pathPrefix: "/records",
+          },
+        ],
+        category: ["BROWSABLE", "DEFAULT"],
+      },
+    ],
   },
   web: {
     bundler: "metro",
@@ -50,7 +66,7 @@ module.exports = {
         headOrigin:
           process.env.NODE_ENV === "development"
             ? `https://${ngrokUrl}`
-            : "https://dish-it-up.danielkrux.dev",
+            : `https://${URL}`,
       },
     ],
     [

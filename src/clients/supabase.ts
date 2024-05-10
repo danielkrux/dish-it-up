@@ -29,7 +29,7 @@ export const initSupabase = () => {
       storage: Platform.OS === "web" ? localStorage : new LargeSecureStore(),
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false,
+      detectSessionInUrl: Platform.OS === "web" ? true : false,
     },
   });
 
