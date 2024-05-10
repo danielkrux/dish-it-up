@@ -22,6 +22,8 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Head from "expo-router/head";
+
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
@@ -103,6 +105,9 @@ export default function Root() {
                     }
                     style="auto"
                   />
+                  <Head>
+                    <meta property="expo:handoff" content="true" />
+                  </Head>
                   <Slot />
                   <Toast config={toastConfig} topOffset={0} />
                   <Modal />

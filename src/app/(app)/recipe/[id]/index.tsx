@@ -1,5 +1,6 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import Head from "expo-router/head";
 import { useRef } from "react";
 import Toast from "react-native-toast-message";
 import FloatingButton from "~/components/FloatingButton";
@@ -26,6 +27,9 @@ export default function RecipeDetailPage() {
 
   return (
     <>
+      <Head>
+        <meta property="expo:handoff" content="true" />
+      </Head>
       <Stack.Screen
         options={{
           title: "Recipe",

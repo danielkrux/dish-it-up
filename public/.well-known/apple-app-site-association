@@ -1,0 +1,27 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "J4U764FR4Z.com.danielkrux.dishitup"
+        ],
+        "components": [
+          {
+            "/": "*",
+            "comment": "Matches all routes"
+          }
+        ]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "J4U764FR4Z.com.danielkrux.dishitup"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "J4U764FR4Z.com.danielkrux.dishitup"
+    ]
+  }
+}
