@@ -7,6 +7,10 @@ module.exports = {
   theme: {
     g: ({ theme }) => theme("spacing"),
     extend: {
+      maxHeight: {
+        "screen-1/2": "50vh",
+        "screen-3/4": "75vh",
+      },
       colors: {
         primary: "#68A691",
         secondary: "#BFD3C1",

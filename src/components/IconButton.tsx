@@ -29,6 +29,7 @@ function IconButton({
 
   return (
     <Pressable
+      role="button"
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
       hitSlop={5}

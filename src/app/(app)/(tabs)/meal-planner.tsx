@@ -19,9 +19,11 @@ import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
+import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
+import { isWeb } from "~/theme";
 
 function MealPlanner() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -46,18 +48,6 @@ function MealPlanner() {
     })
     .flat();
 
-  function handleSelectRecipe(date: Date) {
-    if (!recipes?.length) {
-      return Toast.show({
-        type: "error",
-        text1: "No recipes found",
-        text2: "Please add some recipes to select one",
-      });
-    }
-    //@ts-ignore
-    router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
-  }
-
   function handleCreateGroceryList() {
     const currentMealPlansIds = currentMealPlans
       .map((mp) => mp.recipe_id)
@@ -71,63 +61,84 @@ function MealPlanner() {
       });
     }
 
-    //@ts-ignore
-    router.push(`/meal-planner/grocery-list?ids=${currentMealPlansIds}`);
+    router.navigate(`/meal-planner/grocery-list?ids=${currentMealPlansIds}`);
+  }
+
+  function handleSelectRecipe(date: Date) {
+    if (!recipes?.length) {
+      return Toast.show({
+        type: "error",
+        text1: "No recipes found",
+        text2: "Please add some recipes to select one",
+      });
+    }
+
+    if (isWeb) {
+      return router.navigate({
+        pathname: "/meal-planner/",
+        params: { date: date.toISOString() },
+      });
+    }
+
+    router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
   }
 
   return (
-    <View className="flex-1">
-      <View className="flex-row justify-between items-center m-4 md:mx-8">
-        <IconButton
-          onPress={() => setSelectedDate(subDays(selectedDate, 7))}
-          icon="ChevronLeft"
-          size="medium"
-        />
-        <Text size="l">
-          {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
-        </Text>
-        <IconButton
-          onPress={() => setSelectedDate(addDays(selectedDate, 7))}
-          icon="ChevronRight"
-          size="medium"
-        />
-      </View>
-      <ScrollView
-        className="flex-1"
-        contentContainerClassName="mx-4 md:mx-8 pb-16"
-      >
-        {datesOfWeek.map((date) => {
-          const mealPlans = data?.[format(date, "yyyy-MM-dd")];
+    <>
+      <View className="flex-1">
+        <View className="flex-row justify-between items-center m-4 md:mx-8">
+          <IconButton
+            onPress={() => setSelectedDate(subDays(selectedDate, 7))}
+            icon="ChevronLeft"
+            size="medium"
+          />
+          <Text size="l">
+            {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
+          </Text>
+          <IconButton
+            onPress={() => setSelectedDate(addDays(selectedDate, 7))}
+            icon="ChevronRight"
+            size="medium"
+          />
+        </View>
+        <ScrollView
+          className="flex-1"
+          contentContainerClassName="mx-4 md:mx-8 pb-16"
+        >
+          {datesOfWeek.map((date) => {
+            const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 
-          return (
-            <Animated.View
-              entering={FadeIn}
-              exiting={FadeOut}
-              key={date.toISOString()}
-              className="mb-5"
-            >
-              <View className="flex-row justify-between items-center mb-2">
-                <Text type="header" size="xl">
-                  {format(date, "EEEE")}
-                </Text>
-                <IconButton
-                  onPress={() => handleSelectRecipe(date)}
-                  icon="Plus"
-                />
-              </View>
-              <View className="gap-4">
-                {mealPlans?.map((item) => (
-                  <MealPlanItem key={item.id} mealPlan={item} />
-                ))}
-              </View>
-            </Animated.View>
-          );
-        })}
-      </ScrollView>
-      <FloatingButton onPress={handleCreateGroceryList}>
-        Create Grocery List
-      </FloatingButton>
-    </View>
+            return (
+              <Animated.View
+                entering={FadeIn}
+                exiting={FadeOut}
+                key={date.toISOString()}
+                className="mb-5"
+              >
+                <View className="flex-row justify-between items-center mb-2">
+                  <Text type="header" size="xl">
+                    {format(date, "EEEE")}
+                  </Text>
+                  <IconButton
+                    onPress={() => handleSelectRecipe(date)}
+                    icon="Plus"
+                  />
+                </View>
+                <View className="gap-4">
+                  {mealPlans?.map((item) => (
+                    <MealPlanItem key={item.id} mealPlan={item} />
+                  ))}
+                </View>
+              </Animated.View>
+            );
+          })}
+        </ScrollView>
+        <FloatingButton onPress={handleCreateGroceryList}>
+          Create Grocery List
+        </FloatingButton>
+      </View>
+      <RecipeSelectDialog />
+    </>
   );
 }
 

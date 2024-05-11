@@ -24,7 +24,8 @@ function DeleteAccount() {
   function handleShowConfirmation() {
     Modal.show({
       title: "Delete Account?",
-      description: "Are you sure you wish to delete your account?",
+      description:
+        "This action cannot be undone. This will permanently delete your account and remove your data from our servers.",
       onConfirm: deleteAccount,
     });
   }
