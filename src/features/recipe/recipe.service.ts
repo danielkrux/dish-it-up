@@ -108,6 +108,10 @@ export async function createRecipe(recipe?: RecipeCreate) {
 export async function updateRecipe(recipeInput: RecipeUpdate) {
   const { categories, ingredients, ...recipe } = recipeInput;
 
+  if (!recipe.id) {
+    throw new Error("No recipe id on recipe");
+  }
+
   await updateRecipeCategories(recipe.id, categories);
 
   if (recipe.images) {
@@ -137,7 +141,7 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
   const result = await supabase
     .from("recipes")
     .update(recipe)
-    .eq("id", recipe.id)
+    .eq("id", recipe?.id)
     .select("*, categories(*), ingredients(*)")
     .single();
 
@@ -293,7 +297,7 @@ export async function updateRecipeCategories(
   categories: TableUpdate<"categories">[] = [],
   shouldDelete = true
 ) {
-  if (!categories) return;
+  if (!categories || !recipeId) return;
 
   if (shouldDelete) {
     const currentRecipeCategories = await getRecipeCategories(recipeId);
