@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.223.0/http/server.ts";
 import parseHtmlToRecipeSchema from "./parseHtmlToRecipeSchema.ts";
 import parseSchemaToRecipe from "./parseSchemaToRecipe.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
 serve(async (req) => {
   const { searchParams } = new URL(req.url);
@@ -22,12 +23,12 @@ serve(async (req) => {
     const recipe = parseSchemaToRecipe(schema, url);
 
     return new Response(JSON.stringify(recipe), {
-      headers: { "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error(error);
     return new Response(error.message, {
-      headers: { "Content-Type": "text/plain" },
+      headers: { ...corsHeaders, "Content-Type": "text/plain" },
       status: 400,
     });
   }
