@@ -46,14 +46,16 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
       onLeftOpen={handleNavigateToGroceriesSelect}
       onPress={handleNavigateToRecipe}
     >
-      <View className="flex-row bg-gray-100 dark:bg-gray-900 rounded-2xl">
+      <View className="flex-row lg:flex-col bg-gray-100 dark:bg-gray-900 rounded-2xl">
         <Image
-          className="w-24 h-full mr-4 rounded-l-2xl"
+          className="w-24 h-full mr-4 rounded-l-2xl lg:h-24 lg:w-full lg:rounded-bl-none lg:rounded-t-2xl"
           source={recipe?.images?.[0]}
           placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
         />
-        <View className="flex-1 py-2 mr-3">
-          <Text className="font-display text-base mb-1">{recipe?.name}</Text>
+        <View className="flex-1 lg:flex-none py-2 lg:py-4 lg:px-4 mr-3">
+          <Text numberOfLines={3} className="font-display text-base mb-1">
+            {recipe?.name}
+          </Text>
           <Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
             {recipe?.recipe_yield} servings | {recipe?.total_time}
           </Text>

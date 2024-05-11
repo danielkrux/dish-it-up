@@ -103,7 +103,7 @@ function MealPlanner() {
         </View>
         <ScrollView
           className="flex-1"
-          contentContainerClassName="mx-4 md:mx-8 pb-16"
+          contentContainerClassName="mx-4 lg:mx-8 pb-16 lg:mt-8 lg:flex-row lg:justify-between lg:gap-6"
         >
           {datesOfWeek.map((date) => {
             const mealPlans = data?.[format(date, "yyyy-MM-dd")];
@@ -113,7 +113,7 @@ function MealPlanner() {
                 entering={FadeIn}
                 exiting={FadeOut}
                 key={date.toISOString()}
-                className="mb-5"
+                className="mb-5 lg:w-[170px] 2xl:w-[220px]"
               >
                 <View className="flex-row justify-between items-center mb-2">
                   <Text type="header" size="xl">

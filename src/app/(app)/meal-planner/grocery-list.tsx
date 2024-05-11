@@ -13,7 +13,7 @@ import { Ingredient } from "~/features/recipe/recipe.types";
 function GroceryList() {
   const router = useRouter();
   const { ids } = useLocalSearchParams<{ ids: string }>();
-  const idsArray = ids.split(",").map((id) => Number(id));
+  const idsArray = ids?.split(",").map((id) => Number(id));
   const { data } = useFetchRecipes(idsArray);
 
   const [selected, setSelected] = useState<Ingredient[]>([]);

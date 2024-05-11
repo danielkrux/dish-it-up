@@ -3,6 +3,7 @@ import { Redirect, Stack } from "expo-router";
 import { Platform, View } from "react-native";
 import useAuth from "~/hooks/useAuth";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
+import { isTablet, isWeb } from "~/theme";
 
 function Layout() {
   const theme = useThemeConfig();
@@ -17,7 +18,10 @@ function Layout() {
   }
 
   return (
-    <View className="flex-1 px-0 lg:px-16 lg:native:px-0 max-h-screen w-screen dark:bg-gray-950">
+    <View
+      className="flex-1 px-0 max-h-screen w-screen dark:bg-gray-950"
+      style={{ paddingHorizontal: isWeb && isTablet ? 32 : 0 }}
+    >
       <Stack
         screenOptions={{
           headerShadowVisible: false,
