@@ -42,7 +42,7 @@ function Chip({
         <Icon size={16} name="Check" className="text-white" light />
       )}
       <Text
-        className={cn("text-gray-900 dark:text-white font-body-bold", {
+        className={cn("text-gray-900 text-sm dark:text-white font-body-bold", {
           "text-white": isSelected,
         })}
       >

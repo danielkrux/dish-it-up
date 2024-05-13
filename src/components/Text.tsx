@@ -9,7 +9,7 @@ export type TextProps = {
   size?: "2xl" | "xl" | "l" | "m" | "s" | "xs";
 } & RNTextProps;
 
-function Text({ type = "body", size, className, ...props }: TextProps) {
+function Text({ type = "body", size = "m", className, ...props }: TextProps) {
   return (
     <RNText
       {...props}

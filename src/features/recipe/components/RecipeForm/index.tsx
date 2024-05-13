@@ -15,7 +15,7 @@ const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
   contentContainerClassName: "contentContainerStyle",
 });
 
-function RecipeForm() {
+function RecipeForm({ className }: { className?: string }) {
   const categoriesQuery = useFetchCategories();
 
   const form = useFormContext<RecipeUpdateForm>();
@@ -32,7 +32,10 @@ function RecipeForm() {
   });
 
   return (
-    <KeyboardAwareScrollView contentContainerClassName="px-4 pb-10">
+    <KeyboardAwareScrollView
+      className={className}
+      contentContainerClassName="px-4 pb-10"
+    >
       <ImageInput
         initialImages={getValues("images")?.filter(isTruthy)}
         onChange={(images) => setValue("images", images)}

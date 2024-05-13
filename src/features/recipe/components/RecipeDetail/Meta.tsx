@@ -1,10 +1,16 @@
 import { View } from "react-native";
 
 import Text from "~/components/Text";
-import { Recipe } from "../../recipe.types";
+import { Recipe, RecipeUpdate } from "../../recipe.types";
 import clsx from "clsx";
 
-function Meta({ recipe, className }: { recipe?: Recipe; className?: string }) {
+function Meta({
+  recipe,
+  className,
+}: {
+  recipe?: RecipeUpdate;
+  className?: string;
+}) {
   return (
     <View
       className={clsx(

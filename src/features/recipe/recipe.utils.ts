@@ -14,7 +14,7 @@ export function parseIngredientAmount(amount: string | null) {
 
 export function parseIngredients(
   _ingredients?: IngredientUpdate[] | IngredientCreate[]
-): IngredientCreate[] {
+): IngredientUpdate[] {
   if (!_ingredients) return [];
 
   const ingredients = _ingredients.map((ingredient) => {

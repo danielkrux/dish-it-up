@@ -42,19 +42,19 @@ export default function RecipeImageCard({
       />
       <View className="flex-1 p-2 pl-0">
         <Text
-          className="text-base leading-5 md:text-xl mb-1"
+          className="text-xl leading-5 md:text-xl"
           numberOfLines={2}
           type="header"
         >
           {recipe?.name}
         </Text>
         {recipe?.total_time && recipe.recipe_yield && (
-          <Text className="text-xs text-gray-600 dark:text-gray-300 mb-2">
+          <Text className="text-xs text-gray-400 dark:text-gray-300 mb-1">
             {recipe?.total_time} | {recipe?.recipe_yield} servings
           </Text>
         )}
         <Text
-          className="text-xs leading-5 text-gray-800 dark:text-gray-200 max-w-md"
+          className="text-sm lg:text-xs leading-5 text-gray-600 dark:text-gray-200 max-w-md"
           numberOfLines={isTablet ? 3 : 2}
         >
           {recipe?.description}

@@ -1,8 +1,11 @@
 import { View, ViewProps } from "react-native";
 import Text from "~/components/Text";
-import { Recipe } from "../../recipe.types";
+import { RecipeUpdate } from "../../recipe.types";
 
-function Ingredients({ recipe, ...props }: { recipe?: Recipe } & ViewProps) {
+function Ingredients({
+  recipe,
+  ...props
+}: { recipe?: RecipeUpdate } & ViewProps) {
   return (
     <View className={props.className}>
       <View className="gap-1">
