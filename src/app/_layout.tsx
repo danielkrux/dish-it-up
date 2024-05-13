@@ -21,8 +21,6 @@ import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Head from "expo-router/head";
 
-import { useReactQueryDevTools } from "@dev-plugins/react-query";
-
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
@@ -38,6 +36,7 @@ import Modal from "~/components/Modal";
 import "../../styles.css";
 import { cssInterop } from "nativewind";
 import { Image } from "expo-image";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 export const supabase = initSupabase();
 

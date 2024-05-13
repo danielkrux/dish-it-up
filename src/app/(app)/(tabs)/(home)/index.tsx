@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect } from "react";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback } from "react";
 import { View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -40,14 +40,15 @@ export default function Home() {
 
   useRefreshOnFocus(refetch);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (data?.length) {
+  useFocusEffect(
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useCallback(() => {
+      if (!data?.length) return;
       router.setParams({
         recipe: data?.[0].id.toString(),
       });
-    }
-  }, [data]);
+    }, [data])
+  );
 
   return (
     <View className="flex-1">
