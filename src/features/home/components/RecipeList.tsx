@@ -7,7 +7,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { isTablet } from "~/theme";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { Recipe } from "~/features/recipe/recipe.types";
-import RecipeImageCardWithContext from "~/features/recipe/components/RecipeImageCardWithContext";
 import { HomeSearchParams } from "../types";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 
