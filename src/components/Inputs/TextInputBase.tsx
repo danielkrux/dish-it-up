@@ -1,15 +1,7 @@
-import {
-  forwardRef,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import {
   Animated,
-  NativeSyntheticEvent,
   TextInput as RNTextInput,
-  TextInputFocusEventData,
   TextInputProps as RNTextInputProps,
   View,
 } from "react-native";
@@ -19,6 +11,7 @@ import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
 import Label from "./Label";
 import Text from "../Text";
+import { cn } from "~/utils/tailwind";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
   containerClassName?: string;
@@ -48,24 +41,6 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     const innerRef = useRef<RNTextInput>(null);
     useImperativeHandle(ref, () => innerRef.current as RNTextInput);
 
-    const [active, setActive] = useState(false);
-
-    const handleBlur = useCallback(
-      (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        onBlur?.(e);
-        return setActive(false);
-      },
-      [onBlur]
-    );
-
-    const handleFocus = useCallback(
-      (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        onFocus?.(e);
-        return setActive(true);
-      },
-      [onFocus]
-    );
-
     return (
       <View className={clsx("self-stretch", containerClassName)}>
         {label && <Label>{label}</Label>}
@@ -74,11 +49,10 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
             ref={innerRef}
             value={value ?? undefined}
             {...props}
-            className={clsx(
-              "font-body text-sm px-2 py-2  text-gray-900 dark:text-white"
+            className={cn(
+              "font-body text-base px-3 py-3  text-gray-900 dark:text-white",
+              props.className
             )}
-            onBlur={handleBlur}
-            onFocus={handleFocus}
             placeholderTextColor={colors.gray[500]}
             cursorColor={colors.primary[500]}
             selectionColor={colors.primary[500]}

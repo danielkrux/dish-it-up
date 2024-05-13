@@ -26,6 +26,7 @@ function SeachAndFilter() {
       <View className="flex-row items-center mb-1.5">
         <Animated.View className="flex-1">
           <InputBase
+            className="text-sm"
             value={q}
             onChangeText={(text) => {
               router.setParams({ q: text });

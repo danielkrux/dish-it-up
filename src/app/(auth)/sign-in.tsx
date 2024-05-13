@@ -97,9 +97,9 @@ function SignIn() {
       >
         Sign In
       </Button>
-      <Text className="text-center mb-2">or</Text>
+      <Text className="text-center mt-10 mb-2">Don't have an account yet?</Text>
       <Button
-        className="self-stretch mb-2"
+        className="self-stretch"
         size="large"
         variant="secondary"
         onPress={navigateToSignUp}
