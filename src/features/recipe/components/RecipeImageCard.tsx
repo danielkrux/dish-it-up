@@ -1,7 +1,5 @@
-import { clsx } from "clsx";
 import { Image } from "expo-image";
 import { TouchableOpacity, View } from "react-native";
-import { twMerge } from "tailwind-merge";
 import { useLocalSearchParams } from "expo-router";
 
 import Text from "~/components/Text";

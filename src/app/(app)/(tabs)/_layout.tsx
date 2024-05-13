@@ -31,6 +31,12 @@ const links: {
     icon: "BookOpen",
   },
   { title: "Account", navLabel: "Account", href: "/account", icon: "User" },
+  {
+    title: "Settings",
+    navLabel: "Settings",
+    href: "/settings",
+    icon: "Settings",
+  },
 ];
 
 function Home() {
@@ -51,27 +57,32 @@ function Home() {
             <h1 className="font-display text-4xl dark:text-white">
               Dish It Up
             </h1>
-            <nav className="flex flex-1 flex-col mt-10 gap-1">
-              {links.map((l) => (
-                <Link
-                  key={l.href}
-                  className={cn(
-                    "flex items-center gap-4 py-3 rounded-lg px-4 font-body-bold hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-gray-800 ",
-                    {
-                      "bg-acapulco-400 text-white hover:bg-acapulco-400 dark:hover:bg-acapulco-400":
-                        path === l.href,
-                    }
-                  )}
-                  href={l.href}
-                >
-                  <Icon
-                    color="currentColor"
-                    name={l.icon as IconName}
-                    size={20}
-                  />
-                  <span>{l.navLabel}</span>
-                </Link>
-              ))}
+            <nav className="flex flex-col mt-10 gap-1">
+              {links.map((l) => {
+                const isLast = links.indexOf(l) === links.length - 1;
+
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className={cn(
+                      "flex items-center gap-4 py-3 rounded-lg px-4 font-body-bold hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-gray-800 ",
+                      {
+                        "bg-acapulco-400 text-white hover:bg-acapulco-400 dark:hover:bg-acapulco-400":
+                          path === l.href,
+                        "mt-auto": isLast,
+                      }
+                    )}
+                  >
+                    <Icon
+                      color="currentColor"
+                      name={l.icon as IconName}
+                      size={20}
+                    />
+                    <span>{l.navLabel}</span>
+                  </Link>
+                );
+              })}
             </nav>
           </aside>
           <div className="flex h-full flex-1 flex-col">

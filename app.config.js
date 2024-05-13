@@ -47,7 +47,7 @@ module.exports = {
     favicon: "./assets/favicon.png",
   },
   ios: {
-    buildNumber: "4",
+    buildNumber: "6",
     supportsTablet: true,
     bundleIdentifier: "com.danielkrux.dishitup",
     associatedDomains: [
