@@ -10,7 +10,7 @@ import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import RecipeList from "~/features/home/components/RecipeList";
 import { HomeSearchParams } from "~/features/home/types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
-import { getRecipes } from "~/features/recipe/recipe.service";
+import { getRecipes, getRecipesCount } from "~/features/recipe/recipe.service";
 import { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 
@@ -26,6 +26,10 @@ export default function Home() {
   const { q, c, s, recipe } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
   const sortBy = s;
+
+  const { data: count } = useQuery(recipeKeys.count, getRecipesCount);
+
+  console.log(count);
 
   const { data, refetch, isLoading } = useQuery(
     recipeKeys.list(query, sortBy),
@@ -52,10 +56,10 @@ export default function Home() {
 
   return (
     <View className="flex-1">
-      {!data?.length && !isLoading ? (
+      {!count && !isLoading ? (
         <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
-          <Icon className="mb-5" name="BookDashed" size={64} />
-          <Text type="header" size="l" className="text-center mb-2">
+          <Icon name="BookDashed" size={64} />
+          <Text type="header" size="l" className="text-center mt-5 mb-2">
             You have not added any recipes yet!
           </Text>
           <Text className="text-center">

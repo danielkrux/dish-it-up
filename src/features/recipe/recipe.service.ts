@@ -153,6 +153,7 @@ export async function updateRecipe(recipeInput: RecipeUpdate) {
 }
 
 export type SortOptionValue = `${keyof Tables<"recipes">}:${"asc" | "desc"}`;
+
 export async function getRecipes(
   searchQuery?: string,
   orderBy: SortOptionValue = "created_at:desc"
@@ -177,6 +178,16 @@ export async function getRecipes(
   }
 
   return result.data;
+}
+
+export async function getRecipesCount() {
+  const result = await supabase.from("recipes").select("id");
+
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  return result.data.length;
 }
 
 export async function getRecipe(id?: number) {
