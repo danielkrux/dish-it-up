@@ -99,6 +99,7 @@ function IngredientsSheet({
       snapPoints={snapPoints}
       handleClassName="bg-gray-100 dark:bg-gray-900"
       handleIndicatorClassName="bg-gray-200 dark:bg-gray-800"
+      backgroundClassName="flex-1"
       animatedPosition={position}
       animatedIndex={sheetIndex}
       contentHeight={height}

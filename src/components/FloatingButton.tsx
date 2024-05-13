@@ -28,7 +28,7 @@ export default function FloatingButton({
     <Pressable
       onPress={onPress}
       className={clsx(
-        "absolute self-center flex-row items-center gap-1 bg-primary rounded-full px-8 py-2"
+        "absolute self-center flex-row items-center gap-1 bg-primary rounded-full px-10 py-2"
       )}
       style={{
         bottom: useSafeArea ? insets.bottom : 20,
@@ -39,7 +39,7 @@ export default function FloatingButton({
       ) : (
         <>
           {icon && <Icon name={icon} color={theme.colors.text} size={20} />}
-          <Text className="text-white font-display text-base">{children}</Text>
+          <Text className="text-white font-body-bold text-lg">{children}</Text>
         </>
       )}
     </Pressable>

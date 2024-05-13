@@ -19,6 +19,7 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import ActionsRow from "~/features/cook-mode/components/ActionsRow";
 import Instruction from "~/features/cook-mode/components/Instruction";
 import { ITEM_SIZE, ITEM_SPACING } from "~/features/cook-mode/constants";
+import { SCREEN_HEIGHT } from "~/theme";
 
 function keyExtractor(item: string, index: number) {
   return `${item}-${index}`;
@@ -73,16 +74,16 @@ function Cook() {
 
   return (
     <View
-      className="flex-1 bg-white dark:bg-gray-950"
+      className="flex-1 lg:mt-4 bg-white dark:bg-gray-950"
       style={{ paddingTop: insets.top + extraPadding }}
     >
-      <View className="flex-row mx-4 items-center justify-between">
+      <View className="flex-row mx-4 items-center justify-between ">
         <IconButton icon="X" size="medium" onPress={router.back} />
         <Button
           onPress={() => logRecipeRef.current?.present()}
           variant="secondary"
         >
-          DONE
+          Done
         </Button>
       </View>
       <Animated.FlatList
@@ -92,13 +93,11 @@ function Cook() {
         onScroll={handleScroll}
         renderItem={renderInstruction}
         showsHorizontalScrollIndicator={false}
-        style={{ flexGrow: 0, marginTop: 30 }}
-        contentContainerStyle={{
-          gap: ITEM_SPACING,
-          paddingHorizontal: ITEM_SPACING,
-          justifyContent: "center",
-          alignItems: "center",
+        style={{
+          marginTop: 30,
+          maxHeight: SCREEN_HEIGHT * 0.45,
         }}
+        contentContainerStyle={{ marginBottom: 50 }}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         snapToInterval={ITEM_SIZE + ITEM_SPACING}

@@ -1,9 +1,8 @@
-import clsx from "clsx";
 import { ActivityIndicator, Pressable, PressableProps } from "react-native";
 import theme, { colors } from "../theme";
 import Icon, { IconProps } from "./Icon";
 import Text from "./Text";
-import { twMerge } from "tailwind-merge";
+import { cn } from "~/utils/tailwind";
 
 export type ButtonProps = {
   size?: "small" | "large";
@@ -27,31 +26,31 @@ function Button({
     <Pressable
       style={style}
       {...props}
-      className={twMerge(
-        clsx(
-          "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
-          {
-            "opacity-90": loading,
-            "bg-acapulco-300/20": variant === "secondary",
-            "bg-transparent": variant === "ghost",
-            "py-1.5 self-start": size === "small",
-            "flex-row gap-2": icon,
-            "opacity-50": disabled,
-          },
-          props.className
-        )
-      )}
       disabled={disabled}
+      className={cn(
+        "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",
+        {
+          "opacity-90": loading,
+          "bg-acapulco-300/20": variant === "secondary",
+          "bg-transparent": variant === "ghost",
+          "py-1.5 self-start": size === "small",
+          "flex-row gap-2": icon,
+          "opacity-50": disabled,
+        },
+        props.className
+      )}
     >
       {icon && <Icon name={icon} size={16} light />}
       {!loading ? (
         <Text
-          className={twMerge(
-            clsx("text-base font-body-bold text-white", {
+          className={cn(
+            "font-body-bold text-white",
+            {
               "text-gray-800 dark:text-white": variant === "ghost",
               "text-acapulco-400": variant === "secondary",
               "text-sm": size === "small",
-            })
+            },
+            "text-base"
           )}
         >
           {children}

@@ -10,9 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
-
-const ITEM_SIZE = SCREEN_WIDTH * 0.8;
-const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
+import { ITEM_SIZE } from "../constants";
 
 export type ActionsRowProps = {
   index: number;
@@ -29,16 +27,17 @@ function ActionsRow({
   stepsListRef,
   bottomSheetPosition,
 }: ActionsRowProps) {
-  const [actionsY, setActionsY] = React.useState(0);
+  const [progressBarWidth, setProgressBarWidth] = React.useState(0);
 
-  const actionsStyle = useAnimatedStyle(() => ({
-    opacity: withTiming(bottomSheetPosition.value > actionsY + 50 ? 1 : 0),
-    transform: [{ translateY: bottomSheetPosition.value - actionsY - 70 }],
-  }));
+  const actionsStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(bottomSheetPosition.value > 500 ? 1 : 0),
+      transform: [{ translateY: bottomSheetPosition.value - 50 }],
+    };
+  });
 
   const progressBarTranslate = useDerivedValue(() => {
     // SCREEN_WIDTH - OUTER_PADDING - LEFT_ARROW - RIGHT_ARROW - INNER_PADDING
-    const progressBarWidth = SCREEN_WIDTH - (16 * 2 + 44 * 2 + 12 * 2);
     return interpolate(
       animatedIndex.value,
       [0, instructionsLength - 1],
@@ -47,33 +46,32 @@ function ActionsRow({
     );
   });
 
-  const progressBarStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: progressBarTranslate.value }],
-  }));
+  const progressBarStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: progressBarTranslate.value }],
+    };
+  });
 
   return (
     <Animated.View
-      onLayout={(e) => {
-        setActionsY(e.nativeEvent.layout.y);
-      }}
       style={actionsStyle}
-      className="flex-row mx-4 gap-3 items-center"
+      className="absolute top-0 flex-row mx-4 gap-3 items-center"
     >
       <IconButton
         onPress={() =>
-          // @ts-ignore
           stepsListRef.current?.scrollToOffset({
-            offset: (ITEM_SIZE + ITEM_SPACING) * (index - 1),
+            offset: ITEM_SIZE * (index - 1),
             animated: true,
           })
         }
         size="large"
         icon="ChevronLeft"
       />
-      <View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 h-full overflow-hidden">
+      <View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 overflow-hidden h-full">
         <Animated.View
+          onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
           style={progressBarStyle}
-          className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/80"
+          className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/70 pointer-events-none"
         />
         <Text className="mt-3 font-body-bold self-center text-gray-800 dark:text-gray-50">
           {index + 1} / {instructionsLength}
@@ -83,7 +81,7 @@ function ActionsRow({
         onPress={() =>
           // @ts-ignore
           stepsListRef.current?.scrollToOffset({
-            offset: (ITEM_SIZE + ITEM_SPACING) * (index + 1),
+            offset: ITEM_SIZE * (index + 1),
             animated: true,
           })
         }
