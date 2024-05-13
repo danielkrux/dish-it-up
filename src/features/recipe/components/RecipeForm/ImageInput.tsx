@@ -9,6 +9,7 @@ import Button from "~/components/Button";
 import IconButton from "~/components/IconButton";
 import Label from "~/components/Inputs/Label";
 import ScrollView from "~/components/ScrollView";
+import { cn } from "~/utils/tailwind";
 import { isTruthy } from "~/utils/typescript";
 
 export type ImageInputProps = {
@@ -79,16 +80,15 @@ function ImageInput({ initialImages = [], onChange }: ImageInputProps) {
         {images.map((i, index) => (
           <View id={nanoid()} key={i.uri}>
             <Image
-              className={clsx("w-24 h-24 rounded", {
+              className={cn("w-24 h-24 rounded", {
                 "w-32 h-32": index === 0,
               })}
               source={i.uri}
-              // placeholder="gray"
             />
             <IconButton
               icon="Minus"
               onPress={() => removeImage(index)}
-              className="absolute top-[-7.5] left-[-7.5] bg-acapulco-200"
+              className="absolute bg-acapulco-200 top-[-7.5px] left-[-7.5px]"
             />
           </View>
         ))}

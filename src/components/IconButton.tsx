@@ -1,8 +1,8 @@
-import clsx from "clsx";
 import { useState } from "react";
 import { Pressable, PressableProps } from "react-native";
 import theme from "../theme";
 import Icon, { IconName } from "./Icon";
+import { cn } from "~/utils/tailwind";
 
 export type IconButtonProps = {
   icon: IconName;
@@ -33,7 +33,8 @@ function IconButton({
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
       hitSlop={5}
-      className={clsx(
+      {...props}
+      className={cn(
         "p-3 rounded-full items-center justify-center bg-gray-100 dark:bg-gray-900",
         {
           "bg-transparent": ghost,
@@ -44,9 +45,6 @@ function IconButton({
         },
         props.className
       )}
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      style={style as any}
-      {...props}
     >
       <Icon name={icon} size={sizeMap[size]} />
     </Pressable>
