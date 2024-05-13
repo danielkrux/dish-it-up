@@ -36,17 +36,6 @@ function IngredientsInput({
   ) {
     const value = form.getValues(`instructions.${index}.value`);
 
-    if (e.nativeEvent?.key === "Enter") {
-      fieldArray.insert(
-        index + 1,
-        { value: "" },
-        {
-          focusName: `instructions.${index + 1}.value`,
-          shouldFocus: true,
-        }
-      );
-    }
-
     if (e.nativeEvent?.key === "Backspace" && value === "" && index !== 0) {
       fieldArray.remove(index);
       form.setFocus(`instructions.${index - 1}.value`);
@@ -59,7 +48,7 @@ function IngredientsInput({
       <View className="bg-gray-100 dark:bg-gray-900 rounded-lg py-1 px-2 min-h-[100]">
         {fieldArray.fields.map((f, index) => (
           <View key={f.id} className="flex-row flex-1">
-            <Text className="mt-2 text-base font-display">{index + 1}</Text>
+            <Text className="mt-3 text-base font-display">{index + 1}</Text>
             <ControlledInput
               key={f.id}
               control={form.control}
