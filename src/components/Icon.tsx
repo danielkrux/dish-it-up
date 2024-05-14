@@ -1,14 +1,12 @@
 import { useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
+
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
 import { cssInterop } from "nativewind";
+import { cn } from "~/utils/tailwind";
 
 export type IconName = keyof typeof icons | "logo";
-
-cssInterop(Logo, {
-  className: "style",
-});
 
 export type IconProps = {
   name: IconName;
@@ -27,6 +25,8 @@ function Icon({ name, size = 24, color, light, className }: IconProps) {
   // @ts-ignore
   const LucideIcon = icons[name as string];
 
+  cssInterop(LucideIcon, { className: "style" });
+
   if (!LucideIcon) return null;
 
   const isLightIcon =
@@ -38,7 +38,12 @@ function Icon({ name, size = 24, color, light, className }: IconProps) {
     ? theme.colors.white
     : theme.colors.black;
 
-  return <LucideIcon color={c} size={size} className={className} />;
+  return (
+    <LucideIcon
+      size={size}
+      className={cn("dark:text-white text-gray-950", className)}
+    />
+  );
 }
 
 export default Icon;

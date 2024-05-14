@@ -11,7 +11,6 @@ export default function ControlledInput<T extends FieldValues>({
   name,
   label,
   control,
-  inputStyle,
   ...props
 }: InputProps<T>) {
   const { field } = useController<T>({ control, name });
@@ -22,7 +21,6 @@ export default function ControlledInput<T extends FieldValues>({
       ref={field.ref}
       label={label}
       value={field.value}
-      inputStyle={inputStyle}
       onChangeText={field.onChange}
     />
   );

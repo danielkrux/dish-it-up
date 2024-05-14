@@ -2,6 +2,13 @@ import { z } from "zod";
 
 import { supabase } from "~/app/_layout";
 import { queryClient } from "~/clients/reactQuery";
+import { getForgotPasswordRedirectUrl } from "./utils";
+
+const content = {
+  passwordShort: "Password is too short",
+  passwordLong: "Password is too long",
+  passwordMismatch: "Passwords do not match",
+};
 
 export async function getSession() {
   const { data, error } = await supabase.auth.getSession();
@@ -40,12 +47,12 @@ export const signUpSchema = z
     email: z.string().email(),
     password: z
       .string()
-      .min(8, { message: "Password is too short" })
-      .max(20, { message: "Password is too long" }),
+      .min(8, { message: content.passwordShort })
+      .max(20, { message: content.passwordLong }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: content.passwordMismatch,
     path: ["confirmPassword"],
   });
 
@@ -66,8 +73,43 @@ export async function signUpWithEmail({
   }
 }
 
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: content.passwordShort })
+      .max(20, { message: content.passwordLong }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: content.passwordMismatch,
+    path: ["confirmPassword"],
+  });
+
+export async function forgotPassword(email: string) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: getForgotPasswordRedirectUrl(),
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function resetPassword({
+  password,
+}: {
+  password: string;
+  confirmPassword: string;
+}) {
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
 export async function signOut() {
-  console.log("here");
   const { error } = await supabase.auth.signOut();
   queryClient.removeQueries();
 

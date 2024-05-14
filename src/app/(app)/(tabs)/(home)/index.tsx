@@ -29,8 +29,6 @@ export default function Home() {
 
   const { data: count } = useQuery(recipeKeys.count, getRecipesCount);
 
-  console.log(count);
-
   const { data, refetch, isLoading } = useQuery(
     recipeKeys.list(query, sortBy),
     () => getRecipes(query, sortBy),

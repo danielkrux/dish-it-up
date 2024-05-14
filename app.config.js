@@ -3,7 +3,7 @@ process.env.EXPO_TUNNEL_SUBDOMAIN = "dish-it-up";
 
 const ngrokUrl = `${process.env.EXPO_TUNNEL_SUBDOMAIN}.ngrok.io`;
 
-const URL = "dish-it-up.danielkrux.dev";
+const URL = "dish-it-up.app";
 
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
@@ -105,6 +105,10 @@ module.exports = {
     eas: {
       projectId: "b56a0bb4-b7e6-4823-b7cc-048af43d7698",
     },
+  },
+  experiments: {
+    typedRoutes: true,
+    tsconfigPaths: true,
   },
   runtimeVersion: {
     policy: "appVersion",

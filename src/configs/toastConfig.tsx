@@ -6,7 +6,7 @@ const toastConfig: ToastConfig = {
   success: (props) => (
     <Toast
       renderLeadingIcon={() => (
-        <Icon name="Check" className="text-acapulco-400" size={20} />
+        <Icon name="Check" className="text-acapulco-400" size={24} />
       )}
       {...props}
     />

@@ -1,15 +1,13 @@
 import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { View } from "react-native";
 
 import Button from "~/components/Button";
-import Icon from "~/components/Icon";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
 import { signUpSchema, signUpWithEmail } from "~/features/auth/auth.service";
-import { View } from "react-native";
 
 type SignUpFormData = {
   email: string;
@@ -37,7 +35,6 @@ export default function SignUp() {
       setLoading(true);
       const { email, password } = values;
       await signUpWithEmail({ email, password });
-      // @ts-ignore
       router.replace(`/sign-up/success?email=${email}`);
     } catch (error) {
       console.error(error);
@@ -46,20 +43,12 @@ export default function SignUp() {
     }
   }
 
+  function navigateToSignIn() {
+    router.push("/auth/sign-in/");
+  }
+
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={100}
-      className="flex-1 items-center justify-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
-    >
-      <Icon
-        name="logo"
-        size={128}
-        className="mb-4 text-gray-950 dark:text-acapulco-100"
-      />
-      <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
-        Dish It Up
-      </Text>
+    <>
       <View className="self-stretch">
         <ControlledInput
           name="email"
@@ -87,7 +76,6 @@ export default function SignUp() {
           error={errors.password?.message}
           containerClassName="mb-2"
         />
-
         <ControlledInput
           name="confirmPassword"
           label="Confirm Password"
@@ -111,6 +99,15 @@ export default function SignUp() {
       >
         Sign Up
       </Button>
-    </KeyboardAvoidingView>
+      <Text className="text-center mt-10 mb-2">Already have an account?</Text>
+      <Button
+        className="self-stretch"
+        size="large"
+        variant="secondary"
+        onPress={navigateToSignIn}
+      >
+        Sign In
+      </Button>
+    </>
   );
 }

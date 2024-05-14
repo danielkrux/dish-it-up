@@ -20,6 +20,8 @@ import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Head from "expo-router/head";
+import { Image } from "expo-image";
+import { cssInterop } from "nativewind";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -32,15 +34,16 @@ import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors } from "~/theme";
 import { clientPersister } from "~/utils/storage";
 import Modal from "~/components/Modal";
+import Logo from "~/assets/logo.svg";
 
 import "../../styles.css";
-import { cssInterop } from "nativewind";
-import { Image } from "expo-image";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 export const supabase = initSupabase();
 
 cssInterop(Image, { className: "style" });
+cssInterop(Logo, {
+  className: "style",
+});
 
 export default function Root() {
   // useReactQueryDevTools(queryClient);

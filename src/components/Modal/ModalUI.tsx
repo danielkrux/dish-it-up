@@ -50,7 +50,7 @@ function Modal({
     <>
       <Animated.View
         entering={FadeIn}
-        exiting={FadeOut}
+        exiting={FadeOut.duration(150)}
         className="absolute top-0 right-0 bottom-0 left-0 bg-black/70"
       />
       <Animated.View
@@ -58,7 +58,7 @@ function Modal({
         entering={FadeIn}
         exiting={FadeOut}
         style={{ transform: [{ translateY: -height / 2 }] }}
-        className="absolute top-1/2 left-0 right-0 rounded-2xl mx-4 p-4 bg-white dark:bg-gray-800"
+        className="absolute top-1/2 left-0 right-0 rounded-2xl mx-4 p-4 bg-white dark:bg-gray-800 max-w-md mx-auto"
       >
         <View className="justify-between flex-row items-center">
           <Text size="l" type="header">

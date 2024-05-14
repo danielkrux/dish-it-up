@@ -75,8 +75,8 @@ function Home() {
                     )}
                   >
                     <Icon
-                      color="currentColor"
                       name={l.icon as IconName}
+                      className="text-current"
                       size={20}
                     />
                     <span>{l.navLabel}</span>

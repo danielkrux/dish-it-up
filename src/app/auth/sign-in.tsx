@@ -1,11 +1,8 @@
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 import Button from "~/components/Button";
-import Icon from "~/components/Icon";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Modal from "~/components/Modal";
 import Text from "~/components/Text";
@@ -18,7 +15,7 @@ type SignInFormData = {
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
-  const { control, getValues } = useForm<SignInFormData>({
+  const { control, getValues, watch } = useForm<SignInFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -46,25 +43,13 @@ function SignIn() {
   }
 
   function navigateToSignUp() {
-    router.push("/sign-up/");
+    router.push("/auth/sign-up/");
   }
 
+  const email = watch("email");
+
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={1}
-      className="flex-1 justify-center items-center px-4 dark:bg-gray-950 md:mx-auto md:min-w-[350]"
-    >
-      <View>
-        <Icon
-          name="logo"
-          size={128}
-          className="mb-4 mx-auto text-gray-950 dark:text-acapulco-100"
-        />
-        <Text type="header" className="text-5xl mb-8 dark:text-acapulco-100">
-          Dish It Up
-        </Text>
-      </View>
+    <>
       <ControlledInput
         name="email"
         label="Email"
@@ -74,8 +59,20 @@ function SignIn() {
         control={control}
         spellCheck={false}
         autoCorrect={false}
-        containerClassName="mb-2"
+        containerClassName="mb-6"
       />
+      <Link
+        href={
+          email
+            ? `/auth/forgot-password/?email=${encodeURIComponent(email)}`
+            : "/auth/forgot-password/"
+        }
+        className="self-end -mb-6 z-10"
+      >
+        <Text className="text-xs text-gray-400 underline">
+          Forgot Password?
+        </Text>
+      </Link>
       <ControlledInput
         name="password"
         label="Password"
@@ -86,7 +83,7 @@ function SignIn() {
         spellCheck={false}
         clearTextOnFocus={false}
         control={control}
-        containerClassName="mb-6"
+        containerClassName="mb-4"
         onSubmitEditing={signIn}
       />
       <Button
@@ -106,7 +103,7 @@ function SignIn() {
       >
         Sign Up
       </Button>
-    </KeyboardAvoidingView>
+    </>
   );
 }
 

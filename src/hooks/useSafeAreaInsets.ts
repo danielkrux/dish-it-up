@@ -2,22 +2,22 @@ import { useSafeAreaInsets as useDefaultSafeAreaInsets } from "react-native-safe
 import theme from "../theme";
 
 type Options = {
-	bottomSpacing: number;
+  bottomSpacing: number;
 };
 
 const defaultOptions: Options = {
-	bottomSpacing: theme.spacing.s,
+  bottomSpacing: theme.spacing.s,
 };
 
 const useSafeAreaInsets = (options: Options = defaultOptions) => {
-	const insets = useDefaultSafeAreaInsets();
-	let bottomInset = insets.bottom;
+  const insets = useDefaultSafeAreaInsets();
+  let { bottom } = insets;
 
-	if (bottomInset < theme.spacing.s) {
-		bottomInset = options.bottomSpacing;
-	}
+  if (bottom < theme.spacing.s) {
+    bottom = options.bottomSpacing;
+  }
 
-	return { ...insets, bottom: bottomInset };
+  return { ...insets, bottom: bottom };
 };
 
 export default useSafeAreaInsets;
