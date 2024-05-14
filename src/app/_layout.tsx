@@ -31,7 +31,7 @@ import { useOnlineManager } from "../hooks/useOnlineManager";
 import AuthProvider from "~/AuthContext";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
-import { colors } from "~/theme";
+import { colors, isWeb } from "~/theme";
 import { clientPersister } from "~/utils/storage";
 import Modal from "~/components/Modal";
 import Logo from "~/assets/logo.svg";
@@ -80,6 +80,12 @@ export default function Root() {
     return null;
   }
 
+  if (isWeb) {
+    document
+      ?.querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", "#123456");
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={theme}>
@@ -100,6 +106,7 @@ export default function Root() {
                   <Head>
                     <meta property="expo:handoff" content="true" />
                     <meta name="apple-itunes-app" content="app-id=6474765614" />
+                    <link rel="manifest" href="/manifest.json" />
                   </Head>
                   <Slot />
                   <Toast config={toastConfig} topOffset={0} />
