@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.42.5";
 import type { Database } from "../../database.types.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
 Deno.serve(async (req) => {
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -17,7 +18,7 @@ Deno.serve(async (req) => {
   if (error) {
     return new Response(error.message, {
       status: 400,
-      headers: { "Content-Type": "text/plain" },
+      headers: { ...corsHeaders, "Content-Type": "text/plain" },
     });
   }
 

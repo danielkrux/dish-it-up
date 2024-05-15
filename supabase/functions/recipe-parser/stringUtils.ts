@@ -1,7 +1,10 @@
+import { decode } from "https://esm.sh/html-entities@2.5.2";
+
 export const clean = (str: string) => {
-	return str
-		.trim()
-		.replace(/\s+/g, " ")
-		.replace(/(\r\n|\n|\r)/gm, "")
-		.replace("&amp;nbsp;", "");
+  const s = str
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/(\r\n|\n|\r)/gm, "")
+    .replace("&amp;nbsp;", "");
+  return decode(s);
 };

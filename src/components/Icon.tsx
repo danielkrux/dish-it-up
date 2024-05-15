@@ -3,8 +3,8 @@ import { icons } from "lucide-react-native";
 
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
-import { cssInterop } from "nativewind";
 import { cn } from "~/utils/tailwind";
+import { cssInterop } from "nativewind";
 
 export type IconName = keyof typeof icons | "logo";
 
@@ -25,9 +25,8 @@ function Icon({ name, size = 24, color, light, className }: IconProps) {
   // @ts-ignore
   const LucideIcon = icons[name as string];
 
-  cssInterop(LucideIcon, { className: "style" });
-
   if (!LucideIcon) return null;
+  cssInterop(LucideIcon, { className: "style" });
 
   const isLightIcon =
     typeof light === "undefined" ? colorScheme === "dark" : light;

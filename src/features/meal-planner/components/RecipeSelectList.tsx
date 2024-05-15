@@ -61,9 +61,9 @@ function RecipeSelectList({
           keyExtractor={keyExtractor}
           contentContainerClassName="gap-4 px-5 pb-20"
           ListHeaderComponent={
-            <Text className="mb-2 mt-2" type="header" size="2xl">
+            <Text className="mb-2 mt-2 text-3xl" type="header">
               Select Recipes for{" "}
-              <Text type="header" className="text-acapulco-400">
+              <Text className="text-acapulco-400 font-display text-3xl">
                 {format(date, "EEEE")}
               </Text>
             </Text>

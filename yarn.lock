@@ -10093,6 +10093,11 @@ lucide-react-native@^0.372.0:
   resolved "https://registry.yarnpkg.com/lucide-react-native/-/lucide-react-native-0.372.0.tgz#5da5f9edf1cbea65398c2a02969a8c9d550abd5c"
   integrity sha512-e70/jdOsu5RAkdkhtGw8I6euJR0V6iTNuyw1qk5V2WLgu95LVSmkjiWhl+brf+RggtgdPsOgGG1+HVAtrYUr5g==
 
+lucide-static@^0.378.0:
+  version "0.378.0"
+  resolved "https://registry.yarnpkg.com/lucide-static/-/lucide-static-0.378.0.tgz#658756d4b0b1a5e25e5fc85e67472d1ae57dd01e"
+  integrity sha512-C01tQJc6WG3oD1NSilIn/adCqlVjx00XkfxOWv4GuFkh03GklUi6TgkmdWZGsDRge2cEDJvSrWURZ4i1KpvUWQ==
+
 luxon@^3.2.1:
   version "3.4.4"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.4.4.tgz#cf20dc27dc532ba41a169c43fdcc0063601577af"
