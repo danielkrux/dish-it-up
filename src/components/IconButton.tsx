@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Pressable, PressableProps } from "react-native";
-import theme from "../theme";
 import Icon, { IconName } from "./Icon";
 import { cn } from "~/utils/tailwind";
 
@@ -9,6 +8,7 @@ export type IconButtonProps = {
   size?: "small" | "medium" | "large";
   ghost?: boolean;
   variant?: "primary" | "secondary";
+  iconClassName?: string;
 } & PressableProps;
 
 function IconButton({
@@ -17,14 +17,15 @@ function IconButton({
   style,
   ghost,
   variant = "primary",
+  iconClassName,
   ...props
 }: IconButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
 
   const sizeMap = {
-    small: theme.spacing.s,
-    medium: theme.spacing.m,
-    large: theme.spacing.l,
+    small: 12,
+    medium: 16,
+    large: 20,
   };
 
   return (
@@ -46,7 +47,7 @@ function IconButton({
         props.className
       )}
     >
-      <Icon name={icon} size={sizeMap[size]} />
+      <Icon className={iconClassName} name={icon} size={sizeMap[size]} />
     </Pressable>
   );
 }

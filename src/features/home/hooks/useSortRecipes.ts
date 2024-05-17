@@ -17,7 +17,7 @@ type SortOption = {
 const sortOptions: SortOption[] = [
   { icon: "ArrowBigUp", label: "Newest", value: "created_at:desc" },
   { icon: "ArrowBigDown", label: "Oldest", value: "created_at:asc" },
-  { icon: "Star", label: "Rating", value: "rating:desc" },
+  { icon: "Star", label: "Rating", value: "rating:asc" },
   { icon: "Timer", label: "Total time (shortest)", value: "total_time:asc" },
 ];
 

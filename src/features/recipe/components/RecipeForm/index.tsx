@@ -1,5 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { remapProps } from "nativewind";
 
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
@@ -9,7 +10,6 @@ import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 import ImageInput from "./ImageInput";
 import { isTruthy } from "~/utils/typescript";
-import { remapProps } from "nativewind";
 
 const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
   contentContainerClassName: "contentContainerStyle",
@@ -24,11 +24,13 @@ function RecipeForm({ className }: { className?: string }) {
   const ingredientsFieldArray = useFieldArray({
     control,
     name: "ingredients",
+    keyName: "fieldId",
   });
 
   const instructionsFieldArray = useFieldArray({
     control,
     name: "instructions",
+    keyName: "fieldId",
   });
 
   return (
@@ -56,7 +58,7 @@ function RecipeForm({ className }: { className?: string }) {
         containerClassName="mb-4"
         returnKeyType="next"
         multiline
-        inputStyle={{ minHeight: 100 }}
+        inputContainerClassName="min-h-[100px]"
       />
       <ControlledInput
         label="Total time"
