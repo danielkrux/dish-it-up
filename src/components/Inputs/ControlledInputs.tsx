@@ -4,6 +4,7 @@ import {
   useController,
 } from "react-hook-form";
 import InputBase, { InputBaseProps } from "./TextInputBase";
+import { isWeb } from "~/theme";
 
 type InputProps<T extends FieldValues> = UseControllerProps<T> & InputBaseProps;
 

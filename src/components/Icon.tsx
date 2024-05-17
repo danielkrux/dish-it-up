@@ -1,10 +1,10 @@
 import { useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
+import { cssInterop } from "nativewind";
 
 import Logo from "~/assets/logo.svg";
 import theme from "../theme";
 import { cn } from "~/utils/tailwind";
-import { cssInterop } from "nativewind";
 
 export type IconName = keyof typeof icons | "logo";
 

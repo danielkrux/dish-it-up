@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS "public"."ingredients" (
     "amount" "text",
     "name" "text" NOT NULL,
     "recipe_id" integer,
-    "unit" "text"
+    "unit" "text",
+    "order" bigint
 );
 
 ALTER TABLE "public"."ingredients" OWNER TO "postgres";
@@ -206,9 +207,11 @@ CREATE POLICY "Enable insert for authenticated users only" ON "public"."ingredie
 
 CREATE POLICY "Enable insert for authenticated users only" ON "public"."meal_plans" FOR INSERT TO "authenticated" WITH CHECK (true);
 
+CREATE POLICY "Enable insert for users based on user_id" ON "public"."categories" FOR INSERT WITH CHECK (("auth"."uid"() = "user_id"));
+
 CREATE POLICY "Enable insert for users based on user_id" ON "public"."recipes" FOR INSERT WITH CHECK (("auth"."uid"() = "user_id"));
 
-CREATE POLICY "Enable read access for all users" ON "public"."ingredients" FOR SELECT TO "authenticated" USING (true);
+CREATE POLICY "Enable read access for all users" ON "public"."ingredients" FOR SELECT USING (true);
 
 CREATE POLICY "Enable read access for all users" ON "public"."recipe_categories" FOR SELECT TO "authenticated" USING (true);
 

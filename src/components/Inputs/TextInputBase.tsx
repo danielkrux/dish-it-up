@@ -6,7 +6,6 @@ import {
   View,
 } from "react-native";
 
-import clsx from "clsx";
 import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
 import Label from "./Label";
@@ -15,6 +14,7 @@ import { cn } from "~/utils/tailwind";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
   containerClassName?: string;
+  inputContainerClassName?: string;
   bottomSheet?: boolean;
   value?: string | null;
   label?: string;
@@ -26,6 +26,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     {
       bottomSheet,
       containerClassName,
+      inputContainerClassName,
       value,
       onFocus,
       onBlur,
@@ -39,15 +40,20 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     useImperativeHandle(ref, () => innerRef.current as RNTextInput);
 
     return (
-      <View className={clsx("self-stretch", containerClassName)}>
+      <View className={cn("self-stretch", containerClassName)}>
         <View>{label && <Label>{label}</Label>}</View>
-        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg">
+        <View
+          className={cn(
+            "bg-gray-100 dark:bg-gray-900 border border-gray-100 dark:border-gray-900 rounded-lg",
+            inputContainerClassName
+          )}
+        >
           <RNTextInput
             ref={innerRef}
             value={value ?? undefined}
             {...props}
             className={cn(
-              "font-body text-base px-3 py-3  text-gray-900 dark:text-white",
+              "font-body text-base px-3 py-3 text-gray-900 dark:text-white",
               props.className
             )}
             placeholderTextColor={colors.gray[500]}

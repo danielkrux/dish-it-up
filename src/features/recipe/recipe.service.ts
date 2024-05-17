@@ -90,7 +90,11 @@ export async function createRecipe(recipe?: RecipeCreate) {
   }
 
   const ingredientsToSave = parseIngredients(
-    ingredients.map((i) => ({ ...i, recipe_id: result.data?.id }))
+    ingredients.map((ingredient, i) => ({
+      ...ingredient,
+      recipe_id: result.data?.id,
+      order: i,
+    }))
   );
 
   const ingredientSaveResult = await supabase
@@ -165,7 +169,7 @@ export async function getRecipes(
   const baseQuery = supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
-    .order(column, { ascending: order === "asc" });
+    .order(column, { ascending: order === "asc", nullsFirst: true });
 
   if (searchQuery) {
     result = await baseQuery.ilike("name", `%${searchQuery}%`);
@@ -196,6 +200,10 @@ export async function getRecipe(id?: number) {
   const result = await supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
+    .order("order", {
+      referencedTable: "ingredients",
+      ascending: true,
+    })
     .eq("id", id)
     .single();
 

@@ -1,15 +1,16 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { remapProps } from "nativewind";
+import { useState } from "react";
 
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import useFetchCategories from "../../hooks/useFetchCategories";
-import IngredientsInput from "./IngredientsInput";
+import IngredientsInput, { Positions } from "./IngredientsInput";
 import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 import ImageInput from "./ImageInput";
 import { isTruthy } from "~/utils/typescript";
-import { remapProps } from "nativewind";
 
 const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
   contentContainerClassName: "contentContainerStyle",
@@ -17,6 +18,7 @@ const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
 
 function RecipeForm({ className }: { className?: string }) {
   const categoriesQuery = useFetchCategories();
+  const ingredientPositions = useState<Positions>({});
 
   const form = useFormContext<RecipeUpdateForm>();
   const { control, setValue, getValues, watch } = form;
@@ -24,11 +26,13 @@ function RecipeForm({ className }: { className?: string }) {
   const ingredientsFieldArray = useFieldArray({
     control,
     name: "ingredients",
+    keyName: "fieldId",
   });
 
   const instructionsFieldArray = useFieldArray({
     control,
     name: "instructions",
+    keyName: "fieldId",
   });
 
   return (
@@ -56,7 +60,7 @@ function RecipeForm({ className }: { className?: string }) {
         containerClassName="mb-4"
         returnKeyType="next"
         multiline
-        inputStyle={{ minHeight: 100 }}
+        inputContainerClassName="min-h-[100px]"
       />
       <ControlledInput
         label="Total time"

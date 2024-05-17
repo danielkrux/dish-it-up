@@ -13,7 +13,7 @@ import { RecipeUpdateForm } from "./types";
 export type IngredientsInputProps = {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   form: UseFormReturn<RecipeUpdateForm, any, undefined>;
-  fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "instructions", "id">;
+  fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "instructions", "fieldId">;
   className?: string;
 };
 
@@ -45,15 +45,16 @@ function IngredientsInput({
   return (
     <View className={className}>
       <Label className="mb-2">Instructions</Label>
-      <View className="bg-gray-100 dark:bg-gray-900 rounded-lg py-1 px-2 min-h-[100]">
+      <View className="bg-gray-50 dark:bg-gray-900 border-gray-100 dark:border-gray-900 border rounded-lg py-1 px-2 min-h-[100]">
         {fieldArray.fields.map((f, index) => (
-          <View key={f.id} className="flex-row flex-1">
+          <View key={f.fieldId} className="flex-row">
             <Text className="mt-3 text-base font-display">{index + 1}</Text>
             <ControlledInput
-              key={f.id}
+              key={f.fieldId}
               control={form.control}
               name={`instructions.${index}.value`}
               containerClassName="bg-transparent border-none flex-1"
+              inputContainerClassName="border-none"
               blurOnSubmit={true}
               multiline={true}
               onSubmitEditing={() => handleSubmitEditing(index)}

@@ -4,6 +4,6 @@ export type RecipeUpdateForm = Omit<
   RecipeUpdate,
   "ingredients" | "instructions"
 > & {
-  ingredients: { name: string; id?: number }[];
+  ingredients: { name: string; id?: number; order: number }[];
   instructions: { value: string }[];
 };

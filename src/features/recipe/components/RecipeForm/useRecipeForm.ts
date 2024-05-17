@@ -8,7 +8,7 @@ const emtpyRecipe: RecipeUpdateForm = {
   description: "",
   images: [],
   recipe_yield: "",
-  ingredients: [{ name: "" }],
+  ingredients: [{ name: "", order: 1 }],
   instructions: [{ value: "" }],
   total_time: "",
   categories: [],
@@ -23,7 +23,11 @@ function useRecipeForm(initialRecipe?: RecipeUpdate) {
         const amount = i.amount ?? "";
         const unit = i.unit ?? "";
 
-        return { name: `${amount} ${unit} ${i.name}`.trim(), id: i.id };
+        return {
+          name: `${amount} ${unit} ${i.name}`.trim(),
+          id: i.id,
+          order: i.order,
+        };
       }) || [];
 
     const instructions =
