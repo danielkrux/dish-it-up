@@ -91,7 +91,7 @@ function IngredientsInput({
               onDragEnd={swapFields}
               height={HEIGHT}
               className={cn(
-                "flex-row items-center rounded-lg px-4 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700",
+                "flex-row w-full items-center rounded-lg px-4 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700",
                 { "border-b-transparent": isLast }
               )}
             >
