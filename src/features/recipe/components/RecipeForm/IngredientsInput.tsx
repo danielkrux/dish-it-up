@@ -13,8 +13,9 @@ import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import { useSharedValue } from "react-native-reanimated";
 import DraggableItem, { Positions } from "~/components/DraggableItem";
+import { isWeb } from "~/theme";
 
-const HEIGHT = 45.3;
+const HEIGHT = isWeb ? 51 : 45.3;
 
 type SwappedIndexes = { from: number; to: number };
 
