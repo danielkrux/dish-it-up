@@ -1,7 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { remapProps } from "nativewind";
-import { useState } from "react";
 
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
@@ -18,7 +17,6 @@ const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
 
 function RecipeForm({ className }: { className?: string }) {
   const categoriesQuery = useFetchCategories();
-  const ingredientPositions = useState<Positions>({});
 
   const form = useFormContext<RecipeUpdateForm>();
   const { control, setValue, getValues, watch } = form;

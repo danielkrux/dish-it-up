@@ -33,14 +33,12 @@ export type IngredientsInputProps = {
   form: UseFormReturn<RecipeUpdateForm, any, undefined>;
   fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "ingredients", "fieldId">;
   className?: string;
-  onDragEnd?: (positions: Positions) => void;
 };
 
 function IngredientsInput({
   form,
   fieldArray,
   className,
-  onDragEnd,
 }: IngredientsInputProps) {
   const positions = useSharedValue<Positions>(
     Object.assign(
