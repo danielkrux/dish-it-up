@@ -9,6 +9,8 @@ import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Label from "~/components/Inputs/Label";
 import Text from "~/components/Text";
 import { RecipeUpdateForm } from "./types";
+import { cn } from "~/utils/tailwind";
+import IconButton from "~/components/IconButton";
 
 export type IngredientsInputProps = {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -42,26 +44,52 @@ function IngredientsInput({
     }
   }
 
+  function removeInput(index: number) {
+    fieldArray.remove(index);
+    form.setFocus(`ingredients.${index - 1}.name`);
+  }
+
   return (
     <View className={className}>
       <Label className="mb-2">Instructions</Label>
-      <View className="bg-gray-50 dark:bg-gray-900 border-gray-100 dark:border-gray-900 border rounded-lg py-1 px-2 min-h-[100]">
-        {fieldArray.fields.map((f, index) => (
-          <View key={f.fieldId} className="flex-row">
-            <Text className="mt-3 text-base font-display">{index + 1}</Text>
-            <ControlledInput
+      <View className="bg-gray-50 dark:bg-gray-900 border-gray-100 dark:border-gray-900 border rounded-lg py-2 px-4 min-h-[100]">
+        {fieldArray.fields.map((f, index) => {
+          const isLast = index === fieldArray.fields.length - 1;
+
+          return (
+            <View
               key={f.fieldId}
-              control={form.control}
-              name={`instructions.${index}.value`}
-              containerClassName="bg-transparent border-none flex-1"
-              inputContainerClassName="border-none"
-              blurOnSubmit={true}
-              multiline={true}
-              onSubmitEditing={() => handleSubmitEditing(index)}
-              onKeyPress={(e) => handleKeyPress(e, index)}
-            />
-          </View>
-        ))}
+              className={cn(
+                "flex-row items-center border-b border-gray-100 dark:border-b-gray-700",
+                {
+                  "border-b-transparent": isLast,
+                }
+              )}
+            >
+              <Text className="mt-4 text-base font-display self-start">
+                {index + 1}
+              </Text>
+              <ControlledInput
+                key={f.fieldId}
+                control={form.control}
+                name={`instructions.${index}.value`}
+                containerClassName="flex-1"
+                inputContainerClassName="border-gray-50"
+                blurOnSubmit={true}
+                multiline={true}
+                onSubmitEditing={() => handleSubmitEditing(index)}
+                onKeyPress={(e) => handleKeyPress(e, index)}
+              />
+              <IconButton
+                icon="Minus"
+                className="bg-red-400 dark:bg-red-500/50 p-1"
+                iconClassName="text-white"
+                size="medium"
+                onPress={() => removeInput(index)}
+              />
+            </View>
+          );
+        })}
       </View>
     </View>
   );

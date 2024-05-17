@@ -44,7 +44,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
         <View>{label && <Label>{label}</Label>}</View>
         <View
           className={cn(
-            "bg-gray-100 dark:bg-gray-900 border border-gray-100 dark:border-gray-900 rounded-lg",
+            "bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-900 rounded-lg",
             inputContainerClassName
           )}
         >

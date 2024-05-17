@@ -78,20 +78,20 @@ function IngredientsInput({
       <Label className="mb-2">Ingredients</Label>
       <View
         style={{ height: fieldArray.fields.length * HEIGHT + 8 }}
-        className="bg-gray-100 dark:bg-gray-900 border-gray-100 border dark:border-gray-950  rounded-lg py-1"
+        className="bg-gray-50 dark:bg-gray-900 border-gray-100 border dark:border-gray-950  rounded-lg py-1"
       >
         {fieldArray.fields.map((f, index) => {
           const isLast = index === fieldArray.fields.length - 1;
 
           return (
             <DraggableItem
-              key={f.id}
+              key={f.fieldId}
               id={f.fieldId}
               positions={positions}
               onDragEnd={swapFields}
               height={HEIGHT}
               className={cn(
-                "flex-row w-full items-center rounded-lg px-4 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700",
+                "flex-row w-full items-center rounded-lg px-4 border-b border-gray-100 dark:border-gray-700",
                 { "border-b-transparent": isLast }
               )}
             >
@@ -104,9 +104,8 @@ function IngredientsInput({
                 key={f.id}
                 control={form.control}
                 name={`ingredients.${index}.name`}
-                containerClassName="bg-transparant flex-1 border-none"
-                className="bg-transparant border-none"
-                inputContainerClassName={cn("bg-transparent border-none")}
+                containerClassName="flex-1"
+                inputContainerClassName="border-gray-50"
                 blurOnSubmit={false}
                 numberOfLines={1}
                 onSubmitEditing={() => handleSubmitEditing(index)}
