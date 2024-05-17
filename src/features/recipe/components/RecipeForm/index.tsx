@@ -5,7 +5,7 @@ import { remapProps } from "nativewind";
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import useFetchCategories from "../../hooks/useFetchCategories";
-import IngredientsInput, { Positions } from "./IngredientsInput";
+import IngredientsInput from "./IngredientsInput";
 import InstructionsInput from "./InstructionsInput";
 import { RecipeUpdateForm } from "./types";
 import ImageInput from "./ImageInput";
