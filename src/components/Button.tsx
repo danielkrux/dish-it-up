@@ -40,7 +40,17 @@ function Button({
         props.className
       )}
     >
-      {icon && <Icon name={icon} size={16} light />}
+      {icon && (
+        <Icon
+          className={cn(" text-white", {
+            "text-gray-800 dark:text-white": variant === "ghost",
+            "text-acapulco-400": variant === "secondary",
+          })}
+          strokeWidth={3}
+          name={icon}
+          size={16}
+        />
+      )}
       {!loading ? (
         <Text
           className={cn(

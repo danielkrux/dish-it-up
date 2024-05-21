@@ -12,11 +12,19 @@ export type IconProps = {
   name: IconName;
   color?: string;
   size?: number;
+  strokeWidth?: number;
   light?: boolean;
   className?: string;
 };
 
-function Icon({ name, size = 24, color, light, className }: IconProps) {
+function Icon({
+  name,
+  size = 24,
+  color,
+  strokeWidth,
+  light,
+  className,
+}: IconProps) {
   const colorScheme = useColorScheme();
 
   if (name === "logo")
@@ -40,6 +48,7 @@ function Icon({ name, size = 24, color, light, className }: IconProps) {
   return (
     <LucideIcon
       size={size}
+      strokeWidth={strokeWidth}
       className={cn("dark:text-white text-gray-950", className)}
     />
   );

@@ -11,6 +11,7 @@ import createClassComponent from "~/utils/createClassComponent";
 import Label from "./Label";
 import Text from "../Text";
 import { cn } from "~/utils/tailwind";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
   containerClassName?: string;
@@ -36,8 +37,11 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     },
     ref
   ) => {
-    const innerRef = useRef<RNTextInput>(null);
-    useImperativeHandle(ref, () => innerRef.current as RNTextInput);
+    const innerRef = useRef(null);
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    useImperativeHandle(ref, () => innerRef.current!);
+
+    const InputComponent = bottomSheet ? BottomSheetTextInput : RNTextInput;
 
     return (
       <View className={cn("self-stretch", containerClassName)}>
@@ -48,7 +52,7 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
             inputContainerClassName
           )}
         >
-          <RNTextInput
+          <InputComponent
             ref={innerRef}
             value={value ?? undefined}
             {...props}

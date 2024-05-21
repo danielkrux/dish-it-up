@@ -18,7 +18,7 @@ function Toast({
       activeOpacity={1}
       {...props}
       style={[style, { top: insets.top ?? 20 }]}
-      className="bg-white dark:bg-gray-800 rounded-full pr-6 py-2 min-w-[275px] flex-row gap-3 items-center shadow-lg shadow-black/80 mt-4 gap-6"
+      className="bg-white dark:bg-gray-800 rounded-full pr-6 py-2 min-w-[275px] flex-row gap-3 items-center mt-4 gap-6"
     >
       <View className="absolute left-6">{renderLeadingIcon?.()}</View>
       <View className="mx-auto pl-6">

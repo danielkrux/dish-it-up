@@ -12,6 +12,7 @@ import React, {
   useRef,
 } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -60,7 +61,6 @@ function HandleComponent() {
 
 const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
   ({ children, ...props }, ref) => {
-    const colorScheme = useColorScheme();
     const innerRef = useRef<_BottomSheetModal>(null);
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     useImperativeHandle(ref, () => innerRef.current!);

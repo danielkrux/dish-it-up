@@ -33,7 +33,7 @@ function DraggableItem({
 } & ViewProps) {
   const isDragging = useSharedValue(false);
   const index = positions.value[id];
-  const translateY = useSharedValue(index * height);
+  const translateY = useSharedValue(index);
   const prevTranslationY = useSharedValue(0);
   const swappedIndexes = useSharedValue<SwappedIndexes | undefined>(undefined);
 
@@ -111,7 +111,7 @@ function DraggableItem({
   useAnimatedReaction(
     () => positions.value[id],
     (newOrder) => {
-      if (!isDragging.value) {
+      if (!isDragging.value && typeof newOrder === "number") {
         translateY.value = withTiming(newOrder * height);
       }
     }

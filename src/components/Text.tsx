@@ -14,7 +14,7 @@ function Text({ type = "body", size = "m", className, ...props }: TextProps) {
     <RNText
       {...props}
       className={cn(
-        "text-gray-950 font-body dark:text-white",
+        "text-gray-950 font-body dark:text-white text-base",
         {
           "text-3xl": size === "2xl",
           "text-xl": size === "xl",
