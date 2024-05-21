@@ -1,52 +1,34 @@
-import { useColorScheme } from "react-native";
 import { icons } from "lucide-react-native";
 import { cssInterop } from "nativewind";
+import { useMemo } from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 import Logo from "~/assets/logo.svg";
-import theme from "../theme";
 import { cn } from "~/utils/tailwind";
 
 export type IconName = keyof typeof icons | "logo";
 
 export type IconProps = {
   name: IconName;
-  color?: string;
   size?: number;
   strokeWidth?: number;
-  light?: boolean;
   className?: string;
+  style: StyleProp<ViewStyle> & { color: string };
 };
 
-function Icon({
-  name,
-  size = 24,
-  color,
-  strokeWidth,
-  light,
-  className,
-}: IconProps) {
-  const colorScheme = useColorScheme();
-
+function Icon({ name, size = 24, strokeWidth, style, className }: IconProps) {
   if (name === "logo")
     return <Logo width={size} height={size} className={className} />;
 
   // @ts-ignore
   const LucideIcon = icons[name as string];
+  useMemo(() => cssInterop(LucideIcon, { className: "style" }), [LucideIcon]);
 
   if (!LucideIcon) return null;
-  cssInterop(LucideIcon, { className: "style" });
-
-  const isLightIcon =
-    typeof light === "undefined" ? colorScheme === "dark" : light;
-
-  const c = color
-    ? color
-    : isLightIcon
-    ? theme.colors.white
-    : theme.colors.black;
 
   return (
     <LucideIcon
+      style={style}
       size={size}
       strokeWidth={strokeWidth}
       className={cn("dark:text-white text-gray-950", className)}

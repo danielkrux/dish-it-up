@@ -125,7 +125,7 @@ function Home() {
           title: "Home",
           headerTitle: "Your Recipes",
           tabBarIcon: ({ color }) => (
-            <Icon name="BookText" size={24} color={color} />
+            <Icon name="BookText" size={24} style={{ color: color }} />
           ),
         }}
       />
@@ -135,7 +135,7 @@ function Home() {
           title: "Groceries",
           headerTitle: "Groceries",
           tabBarIcon: ({ color }) => (
-            <Icon name="ShoppingCart" size={24} color={color} />
+            <Icon name="ShoppingCart" size={24} style={{ color: color }} />
           ),
         }}
       />
@@ -145,7 +145,7 @@ function Home() {
           title: "Meal Planner",
           headerTitle: "Plan your meals",
           tabBarIcon: ({ color }) => (
-            <Icon name="BookOpen" size={24} color={color} />
+            <Icon name="BookOpen" size={24} style={{ color: color }} />
           ),
         }}
       />
@@ -155,7 +155,7 @@ function Home() {
           title: "Account",
           headerTitle: "Account",
           tabBarIcon: ({ color }) => (
-            <Icon name="User" size={24} color={color} />
+            <Icon name="User" size={24} style={{ color: color }} />
           ),
         }}
       />

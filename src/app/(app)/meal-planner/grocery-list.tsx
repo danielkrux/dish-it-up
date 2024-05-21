@@ -49,10 +49,10 @@ function GroceryList() {
         }
 
         return acc.map((i) => {
-          const exsits =
+          const exists =
             i.name === ingredient.name && i.unit === ingredient.unit;
 
-          if (!exsits) return i;
+          if (!exists) return i;
 
           const newAmount =
             Number(existingIngredient.amount) + Number(ingredient.amount);

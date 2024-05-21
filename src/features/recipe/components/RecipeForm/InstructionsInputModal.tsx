@@ -1,5 +1,4 @@
 import React, { useImperativeHandle } from "react";
-import { View } from "react-native";
 import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
@@ -7,13 +6,13 @@ import Button from "~/components/Button";
 import Text from "~/components/Text";
 import InputBase from "~/components/Inputs/TextInputBase";
 
-export type AddIngredientSheetProps = {
+export type InstructionsInputModalProps = {
   onSave?: (value: string) => void;
 };
 
-const IngredientInputModal = React.forwardRef<
+const InstructionsInputModal = React.forwardRef<
   _BottomSheetModal,
-  AddIngredientSheetProps
+  InstructionsInputModalProps
 >(({ onSave }, ref) => {
   const [value, setValue] = React.useState<string>("");
   const innerRef = React.useRef<_BottomSheetModal>(null);
@@ -28,21 +27,22 @@ const IngredientInputModal = React.forwardRef<
 
   return (
     <BottomSheetModal ref={innerRef}>
-      <View className="">
-        <Text className="font-display text-2xl mb-4">Add Ingredient</Text>
-        <InputBase
-          value={value}
-          bottomSheet
-          onChangeText={setValue}
-          containerClassName="mb-4"
-          placeholder="Ingredient"
-        />
-        <Button size="large" onPress={handleSave}>
-          Save
-        </Button>
-      </View>
+      <Text className="font-display text-2xl mb-4">Add Instruction</Text>
+      <InputBase
+        defaultValue={value}
+        onChangeText={(t) => setValue(t)}
+        containerClassName="mb-4"
+        bottomSheet
+        multiline
+        numberOfLines={4}
+        className="min-h-[150px]"
+        placeholder="Instruction"
+      />
+      <Button size="large" onPress={handleSave}>
+        Save
+      </Button>
     </BottomSheetModal>
   );
 });
 
-export default IngredientInputModal;
+export default InstructionsInputModal;
