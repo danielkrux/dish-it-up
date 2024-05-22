@@ -13,7 +13,7 @@ export type IconProps = {
   size?: number;
   strokeWidth?: number;
   className?: string;
-  style: StyleProp<ViewStyle> & { color: string };
+  style?: StyleProp<ViewStyle> & { color: string };
 };
 
 function Icon({ name, size = 24, strokeWidth, style, className }: IconProps) {

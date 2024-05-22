@@ -45,12 +45,7 @@ export default function AddRecipeConfirmScreen() {
   if (isError) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Icon
-          color={theme.colors.primary}
-          name="CircleAlert"
-          size={48}
-          className="mb-4"
-        />
+        <Icon name="CircleAlert" size={48} className="mb-4" />
         <Text className="mb-4" type="body">
           Something went wrong importing the recipe
         </Text>
@@ -81,6 +76,7 @@ export default function AddRecipeConfirmScreen() {
       >
         <BlurButton icon="ChevronLeft" onPress={() => router.back()} />
         <BlurButton
+          testID="add-recipe"
           label="Add recipe"
           icon="CirclePlus"
           onPress={() => mutate(data)}

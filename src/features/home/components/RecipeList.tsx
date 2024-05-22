@@ -26,7 +26,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
   const searchParams = useLocalSearchParams<HomeSearchParams>();
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<Recipe>) => {
+    ({ item, index }: ListRenderItemInfo<Recipe>) => {
       const handlePress = () => {
         if (isTablet) {
           router.navigate({
@@ -52,7 +52,11 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       }
 
       return (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
+        <Animated.View
+          testID={`recipe-card-${index}`}
+          entering={FadeIn}
+          exiting={FadeOut}
+        >
           <RecipeImageCard recipe={item} onPress={handlePress} />
         </Animated.View>
       );
@@ -62,6 +66,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
 
   return (
     <FlatList
+      testID="recipe-list"
       data={data ?? (skeletonData as unknown as Recipe[])}
       renderItem={renderItem}
       keyExtractor={extractKey}
