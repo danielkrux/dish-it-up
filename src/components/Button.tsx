@@ -26,6 +26,7 @@ function Button({
     <Pressable
       style={style}
       {...props}
+      role="button"
       disabled={disabled}
       className={cn(
         "rounded-lg items-center justify-center py-4 px-4 self-stretch bg-primary",

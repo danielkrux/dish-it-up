@@ -45,7 +45,7 @@ export default function HomeTabLayout() {
               />
             </View>
           </View>
-          <RecipeDetail id={Number(recipeId)} />
+          <RecipeDetail testID="home-recipe-detail" id={Number(recipeId)} />
         </View>
       )}
       <LogRecipe recipeId={Number(recipeId)} ref={ref} />

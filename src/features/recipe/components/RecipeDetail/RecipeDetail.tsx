@@ -21,11 +21,13 @@ export default function RecipeDetail({
   formData,
   header,
   logRecipeRef,
+  testID,
 }: {
   id?: number;
-  formData: Partial<RecipeUpdate>;
+  formData?: Partial<RecipeUpdate>;
   header?: ReactNode;
   logRecipeRef?: React.RefObject<BottomSheetModalMethods>;
+  testID?: string;
 }) {
   const fetchRecipe = useFetchRecipe(id);
   const { containerSize, onLayout, isLoading } = useContainerBreakpoint();
@@ -34,7 +36,7 @@ export default function RecipeDetail({
 
   if (containerSize === "lg") {
     return (
-      <View className="px-4 flex-1">
+      <View testID={testID} className="px-4 flex-1">
         <View className="flex-1 flex-row gap-10 mb-10">
           <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
@@ -69,6 +71,7 @@ export default function RecipeDetail({
 
   return (
     <ScrollView
+      testID={testID}
       onLayout={onLayout}
       contentInsetAdjustmentBehavior="automatic"
       className={cn("flex-1 pt-4 px-4 opacity-0", {

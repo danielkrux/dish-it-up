@@ -35,7 +35,7 @@ export default function SignUp() {
       setLoading(true);
       const { email, password } = values;
       await signUpWithEmail({ email, password });
-      router.replace(`/sign-up/success?email=${email}`);
+      router.replace(`/auth/sign-up/success?email=${email}`);
     } catch (error) {
       console.error(error);
     } finally {

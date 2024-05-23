@@ -5,7 +5,9 @@ const authFile = "tests/.auth/user.json";
 setup("authenticate", async ({ page }) => {
   await page.goto("/");
   await page.locator('input[type="email"]').click();
-  await page.locator('input[type="email"]').fill("danielmartijn@gmail.com");
+  await page
+    .locator('input[type="email"]')
+    .fill("danielmartijn+test@gmail.com");
   await page.locator('input[type="password"]').click();
   await page.locator('input[type="password"]').fill("testpass");
   await page

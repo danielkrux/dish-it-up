@@ -30,7 +30,11 @@ export default function Menu({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <IconButton size="medium" icon="EllipsisVertical" />
+        <IconButton
+          size="medium"
+          icon="EllipsisVertical"
+          testID="recipe-detail-menu"
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>

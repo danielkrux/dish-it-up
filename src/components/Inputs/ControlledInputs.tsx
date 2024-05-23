@@ -19,6 +19,7 @@ export default function ControlledInput<T extends FieldValues>({
   return (
     <InputBase
       {...props}
+      nativeID={name}
       ref={field.ref}
       label={label}
       value={field.value}
