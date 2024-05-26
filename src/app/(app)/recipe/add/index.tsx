@@ -33,7 +33,7 @@ export default function Add() {
         </Text>
         <InputBase
           containerClassName="mb-2"
-          className="px-0 text-gray-950"
+          className="dark:px-0 text-gray-950"
           placeholder="e.g. https://example.com"
           onChangeText={setUrl}
           value={url}

@@ -1,8 +1,10 @@
 import { TabRouter } from "@react-navigation/native";
 import { Link, Navigator, Slot, Tabs, usePathname } from "expo-router";
 import { useEffect } from "react";
+import * as Updates from "expo-updates";
 
 import Icon, { IconName } from "~/components/Icon";
+import IconButton from "~/components/IconButton";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
@@ -42,10 +44,18 @@ const links: {
 function Home() {
   const currentTheme = useThemeConfig();
   const path = usePathname();
+  const { isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
 
   useEffect(() => {
+    Updates.checkForUpdateAsync();
     init();
   }, []);
+
+  useEffect(() => {
+    if (isUpdatePending) {
+      Updates.reloadAsync();
+    }
+  }, [isUpdatePending]);
 
   useHandleUrlShare();
 
@@ -116,6 +126,15 @@ function Home() {
           fontFamily: "Heading",
           fontSize: theme.fontSize.xxl,
           fontWeight: "bold",
+        },
+        headerRight: () => {
+          return isUpdateAvailable ? (
+            <IconButton
+              onPress={Updates.fetchUpdateAsync}
+              size="medium"
+              icon="RefreshCw"
+            />
+          ) : null;
         },
       }}
     >
