@@ -47,6 +47,7 @@ function Home() {
   const { isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "development") return;
     Updates.checkForUpdateAsync();
     init();
   }, []);

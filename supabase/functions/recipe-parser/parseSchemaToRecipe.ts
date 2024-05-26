@@ -14,7 +14,7 @@ function getImages(image?: string | string[] | { url: string }): string[] {
 
 function getInstructions(instructions: any) {
   if (!instructions) return null;
-  if (typeof instructions === "string") return instructions;
+  if (typeof instructions === "string") return [instructions];
 
   if (instructions[0].itemListElement) {
     return getInstructions(instructions[0].itemListElement);

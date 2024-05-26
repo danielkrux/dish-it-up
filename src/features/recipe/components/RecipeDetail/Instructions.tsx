@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import Text from "~/components/Text";
 
-import { Recipe, RecipeUpdate } from "../../recipe.types";
+import { RecipeUpdate } from "../../recipe.types";
 
 export type InstructionsProps = { recipe?: RecipeUpdate; className?: string };
 
