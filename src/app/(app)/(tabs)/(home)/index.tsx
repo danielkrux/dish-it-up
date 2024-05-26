@@ -70,7 +70,7 @@ export default function Home() {
       )}
       <FloatingButton
         onPress={() =>
-          router.navigate({ pathname: "/recipe/add/", params: { recipe } })
+          router.navigate({ pathname: "/recipe/add", params: { recipe } })
         }
       >
         Add recipe
