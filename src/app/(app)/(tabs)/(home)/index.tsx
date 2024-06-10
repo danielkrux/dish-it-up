@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
 import Icon from "~/components/Icon";
@@ -58,11 +58,12 @@ export default function Home() {
         <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
           <Icon name="BookDashed" size={64} />
           <Text type="header" size="l" className="text-center mt-5 mb-2">
-            You have not added any recipes yet!
+            You have not added any recipes yet.
           </Text>
           <Text className="text-center">
-            Add a recipe with the button below or open recipe in a browser and
-            share it to Dish It Up!
+            {Platform.OS === "web"
+              ? "Add a recipe with the button below!"
+              : "Add a recipe with the button below or open recipe in a browser and share it to Dish It Up!"}
           </Text>
         </View>
       ) : (
