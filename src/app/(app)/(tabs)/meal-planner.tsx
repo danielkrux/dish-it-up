@@ -18,6 +18,7 @@ import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
+import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
@@ -80,7 +81,10 @@ function MealPlanner() {
       });
     }
 
-    router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
+    router.navigate({
+      pathname: "/meal-planner/select-recipe",
+      params: { date: date.toISOString() },
+    });
   }
 
   return (
@@ -119,9 +123,8 @@ function MealPlanner() {
                   <Text type="header" size="xl">
                     {format(date, "EEEE")}
                   </Text>
-                  <IconButton
-                    onPress={() => handleSelectRecipe(date)}
-                    icon="Plus"
+                  <MealPlanAddMenu
+                    onSelectRecipe={() => handleSelectRecipe(date)}
                   />
                 </View>
                 <View className="gap-4">

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
@@ -13,9 +13,6 @@ import {
 } from "~/features/auth/auth.service";
 
 function Reset() {
-  const params = useLocalSearchParams();
-  console.log(params);
-
   const {
     control,
     formState: { errors },
