@@ -1,0 +1,18 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://127.0.0.1:8081",
+      "localStorage": [
+        {
+          "name": "sb-qfsraezjniacsdtipuzs-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsImtpZCI6ImFlOFd3a1NKYWlBTDlRWnYiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzE4MDEzNTU1LCJpYXQiOjE3MTgwMDk5NTUsImlzcyI6Imh0dHBzOi8vcWZzcmFlempuaWFjc2R0aXB1enMuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjBmOTRhZTMxLTYwYmUtNGI5Zi1hMmI5LWY1OGNiNzY0N2FkNCIsImVtYWlsIjoiZGFuaWVsbWFydGlqbit0ZXN0QGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJkYW5pZWxtYXJ0aWpuK3Rlc3RAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjBmOTRhZTMxLTYwYmUtNGI5Zi1hMmI5LWY1OGNiNzY0N2FkNCJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzE4MDA5OTU1fV0sInNlc3Npb25faWQiOiJhMmNkYTU2Ni01YmU1LTQ3ODgtYmU5OS1lMmEzZTRlNTViMDAiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.hlcqZJkZwuwqGwbeUEevwQRqW1kh_9EB2VzIN4lPA0c\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1718013555,\"refresh_token\":\"ClA6WZ5K5XefMenYZO6R9A\",\"user\":{\"id\":\"0f94ae31-60be-4b9f-a2b9-f58cb7647ad4\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"danielmartijn+test@gmail.com\",\"email_confirmed_at\":\"2024-06-10T08:47:52.062519Z\",\"phone\":\"\",\"confirmed_at\":\"2024-06-10T08:47:52.062519Z\",\"last_sign_in_at\":\"2024-06-10T08:59:15.110226438Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email\":\"danielmartijn+test@gmail.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"0f94ae31-60be-4b9f-a2b9-f58cb7647ad4\"},\"identities\":[{\"identity_id\":\"d5e13fc8-cdd8-4117-b196-5d7123b500d3\",\"id\":\"0f94ae31-60be-4b9f-a2b9-f58cb7647ad4\",\"user_id\":\"0f94ae31-60be-4b9f-a2b9-f58cb7647ad4\",\"identity_data\":{\"email\":\"danielmartijn+test@gmail.com\",\"email_verified\":false,\"phone_verified\":false,\"sub\":\"0f94ae31-60be-4b9f-a2b9-f58cb7647ad4\"},\"provider\":\"email\",\"last_sign_in_at\":\"2024-06-10T08:47:46.366244Z\",\"created_at\":\"2024-06-10T08:47:46.366296Z\",\"updated_at\":\"2024-06-10T08:47:46.366296Z\",\"email\":\"danielmartijn+test@gmail.com\"}],\"created_at\":\"2024-06-10T08:47:46.360543Z\",\"updated_at\":\"2024-06-10T08:59:15.112026Z\",\"is_anonymous\":false}}"
+        },
+        {
+          "name": "mmkv.default\\REACT_QUERY_OFFLINE_CACHE",
+          "value": "\"{\\\"buster\\\":\\\"\\\",\\\"timestamp\\\":1718009955139,\\\"clientState\\\":{\\\"mutations\\\":[],\\\"queries\\\":[]}}\""
+        }
+      ]
+    }
+  ]
+}
