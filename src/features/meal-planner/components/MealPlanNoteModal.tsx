@@ -1,20 +1,27 @@
 import type { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
 import { useCreateMealPlan } from "../hooks/useCreateMealPlan";
+import type { MealPlan } from "../mealPlanner.types";
 
 export type MealPlanAddNoteProps = {
   date?: Date;
+  initialMealPlan?: MealPlan;
+  onDismiss: () => void;
 };
 
-const MealPlanAddNote = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
-  ({ date }, ref) => {
-    const { watch, control, reset } = useForm();
+const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
+  (props, ref) => {
+    const { watch, control, reset, setValue } = useForm<{ note: string }>();
+
+    useEffect(() => {
+      setValue("note", props.initialMealPlan?.note ?? "");
+    }, [props.initialMealPlan, setValue]);
 
     const mutation = useCreateMealPlan({
       onCompleted: () => {
@@ -26,15 +33,18 @@ const MealPlanAddNote = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
 
     const items = [
       {
-        date: date?.toDateString(),
+        date: props.date?.toDateString(),
         note: watch("note"),
       },
     ];
 
+    const date = props.date ?? props.initialMealPlan?.date;
+    const formattedDate = date ? format(new Date(date), "EEEE") : "";
+
     return (
-      <BottomSheetModal ref={ref}>
+      <BottomSheetModal onDismiss={props.onDismiss} ref={ref}>
         <Text size="xl" type="bodyBold" className="mb-4">
-          Add a note for {format(date ?? new Date(), "EEEE")}
+          Add a note for {formattedDate}
         </Text>
         <ControlledInput
           numberOfLines={6}
@@ -57,4 +67,4 @@ const MealPlanAddNote = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
   }
 );
 
-export default MealPlanAddNote;
+export default MealPlanNoteModal;

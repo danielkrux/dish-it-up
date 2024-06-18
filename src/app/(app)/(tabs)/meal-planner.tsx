@@ -20,10 +20,11 @@ import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
-import MealPlanAddNote from "~/features/meal-planner/components/MealPlanAddNote";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
+import MealPlanNoteModal from "~/features/meal-planner/components/MealPlanNoteModal";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
+import type { MealPlan } from "~/features/meal-planner/mealPlanner.types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
 import { isWeb } from "~/theme";
@@ -32,6 +33,7 @@ function MealPlanner() {
   const noteModalRef = React.useRef<BottomSheetModal>(null);
   const [selectedWeekDate, setSelectedWeekDate] = useState(new Date());
   const [selectedNoteDate, setSelectedNoteDate] = useState<Date>();
+  const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan>();
   const router = useRouter();
 
   const lastDay = lastDayOfWeek(selectedWeekDate, { weekStartsOn: 1 });
@@ -96,6 +98,15 @@ function MealPlanner() {
     noteModalRef.current?.present();
   }
 
+  function handleSelectMealPlan(plan: MealPlan) {
+    if (plan.note) {
+      noteModalRef.current?.present();
+      setSelectedMealPlan(plan);
+    } else {
+      router.navigate(`/recipe/${plan.recipe_id}/`);
+    }
+  }
+
   return (
     <>
       <View className="flex-1">
@@ -139,7 +150,11 @@ function MealPlanner() {
                 </View>
                 <View className="gap-4">
                   {mealPlans?.map((item) => (
-                    <MealPlanItem key={item.id} mealPlan={item} />
+                    <MealPlanItem
+                      onPress={() => handleSelectMealPlan(item)}
+                      key={item.id}
+                      mealPlan={item}
+                    />
                   ))}
                 </View>
               </Animated.View>
@@ -151,7 +166,15 @@ function MealPlanner() {
         </FloatingButton>
       </View>
       <RecipeSelectDialog />
-      <MealPlanAddNote ref={noteModalRef} date={selectedNoteDate} />
+      <MealPlanNoteModal
+        onDismiss={() => {
+          setSelectedNoteDate(undefined);
+          setSelectedMealPlan(undefined);
+        }}
+        ref={noteModalRef}
+        date={selectedNoteDate}
+        initialMealPlan={selectedMealPlan}
+      />
     </>
   );
 }
