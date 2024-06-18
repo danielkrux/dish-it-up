@@ -1,3 +1,4 @@
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import {
   addDays,
@@ -19,6 +20,7 @@ import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
+import MealPlanAddNote from "~/features/meal-planner/components/MealPlanAddNote";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
@@ -27,6 +29,7 @@ import { getRecipes } from "~/features/recipe/recipe.service";
 import { isWeb } from "~/theme";
 
 function MealPlanner() {
+  const noteModalRef = React.useRef<BottomSheetModal>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const router = useRouter();
 
@@ -124,6 +127,7 @@ function MealPlanner() {
                     {format(date, "EEEE")}
                   </Text>
                   <MealPlanAddMenu
+                    onSelectNote={() => noteModalRef.current?.present()}
                     onSelectRecipe={() => handleSelectRecipe(date)}
                   />
                 </View>
@@ -141,6 +145,7 @@ function MealPlanner() {
         </FloatingButton>
       </View>
       <RecipeSelectDialog />
+      <MealPlanAddNote ref={noteModalRef} />
     </>
   );
 }

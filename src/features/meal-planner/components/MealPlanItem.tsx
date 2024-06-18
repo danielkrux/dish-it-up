@@ -2,14 +2,14 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import type { Swipeable } from "react-native-gesture-handler";
 
 import SwipeableRow from "~/components/SwipeableRow";
 import Text from "~/components/Text";
 import { colors } from "~/theme";
 import { formatDistanceToNowInDays } from "~/utils/date";
 import useDeleteMealPlan from "../hooks/useDeleteMealPlan";
-import { MealPlan } from "../mealPlanner.types";
+import type { MealPlan } from "../mealPlanner.types";
 
 function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
   const router = useRouter();
