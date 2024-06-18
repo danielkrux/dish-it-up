@@ -24,7 +24,11 @@ export async function useHandleUrlShare() {
     const { queryParams } = parse(url);
 
     setTimeout(() => {
-      if (queryParams?.url && typeof queryParams.url === "string") {
+      if (
+        queryParams?.url &&
+        typeof queryParams.url === "string" &&
+        queryParams.url.startsWith("https://")
+      ) {
         router.push(`/recipe/add/${encodeURIComponent(queryParams.url)}`);
         setUrl(null);
       }

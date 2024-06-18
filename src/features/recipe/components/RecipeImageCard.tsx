@@ -36,7 +36,7 @@ export default function RecipeImageCard({
       activeOpacity={0.8}
     >
       <Image
-        className="w-24 h-full md:w-32 rounded-2xl mr-4 min-h-[96px] md:min-h[128px]"
+        className="w-24 h-full md:w-32 rounded-2xl mr-4 min-h-[96px] md:min-h[128px] bg-primary"
         source={recipe?.images?.[0]}
         placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
       />
