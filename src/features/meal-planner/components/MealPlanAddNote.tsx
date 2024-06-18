@@ -14,21 +14,22 @@ export type MealPlanAddNoteProps = {
 
 const MealPlanAddNote = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
   ({ date }, ref) => {
-    const { getValues, control, reset } = useForm();
+    const { watch, control, reset } = useForm();
 
     const mutation = useCreateMealPlan({
-      items: [
-        {
-          note: getValues("note"),
-          date: date?.toDateString() ?? "",
-        },
-      ],
       onCompleted: () => {
         reset();
         // @ts-ignore
         ref.current?.dismiss();
       },
     });
+
+    const items = [
+      {
+        date: date?.toDateString(),
+        note: watch("note"),
+      },
+    ];
 
     return (
       <BottomSheetModal ref={ref}>
@@ -46,7 +47,7 @@ const MealPlanAddNote = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
         />
         <Button
           loading={mutation.isLoading}
-          onPress={() => mutation.mutate()}
+          onPress={() => mutation.mutate(items)}
           size="large"
         >
           Save

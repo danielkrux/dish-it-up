@@ -35,6 +35,8 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
     router.push(`/recipe/${mealPlan.recipe_id}/`);
   }
 
+  console.log(mealPlan);
+
   return (
     <SwipeableRow
       ref={swipeableRef}
@@ -48,7 +50,7 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
     >
       <View className="flex-row lg:flex-col bg-gray-100 dark:bg-gray-900 rounded-2xl">
         <Image
-          className="w-24 h-full mr-4 rounded-l-2xl lg:h-24 lg:w-full lg:rounded-bl-none lg:rounded-t-2xl"
+          className="bg-primary w-24 h-full mr-4 rounded-l-2xl lg:h-24 lg:w-full lg:rounded-bl-none lg:rounded-t-2xl"
           source={recipe?.images?.[0]}
           placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
         />

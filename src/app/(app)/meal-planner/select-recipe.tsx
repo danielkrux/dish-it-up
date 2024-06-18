@@ -17,7 +17,6 @@ function SelectRecipe() {
   }));
 
   const mutation = useCreateMealPlan({
-    items: itemsToSave,
     onCompleted: () => {
       router.dismiss();
     },
@@ -35,7 +34,7 @@ function SelectRecipe() {
   return (
     <RecipeSelectList
       date={date}
-      onSave={mutation.mutate}
+      onSave={() => mutation.mutate(itemsToSave)}
       isLoading={mutation.isLoading}
       selectedRecipes={selectedRecipes}
       onRecipeSelect={handleRecipeSelect}
