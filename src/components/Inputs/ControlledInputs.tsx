@@ -1,10 +1,9 @@
 import {
-  FieldValues,
-  UseControllerProps,
+  type FieldValues,
+  type UseControllerProps,
   useController,
 } from "react-hook-form";
-import InputBase, { InputBaseProps } from "./TextInputBase";
-import { isWeb } from "~/theme";
+import InputBase, { type InputBaseProps } from "./TextInputBase";
 
 type InputProps<T extends FieldValues> = UseControllerProps<T> & InputBaseProps;
 

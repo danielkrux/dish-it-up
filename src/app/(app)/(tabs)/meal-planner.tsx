@@ -1,4 +1,4 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import {
   addDays,
@@ -30,10 +30,11 @@ import { isWeb } from "~/theme";
 
 function MealPlanner() {
   const noteModalRef = React.useRef<BottomSheetModal>(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedWeekDate, setSelectedWeekDate] = useState(new Date());
+  const [selectedNoteDate, setSelectedNoteDate] = useState<Date>();
   const router = useRouter();
 
-  const lastDay = lastDayOfWeek(selectedDate, { weekStartsOn: 1 });
+  const lastDay = lastDayOfWeek(selectedWeekDate, { weekStartsOn: 1 });
   const firstDay = subDays(lastDay, 6);
 
   const datesOfWeek = eachDayOfInterval({ start: firstDay, end: lastDay });
@@ -90,12 +91,17 @@ function MealPlanner() {
     });
   }
 
+  function handleSelectNote(date: Date) {
+    setSelectedNoteDate(date);
+    noteModalRef.current?.present();
+  }
+
   return (
     <>
       <View className="flex-1">
         <View className="flex-row justify-between items-center m-4 md:mx-8">
           <IconButton
-            onPress={() => setSelectedDate(subDays(selectedDate, 7))}
+            onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
             icon="ChevronLeft"
             size="medium"
           />
@@ -103,7 +109,7 @@ function MealPlanner() {
             {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
           </Text>
           <IconButton
-            onPress={() => setSelectedDate(addDays(selectedDate, 7))}
+            onPress={() => setSelectedWeekDate(addDays(selectedWeekDate, 7))}
             icon="ChevronRight"
             size="medium"
           />
@@ -127,7 +133,7 @@ function MealPlanner() {
                     {format(date, "EEEE")}
                   </Text>
                   <MealPlanAddMenu
-                    onSelectNote={() => noteModalRef.current?.present()}
+                    onSelectNote={() => handleSelectNote(date)}
                     onSelectRecipe={() => handleSelectRecipe(date)}
                   />
                 </View>
@@ -145,7 +151,7 @@ function MealPlanner() {
         </FloatingButton>
       </View>
       <RecipeSelectDialog />
-      <MealPlanAddNote ref={noteModalRef} />
+      <MealPlanAddNote ref={noteModalRef} date={selectedNoteDate} />
     </>
   );
 }

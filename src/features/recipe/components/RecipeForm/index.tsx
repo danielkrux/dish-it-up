@@ -1,15 +1,15 @@
+import { remapProps } from "nativewind";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { KeyboardAwareScrollView as _KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { remapProps } from "nativewind";
 
 import ChipInput from "~/components/Inputs/ChipInput";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
+import { isTruthy } from "~/utils/typescript";
 import useFetchCategories from "../../hooks/useFetchCategories";
+import ImageInput from "./ImageInput";
 import IngredientsInput from "./IngredientsInput";
 import InstructionsInput from "./InstructionsInput";
-import { RecipeUpdateForm } from "./types";
-import ImageInput from "./ImageInput";
-import { isTruthy } from "~/utils/typescript";
+import type { RecipeUpdateForm } from "./types";
 
 const KeyboardAwareScrollView = remapProps(_KeyboardAwareScrollView, {
   contentContainerClassName: "contentContainerStyle",
