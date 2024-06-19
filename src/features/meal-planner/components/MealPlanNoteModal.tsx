@@ -1,6 +1,7 @@
 import type { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
-import { forwardRef, useEffect } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
@@ -11,81 +12,85 @@ import useUpdateMealPlan from "../hooks/useUpdateMealPlan";
 import type { MealPlan } from "../mealPlanner.types";
 
 export type MealPlanAddNoteProps = {
-  date?: Date;
   initialMealPlan?: MealPlan;
   onDismiss: () => void;
 };
 
-const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
-  (props, ref) => {
-    const { watch, control, reset, setValue } = useForm<{ note: string }>();
+function MealPlanNoteModal(props: MealPlanAddNoteProps) {
+  const ref = useRef<_BottomSheetModal>(null);
+  const { watch, control, reset, setValue } = useForm<{ note: string }>();
+  const params = useLocalSearchParams<{ date: string; note: string }>();
 
-    useEffect(() => {
-      setValue("note", props.initialMealPlan?.note ?? "");
-    }, [props.initialMealPlan, setValue]);
-
-    const createMutation = useCreateMealPlan({
-      onCompleted: () => {
-        reset();
-        // @ts-ignore
-        ref.current?.dismiss();
-      },
-    });
-
-    const updateMutation = useUpdateMealPlan({
-      onSuccess: () => {
-        reset();
-        // @ts-ignore
-        ref.current?.dismiss();
-      },
-    });
-
-    const date = props.date ?? props.initialMealPlan?.date;
-    const formattedDate = date ? format(new Date(date), "EEEE") : "";
-
-    function handleSave() {
-      if (props.initialMealPlan) {
-        updateMutation.mutate({
-          id: props.initialMealPlan.id,
-          note: watch("note"),
-          date: props.initialMealPlan.date,
-        });
-      } else {
-        createMutation.mutate([
-          { date: props.date?.toDateString(), note: watch("note") },
-        ]);
-      }
+  useEffect(() => {
+    if (params.date && params.note === "true") {
+      ref.current?.present();
     }
+  }, [params.date, params.note]);
 
-    return (
-      <BottomSheetModal
-        snapPoints={[310]}
-        onDismiss={props.onDismiss}
-        ref={ref}
-      >
-        <Text size="xl" type="bodyBold" className="mb-4">
-          Add a note for {formattedDate}
-        </Text>
-        <ControlledInput
-          numberOfLines={6}
-          placeholder="Note..."
-          className="h-44"
-          containerClassName="mb-4"
-          multiline
-          name="note"
-          control={control}
-          bottomSheet
-        />
-        <Button
-          loading={createMutation.isLoading || updateMutation.isLoading}
-          onPress={handleSave}
-          size="large"
-        >
-          Save
-        </Button>
-      </BottomSheetModal>
-    );
+  useEffect(() => {
+    setValue("note", props.initialMealPlan?.note ?? "");
+  }, [props.initialMealPlan, setValue]);
+
+  const createMutation = useCreateMealPlan({
+    onCompleted: () => {
+      reset();
+      // @ts-ignore
+      ref.current?.dismiss();
+    },
+  });
+
+  const updateMutation = useUpdateMealPlan({
+    onSuccess: () => {
+      reset();
+      // @ts-ignore
+      ref.current?.dismiss();
+    },
+  });
+
+  const date = params.date ?? props.initialMealPlan?.date;
+  const formattedDate = date ? format(new Date(date), "EEEE") : "";
+
+  function handleSave() {
+    if (props.initialMealPlan) {
+      updateMutation.mutate({
+        id: props.initialMealPlan.id,
+        note: watch("note"),
+        date: props.initialMealPlan.date,
+      });
+    } else {
+      createMutation.mutate([{ date: params.date, note: watch("note") }]);
+    }
   }
-);
+
+  function handleDismiss() {
+    router.navigate("/meal-planner");
+    props.onDismiss?.();
+  }
+
+  return (
+    <BottomSheetModal snapPoints={[310]} onDismiss={handleDismiss} ref={ref}>
+      <Text size="xl" type="bodyBold" className="mb-4">
+        Add a note for {formattedDate}
+      </Text>
+      <ControlledInput
+        numberOfLines={6}
+        placeholder="Note..."
+        className="h-44"
+        containerClassName="mb-4"
+        multiline
+        name="note"
+        control={control}
+        bottomSheet
+      />
+      <Button
+        loading={createMutation.isLoading || updateMutation.isLoading}
+        onPress={handleSave}
+        size="large"
+      >
+        Save
+      </Button>
+    </BottomSheetModal>
+  );
+}
 
 export default MealPlanNoteModal;

@@ -1,4 +1,3 @@
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import {
   addDays,
@@ -10,7 +9,7 @@ import {
 import { useRouter } from "expo-router";
 import { groupBy } from "lodash";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
@@ -30,9 +29,7 @@ import { getRecipes } from "~/features/recipe/recipe.service";
 import { isWeb } from "~/theme";
 
 function MealPlanner() {
-  const noteModalRef = React.useRef<BottomSheetModal>(null);
   const [selectedWeekDate, setSelectedWeekDate] = useState(new Date());
-  const [selectedNoteDate, setSelectedNoteDate] = useState<Date>();
   const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan>();
   const router = useRouter();
 
@@ -84,7 +81,7 @@ function MealPlanner() {
     if (isWeb) {
       return router.navigate({
         pathname: "/meal-planner/",
-        params: { date: date.toISOString() },
+        params: { date: date.toISOString(), note: "false" },
       });
     }
 
@@ -95,13 +92,18 @@ function MealPlanner() {
   }
 
   function handleSelectNote(date: Date) {
-    setSelectedNoteDate(date);
-    noteModalRef.current?.present();
+    router.navigate({
+      pathname: "/meal-planner/",
+      params: { date: date.toISOString(), note: "true" },
+    });
   }
 
-  function handleSelectMealPlan(plan: MealPlan) {
+  function handleSelectMealPlan(date: Date, plan: MealPlan) {
     if (plan.note) {
-      noteModalRef.current?.present();
+      router.navigate({
+        pathname: "/meal-planner/",
+        params: { date: date.toISOString(), note: "true" },
+      });
       setSelectedMealPlan(plan);
     } else {
       router.navigate(`/recipe/${plan.recipe_id}/`);
@@ -152,7 +154,7 @@ function MealPlanner() {
                 <View className="gap-4">
                   {mealPlans?.map((item) => (
                     <MealPlanItem
-                      onPress={() => handleSelectMealPlan(item)}
+                      onPress={() => handleSelectMealPlan(date, item)}
                       key={item.id}
                       mealPlan={item}
                     />
@@ -169,11 +171,8 @@ function MealPlanner() {
       <RecipeSelectDialog />
       <MealPlanNoteModal
         onDismiss={() => {
-          setSelectedNoteDate(undefined);
           setSelectedMealPlan(undefined);
         }}
-        ref={noteModalRef}
-        date={selectedNoteDate}
         initialMealPlan={selectedMealPlan}
       />
     </>

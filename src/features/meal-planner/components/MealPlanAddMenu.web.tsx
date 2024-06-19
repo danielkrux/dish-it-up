@@ -10,9 +10,13 @@ import IconButton from "~/components/IconButton";
 
 export type MealPlanAddMenuProps = {
   onSelectRecipe: () => void;
+  onSelectNote: () => void;
 };
 
-function MealPlanAddMenu({ onSelectRecipe }: MealPlanAddMenuProps) {
+function MealPlanAddMenu({
+  onSelectRecipe,
+  onSelectNote,
+}: MealPlanAddMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -23,7 +27,7 @@ function MealPlanAddMenu({ onSelectRecipe }: MealPlanAddMenuProps) {
           <Icon size={16} name="Utensils" />
           <span>Recipe</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => {}} className="flex gap-2">
+        <DropdownMenuItem onClick={onSelectNote} className="flex gap-2">
           <Icon size={16} name="StickyNote" />
           <span>Note</span>
         </DropdownMenuItem>
