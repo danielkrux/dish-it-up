@@ -1,6 +1,7 @@
 import {
   type BottomSheetBackdropProps,
   type BottomSheetModalProps,
+  BottomSheetView,
   BottomSheetModal as _BottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import type React from "react";
@@ -23,7 +24,7 @@ import { SCREEN_WIDTH, isTablet } from "~/theme";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-type Props = Omit<BottomSheetModalProps, "snapPoints" | "children"> & {
+type Props = Omit<BottomSheetModalProps, "children"> & {
   children: React.ReactNode;
 };
 
@@ -67,7 +68,10 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
     useImperativeHandle(ref, () => innerRef.current!);
     const insets = useSafeAreaInsets();
 
-    const snapPoints = useMemo(() => ["35%"], []);
+    const snapPoints = useMemo(
+      () => props.snapPoints ?? ["35%"],
+      [props.snapPoints]
+    );
 
     const renderBackDrop = useCallback(
       (props: BottomSheetBackdropProps) => (

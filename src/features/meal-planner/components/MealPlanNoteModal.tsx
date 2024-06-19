@@ -58,7 +58,11 @@ const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
     }
 
     return (
-      <BottomSheetModal onDismiss={props.onDismiss} ref={ref}>
+      <BottomSheetModal
+        snapPoints={[310]}
+        onDismiss={props.onDismiss}
+        ref={ref}
+      >
         <Text size="xl" type="bodyBold" className="mb-4">
           Add a note for {formattedDate}
         </Text>
