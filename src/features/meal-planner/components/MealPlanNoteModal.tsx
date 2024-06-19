@@ -7,6 +7,7 @@ import Button from "~/components/Button";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
 import { useCreateMealPlan } from "../hooks/useCreateMealPlan";
+import useUpdateMealPlan from "../hooks/useUpdateMealPlan";
 import type { MealPlan } from "../mealPlanner.types";
 
 export type MealPlanAddNoteProps = {
@@ -23,7 +24,7 @@ const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
       setValue("note", props.initialMealPlan?.note ?? "");
     }, [props.initialMealPlan, setValue]);
 
-    const mutation = useCreateMealPlan({
+    const createMutation = useCreateMealPlan({
       onCompleted: () => {
         reset();
         // @ts-ignore
@@ -31,15 +32,30 @@ const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
       },
     });
 
-    const items = [
-      {
-        date: props.date?.toDateString(),
-        note: watch("note"),
+    const updateMutation = useUpdateMealPlan({
+      onSuccess: () => {
+        reset();
+        // @ts-ignore
+        ref.current?.dismiss();
       },
-    ];
+    });
 
     const date = props.date ?? props.initialMealPlan?.date;
     const formattedDate = date ? format(new Date(date), "EEEE") : "";
+
+    function handleSave() {
+      if (props.initialMealPlan) {
+        updateMutation.mutate({
+          id: props.initialMealPlan.id,
+          note: watch("note"),
+          date: props.initialMealPlan.date,
+        });
+      } else {
+        createMutation.mutate([
+          { date: props.date?.toDateString(), note: watch("note") },
+        ]);
+      }
+    }
 
     return (
       <BottomSheetModal onDismiss={props.onDismiss} ref={ref}>
@@ -57,8 +73,8 @@ const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
           bottomSheet
         />
         <Button
-          loading={mutation.isLoading}
-          onPress={() => mutation.mutate(items)}
+          loading={createMutation.isLoading || updateMutation.isLoading}
+          onPress={handleSave}
           size="large"
         >
           Save

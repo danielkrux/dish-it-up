@@ -1,11 +1,11 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Slot, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
 import { View } from "react-native";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
-import { HomeSearchParams } from "~/features/home/types";
+import type { HomeSearchParams } from "~/features/home/types";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
