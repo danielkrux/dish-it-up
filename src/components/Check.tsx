@@ -22,7 +22,9 @@ function Check({
         className
       )}
     >
-      {selected && <Icon size={16} name="Check" light />}
+      {selected && (
+        <Icon size={14} name="Check" className="text-white" strokeWidth={3} />
+      )}
     </Pressable>
   );
 }
