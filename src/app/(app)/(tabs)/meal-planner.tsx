@@ -57,6 +57,7 @@ function MealPlanner() {
 
   function handleCreateGroceryList() {
     const currentMealPlansIds = currentMealPlans
+      .filter((mp) => mp.recipe_id)
       .map((mp) => mp.recipe_id)
       .join(",");
 
