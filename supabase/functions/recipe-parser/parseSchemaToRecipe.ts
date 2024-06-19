@@ -1,4 +1,4 @@
-import { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
+import type { Recipe as RecipeSchema } from "https://esm.sh/v128/schema-dts@1.1.2/dist/schema.js";
 import { formatDuration, isValidURL } from "./utils.ts";
 
 function getImages(image?: string | string[] | { url: string }): string[] {

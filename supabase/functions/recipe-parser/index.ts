@@ -15,9 +15,12 @@ serve(async (req) => {
   }
 
   try {
-    const response = await fetch(url);
-
-    console.log("fetching the url...");
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      },
+    });
     const html = await response.text();
     const schema = parseHtmlToRecipeSchema(html);
     const recipe = parseSchemaToRecipe(schema, url);
