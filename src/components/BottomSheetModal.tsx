@@ -1,25 +1,25 @@
 import {
-  BottomSheetBackdropProps,
+  type BottomSheetBackdropProps,
+  type BottomSheetModalProps,
   BottomSheetModal as _BottomSheetModal,
-  BottomSheetModalProps,
 } from "@gorhom/bottom-sheet";
-import { useColorScheme } from "nativewind";
-import React, {
+import type React from "react";
+import {
   forwardRef,
   useCallback,
   useImperativeHandle,
   useMemo,
   useRef,
 } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
+import { Keyboard, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import useKeyboardVisible from "~/hooks/useIsKeyboardVisible";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import { SCREEN_WIDTH, colors, isTablet } from "~/theme";
+import { SCREEN_WIDTH, isTablet } from "~/theme";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -62,6 +62,7 @@ function HandleComponent() {
 const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
   ({ children, ...props }, ref) => {
     const innerRef = useRef<_BottomSheetModal>(null);
+    const isKeyboardVisible = useKeyboardVisible();
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     useImperativeHandle(ref, () => innerRef.current!);
     const insets = useSafeAreaInsets();
@@ -80,15 +81,18 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
 
     const renderHandle = useCallback(() => <HandleComponent />, []);
 
+    const insetPadding = isKeyboardVisible ? 20 : 5;
+
     return (
       <_BottomSheetModal
         ref={innerRef}
         detached
         snapPoints={snapPoints}
-        bottomInset={insets.bottom + 5}
+        bottomInset={insets.bottom + insetPadding}
         backdropComponent={renderBackDrop}
         style={styles.bottomSheet}
         handleComponent={renderHandle}
+        keyboardBehavior="interactive"
         containerStyle={
           isTablet
             ? {

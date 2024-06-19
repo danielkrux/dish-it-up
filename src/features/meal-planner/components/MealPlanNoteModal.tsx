@@ -54,6 +54,7 @@ const MealPlanNoteModal = forwardRef<_BottomSheetModal, MealPlanAddNoteProps>(
           multiline
           name="note"
           control={control}
+          bottomSheet
         />
         <Button
           loading={mutation.isLoading}
