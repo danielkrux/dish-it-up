@@ -9,7 +9,7 @@ import {
 import { useRouter } from "expo-router";
 import { groupBy } from "lodash";
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
@@ -18,18 +18,22 @@ import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
+import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
+import MealPlanNoteModal from "~/features/meal-planner/components/MealPlanNoteModal";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
 import { fetchMealPlan } from "~/features/meal-planner/mealPlanner.service";
+import type { MealPlan } from "~/features/meal-planner/mealPlanner.types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
 import { isWeb } from "~/theme";
 
 function MealPlanner() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedWeekDate, setSelectedWeekDate] = useState(new Date());
+  const [selectedMealPlan, setSelectedMealPlan] = useState<MealPlan>();
   const router = useRouter();
 
-  const lastDay = lastDayOfWeek(selectedDate, { weekStartsOn: 1 });
+  const lastDay = lastDayOfWeek(selectedWeekDate, { weekStartsOn: 1 });
   const firstDay = subDays(lastDay, 6);
 
   const datesOfWeek = eachDayOfInterval({ start: firstDay, end: lastDay });
@@ -50,6 +54,7 @@ function MealPlanner() {
 
   function handleCreateGroceryList() {
     const currentMealPlansIds = currentMealPlans
+      .filter((mp) => mp.recipe_id)
       .map((mp) => mp.recipe_id)
       .join(",");
 
@@ -76,11 +81,33 @@ function MealPlanner() {
     if (isWeb) {
       return router.navigate({
         pathname: "/meal-planner/",
-        params: { date: date.toISOString() },
+        params: { date: date.toISOString(), note: "false" },
       });
     }
 
-    router.push(`/meal-planner/select-recipe?date=${date.toISOString()}`);
+    router.navigate({
+      pathname: "/meal-planner/select-recipe",
+      params: { date: date.toISOString() },
+    });
+  }
+
+  function handleSelectNote(date: Date) {
+    router.navigate({
+      pathname: "/meal-planner/",
+      params: { date: date.toISOString(), note: "true" },
+    });
+  }
+
+  function handleSelectMealPlan(date: Date, plan: MealPlan) {
+    if (plan.note) {
+      router.navigate({
+        pathname: "/meal-planner/",
+        params: { date: date.toISOString(), note: "true" },
+      });
+      setSelectedMealPlan(plan);
+    } else {
+      router.navigate(`/recipe/${plan.recipe_id}/`);
+    }
   }
 
   return (
@@ -88,7 +115,7 @@ function MealPlanner() {
       <View className="flex-1">
         <View className="flex-row justify-between items-center m-4 md:mx-8">
           <IconButton
-            onPress={() => setSelectedDate(subDays(selectedDate, 7))}
+            onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
             icon="ChevronLeft"
             size="medium"
           />
@@ -96,7 +123,7 @@ function MealPlanner() {
             {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
           </Text>
           <IconButton
-            onPress={() => setSelectedDate(addDays(selectedDate, 7))}
+            onPress={() => setSelectedWeekDate(addDays(selectedWeekDate, 7))}
             icon="ChevronRight"
             size="medium"
           />
@@ -119,14 +146,18 @@ function MealPlanner() {
                   <Text type="header" size="xl">
                     {format(date, "EEEE")}
                   </Text>
-                  <IconButton
-                    onPress={() => handleSelectRecipe(date)}
-                    icon="Plus"
+                  <MealPlanAddMenu
+                    onSelectNote={() => handleSelectNote(date)}
+                    onSelectRecipe={() => handleSelectRecipe(date)}
                   />
                 </View>
                 <View className="gap-4">
                   {mealPlans?.map((item) => (
-                    <MealPlanItem key={item.id} mealPlan={item} />
+                    <MealPlanItem
+                      onPress={() => handleSelectMealPlan(date, item)}
+                      key={item.id}
+                      mealPlan={item}
+                    />
                   ))}
                 </View>
               </Animated.View>
@@ -138,6 +169,12 @@ function MealPlanner() {
         </FloatingButton>
       </View>
       <RecipeSelectDialog />
+      <MealPlanNoteModal
+        onDismiss={() => {
+          setSelectedMealPlan(undefined);
+        }}
+        initialMealPlan={selectedMealPlan}
+      />
     </>
   );
 }

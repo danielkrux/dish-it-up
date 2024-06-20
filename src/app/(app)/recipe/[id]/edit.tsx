@@ -25,7 +25,7 @@ export default function EditRecipe() {
   const form = useRecipeForm(data);
   const { handleSubmit } = form;
 
-  function handleSave() {
+  const handleSave = useCallback(() => {
     handleSubmit((recipeInputs) => {
       return mutate({
         ...data,
@@ -34,7 +34,7 @@ export default function EditRecipe() {
         instructions: recipeInputs.instructions.map((i) => i.value),
       });
     })();
-  }
+  }, [data, mutate, handleSubmit]);
 
   const renderHeaderLeft = useCallback(
     () => (
@@ -59,12 +59,12 @@ export default function EditRecipe() {
         Save
       </Button>
     ),
-    [isLoading]
+    [isLoading, handleSave]
   );
 
   if (!data) return null;
 
-  const currentValues = form.watch();
+  const currentValues = isTablet ? form.watch() : null;
 
   return (
     <FormProvider {...form}>
@@ -81,14 +81,14 @@ export default function EditRecipe() {
           <RecipeDetail
             id={Number(id)}
             formData={{
-              name: currentValues.name,
-              description: currentValues.description,
-              instructions: currentValues.instructions.map((i) => i.value),
-              recipe_yield: currentValues.recipe_yield,
-              total_time: currentValues.total_time,
-              images: currentValues.images,
+              name: currentValues?.name,
+              description: currentValues?.description,
+              instructions: currentValues?.instructions.map((i) => i.value),
+              recipe_yield: currentValues?.recipe_yield,
+              total_time: currentValues?.total_time,
+              images: currentValues?.images,
               ingredients: parseIngredients(
-                currentValues.ingredients.map((i) => i)
+                currentValues?.ingredients.map((i) => i)
               ),
             }}
           />

@@ -1,8 +1,14 @@
-import React, { ReactNode, forwardRef } from "react";
-import { Animated, Pressable, StyleProp, View, ViewStyle } from "react-native";
+import React, { type ReactNode, forwardRef } from "react";
+import {
+  Animated,
+  Pressable,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import Icon, { IconName } from "./Icon";
+import Icon, { type IconName } from "./Icon";
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -55,7 +61,7 @@ const SwipeableRow = forwardRef<Swipeable, Props>(function SwipeableRow(
         style={rightStyle}
       >
         <AnimatedView className="mr-7" style={{ transform: [{ scale }] }}>
-          <Icon name={rightIcon ?? "Trash2"} color="white" size={24} />
+          <Icon name={rightIcon ?? "Trash2"} className="text-white" size={24} />
         </AnimatedView>
       </View>
     );
@@ -77,7 +83,7 @@ const SwipeableRow = forwardRef<Swipeable, Props>(function SwipeableRow(
         style={leftStyle}
       >
         <AnimatedView className="ml-7" style={{ transform: [{ scale }] }}>
-          <Icon name={leftIcon ?? "Trash2"} color="white" size={24} />
+          <Icon name={leftIcon ?? "Trash2"} className="text-white" size={24} />
         </AnimatedView>
       </View>
     );
@@ -92,7 +98,7 @@ const SwipeableRow = forwardRef<Swipeable, Props>(function SwipeableRow(
         enableTrackpadTwoFingerGesture
         renderRightActions={renderRightActions}
         onSwipeableWillOpen={handleOpen}
-        renderLeftActions={renderLeftActions}
+        renderLeftActions={onLeftOpen ? renderLeftActions : undefined}
       >
         {children}
       </Swipeable>

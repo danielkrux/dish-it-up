@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { router } from "expo-router";
 import recipeKeys from "../recipe.queryKeys";
 import { createRecipe } from "../recipe.service";
-import { Recipe } from "../recipe.types";
-import { router } from "expo-router";
+import type { Recipe } from "../recipe.types";
 
 function useCreateRecipe() {
   const queryClient = useQueryClient();

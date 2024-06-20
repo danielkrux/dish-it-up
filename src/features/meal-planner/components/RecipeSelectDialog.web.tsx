@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "~/components/Dialog/Dialog";
-import RecipeSelectList from "./RecipeSelectList";
+import { Dialog, DialogContent } from "~/components/Dialog/Dialog";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
-import { Recipe } from "~/features/recipe/recipe.types";
+import type { Recipe } from "~/features/recipe/recipe.types";
 import { createMealPlan } from "../mealPlanner.service";
-import Button from "~/components/Button";
-import recipeKeys from "~/features/recipe/recipe.queryKeys";
-import { getRecipes } from "~/features/recipe/recipe.service";
+import RecipeSelectList from "./RecipeSelectList";
 
 export default function RecipeSelectDialog() {
-  const params = useLocalSearchParams<{ date: string }>();
+  const params = useLocalSearchParams<{ date: string; note: string }>();
   const date = params.date ? new Date(params.date) : undefined;
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
-  const { data } = useQuery(recipeKeys.all, () => getRecipes());
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -57,7 +49,7 @@ export default function RecipeSelectDialog() {
   if (!date) return null;
 
   return (
-    <Dialog open={Boolean(params.date)}>
+    <Dialog open={Boolean(params.date) && params.note === "false"}>
       <DialogContent
         onClose={handleClose}
         className="max-h-screen-3/4 overflow-scroll max-w-screen-md"

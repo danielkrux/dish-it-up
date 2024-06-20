@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import recipeKeys from "../recipe.queryKeys";
 import { updateRecipe } from "../recipe.service";
-import { Recipe } from "../recipe.types";
+import type { Recipe } from "../recipe.types";
 
 function useUpdateRecipe({ onSuccess }: { onSuccess?: () => void }) {
   const queryClient = useQueryClient();

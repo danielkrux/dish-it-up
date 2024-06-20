@@ -1,6 +1,6 @@
 import { supabase } from "~/app/_layout";
 import { getSession } from "../auth/auth.service";
-import { MealPlanCreate } from "./mealPlanner.types";
+import type { MealPlanCreate } from "./mealPlanner.types";
 
 export async function fetchMealPlan() {
   const result = await supabase.from("meal_plans").select("*, recipes(*)");
@@ -25,6 +25,8 @@ export async function createMealPlan(items: MealPlanCreate[]) {
 }
 
 export async function updateMealPlanItem(item: MealPlanCreate) {
+  if (!item.id) throw new Error("Item id is required");
+
   const result = await supabase
     .from("meal_plans")
     .update(item)

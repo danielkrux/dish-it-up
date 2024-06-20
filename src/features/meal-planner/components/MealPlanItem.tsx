@@ -2,16 +2,23 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { Swipeable } from "react-native-gesture-handler";
+import type { Swipeable } from "react-native-gesture-handler";
 
+import Icon from "~/components/Icon";
 import SwipeableRow from "~/components/SwipeableRow";
 import Text from "~/components/Text";
 import { colors } from "~/theme";
 import { formatDistanceToNowInDays } from "~/utils/date";
 import useDeleteMealPlan from "../hooks/useDeleteMealPlan";
-import { MealPlan } from "../mealPlanner.types";
+import type { MealPlan } from "../mealPlanner.types";
 
-function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
+function MealPlanItem({
+  mealPlan,
+  onPress,
+}: {
+  mealPlan: MealPlan;
+  onPress: () => void;
+}) {
   const router = useRouter();
   const swipeableRef = useRef<Swipeable>(null);
   const recipe = mealPlan.recipes;
@@ -31,10 +38,6 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
     }, 1000);
   }
 
-  function handleNavigateToRecipe() {
-    router.push(`/recipe/${mealPlan.recipe_id}/`);
-  }
-
   return (
     <SwipeableRow
       ref={swipeableRef}
@@ -43,31 +46,38 @@ function MealPlanItem({ mealPlan }: { mealPlan: MealPlan }) {
       onRightOpen={handleDeleteMealPlan}
       leftIcon="ShoppingCart"
       leftStyle={styles.leftAction}
-      onLeftOpen={handleNavigateToGroceriesSelect}
-      onPress={handleNavigateToRecipe}
+      onLeftOpen={mealPlan.note ? undefined : handleNavigateToGroceriesSelect}
+      onPress={onPress}
     >
-      <View className="flex-row lg:flex-col bg-gray-100 dark:bg-gray-900 rounded-2xl">
-        <Image
-          className="w-24 h-full mr-4 rounded-l-2xl lg:h-24 lg:w-full lg:rounded-bl-none lg:rounded-t-2xl"
-          source={recipe?.images?.[0]}
-          placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
-        />
-        <View className="flex-1 lg:flex-none py-2 lg:py-4 lg:px-4 mr-3">
-          <Text numberOfLines={3} className="font-display text-base mb-1">
-            {recipe?.name}
-          </Text>
-          <Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
-            {recipe?.recipe_yield} servings | {recipe?.total_time}
-          </Text>
-          <Text className="font-body text-xs text-gray-800 dark:text-gray-300">
-            {recipe?.last_cooked
-              ? `Last made ${formatDistanceToNowInDays(
-                  new Date(recipe?.last_cooked)
-                )}`
-              : "New recipe!"}
-          </Text>
+      {mealPlan.note ? (
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-2xl py-4 px-4 flex-row gap-4">
+          <Icon name="Notebook" className="text-gray-300" size={32} />
+          <Text className="flex-1">{mealPlan.note}</Text>
         </View>
-      </View>
+      ) : (
+        <View className="flex-row lg:flex-col bg-gray-100 dark:bg-gray-900 rounded-2xl">
+          <Image
+            className="bg-primary w-24 h-full mr-4 rounded-l-2xl lg:h-24 lg:w-full lg:rounded-bl-none lg:rounded-t-2xl"
+            source={recipe?.images?.[0]}
+            placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
+          />
+          <View className="flex-1 lg:flex-none py-2 lg:py-4 lg:px-4 mr-3">
+            <Text numberOfLines={3} className="font-display text-base mb-1">
+              {recipe?.name}
+            </Text>
+            <Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
+              {recipe?.recipe_yield} servings | {recipe?.total_time}
+            </Text>
+            <Text className="font-body text-xs text-gray-800 dark:text-gray-300">
+              {recipe?.last_cooked
+                ? `Last made ${formatDistanceToNowInDays(
+                    new Date(recipe?.last_cooked)
+                  )}`
+                : "New recipe!"}
+            </Text>
+          </View>
+        </View>
+      )}
     </SwipeableRow>
   );
 }

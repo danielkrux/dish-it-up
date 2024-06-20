@@ -8,7 +8,7 @@ import ListButton from "~/components/ListButton";
 import Text from "~/components/Text";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useFetchRecipes from "~/features/recipe/hooks/useFetchRecipes";
-import { Ingredient } from "~/features/recipe/recipe.types";
+import type { Ingredient } from "~/features/recipe/recipe.types";
 
 function GroceryList() {
   const router = useRouter();

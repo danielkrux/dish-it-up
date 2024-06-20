@@ -8,7 +8,7 @@ import ListButton from "~/components/ListButton";
 import Text from "~/components/Text";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import { Ingredient } from "~/features/recipe/recipe.types";
+import type { Ingredient } from "~/features/recipe/recipe.types";
 import {
   findRecipeYieldAmount,
   parseIngredientAmount,

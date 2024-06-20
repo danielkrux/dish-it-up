@@ -1,29 +1,24 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
-import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import RecipeSelectList from "~/features/meal-planner/components/RecipeSelectList";
-import { createMealPlan } from "~/features/meal-planner/mealPlanner.service";
-import { Recipe } from "~/features/recipe/recipe.types";
+import { useCreateMealPlan } from "~/features/meal-planner/hooks/useCreateMealPlan";
+
+import type { Recipe } from "~/features/recipe/recipe.types";
 
 function SelectRecipe() {
   const params = useLocalSearchParams<{ date: string }>();
-  const date = new Date(params.date);
+  const date = params.date ? new Date(params.date) : new Date();
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: () =>
-      createMealPlan(
-        selectedRecipes.map((id) => ({
-          recipe_id: id,
-          date: date.toDateString(),
-        }))
-      ),
-    onSettled: () => {
+  const itemsToSave = selectedRecipes.map((recipeId) => ({
+    recipe_id: recipeId,
+    date: date.toDateString(),
+  }));
+
+  const mutation = useCreateMealPlan({
+    onCompleted: () => {
       router.dismiss();
-      queryClient.invalidateQueries([MEAL_PLAN_QUERY_KEY]);
     },
   });
 
@@ -39,7 +34,7 @@ function SelectRecipe() {
   return (
     <RecipeSelectList
       date={date}
-      onSave={mutation.mutate}
+      onSave={() => mutation.mutate(itemsToSave)}
       isLoading={mutation.isLoading}
       selectedRecipes={selectedRecipes}
       onRecipeSelect={handleRecipeSelect}
