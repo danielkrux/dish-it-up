@@ -5,8 +5,10 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
+import { Dialog, DialogContent } from "~/components/Dialog/Dialog";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Text from "~/components/Text";
+import { isWeb } from "~/theme";
 import { useCreateMealPlan } from "../hooks/useCreateMealPlan";
 import useUpdateMealPlan from "../hooks/useUpdateMealPlan";
 import type { MealPlan } from "../mealPlanner.types";
@@ -67,8 +69,8 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
     props.onDismiss?.();
   }
 
-  return (
-    <BottomSheetModal snapPoints={[310]} onDismiss={handleDismiss} ref={ref}>
+  const children = (
+    <>
       <Text size="xl" type="bodyBold" className="mb-4">
         Add a note for {formattedDate}
       </Text>
@@ -80,7 +82,6 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
         multiline
         name="note"
         control={control}
-        bottomSheet
       />
       <Button
         loading={createMutation.isLoading || updateMutation.isLoading}
@@ -89,6 +90,20 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
       >
         Save
       </Button>
+    </>
+  );
+
+  if (isWeb) {
+    return (
+      <Dialog open={Boolean(params.date) && params.note === "true"}>
+        <DialogContent onClose={handleDismiss}>{children}</DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <BottomSheetModal snapPoints={[310]} onDismiss={handleDismiss} ref={ref}>
+      {children}
     </BottomSheetModal>
   );
 }
