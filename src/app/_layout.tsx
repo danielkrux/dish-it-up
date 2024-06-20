@@ -3,25 +3,25 @@ import "react-native-url-polyfill/auto";
 
 import { JosefinSans_700Bold, useFonts } from "@expo-google-fonts/josefin-sans";
 import {
-  NotoSans_700Bold,
   NotoSans_500Medium,
+  NotoSans_700Bold,
 } from "@expo-google-fonts/noto-sans";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
+import { Image } from "expo-image";
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
+import Head from "expo-router/head";
 import { StatusBar } from "expo-status-bar";
+import { cssInterop } from "nativewind";
 import { useEffect } from "react";
-import { KeyboardProvider } from "react-native-keyboard-controller";
-import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Head from "expo-router/head";
-import { Image } from "expo-image";
-import { cssInterop } from "nativewind";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import Toast from "react-native-toast-message";
 
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
@@ -29,12 +29,12 @@ import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 
 import AuthProvider from "~/AuthContext";
+import Logo from "~/assets/logo.svg";
+import Modal from "~/components/Modal";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors, isWeb } from "~/theme";
 import { clientPersister } from "~/utils/storage";
-import Modal from "~/components/Modal";
-import Logo from "~/assets/logo.svg";
 
 import "../../styles.css";
 
@@ -109,7 +109,7 @@ export default function Root() {
                     <link rel="manifest" href="/manifest.json" />
                   </Head>
                   <Slot />
-                  <Toast config={toastConfig} topOffset={0} autoHide={false} />
+                  <Toast config={toastConfig} topOffset={0} />
                   <Modal />
                 </AuthProvider>
               </BottomSheetModalProvider>
