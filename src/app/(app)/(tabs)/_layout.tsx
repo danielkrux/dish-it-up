@@ -1,9 +1,9 @@
 import { TabRouter } from "@react-navigation/native";
 import { Link, Navigator, Slot, Tabs, usePathname } from "expo-router";
-import { useEffect } from "react";
 import * as Updates from "expo-updates";
+import { useEffect } from "react";
 
-import Icon, { IconName } from "~/components/Icon";
+import Icon, { type IconName } from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
@@ -65,9 +65,12 @@ function Home() {
       <Navigator router={TabRouter}>
         <div className="grid grid-cols-dashboard grid-rows-dashboard">
           <aside className="w-[270px] border-r border-r-gray-100 dark:border-r-gray-800 pr-10 pt-10">
-            <h1 className="font-display text-4xl dark:text-white">
-              Dish It Up
-            </h1>
+            <div className="flex flex-col items-center gap-4">
+              <Icon name="logo" size={120} />
+              <h1 className="font-display text-center text-4xl dark:text-white">
+                Dish It Up
+              </h1>
+            </div>
             <nav className="flex flex-col mt-10 gap-1">
               {links.map((l) => {
                 const isLast = links.indexOf(l) === links.length - 1;
