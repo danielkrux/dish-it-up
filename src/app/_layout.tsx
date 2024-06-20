@@ -109,7 +109,7 @@ export default function Root() {
                     <link rel="manifest" href="/manifest.json" />
                   </Head>
                   <Slot />
-                  <Toast config={toastConfig} topOffset={0} />
+                  <Toast config={toastConfig} topOffset={0} autoHide={false} />
                   <Modal />
                 </AuthProvider>
               </BottomSheetModalProvider>

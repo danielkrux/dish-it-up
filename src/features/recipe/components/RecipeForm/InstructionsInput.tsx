@@ -1,16 +1,16 @@
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
-import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
+import type { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import { View } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
+import Button from "~/components/Button";
+import IconButton from "~/components/IconButton";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Label from "~/components/Inputs/Label";
 import Text from "~/components/Text";
-import { RecipeUpdateForm } from "./types";
 import { cn } from "~/utils/tailwind";
-import IconButton from "~/components/IconButton";
-import Button from "~/components/Button";
 import InstructionsInputModal from "./InstructionsInputModal";
+import type { RecipeUpdateForm } from "./types";
 
 export type IngredientsInputProps = {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -59,12 +59,11 @@ function IngredientsInput({
                   name={`instructions.${index}.value`}
                   containerClassName="flex-1"
                   inputContainerClassName="border-gray-50"
-                  blurOnSubmit={true}
                   multiline={true}
                 />
                 <IconButton
                   icon="Minus"
-                  className="bg-red-400 dark:bg-red-500/50 p-1"
+                  className="bg-red-400 dark:bg-red-500/50 p-1 self-start mt-4"
                   iconClassName="text-white"
                   size="medium"
                   onPress={() => removeInput(index)}

@@ -1,4 +1,4 @@
-import { ToastConfig } from "react-native-toast-message";
+import type { ToastConfig } from "react-native-toast-message";
 import Icon from "~/components/Icon";
 import Toast from "~/components/Toast";
 
@@ -6,7 +6,12 @@ const toastConfig: ToastConfig = {
   success: (props) => (
     <Toast
       renderLeadingIcon={() => (
-        <Icon name="Check" className="text-acapulco-400" size={24} />
+        <Icon
+          name="Check"
+          className="text-acapulco-400"
+          size={24}
+          strokeWidth={3}
+        />
       )}
       {...props}
     />

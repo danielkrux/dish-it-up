@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable } from "react-native";
 
-import Icon, { IconName } from "./Icon";
+import Icon, { type IconName } from "./Icon";
 import Text from "./Text";
 import { cn } from "~/utils/tailwind";
 
@@ -39,7 +39,7 @@ function Chip({
     >
       {icon && <Icon size={16} name={icon} className="text-white" />}
       {isSelected && (
-        <Icon size={16} name="Check" className="text-white" light />
+        <Icon size={16} name="Check" strokeWidth={3} className="text-white" />
       )}
       <Text
         className={cn("text-gray-900 text-sm dark:text-white font-body-bold", {
