@@ -51,7 +51,11 @@ function MealPlanItem({
     >
       {mealPlan.note ? (
         <View className="bg-gray-100 dark:bg-gray-900 rounded-2xl py-4 px-4 flex-row gap-4">
-          <Icon name="Notebook" className="text-gray-300" size={32} />
+          <Icon
+            name="Notebook"
+            className="text-gray-300 dark:text-gray-600"
+            size={32}
+          />
           <Text className="flex-1">{mealPlan.note}</Text>
         </View>
       ) : (
@@ -61,14 +65,14 @@ function MealPlanItem({
             source={recipe?.images?.[0]}
             placeholder="L086]0pHfQpHu2fQfQfQfQfQfQfQ"
           />
-          <View className="flex-1 lg:flex-none py-2 lg:py-4 lg:px-4 mr-3">
-            <Text numberOfLines={3} className="font-display text-base mb-1">
+          <View className="flex-1 lg:flex-none pt-3 pb-4 lg:py-4 lg:px-4 mr-3">
+            <Text numberOfLines={3} className="font-display text-lg mb-1">
               {recipe?.name}
             </Text>
-            <Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-2">
+            <Text className="font-body text-xs text-gray-600 dark:text-gray-300 mb-1">
               {recipe?.recipe_yield} servings | {recipe?.total_time}
             </Text>
-            <Text className="font-body text-xs text-gray-800 dark:text-gray-300">
+            <Text className="font-body text-xs text-gray-600 dark:text-gray-300">
               {recipe?.last_cooked
                 ? `Last made ${formatDistanceToNowInDays(
                     new Date(recipe?.last_cooked)
