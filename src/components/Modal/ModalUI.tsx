@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { type LayoutChangeEvent, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { LayoutChangeEvent, View } from "react-native";
 
-import IconButton from "../IconButton";
-import Text from "../Text";
-import TextInputBase from "../Inputs/TextInputBase";
 import Button from "../Button";
+import IconButton from "../IconButton";
+import TextInputBase from "../Inputs/TextInputBase";
+import Text from "../Text";
 
 export type ModalProps = {
   title?: string;
@@ -58,7 +58,7 @@ function Modal({
         entering={FadeIn}
         exiting={FadeOut}
         style={{ transform: [{ translateY: -height / 2 }] }}
-        className="absolute top-1/2 left-0 right-0 rounded-2xl mx-4 p-4 bg-white dark:bg-gray-800 max-w-md mx-auto"
+        className="absolute top-1/2 left-0 right-0 rounded-2xl mx-4 p-4 bg-white dark:bg-gray-800 md:max-w-md md:mx-auto"
       >
         <View className="justify-between flex-row items-center">
           <Text size="l" type="header">

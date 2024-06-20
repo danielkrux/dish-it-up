@@ -1,12 +1,12 @@
 import {
   forwardRef,
-  useState,
   useCallback,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import ModalUI from "./ModalUI";
-import { ModalRef, ModalRefObj, ModalShowParams } from "./types";
+import type { ModalRef, ModalRefObj, ModalShowParams } from "./types";
 
 let refs: ModalRefObj[] = [];
 

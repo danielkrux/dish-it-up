@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useRef } from "react";
-import { ListRenderItemInfo, Platform, View } from "react-native";
+import { type ListRenderItemInfo, Platform, View } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedReaction,
@@ -8,7 +8,8 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useKeepAwake } from "expo-keep-awake";
 
 import IconButton from "~/components/IconButton";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
@@ -40,6 +41,8 @@ function Cook() {
 
   const insets = useSafeAreaInsets();
   const extraPadding = Platform.OS === "ios" ? 0 : 10;
+
+  useKeepAwake();
 
   useAnimatedReaction(
     () => index.value,
