@@ -1,4 +1,3 @@
-// Be sure to change this to be unique to your project.
 process.env.EXPO_TUNNEL_SUBDOMAIN = "dish-it-up";
 
 const ngrokUrl = `${process.env.EXPO_TUNNEL_SUBDOMAIN}.ngrok.io`;
@@ -10,7 +9,7 @@ module.exports = {
   // ...
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.0.0",
+  version: "1.0.1",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -47,7 +46,7 @@ module.exports = {
     favicon: "./assets/favicon.png",
   },
   ios: {
-    buildNumber: "9",
+    buildNumber: "10",
     supportsTablet: true,
     bundleIdentifier: "com.danielkrux.dishitup",
     associatedDomains: [
