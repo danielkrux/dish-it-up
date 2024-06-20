@@ -1,4 +1,6 @@
-import { SCREEN_WIDTH } from "~/theme";
+import { SCREEN_WIDTH, isTablet } from "~/theme";
 
-export const ITEM_SIZE = SCREEN_WIDTH * 1;
-export const ITEM_SPACING = (SCREEN_WIDTH - ITEM_SIZE) / 2;
+const MAX_WIDTH = isTablet ? SCREEN_WIDTH / 1.64 : SCREEN_WIDTH;
+
+export const ITEM_SIZE = MAX_WIDTH;
+export const ITEM_SPACING = (MAX_WIDTH - ITEM_SIZE) / 2;

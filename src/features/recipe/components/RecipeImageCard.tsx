@@ -1,12 +1,12 @@
 import { Image } from "expo-image";
-import { TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { TouchableOpacity, View } from "react-native";
 
 import Text from "~/components/Text";
+import type { HomeSearchParams } from "~/features/home/types";
 import { isTablet } from "~/theme";
-import { Recipe } from "../recipe.types";
-import { HomeSearchParams } from "~/features/home/types";
 import { cn } from "~/utils/tailwind";
+import type { Recipe } from "../recipe.types";
 
 export type RecipeImageCardProps = {
   recipe?: Recipe;

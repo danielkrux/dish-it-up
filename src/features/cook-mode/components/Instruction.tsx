@@ -1,11 +1,11 @@
-import { ReactNode, memo } from "react";
+import { type ReactNode, memo } from "react";
 import { View } from "react-native";
 
-import { Recipe } from "~/features/recipe/recipe.types";
-import { findMatchingIngredient } from "../utils";
-import Text from "~/components/Text";
 import ScrollView from "~/components/ScrollView";
+import Text from "~/components/Text";
+import type { Recipe } from "~/features/recipe/recipe.types";
 import { ITEM_SIZE } from "../constants";
+import { findMatchingIngredient } from "../utils";
 
 function Instruction({
   data,
@@ -42,7 +42,7 @@ function Instruction({
   return (
     <View className="px-5" style={{ width: ITEM_SIZE }}>
       <View className="mx-auto lg:max-w-lg">
-        <Text className="font-display mb-4 text-6xl text-gray-400">
+        <Text className="font-display mb-4 text-6xl text-gray-400 dark:text-gray-400">
           Step {index + 1}
         </Text>
         <ScrollView showsVerticalScrollIndicator={false} className="flex">

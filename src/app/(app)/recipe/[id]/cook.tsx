@@ -1,3 +1,5 @@
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useKeepAwake } from "expo-keep-awake";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useRef } from "react";
 import { type ListRenderItemInfo, Platform, View } from "react-native";
@@ -8,18 +10,16 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useKeepAwake } from "expo-keep-awake";
 
-import IconButton from "~/components/IconButton";
-import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import Button from "~/components/Button";
-import IngredientsSheet from "~/features/cook-mode/components/IngredientsSheet";
-import LogRecipe from "~/features/recipe/components/LogRecipe";
+import IconButton from "~/components/IconButton";
 import ActionsRow from "~/features/cook-mode/components/ActionsRow";
+import IngredientsList from "~/features/cook-mode/components/IngredientsList";
 import Instruction from "~/features/cook-mode/components/Instruction";
 import { ITEM_SIZE, ITEM_SPACING } from "~/features/cook-mode/constants";
+import LogRecipe from "~/features/recipe/components/LogRecipe";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
+import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_HEIGHT } from "~/theme";
 
 function keyExtractor(item: string, index: number) {
@@ -80,7 +80,7 @@ function Cook() {
       className="flex-1 lg:mt-4 bg-white dark:bg-gray-950"
       style={{ paddingTop: insets.top + extraPadding }}
     >
-      <View className="flex-row mx-4 items-center justify-between ">
+      <View className="flex-row mx-4 lg:mx-8 lg:mt-2 items-center justify-between ">
         <IconButton icon="X" size="medium" onPress={router.back} />
         <Button
           onPress={() => logRecipeRef.current?.present()}
@@ -89,38 +89,45 @@ function Cook() {
           Done
         </Button>
       </View>
-      <Animated.FlatList
-        ref={ref}
-        data={data?.instructions}
-        horizontal
-        onScroll={handleScroll}
-        renderItem={renderInstruction}
-        showsHorizontalScrollIndicator={false}
-        style={{
-          marginTop: 30,
-          maxHeight: SCREEN_HEIGHT * 0.45,
-        }}
-        contentContainerStyle={{ marginBottom: 50 }}
-        keyExtractor={keyExtractor}
-        showsVerticalScrollIndicator={false}
-        snapToInterval={ITEM_SIZE + ITEM_SPACING}
-        decelerationRate="fast"
-        scrollEventThrottle={16}
-        initialNumToRender={1}
-        maxToRenderPerBatch={1}
-      />
-      <ActionsRow
-        animatedIndex={index}
-        bottomSheetPosition={bottomSheetPosition}
-        index={currentIndex}
-        instructionsLength={instructionsLength}
-        stepsListRef={ref}
-      />
-      <IngredientsSheet
-        currentInstruction={data?.instructions?.[currentIndex] ?? ""}
-        position={bottomSheetPosition}
-        ingredients={data?.ingredients}
-      />
+      <View className="flex-1 md:flex-row">
+        <View className="flex-1">
+          <Animated.FlatList
+            ref={ref}
+            data={data?.instructions}
+            horizontal
+            onScroll={handleScroll}
+            renderItem={renderInstruction}
+            showsHorizontalScrollIndicator={false}
+            style={{
+              marginTop: 30,
+              maxHeight: SCREEN_HEIGHT * 0.45,
+              maxWidth: ITEM_SIZE,
+            }}
+            contentContainerStyle={{ marginBottom: 50 }}
+            keyExtractor={keyExtractor}
+            showsVerticalScrollIndicator={false}
+            snapToInterval={ITEM_SIZE + ITEM_SPACING}
+            decelerationRate="fast"
+            scrollEventThrottle={16}
+            initialNumToRender={1}
+            maxToRenderPerBatch={1}
+          />
+          <ActionsRow
+            animatedIndex={index}
+            bottomSheetPosition={bottomSheetPosition}
+            index={currentIndex}
+            instructionsLength={instructionsLength}
+            stepsListRef={ref}
+            className="lg:left-0 lg:top-[unset] lg:bottom-12 lg:right-0"
+          />
+        </View>
+        <IngredientsList
+          currentInstruction={data?.instructions?.[currentIndex] ?? ""}
+          position={bottomSheetPosition}
+          ingredients={data?.ingredients}
+          className="lg:py-6 lg:px-4 lg:m-8 lg:mb-12 rounded-lg lg:flex-[0.5]"
+        />
+      </View>
       <LogRecipe
         ref={logRecipeRef}
         recipeId={data?.id}

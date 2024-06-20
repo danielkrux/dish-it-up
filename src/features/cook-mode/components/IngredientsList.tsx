@@ -10,12 +10,12 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 
-import Text from "~/components/Text";
-import { SCREEN_HEIGHT } from "~/theme";
-import { Ingredient } from "~/features/recipe/recipe.types";
 import BottomSheet from "~/components/BottomSheet";
 import Check from "~/components/Check";
-import clsx from "clsx";
+import Text from "~/components/Text";
+import type { Ingredient } from "~/features/recipe/recipe.types";
+import { SCREEN_HEIGHT, isTablet } from "~/theme";
+import { cn } from "~/utils/tailwind";
 import { findMatchingIngredient } from "../utils";
 
 export function getMatchedIngredients(
@@ -41,12 +41,14 @@ export type IngredientsSheetProps = {
   position: Animated.SharedValue<number>;
   currentInstruction: string;
   ingredients?: Ingredient[];
+  className?: string;
 };
 
-function IngredientsSheet({
+function IngredientsList({
   position,
   currentInstruction,
   ingredients,
+  className,
 }: IngredientsSheetProps) {
   const [completeIngredientIds, setCompleteIngredientIds] = useState<number[]>(
     []
@@ -93,18 +95,9 @@ function IngredientsSheet({
     );
   }, [ingredients, matchedIngredients]);
 
-  return (
-    <BottomSheet
-      animateOnMount={false}
-      snapPoints={snapPoints}
-      handleClassName="bg-gray-100 dark:bg-gray-900"
-      handleIndicatorClassName="bg-gray-200 dark:bg-gray-800"
-      backgroundClassName="flex-1"
-      animatedPosition={position}
-      animatedIndex={sheetIndex}
-      contentHeight={height}
-    >
-      <View className=" bg-gray-100 dark:bg-gray-900 flex-1">
+  if (isTablet) {
+    return (
+      <View className={cn("bg-gray-100 dark:bg-gray-900 flex-1", className)}>
         <Text className="font-display text-2xl mx-4 my-2">Ingredients</Text>
         <Animated.FlatList
           style={flatListStyle}
@@ -126,7 +119,61 @@ function IngredientsSheet({
                   selected={isComplete}
                 />
                 <Text
-                  className={clsx(
+                  className={cn(
+                    "font-body text-base flex-1 text-gray-700 dark:text-gray-200",
+                    {
+                      "font-body-bold text-gray-950 dark:text-white": isMatched,
+                      "line-through text-gray-300 dark:text-gray-600":
+                        isComplete,
+                    }
+                  )}
+                >
+                  {`${item.amount ?? ""} ${item.unit ?? ""} ${
+                    item.name
+                  }`.trim()}
+                </Text>
+              </Animated.View>
+            );
+          }}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <BottomSheet
+      animateOnMount={false}
+      snapPoints={snapPoints}
+      handleClassName="bg-gray-100 dark:bg-gray-900"
+      handleIndicatorClassName="bg-gray-200 dark:bg-gray-800"
+      backgroundClassName="flex-1"
+      animatedPosition={position}
+      animatedIndex={sheetIndex}
+      contentHeight={height}
+    >
+      <View className={cn("bg-gray-100 dark:bg-gray-900 flex-1", className)}>
+        <Text className="font-display text-2xl mx-4 my-2">Ingredients</Text>
+        <Animated.FlatList
+          style={flatListStyle}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          keyExtractor={(item, index) => `${item}-${index}`}
+          data={sortedIngredients}
+          renderItem={({ item }) => {
+            const isComplete = completeIngredientIds.includes(item.id);
+            const isMatched = matchedIngredients.some((i) => i.id === item.id);
+
+            return (
+              <Animated.View
+                entering={FadeIn.duration(200)}
+                exiting={FadeOut.duration(100)}
+                className="flex-row justify-between mx-4 mb-4 gap-4"
+              >
+                <Check
+                  onPress={() => toggleIngredient(item.id)}
+                  selected={isComplete}
+                />
+                <Text
+                  className={cn(
                     "font-body text-base flex-1 text-gray-700 dark:text-gray-200",
                     {
                       "font-body-bold text-gray-950 dark:text-white": isMatched,
@@ -149,4 +196,4 @@ function IngredientsSheet({
   );
 }
 
-export default IngredientsSheet;
+export default IngredientsList;

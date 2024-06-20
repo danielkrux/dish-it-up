@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { Pressable } from "react-native";
+import { cn } from "~/utils/tailwind";
 import Icon from "./Icon";
 
 function Check({
@@ -14,10 +14,10 @@ function Check({
   return (
     <Pressable
       onPress={onPress}
-      className={clsx(
-        "w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-800 items-center justify-center",
+      className={cn(
+        "w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center",
         {
-          "bg-primary": selected,
+          "bg-primary dark:bg-primary": selected,
         },
         className
       )}
