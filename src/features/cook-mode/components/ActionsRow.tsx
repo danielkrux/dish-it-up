@@ -1,4 +1,3 @@
-import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import React from "react";
 import { View } from "react-native";
 import Animated, {
@@ -35,7 +34,7 @@ function ActionsRow({
 
   const actionsStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(bottomSheetPosition.value > 500 ? 1 : 0),
+      opacity: withTiming(bottomSheetPosition.value > 400 ? 1 : 0),
       transform: [{ translateY: bottomSheetPosition.value - 50 }],
     };
   });
