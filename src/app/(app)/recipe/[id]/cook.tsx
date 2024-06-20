@@ -77,7 +77,7 @@ function Cook() {
 
   return (
     <View
-      className="flex-1 lg:mt-4 bg-white dark:bg-gray-950"
+      className="flex-1 md:mt-4 bg-white dark:bg-gray-950"
       style={{ paddingTop: insets.top + extraPadding }}
     >
       <View className="flex-row mx-4 lg:mx-8 lg:mt-2 items-center justify-between ">
@@ -118,14 +118,14 @@ function Cook() {
             index={currentIndex}
             instructionsLength={instructionsLength}
             stepsListRef={ref}
-            className="lg:left-0 lg:top-[unset] lg:bottom-12 lg:right-0"
+            className="md:left-0 md:top-[unset] md:bottom-12 md:right-0"
           />
         </View>
         <IngredientsList
           currentInstruction={data?.instructions?.[currentIndex] ?? ""}
           position={bottomSheetPosition}
           ingredients={data?.ingredients}
-          className="lg:py-6 lg:px-4 lg:m-8 lg:mb-12 rounded-lg lg:flex-[0.5]"
+          className="md:py-6 md:px-4 md:m-8 md:mb-12 rounded-lg md:flex-[0.5]"
         />
       </View>
       <LogRecipe
