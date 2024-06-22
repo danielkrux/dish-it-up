@@ -1,10 +1,9 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import Head from "expo-router/head";
 import { useRef } from "react";
 import Toast from "react-native-toast-message";
-import FloatingButton from "~/components/FloatingButton";
 
+import FloatingButton from "~/components/FloatingButton";
 import IconButton from "~/components/IconButton";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
@@ -27,9 +26,6 @@ export default function RecipeDetailPage() {
 
   return (
     <>
-      <Head>
-        <meta property="expo:handoff" content="true" />
-      </Head>
       <Stack.Screen
         options={{
           title: "Recipe",
@@ -54,6 +50,8 @@ export default function RecipeDetailPage() {
       <FloatingButton
         onPress={() => router.push(`/recipe/${id}/cook`)}
         useSafeArea
+        icon="Play"
+        className="md:mb-2"
       >
         Start cooking
       </FloatingButton>

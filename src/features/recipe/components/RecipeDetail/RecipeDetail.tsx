@@ -1,7 +1,7 @@
+import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Image } from "expo-image";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { View } from "react-native";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
@@ -9,12 +9,12 @@ import StarRating from "~/components/StarRating";
 import Text from "~/components/Text";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
+import { isWeb } from "~/theme";
+import { cn } from "~/utils/tailwind";
+import type { RecipeUpdate } from "../../recipe.types";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import Meta from "./Meta";
-import { isWeb } from "~/theme";
-import { RecipeUpdate } from "../../recipe.types";
-import { cn } from "~/utils/tailwind";
 
 export default function RecipeDetail({
   id,
@@ -36,8 +36,8 @@ export default function RecipeDetail({
 
   if (containerSize === "lg") {
     return (
-      <View testID={testID} className="px-4 flex-1">
-        <View className="flex-1 flex-row gap-10 mb-10">
+      <View testID={testID} className="px-16 flex-1">
+        <View className="flex-1 flex-row justify-evenly gap-20  mb-10">
           <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Image
               source={data?.images?.[0]}
@@ -61,7 +61,7 @@ export default function RecipeDetail({
           <ScrollView contentContainerClassName="pt-5" className="flex-1">
             <Instructions recipe={data} className="mx-4 mb-5" />
           </ScrollView>
-          <ScrollView contentContainerClassName="pt-5" className="flex-1">
+          <ScrollView contentContainerClassName="pt-5" className="flex-grow-0 ">
             <Ingredients recipe={data} className="mb-2 mx-4" />
           </ScrollView>
         </View>

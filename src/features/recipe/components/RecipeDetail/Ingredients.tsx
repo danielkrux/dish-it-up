@@ -1,6 +1,6 @@
-import { View, ViewProps } from "react-native";
+import { View, type ViewProps } from "react-native";
 import Text from "~/components/Text";
-import { RecipeUpdate } from "../../recipe.types";
+import type { RecipeUpdate } from "../../recipe.types";
 
 function Ingredients({
   recipe,
@@ -21,7 +21,7 @@ function Ingredients({
                 </Text>
               )}
 
-              <Text className="text-sm">{ingredient.name}</Text>
+              <Text>{ingredient.name}</Text>
             </Text>
           </View>
         ))}

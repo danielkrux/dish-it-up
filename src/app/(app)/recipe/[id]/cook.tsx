@@ -90,7 +90,7 @@ function Cook() {
         </Button>
       </View>
       <View className="flex-1 md:flex-row">
-        <View className="flex-1">
+        <View className="flex-1 md:items-center">
           <Animated.FlatList
             ref={ref}
             data={data?.instructions}
@@ -109,8 +109,6 @@ function Cook() {
             snapToInterval={ITEM_SIZE + ITEM_SPACING}
             decelerationRate="fast"
             scrollEventThrottle={16}
-            initialNumToRender={1}
-            maxToRenderPerBatch={1}
           />
           <ActionsRow
             animatedIndex={index}

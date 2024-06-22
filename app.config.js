@@ -9,7 +9,7 @@ module.exports = {
   // ...
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.0.1",
+  version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -57,7 +57,7 @@ module.exports = {
   },
   plugins: [
     "expo-font",
-    // "./modules/react-native-ocr/app.plugin.js",
+    "./modules/react-native-ocr/app.plugin.js",
     [
       "expo-router",
       {
