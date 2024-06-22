@@ -1,15 +1,13 @@
-process.env.EXPO_TUNNEL_SUBDOMAIN = "dish-it-up";
+const DOMAIN = "dish-it-up";
 
-const ngrokUrl = `${process.env.EXPO_TUNNEL_SUBDOMAIN}.ngrok.io`;
-
-const URL = "dish-it-up.app";
+const URL = `${DOMAIN}.app`;
 
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
   // ...
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.0.0",
+  version: "1.0.2",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -33,7 +31,7 @@ module.exports = {
         data: [
           {
             scheme: "https",
-            host: `*.${URL}`,
+            host: `*.${DOMAIN}`,
             pathPrefix: "/records",
           },
         ],
@@ -46,13 +44,13 @@ module.exports = {
     favicon: "./assets/favicon.png",
   },
   ios: {
-    buildNumber: "10",
+    buildNumber: "11",
     supportsTablet: true,
     bundleIdentifier: "com.danielkrux.dishitup",
     associatedDomains: [
-      `applinks:${ngrokUrl}`,
-      `activitycontinuation:${ngrokUrl}`,
-      `webcredentials:${ngrokUrl}`,
+      `applinks:${URL}`,
+      `activitycontinuation:${URL}`,
+      `webcredentials:${URL}`,
     ],
   },
   plugins: [
@@ -61,10 +59,7 @@ module.exports = {
     [
       "expo-router",
       {
-        headOrigin:
-          process.env.NODE_ENV === "development"
-            ? `https://${ngrokUrl}`
-            : `https://${URL}`,
+        headOrigin: `https://${URL}`,
       },
     ],
     [

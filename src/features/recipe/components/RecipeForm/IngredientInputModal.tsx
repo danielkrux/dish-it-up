@@ -1,11 +1,12 @@
+import type { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useImperativeHandle } from "react";
 import { View } from "react-native";
-import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
-import Text from "~/components/Text";
+import ChipList from "~/components/ChipList";
 import InputBase from "~/components/Inputs/TextInputBase";
+import Text from "~/components/Text";
 
 export type AddIngredientSheetProps = {
   onSave?: (value: string) => void;
@@ -27,8 +28,8 @@ const IngredientInputModal = React.forwardRef<
   }
 
   return (
-    <BottomSheetModal ref={innerRef}>
-      <View className="">
+    <BottomSheetModal snapPoints={[300]} ref={innerRef}>
+      <View className="flex-1 mb-2">
         <Text className="font-display text-2xl mb-4">Add Ingredient</Text>
         <InputBase
           value={value}
@@ -37,7 +38,39 @@ const IngredientInputModal = React.forwardRef<
           containerClassName="mb-4"
           placeholder="Ingredient"
         />
-        <Button size="large" onPress={handleSave}>
+        <ChipList
+          className="mb-4 flex-1 flex-wra"
+          contentContainerClassName="flex-row flex-1 flex-wrap"
+          scrollEnabled={false}
+          onPress={(v) => setValue(v ? `${value} ${v} ` : v)}
+          data={[
+            {
+              label: "tablespoon",
+              value: "tbsp",
+            },
+            {
+              label: "teaspoon",
+              value: "tsp",
+            },
+            {
+              label: "gram",
+              value: "g",
+            },
+            {
+              label: "milliliter",
+              value: "ml",
+            },
+            {
+              label: "deciliter",
+              value: "dl",
+            },
+            {
+              label: "liter",
+              value: "l",
+            },
+          ]}
+        />
+        <Button className="mb-auto" size="large" onPress={handleSave}>
           Save
         </Button>
       </View>

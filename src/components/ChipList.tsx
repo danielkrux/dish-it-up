@@ -1,6 +1,6 @@
-import Chip, { ChipProps } from "./Chip";
-import { ScrollView } from "react-native";
+import { ScrollView, type ScrollViewProps } from "react-native";
 import { cn } from "~/utils/tailwind";
+import Chip, { type ChipProps } from "./Chip";
 
 function ChipList({
   data,
@@ -9,6 +9,7 @@ function ChipList({
   contentContainerClassName,
   onPress,
   onLongPress,
+  ...props
 }: {
   data?: ChipProps[];
   selectedValues?: string[];
@@ -16,7 +17,7 @@ function ChipList({
   className?: string;
   onPress?: (value: string) => void;
   onLongPress?: (value: string) => void;
-}) {
+} & ScrollViewProps) {
   if (!data?.length) return null;
 
   return (
@@ -25,6 +26,7 @@ function ChipList({
       showsHorizontalScrollIndicator={false}
       horizontal
       className={className}
+      {...props}
     >
       {data?.map((item, index) => (
         <Chip

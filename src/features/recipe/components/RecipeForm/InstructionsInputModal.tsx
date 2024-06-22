@@ -1,10 +1,10 @@
+import type { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useImperativeHandle } from "react";
-import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Button from "~/components/Button";
-import Text from "~/components/Text";
 import InputBase from "~/components/Inputs/TextInputBase";
+import Text from "~/components/Text";
 
 export type InstructionsInputModalProps = {
   onSave?: (value: string) => void;
@@ -26,7 +26,7 @@ const InstructionsInputModal = React.forwardRef<
   }
 
   return (
-    <BottomSheetModal ref={innerRef}>
+    <BottomSheetModal snapPoints={[300]} ref={innerRef}>
       <Text className="font-display text-2xl mb-4">Add Instruction</Text>
       <InputBase
         defaultValue={value}
