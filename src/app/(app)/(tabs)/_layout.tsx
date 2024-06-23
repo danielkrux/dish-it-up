@@ -2,12 +2,13 @@ import { TabRouter } from "@react-navigation/native";
 import { Link, Navigator, Slot, Tabs, usePathname } from "expo-router";
 import * as Updates from "expo-updates";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 import Icon, { type IconName } from "~/components/Icon";
-import IconButton from "~/components/IconButton";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
 import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
+import { useAppState } from "~/hooks/useAppState";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import theme, { isDesktop, isTablet, isWeb } from "~/theme";
 import { cn } from "~/utils/tailwind";
@@ -47,16 +48,29 @@ function Home() {
   const { isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") return;
-    Updates.checkForUpdateAsync();
     init();
   }, []);
 
-  useEffect(() => {
-    if (isUpdatePending) {
-      Updates.reloadAsync();
+  useAppState((state) => {
+    if (process.env.NODE_ENV === "development") return;
+    if (state === "active") {
+      Updates.checkForUpdateAsync();
     }
-  }, [isUpdatePending]);
+  });
+
+  if (isUpdateAvailable) {
+    Updates.fetchUpdateAsync();
+  }
+
+  if (isUpdatePending) {
+    Toast.show({
+      type: "info",
+      text1: "Update available",
+      text2: "A new version is available, press to update",
+      onPress: Updates.reloadAsync,
+      autoHide: false,
+    });
+  }
 
   useHandleUrlShare();
 
@@ -130,15 +144,6 @@ function Home() {
           fontFamily: "Heading",
           fontSize: theme.fontSize.xxl,
           fontWeight: "bold",
-        },
-        headerRight: () => {
-          return isUpdateAvailable ? (
-            <IconButton
-              onPress={Updates.fetchUpdateAsync}
-              size="medium"
-              icon="RefreshCw"
-            />
-          ) : null;
         },
       }}
     >

@@ -10,8 +10,8 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { ThemeProvider } from "@react-navigation/native";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import Head from "expo-router/head";
@@ -22,12 +22,6 @@ import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
-
-import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
-import { initSupabase } from "../clients/supabase";
-import { useAppState } from "../hooks/useAppState";
-import { useOnlineManager } from "../hooks/useOnlineManager";
-
 import AuthProvider from "~/AuthContext";
 import Logo from "~/assets/logo.svg";
 import Modal from "~/components/Modal";
@@ -35,9 +29,11 @@ import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors, isWeb } from "~/theme";
 import { clientPersister } from "~/utils/storage";
-
+import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
+import { initSupabase } from "../clients/supabase";
+import { useAppState } from "../hooks/useAppState";
+import { useOnlineManager } from "../hooks/useOnlineManager";
 import "../../styles.css";
-import { LinearGradient } from "expo-linear-gradient";
 
 export const supabase = initSupabase();
 

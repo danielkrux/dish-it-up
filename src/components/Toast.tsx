@@ -2,8 +2,8 @@ import { TouchableOpacity, View } from "react-native";
 import type { BaseToastProps } from "react-native-toast-message";
 
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import Text from "./Text";
 import { cn } from "~/utils/tailwind";
+import Text from "./Text";
 
 function Toast({
   text1,
@@ -18,9 +18,9 @@ function Toast({
     <TouchableOpacity
       activeOpacity={1}
       {...props}
-      style={[style, { top: insets.top ?? 20 }]}
+      style={[style, { top: insets.top - 15 ?? 20 }]}
       className={cn(
-        "bg-white dark:bg-gray-800 rounded-full min-w-[275px] flex-row gap-3 items-center mt-4 shadow gap-4 py-3 px-6 border border-gray-200 dark:border-gray-600"
+        "bg-white dark:bg-gray-800 rounded-full flex-row gap-3 items-center mt-4 shadow gap-4 py-3 px-6 mx-4 border border-gray-200 dark:border-gray-600"
       )}
     >
       <View className="absolute left-6">{renderLeadingIcon?.()}</View>
@@ -34,10 +34,7 @@ function Toast({
           {text1}
         </Text>
         {text2 ? (
-          <Text
-            numberOfLines={2}
-            className="text-xs font-body max-w-[200px] text-gray-700"
-          >
+          <Text numberOfLines={2} className="text-xs font-body text-gray-700">
             {text2}
           </Text>
         ) : null}

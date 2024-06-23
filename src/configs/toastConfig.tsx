@@ -27,7 +27,7 @@ const toastConfig: ToastConfig = {
   info: (props) => (
     <Toast
       renderLeadingIcon={() => (
-        <Icon name="Info" className="text-white" size={20} />
+        <Icon name="Info" className="dark:text-white" size={20} />
       )}
       {...props}
     />

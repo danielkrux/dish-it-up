@@ -8,10 +8,10 @@ import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import RecipeList from "~/features/home/components/RecipeList";
-import { HomeSearchParams } from "~/features/home/types";
+import type { HomeSearchParams } from "~/features/home/types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes, getRecipesCount } from "~/features/recipe/recipe.service";
-import { Recipe } from "~/features/recipe/recipe.types";
+import type { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 
 function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
