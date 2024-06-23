@@ -58,19 +58,23 @@ function Home() {
     }
   });
 
-  if (isUpdateAvailable) {
-    Updates.fetchUpdateAsync();
-  }
+  useEffect(() => {
+    if (isUpdateAvailable) {
+      Updates.fetchUpdateAsync();
+    }
+  }, [isUpdateAvailable]);
 
-  if (isUpdatePending) {
-    Toast.show({
-      type: "info",
-      text1: "Update available",
-      text2: "A new version is available, press to update",
-      onPress: Updates.reloadAsync,
-      autoHide: false,
-    });
-  }
+  useEffect(() => {
+    if (isUpdatePending) {
+      Toast.show({
+        type: "info",
+        text1: "Update available",
+        text2: "A new version is available, press to update",
+        onPress: Updates.reloadAsync,
+        autoHide: false,
+      });
+    }
+  }, [isUpdatePending]);
 
   useHandleUrlShare();
 
