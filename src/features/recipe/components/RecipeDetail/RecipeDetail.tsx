@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 
+import { LinearGradient } from "expo-linear-gradient";
 import ChipList from "~/components/ChipList";
 import ScrollView from "~/components/ScrollView";
 import StarRating from "~/components/StarRating";
@@ -10,6 +11,7 @@ import Text from "~/components/Text";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
 import { isWeb } from "~/theme";
+import { hexToRGBA } from "~/utils/color";
 import { cn } from "~/utils/tailwind";
 import type { RecipeUpdate } from "../../recipe.types";
 import Ingredients from "./Ingredients";
@@ -94,23 +96,31 @@ export default function RecipeDetail({
             />
           )}
         </View>
-
-        <Image
-          source={data?.images?.[0]}
-          className="aspect-video rounded-2xl"
-        />
+        <View>
+          <Image
+            source={data?.images?.[0]}
+            className="bg-primary aspect-video rounded-2xl overflow-hidden"
+          />
+          {data.categories?.length ? (
+            <LinearGradient
+              className="absolute bottom-0 left-0 top-0 right-0 rounded-2xl justify-end"
+              colors={[hexToRGBA("#000000", 0), hexToRGBA("#000000", 0.3)]}
+            >
+              <ChipList
+                className="flex-grow-0 mb-4 ml-4"
+                data={data?.categories?.map((c) => ({
+                  value: String(c.id),
+                  label: c.name,
+                }))}
+              />
+            </LinearGradient>
+          ) : null}
+        </View>
       </View>
       {data?.description && (
         <Text className="mb-4 max-w-3xl">{data?.description}</Text>
       )}
       <Meta recipe={data} className="mb-5" />
-      <ChipList
-        className="mb-5"
-        data={data?.categories?.map((c) => ({
-          value: String(c.id),
-          label: c.name,
-        }))}
-      />
       <Ingredients recipe={data} className="mb-7" />
       <Instructions recipe={data} className="mb-5" />
     </ScrollView>

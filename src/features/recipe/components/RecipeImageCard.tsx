@@ -42,7 +42,7 @@ export default function RecipeImageCard({
       />
       <View className="flex-1 p-2 pl-0">
         <Text
-          className="text-xl leading-5 md:text-xl"
+          className="text-xl mb-1 leading-5 md:text-xl"
           numberOfLines={2}
           type="header"
         >

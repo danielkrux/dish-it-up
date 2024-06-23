@@ -1,8 +1,8 @@
-import { Text as RNText, TextProps as RNTextProps } from "react-native";
+import { Text as RNText, type TextProps as RNTextProps } from "react-native";
 import Animated from "react-native-reanimated";
 
-import createClassComponent from "../utils/createClassComponent";
 import { cn } from "~/utils/tailwind";
+import createClassComponent from "../utils/createClassComponent";
 
 export type TextProps = {
   type?: "header" | "body" | "bodyBold";

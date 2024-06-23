@@ -49,7 +49,7 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
     },
   });
 
-  const date = params.date ?? props.initialMealPlan?.date;
+  const date = params.date;
   const formattedDate = date ? format(new Date(date), "EEEE") : "";
 
   function handleSave() {
@@ -57,7 +57,7 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
       updateMutation.mutate({
         id: props.initialMealPlan.id,
         note: watch("note"),
-        date: props.initialMealPlan.date,
+        date,
       });
     } else {
       createMutation.mutate([{ date: params.date, note: watch("note") }]);

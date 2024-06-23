@@ -66,8 +66,10 @@ function SelectGroceries() {
 
   return (
     <View className="flex-1 py-6">
-      <Text className="mx-4 font-display text-2xl">Select groceries</Text>
-      <Text className="mx-4 mb-4 text-bold text-gray-300">{data?.name}</Text>
+      <Text className="mx-4 font-display text-3xl">Add to groceries</Text>
+      <Text className="mx-4 mb-4 text-bold text-lg text-gray-400">
+        {data?.name}
+      </Text>
       {recipeYieldAmount && (
         <View className="flex-row items-center gap-3 mb-4 mx-4">
           <IconButton size="small" icon="Minus" onPress={removePerson} />

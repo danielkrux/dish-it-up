@@ -46,7 +46,7 @@ function RecipeDetailMenu({
             onSelect={() => router.push(`/recipe/${recipeId}/select-groceries`)}
           >
             <Menu.ItemIcon ios={{ name: "cart" }} />
-            <Menu.ItemTitle>Add to grocery list</Menu.ItemTitle>
+            <Menu.ItemTitle>Add to groceries</Menu.ItemTitle>
           </Menu.Item>
           {data?.source_url && (
             <Menu.Item

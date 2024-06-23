@@ -1,8 +1,8 @@
 import { View } from "react-native";
 
 import Text from "~/components/Text";
-import { Recipe, RecipeUpdate } from "../../recipe.types";
-import clsx from "clsx";
+import { cn } from "~/utils/tailwind";
+import type { RecipeUpdate } from "../../recipe.types";
 
 function Meta({
   recipe,
@@ -13,7 +13,7 @@ function Meta({
 }) {
   return (
     <View
-      className={clsx(
+      className={cn(
         "p-5 flex-row rounded-2xl justify-evenly bg-acapulco-100 dark:bg-acapulco-600",
         className
       )}

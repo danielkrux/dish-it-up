@@ -37,6 +37,7 @@ import { colors, isWeb } from "~/theme";
 import { clientPersister } from "~/utils/storage";
 
 import "../../styles.css";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const supabase = initSupabase();
 
@@ -44,6 +45,7 @@ cssInterop(Image, { className: "style" });
 cssInterop(Logo, {
   className: "style",
 });
+cssInterop(LinearGradient, { className: "style" });
 
 export default function Root() {
   // useReactQueryDevTools(queryClient);

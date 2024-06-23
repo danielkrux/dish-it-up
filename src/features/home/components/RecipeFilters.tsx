@@ -4,7 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import ChipList from "~/components/ChipList";
 import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
 import { getCategories } from "~/features/recipe/recipe.service";
-import { HomeSearchParams } from "../types";
+import type { HomeSearchParams } from "../types";
 
 export const DEFAULT_FILTER = "all";
 

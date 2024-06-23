@@ -123,7 +123,7 @@ function Cook() {
           currentInstruction={data?.instructions?.[currentIndex] ?? ""}
           position={bottomSheetPosition}
           ingredients={data?.ingredients}
-          className="md:py-6 md:px-4 md:m-8 md:mb-12 rounded-lg md:flex-[0.5]"
+          className="md:py-6 md:px-4 md:m-8 md:mb-12 md:rounded-lg md:flex-[0.5]"
         />
       </View>
       <LogRecipe

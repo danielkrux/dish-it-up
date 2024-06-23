@@ -81,30 +81,30 @@ function MealPlanner() {
     if (isWeb) {
       return router.navigate({
         pathname: "/meal-planner/",
-        params: { date: date.toISOString(), note: "false" },
+        params: { date: date.toDateString(), note: "false" },
       });
     }
 
     router.navigate({
       pathname: "/meal-planner/select-recipe",
-      params: { date: date.toISOString() },
+      params: { date: date.toDateString() },
     });
   }
 
   function handleSelectNote(date: Date) {
     router.navigate({
       pathname: "/meal-planner/",
-      params: { date: date.toISOString(), note: "true" },
+      params: { date: date.toDateString(), note: "true" },
     });
   }
 
   function handleSelectMealPlan(date: Date, plan: MealPlan) {
+    setSelectedMealPlan(plan);
     if (plan.note) {
       router.navigate({
         pathname: "/meal-planner/",
-        params: { date: date.toISOString(), note: "true" },
+        params: { date: date.toDateString(), note: "true" },
       });
-      setSelectedMealPlan(plan);
     } else {
       router.navigate(`/recipe/${plan.recipe_id}/`);
     }

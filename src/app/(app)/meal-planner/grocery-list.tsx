@@ -77,13 +77,17 @@ function GroceryList() {
         className="px-4"
         contentContainerStyle={{ paddingBottom: 75 }}
       >
-        <Text size="2xl" className="mb-2" type="header">
-          Create Grocery List
+        <Text className="mb-2 text-3xl" type="header">
+          Add to groceries
         </Text>
         {data?.map((recipe) => (
           <View className="mb-6" key={recipe.id}>
             <View className="flex-1 flex-row items-start">
-              <Text className="flex-1" type="bodyBold" size="m">
+              <Text
+                className="mb-4 text-bold text-lg text-gray-400"
+                type="bodyBold"
+                size="m"
+              >
                 {recipe.name}
               </Text>
             </View>

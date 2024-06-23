@@ -1,4 +1,4 @@
-import GHBottomSheet, { BottomSheetProps } from "@gorhom/bottom-sheet";
+import GHBottomSheet, { type BottomSheetProps } from "@gorhom/bottom-sheet";
 import clsx from "clsx";
 import React from "react";
 import { View } from "react-native";
