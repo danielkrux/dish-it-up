@@ -1,10 +1,10 @@
 import { decode } from "base64-arraybuffer";
-import { Tables } from "supabase/database.types";
+import type { Tables } from "supabase/database.types";
 import { supabase } from "~/app/_layout";
-import { TableUpdate } from "~/clients/supabase";
+import type { TableUpdate } from "~/clients/supabase";
 import { isTruthy } from "~/utils/typescript";
 import { getSession } from "../auth/auth.service";
-import { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
+import type { Recipe, RecipeCreate, RecipeUpdate } from "./recipe.types";
 import { parseIngredients, splitImagesByLocalAndRemote } from "./recipe.utils";
 
 export async function parseRecipe(url: string): Promise<Recipe | null> {
@@ -163,6 +163,7 @@ export async function getRecipes(
   searchQuery?: string,
   orderBy: SortOptionValue = "created_at:desc"
 ) {
+  const { user } = await getSession();
   let result = null;
 
   const [column, order] = orderBy.split(":");
@@ -170,6 +171,7 @@ export async function getRecipes(
   const baseQuery = supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
+    .eq("user_id", user?.id)
     .order(column, { ascending: order === "asc", nullsFirst: true });
 
   if (searchQuery) {
@@ -186,7 +188,11 @@ export async function getRecipes(
 }
 
 export async function getRecipesCount() {
-  const result = await supabase.from("recipes").select("id");
+  const { user } = await getSession();
+  const result = await supabase
+    .from("recipes")
+    .select("id")
+    .eq("user_id", user?.id);
 
   if (result.error) {
     throw new Error(result.error.message);
@@ -196,6 +202,7 @@ export async function getRecipesCount() {
 }
 
 export async function getRecipe(id?: number) {
+  const { user } = await getSession();
   if (!id) throw new Error("No recipe id provided");
 
   const result = await supabase
@@ -205,6 +212,7 @@ export async function getRecipe(id?: number) {
       referencedTable: "ingredients",
       ascending: true,
     })
+    .eq("user_id", user?.id)
     .eq("id", id)
     .single();
 
@@ -216,11 +224,13 @@ export async function getRecipe(id?: number) {
 }
 
 export async function getRecipeByIds(ids?: number[]) {
+  const { user } = await getSession();
   if (!ids) throw new Error("No recipe ids provided");
 
   const result = await supabase
     .from("recipes")
     .select("*, categories(*), ingredients(*)")
+    .eq("user_id", user?.id)
     .in("id", ids);
 
   if (result.error) {
@@ -231,9 +241,11 @@ export async function getRecipeByIds(ids?: number[]) {
 }
 
 export async function getLastMadeRecipes() {
+  const { user } = await getSession();
   const result = await supabase
     .from("recipes")
     .select("id, name, images, last_cooked")
+    .eq("user_id", user?.id)
     .not("last_cooked", "is", "NULL")
     .order("last_cooked", { ascending: false })
     .limit(5);
