@@ -69,7 +69,7 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
     props.onDismiss?.();
   }
 
-  const children = (
+  const Body = ({ bottomSheet }: { bottomSheet?: boolean }) => (
     <>
       <Text size="xl" type="bodyBold" className="mb-4">
         Add a note for {formattedDate}
@@ -80,6 +80,7 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
         className="h-44"
         containerClassName="mb-4"
         multiline
+        bottomSheet={bottomSheet}
         name="note"
         control={control}
       />
@@ -96,14 +97,16 @@ function MealPlanNoteModal(props: MealPlanAddNoteProps) {
   if (isWeb) {
     return (
       <Dialog open={Boolean(params.date) && params.note === "true"}>
-        <DialogContent onClose={handleDismiss}>{children}</DialogContent>
+        <DialogContent onClose={handleDismiss}>
+          <Body />
+        </DialogContent>
       </Dialog>
     );
   }
 
   return (
     <BottomSheetModal snapPoints={[310]} onDismiss={handleDismiss} ref={ref}>
-      {children}
+      <Body bottomSheet />
     </BottomSheetModal>
   );
 }
