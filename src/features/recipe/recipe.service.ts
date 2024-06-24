@@ -201,13 +201,15 @@ export async function getRecipesCount() {
   return result.data.length;
 }
 
-export async function getRecipe(id?: number) {
+export async function getRecipe(id?: number, withCategories = true) {
   const { user } = await getSession();
   if (!id) throw new Error("No recipe id provided");
 
-  const result = await supabase
-    .from("recipes")
-    .select("*, categories(*), ingredients(*)")
+  const select = withCategories
+    ? supabase.from("recipes").select("*, categories(*), ingredients(*)")
+    : supabase.from("recipes").select("*, ingredients(*)");
+
+  const result = await select
     .order("order", {
       referencedTable: "ingredients",
       ascending: true,

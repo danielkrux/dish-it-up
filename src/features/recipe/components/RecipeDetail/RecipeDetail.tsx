@@ -13,7 +13,7 @@ import useContainerBreakpoint from "~/hooks/useContainerBreakpoint";
 import { isWeb } from "~/theme";
 import { hexToRGBA } from "~/utils/color";
 import { cn } from "~/utils/tailwind";
-import type { RecipeUpdate } from "../../recipe.types";
+import type { Recipe, RecipeUpdate } from "../../recipe.types";
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import Meta from "./Meta";

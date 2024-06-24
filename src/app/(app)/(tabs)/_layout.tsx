@@ -45,7 +45,8 @@ const links: {
 function Home() {
   const currentTheme = useThemeConfig();
   const path = usePathname();
-  const { isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
+  const { isUpdateAvailable, isUpdatePending, currentlyRunning } =
+    Updates.useUpdates();
 
   useEffect(() => {
     init();

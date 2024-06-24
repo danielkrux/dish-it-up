@@ -236,6 +236,35 @@ export type Database = {
           },
         ]
       }
+      shares: {
+        Row: {
+          created_at: string
+          full_recipe: Json
+          id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          full_recipe: Json
+          id?: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          full_recipe?: Json
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shares_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
