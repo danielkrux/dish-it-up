@@ -6,14 +6,14 @@ import type { MealPlanCreate } from "../mealPlanner.types";
 export function useCreateMealPlan({
   onCompleted,
 }: {
-  onCompleted: () => void;
+  onCompleted?: () => void;
 }) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (items: MealPlanCreate[]) => createMealPlan(items),
     onSettled: () => {
-      onCompleted();
+      onCompleted?.();
       queryClient.invalidateQueries([MEAL_PLAN_QUERY_KEY]);
     },
   });

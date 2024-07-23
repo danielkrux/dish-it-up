@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
 import { deleteRecipe } from "../recipe.service";
-import { Recipe } from "../recipe.types";
+import type { Recipe } from "../recipe.types";
 
 type Options = {
   onSuccess?: () => void;

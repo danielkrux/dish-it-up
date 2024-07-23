@@ -24,6 +24,13 @@ export default function RecipeDetailPage() {
     });
   }
 
+  function handleAddToMealPlan() {
+    Toast.show({
+      type: "success",
+      text1: "Recipe added to meal plan",
+    });
+  }
+
   return (
     <>
       <Stack.Screen
@@ -41,6 +48,7 @@ export default function RecipeDetailPage() {
             <RecipeDetailMenu
               onShowLogRecipe={ref.current?.present}
               onDeleteSucces={handleDeleteSuccess}
+              onAddToMealPlan={handleAddToMealPlan}
               recipeId={id}
             />
           ),

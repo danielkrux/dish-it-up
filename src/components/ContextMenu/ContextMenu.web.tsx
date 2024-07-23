@@ -1,5 +1,5 @@
-import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import * as React from "react";
 import { cn } from "~/utils/tailwind";
 import Icon from "../Icon";
 
@@ -24,14 +24,14 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+      "flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-gray-100 data-[state=open]:bg-gray-100",
       inset && "pl-8",
       className
     )}
     {...props}
   >
     {children}
-    <Icon name="Check" className="ml-auto h-4 w-4" />
+    <Icon name="ChevronRight" className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ));
 DropdownMenuSubTrigger.displayName =

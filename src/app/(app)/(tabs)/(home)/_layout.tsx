@@ -29,8 +29,11 @@ export default function HomeTabLayout() {
           style={{ paddingTop: isTablet && isWeb ? 40 : 0 }}
           className="flex-1 pt-0"
         >
-          <View className="flex-row justify-between px-4 py-2">
-            <Text type="header" className="text-5xl">
+          <View className="flex-row justify-between items-start px-4 py-2">
+            <Text
+              type="header"
+              className="text-5xl max-w-screen-md leading-snug"
+            >
               {data?.name}
             </Text>
             <View className="flex-row items-center gap-2 ml-auto">
