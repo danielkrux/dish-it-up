@@ -41,7 +41,7 @@ function Instruction({
 
   return (
     <View className="px-5" style={{ width: ITEM_SIZE }}>
-      <View className="mx-auto lg:max-w-lg">
+      <View className="mx-auto lg:max-w-2xl">
         <Text className="font-display mb-4 text-6xl text-gray-300 dark:text-gray-400">
           Step {index + 1}
         </Text>

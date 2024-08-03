@@ -100,7 +100,7 @@ function Cook() {
             showsHorizontalScrollIndicator={false}
             style={{
               marginTop: 30,
-              maxHeight: SCREEN_HEIGHT * 0.45,
+              maxHeight: SCREEN_HEIGHT * 0.65,
               maxWidth: ITEM_SIZE,
             }}
             contentContainerStyle={{ marginBottom: 50 }}
