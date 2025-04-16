@@ -1,8 +1,12 @@
-import { ActivityIndicator, Pressable, PressableProps } from "react-native";
-import theme, { colors } from "../theme";
-import Icon, { IconProps } from "./Icon";
-import Text from "./Text";
+import {
+  ActivityIndicator,
+  Pressable,
+  type PressableProps,
+} from "react-native";
 import { cn } from "~/utils/tailwind";
+import theme, { colors } from "../theme";
+import Icon, { type IconProps } from "./Icon";
+import Text from "./Text";
 
 export type ButtonProps = {
   size?: "small" | "large";

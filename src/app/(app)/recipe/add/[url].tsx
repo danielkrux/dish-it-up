@@ -24,6 +24,7 @@ import theme from "~/theme";
 import { isValidUrl } from "~/utils/url";
 
 export default function AddRecipeConfirmScreen() {
+  const { mutate } = useCreateRecipe();
   const { url: urlParam } = useLocalSearchParams();
   const statusBarHeight = StatusBar.currentHeight;
 
@@ -40,16 +41,16 @@ export default function AddRecipeConfirmScreen() {
     }
   );
 
-  const { mutate } = useCreateRecipe();
-
   if (isError) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 justify-center items-center max-w-xl mx-auto w-full">
         <Icon name="CircleAlert" size={48} className="mb-4" />
         <Text className="mb-4" type="body">
           Something went wrong importing the recipe
         </Text>
-        <Button onPress={() => router.back()}>Go back</Button>
+        <Button className="self-center" onPress={() => router.back()}>
+          Go back
+        </Button>
       </View>
     );
   }

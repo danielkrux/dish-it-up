@@ -25,7 +25,7 @@ export default function Add() {
   }
 
   return (
-    <View className="my-8 mx-4">
+    <View className="my-8 mx-4 max-w-xl w-full flex-1 justify-center mx-auto">
       <Text className="mb-4 text-3xl font-display">Add a recipe</Text>
       <View className="bg-gray-100 dark:bg-gray-900 p-4 rounded-2xl">
         <Text className="mb-2" type="body">
