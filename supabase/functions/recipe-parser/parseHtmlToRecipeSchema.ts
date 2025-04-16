@@ -11,7 +11,7 @@ function parseHtmlToRecipeSchema(
     "script[type='application/ld+json']"
   );
   const recipeSchemaStr = jsonldItems.find((jsonld) => {
-    return jsonld.innerHTML.search(new RegExp("recipeIngredient", "i")) !== -1;
+    return jsonld.innerHTML.search(/recipeIngredient/i) !== -1;
   })?.innerHTML;
 
   if (!recipeSchemaStr) {

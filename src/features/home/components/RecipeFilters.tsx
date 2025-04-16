@@ -54,7 +54,6 @@ function RecipeQuickFilter() {
       data={data}
       selectedValues={appliedCategory ? [appliedCategory] : [DEFAULT_FILTER]}
       onPress={updateParams}
-      contentContainerClassName="pr-20"
     />
   );
 }

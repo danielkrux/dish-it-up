@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.223.0/http/server.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 import parseHtmlToRecipeSchema from "./parseHtmlToRecipeSchema.ts";
 import parseSchemaToRecipe from "./parseSchemaToRecipe.ts";
-import { corsHeaders } from "../_shared/cors.ts";
 
 serve(async (req) => {
   const { searchParams } = new URL(req.url);
@@ -18,10 +18,11 @@ serve(async (req) => {
     const response = await fetch(url, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
       },
     });
     const html = await response.text();
+    console.log(html);
     const schema = parseHtmlToRecipeSchema(html);
     const recipe = parseSchemaToRecipe(schema, url);
 

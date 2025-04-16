@@ -1,14 +1,14 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useCallback } from "react";
-import { ListRenderItemInfo } from "react-native";
+import type { ListRenderItemInfo } from "react-native";
 import { FlatList } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
-import { isTablet } from "~/theme";
 import SeachAndFilter from "~/features/home/components/SearchAndFilter";
-import { Recipe } from "~/features/recipe/recipe.types";
-import { HomeSearchParams } from "../types";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
+import type { Recipe } from "~/features/recipe/recipe.types";
+import { isTablet } from "~/theme";
+import type { HomeSearchParams } from "../types";
 
 const extractKey = (item: Recipe) => item.id.toString();
 
