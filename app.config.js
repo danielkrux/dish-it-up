@@ -4,7 +4,6 @@ const URL = `${DOMAIN}.app`;
 
 /** @type {import('expo/config').ExpoConfig} */
 module.exports = {
-  // ...
   name: "Dish It Up",
   slug: "dish-it-up",
   version: "1.0.2",
@@ -55,6 +54,8 @@ module.exports = {
   },
   plugins: [
     "expo-font",
+    "expo-asset",
+    "expo-secure-store",
     "./modules/react-native-ocr/app.plugin.js",
     [
       "expo-router",
@@ -62,14 +63,14 @@ module.exports = {
         headOrigin: `https://${URL}`,
       },
     ],
-    [
-      "expo-config-plugin-ios-share-extension",
-      {
-        activationRules: {
-          NSExtensionActivationSupportsWebURLWithMaxCount: 1,
-        },
-      },
-    ],
+    // [
+    //   "expo-config-plugin-ios-share-extension",
+    //   {
+    //     activationRules: {
+    //       NSExtensionActivationSupportsWebURLWithMaxCount: 1,
+    //     },
+    //   },
+    // ],
     [
       "expo-build-properties",
       {
