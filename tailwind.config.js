@@ -57,5 +57,6 @@ module.exports = {
       "body-bold": ["BodyBold"],
     },
   },
+  darkMode: "class", // Specifically this line
   plugins: [require("tailwindcss-animate")],
 };
