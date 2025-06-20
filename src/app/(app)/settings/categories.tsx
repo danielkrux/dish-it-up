@@ -76,7 +76,7 @@ export default function Settings() {
         <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
           <Icon className="mb-5" name="Tag" size={64} />
           <Text type="header" size="l" className="text-center mb-2">
-            You don't have any categories yet!
+            You don&apos;t have any categories yet!
           </Text>
           <Text className="text-center">
             You can create a category with the button below.

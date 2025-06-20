@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { FlatList, type ListRenderItemInfo, Pressable, View } from "react-native";
+import {
+  FlatList,
+  type ListRenderItemInfo,
+  Pressable,
+  View,
+} from "react-native";
 
 import Button from "~/components/Button";
 import Check from "~/components/Check";
@@ -71,7 +76,7 @@ function RecipeSelectList({
         />
       ) : (
         <Text size="l" className="text-gray-300 self-center">
-          You don't have any recipes yet!
+          You don&apos;t have any recipes yet!
         </Text>
       )}
       <Button

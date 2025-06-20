@@ -105,6 +105,7 @@ module.exports = {
   experiments: {
     typedRoutes: true,
     tsconfigPaths: true,
+    reactCompiler: false,
   },
   runtimeVersion: {
     policy: "appVersion",

@@ -78,4 +78,6 @@ const IngredientInputModal = React.forwardRef<
   );
 });
 
+IngredientInputModal.displayName = "IngredientInputModal";
+
 export default IngredientInputModal;

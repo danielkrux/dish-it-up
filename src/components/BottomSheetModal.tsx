@@ -115,6 +115,8 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
   }
 );
 
+BottomSheetModal.displayName = "BottomSheetModal";
+
 export default BottomSheetModal;
 
 const styles = StyleSheet.create({

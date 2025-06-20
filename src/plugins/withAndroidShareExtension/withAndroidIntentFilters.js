@@ -40,7 +40,7 @@ function renderIntentFilterCategory(category) {
     }));
 }
 function addIntentFilters(androidManifest, currentIntentFilters, filters) {
-    var _a;
+    let _a;
     const mainActivity = config_plugins_1.AndroidConfig.Manifest.getMainActivityOrThrow(androidManifest);
     // const renderedCurrentIntentFilters =
     //   AndroidConfig.IntentFilters.default(currentIntentFilters);

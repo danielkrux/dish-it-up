@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams , useRouter } from "expo-router";
 
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
 import {
   ActivityIndicator,
   Platform,

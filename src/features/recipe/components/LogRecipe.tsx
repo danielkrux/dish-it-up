@@ -81,4 +81,6 @@ const LogRecipe = forwardRef<_BottomSheetModal, Props>(
   }
 );
 
+LogRecipe.displayName = "LogRecipe";
+
 export default LogRecipe;

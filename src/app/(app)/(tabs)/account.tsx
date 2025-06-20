@@ -4,8 +4,8 @@ import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
 
-import Text from "~/components/Text";
 import IconButton from "~/components/IconButton";
+import Text from "~/components/Text";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getLastMadeRecipes } from "~/features/recipe/recipe.service";
 import useAuth from "~/hooks/useAuth";
@@ -22,7 +22,7 @@ function Account() {
         options={{
           headerRight: () => (
             <IconButton
-              onPress={() => router.push("/settings/")}
+              onPress={() => router.push("/settings")}
               icon="Settings"
               size="medium"
             />
@@ -60,7 +60,7 @@ function Account() {
           ))}
           {data?.length === 0 && (
             <Text className="text-gray-500 dark:text-gray-300 text-center">
-              You haven't made any recipes yet!
+              You haven&apos;t made any recipes yet!
             </Text>
           )}
         </View>

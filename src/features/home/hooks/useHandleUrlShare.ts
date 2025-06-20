@@ -3,7 +3,7 @@ import { router, useRootNavigationState } from "expo-router";
 import { useEffect, useState } from "react";
 import useAndroidShareIntent from "~/hooks/useAndroidShareIntent";
 
-export async function useHandleUrlShare() {
+export function useHandleUrlShare() {
   const rootNavigationState = useRootNavigationState();
   const [url, setUrl] = useState<string | null>(null);
   const { shareIntent, resetShareIntent } = useAndroidShareIntent();
@@ -35,11 +35,10 @@ export async function useHandleUrlShare() {
     }, 1);
   }, [url, rootNavigationState.key]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (shareIntent?.text) {
       router.push(`/recipe/add/${encodeURIComponent(shareIntent.text)}`);
       resetShareIntent();
     }
-  }, [shareIntent]);
+  }, [resetShareIntent, shareIntent]);
 }

@@ -42,7 +42,7 @@ export const getShareIntentAsync = async () => {
         console.error("useShareIntent[get] error", err);
         reject(err);
       },
-      Constants.expoConfig?.scheme
+      Constants.expoConfig?.scheme as string
     );
   });
 };
@@ -57,10 +57,6 @@ export default function useAndroidShareIntent() {
     null
   );
   const [error, setError] = useState<string | undefined>();
-
-  if (Platform.OS !== "android") {
-    return {};
-  }
 
   const refreshShareIntent = async () => {
     try {
@@ -99,6 +95,10 @@ export default function useAndroidShareIntent() {
       clearShareIntent();
     };
   }, []);
+
+  if (Platform.OS !== "android") {
+    return {};
+  }
 
   return {
     shareIntent,

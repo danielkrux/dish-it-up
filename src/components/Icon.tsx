@@ -17,12 +17,17 @@ export type IconProps = {
 };
 
 function Icon({ name, size = 24, strokeWidth, style, className }: IconProps) {
+  // @ts-expect-error
+  // eslint-disable-next-line import/namespace
+  const LucideIcon = icons[name as string];
+
+  useMemo(
+    () => LucideIcon && cssInterop(LucideIcon, { className: "style" }),
+    [LucideIcon]
+  );
+
   if (name === "logo")
     return <Logo width={size} height={size} className={className} />;
-
-  // @ts-ignore
-  const LucideIcon = icons[name as string];
-  useMemo(() => cssInterop(LucideIcon, { className: "style" }), [LucideIcon]);
 
   if (!LucideIcon) return null;
 

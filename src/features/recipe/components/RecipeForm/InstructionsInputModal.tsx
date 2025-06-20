@@ -45,4 +45,6 @@ const InstructionsInputModal = React.forwardRef<
   );
 });
 
+InstructionsInputModal.displayName = "InstructionsInputModal";
+
 export default InstructionsInputModal;

@@ -29,9 +29,7 @@ function SignIn() {
       await signInWithEmail({ email, password });
 
       router.replace("/");
-
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    } catch (error: any) {
+    } catch (error: unknown) {
       Modal.show({
         title: "Something went wrong",
         description: "Please try again.",
@@ -43,7 +41,7 @@ function SignIn() {
   }
 
   function navigateToSignUp() {
-    router.push("/auth/sign-up/");
+    router.push("/auth/sign-up");
   }
 
   const email = watch("email");
@@ -62,11 +60,12 @@ function SignIn() {
         containerClassName="mb-6"
       />
       <Link
-        href={
-          email
-            ? `/auth/forgot-password/?email=${encodeURIComponent(email)}`
-            : "/auth/forgot-password/"
-        }
+        href={{
+          pathname: "/auth/forgot-password",
+          params: {
+            email: email && encodeURIComponent(email),
+          },
+        }}
         className="self-end -mb-6 z-10"
       >
         <Text className="text-xs text-gray-400 underline">
@@ -94,7 +93,9 @@ function SignIn() {
       >
         Sign In
       </Button>
-      <Text className="text-center mt-10 mb-2">Don't have an account yet?</Text>
+      <Text className="text-center mt-10 mb-2">
+        Don&apos;t have an account yet?
+      </Text>
       <Button
         className="self-stretch"
         size="large"

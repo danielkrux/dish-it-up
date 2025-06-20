@@ -16,7 +16,7 @@ function VerifyEmail() {
           size="large"
           onPress={() => router.push("/")}
         >
-          Let's go!
+          Let&apos;s go!
         </Button>
       </View>
     </View>

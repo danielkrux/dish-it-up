@@ -6,12 +6,12 @@ import {
   View,
 } from "react-native";
 
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { colors } from "~/theme";
 import createClassComponent from "~/utils/createClassComponent";
-import Label from "./Label";
-import Text from "../Text";
 import { cn } from "~/utils/tailwind";
-import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import Text from "../Text";
+import Label from "./Label";
 
 export type InputBaseProps = Omit<RNTextInputProps, "value"> & {
   containerClassName?: string;
@@ -70,6 +70,8 @@ const InputBase = forwardRef<RNTextInput, InputBaseProps>(
     );
   }
 );
+
+InputBase.displayName = "InputBase";
 
 export default InputBase;
 
