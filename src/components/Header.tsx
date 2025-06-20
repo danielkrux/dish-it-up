@@ -1,5 +1,5 @@
 import { Header as HeaderElement } from "@react-navigation/elements";
-import { StackHeaderProps } from "@react-navigation/stack";
+import type { StackHeaderProps } from "@react-navigation/stack";
 import IconButton from "./IconButton";
 import theme from "../theme";
 import { View } from "react-native";

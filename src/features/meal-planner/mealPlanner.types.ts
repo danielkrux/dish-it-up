@@ -1,4 +1,4 @@
-import { TableCreate, TableUpdate, Tables } from "~/clients/supabase";
+import type { TableCreate, TableUpdate, Tables } from "~/clients/supabase";
 import { Recipe } from "../recipe/recipe.types";
 
 export type MealPlanCreate = TableCreate<"meal_plans">;

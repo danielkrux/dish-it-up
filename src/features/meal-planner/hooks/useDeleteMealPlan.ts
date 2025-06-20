@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "~/clients/reactQuery";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
 import { deleteMealPlan } from "../mealPlanner.service";
-import { MealPlan } from "../mealPlanner.types";
+import type { MealPlan } from "../mealPlanner.types";
 
 function useDeleteMealPlan({ onSettled }: { onSettled?: () => void }) {
   const deleteMutation = useMutation({

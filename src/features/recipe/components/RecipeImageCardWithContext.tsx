@@ -4,7 +4,7 @@ import * as ContextMenu from "zeego/context-menu";
 
 import { Platform } from "react-native";
 import useDeleteRecipe from "../hooks/useDeleteRecipe";
-import RecipeImageCard, { RecipeImageCardProps } from "./RecipeImageCard";
+import RecipeImageCard, { type RecipeImageCardProps } from "./RecipeImageCard";
 
 type RecipeImageCardWithContextProps = RecipeImageCardProps;
 

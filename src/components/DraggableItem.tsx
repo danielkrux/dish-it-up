@@ -1,8 +1,8 @@
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
-import { ViewProps } from "react-native";
+import type { ViewProps } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  SharedValue,
+  type SharedValue,
   useSharedValue,
   runOnJS,
   withTiming,

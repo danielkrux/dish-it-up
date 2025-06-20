@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from "react";
+import React, { type ReactNode, type RefObject } from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
 	runOnJS,
@@ -10,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "~/theme";
-import { Positions } from ".";
+import type { Positions } from ".";
 import { MARGIN, SIZE, TOTAL_SIZE, getOrder } from "./config";
 
 interface ItemProps {

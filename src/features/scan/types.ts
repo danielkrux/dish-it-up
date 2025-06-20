@@ -1,4 +1,4 @@
-import * as OCR from "modules/react-native-ocr";
+import type * as OCR from "modules/react-native-ocr";
 
 export type RecipeFieldType =
   | "title"

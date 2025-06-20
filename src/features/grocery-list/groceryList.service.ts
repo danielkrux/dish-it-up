@@ -1,7 +1,7 @@
 import { supabase } from "~/app/_layout";
 import { getSession } from "../auth/auth.service";
-import { Ingredient, IngredientCreate } from "../recipe/recipe.types";
-import { GroceryListItemUpdate } from "./groceryList.types";
+import type { Ingredient, IngredientCreate } from "../recipe/recipe.types";
+import type { GroceryListItemUpdate } from "./groceryList.types";
 
 export async function fetchGroceryList() {
   const result = await supabase

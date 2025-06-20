@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import theme, { colors } from "~/theme";
 import { hexToRGBA } from "~/utils/color";
-import Icon, { IconName } from "../Icon";
+import Icon, { type IconName } from "../Icon";
 import Text from "../Text";
 
 export type MenuItemProps = {

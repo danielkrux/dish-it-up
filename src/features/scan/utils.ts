@@ -1,5 +1,5 @@
 import { capitalize } from "lodash";
-import { TextBlock } from "./types";
+import type { TextBlock } from "./types";
 
 export function prepareTextBlocksForForm(textBlocks: TextBlock[]) {
   const selectedBlocks = textBlocks.filter((block) => block.type);

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Recipe, RecipeUpdate } from "../../recipe.types";
-import { RecipeUpdateForm } from "./types";
+import { Recipe, type RecipeUpdate } from "../../recipe.types";
+import type { RecipeUpdateForm } from "./types";
 
 const emtpyRecipe: RecipeUpdateForm = {
   name: "",

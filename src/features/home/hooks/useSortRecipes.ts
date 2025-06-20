@@ -1,10 +1,10 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { ImpactFeedbackStyle, impactAsync } from "expo-haptics";
 
-import { HomeSearchParams } from "../types";
-import { SortOptionValue } from "~/features/recipe/recipe.service";
+import type { HomeSearchParams } from "../types";
+import type { SortOptionValue } from "~/features/recipe/recipe.service";
 import { Platform } from "react-native";
-import { IconName } from "~/components/Icon";
+import type { IconName } from "~/components/Icon";
 
 const DEFAULT_SORT: SortOptionValue = "created_at:desc";
 

@@ -1,6 +1,6 @@
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import Check from "./Check";
-import Icon, { IconName } from "./Icon";
+import Icon, { type IconName } from "./Icon";
 import Text from "./Text";
 import clsx from "clsx";
 

@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
+import type { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import { View } from "react-native";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Label from "~/components/Inputs/Label";
-import { RecipeUpdateForm } from "./types";
+import type { RecipeUpdateForm } from "./types";
 import { cn } from "~/utils/tailwind";
 import IconButton from "~/components/IconButton";
 import IngredientInputModal from "./IngredientInputModal";

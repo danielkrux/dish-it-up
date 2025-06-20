@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Pressable, PressableProps } from "react-native";
-import Icon, { IconName } from "./Icon";
+import { Pressable, type PressableProps } from "react-native";
+import Icon, { type IconName } from "./Icon";
 import { cn } from "~/utils/tailwind";
 
 export type IconButtonProps = {

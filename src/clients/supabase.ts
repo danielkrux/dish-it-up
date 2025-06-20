@@ -1,6 +1,6 @@
-import { PostgrestError, createClient } from "@supabase/supabase-js";
+import { type PostgrestError, createClient } from "@supabase/supabase-js";
 
-import { Database } from "../../supabase/database.types";
+import type { Database } from "../../supabase/database.types";
 import { LargeSecureStore } from "~/utils/largeSecureStore";
 import { Platform } from "react-native";
 

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { FlatList, ListRenderItemInfo, Pressable, View } from "react-native";
+import { FlatList, type ListRenderItemInfo, Pressable, View } from "react-native";
 
 import Button from "~/components/Button";
 import Check from "~/components/Check";
@@ -8,7 +8,7 @@ import Text from "~/components/Text";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
-import { Recipe } from "~/features/recipe/recipe.types";
+import type { Recipe } from "~/features/recipe/recipe.types";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
 
 function keyExtractor(recipe: Recipe) {

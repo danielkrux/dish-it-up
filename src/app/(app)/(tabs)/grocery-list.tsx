@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Icon from "~/components/Icon";
 import ListButton from "~/components/ListButton";
 import GroceryListMenu from "~/features/grocery-list/components/GroceryListMenu";
-import { GroceryListItem } from "~/features/grocery-list/groceryList.types";
+import type { GroceryListItem } from "~/features/grocery-list/groceryList.types";
 import useCreateGroceryListItem from "~/features/grocery-list/hooks/useCreateGroceryListItem";
 import useDeleteGroceryItems from "~/features/grocery-list/hooks/useDeleteGroceryList";
 import useFetchGroceryList from "~/features/grocery-list/hooks/useFetchGroceryList";

@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { BlurView } from "expo-blur";
 import { useColorScheme } from "nativewind";
-import { Pressable, PressableProps } from "react-native";
-import Icon, { IconName } from "./Icon";
+import { Pressable, type PressableProps } from "react-native";
+import Icon, { type IconName } from "./Icon";
 import Text from "./Text";
 
 function BlurButton({

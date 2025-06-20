@@ -3,7 +3,7 @@ import { View } from "react-native";
 import * as Menu from "zeego/dropdown-menu";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
-import { RecipeFieldType } from "../types";
+import type { RecipeFieldType } from "../types";
 
 export type TypeMenuProps = {
   currentType?: RecipeFieldType;

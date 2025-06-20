@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GROCERY_LIST_QUERY_KEY } from "~/features/app/app.constants";
 import { updateGroceryListItem } from "../groceryList.service";
-import { GroceryListItem, GroceryListItemUpdate } from "../groceryList.types";
+import type { GroceryListItem, GroceryListItemUpdate } from "../groceryList.types";
 
 type Options = {
   onSuccess?: () => void;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import {
-  NativeSyntheticEvent,
+  type NativeSyntheticEvent,
   StyleSheet,
   TextInput,
-  TextInputKeyPressEventData,
-  TextInputSubmitEditingEventData,
+  type TextInputKeyPressEventData,
+  type TextInputSubmitEditingEventData,
   View,
   ViewProps,
 } from "react-native";
@@ -12,9 +12,9 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import theme, { colors } from "~/theme";
 import { nanoid } from "~/utils/random";
-import Chip, { ChipData } from "../Chip";
+import Chip, { type ChipData } from "../Chip";
 import Label from "./Label";
-import { InputBaseProps } from "./TextInputBase";
+import type { InputBaseProps } from "./TextInputBase";
 
 type ChipInputProps = Omit<InputBaseProps, "value"> & {
   onAdd?: (value: ChipData) => void;

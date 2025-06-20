@@ -1,7 +1,7 @@
 import { icons } from "lucide-react-native";
 import { cssInterop } from "nativewind";
 import { useMemo } from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
 
 import Logo from "~/assets/logo.svg";
 import { cn } from "~/utils/tailwind";

@@ -21,7 +21,7 @@ import Button from "~/components/Button";
 import { SCREEN_WIDTH, colors } from "~/theme";
 import { router } from "expo-router";
 import TypeMenu from "~/features/scan/components/TypeMenu";
-import { RecipeFieldType, TextBlock } from "~/features/scan/types";
+import type { RecipeFieldType, TextBlock } from "~/features/scan/types";
 import Icon from "~/components/Icon";
 import { prepareTextBlocksForForm } from "~/features/scan/utils";
 import Text from "~/components/Text";

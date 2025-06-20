@@ -1,4 +1,4 @@
-import { IngredientCreate, IngredientUpdate } from "./recipe.types";
+import type { IngredientCreate, IngredientUpdate } from "./recipe.types";
 
 export function findRecipeYieldAmount(recipeYield: string) {
   const numberRegex = new RegExp(/\d+/);

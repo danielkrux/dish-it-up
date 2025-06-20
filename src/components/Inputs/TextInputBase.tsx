@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import {
   Animated,
   TextInput as RNTextInput,
-  TextInputProps as RNTextInputProps,
+  type TextInputProps as RNTextInputProps,
   View,
 } from "react-native";
 

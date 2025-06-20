@@ -1,10 +1,4 @@
-/*!
- * Plugin created for Expo Share Intent Demo (https://github.com/achorein/expo-share-intent-demo)
- * author: achorein (https://github.com/achorein)
- *
- * inspired by: https://stackoverflow.com/questions/72748846/modify-android-gradle-properties-in-expo-managed-app
- */
-"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withAndroidBuildProperties = void 0;
 const config_plugins_1 = require("@expo/config-plugins");

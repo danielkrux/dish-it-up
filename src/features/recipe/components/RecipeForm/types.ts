@@ -1,4 +1,4 @@
-import { RecipeUpdate } from "../../recipe.types";
+import type { RecipeUpdate } from "../../recipe.types";
 
 export type RecipeUpdateForm = Omit<
   RecipeUpdate,

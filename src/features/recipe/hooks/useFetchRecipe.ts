@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import recipeKeys from "../recipe.queryKeys";
 import { getRecipe } from "../recipe.service";
-import { Recipe } from "../recipe.types";
+import type { Recipe } from "../recipe.types";
 
 function useFetchRecipe(id?: number) {
   const queryClient = useQueryClient();

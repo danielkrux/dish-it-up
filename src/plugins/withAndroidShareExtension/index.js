@@ -1,15 +1,11 @@
-/*!
- * Plugin created for Expo Share Intent Demo (https://github.com/achorein/expo-share-intent-demo)
- * author: achorein (https://github.com/achorein)
- */
-"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_plugins_1 = require("@expo/config-plugins");
 const withAndroidMainActivityAttributes_1 = require("./withAndroidMainActivityAttributes");
 const withAndroidIntentFilters_1 = require("./withAndroidIntentFilters");
 const withAndroidBuildProperties_1 = require("./withAndroidBuildProperties");
 const withAndroidMainActivityExtension_1 = require("./withAndroidMainActivityExtension");
-let pkg = {
+const pkg = {
     name: "expo-config-plugin-share-intent-android",
     version: "UNVERSIONED",
 };

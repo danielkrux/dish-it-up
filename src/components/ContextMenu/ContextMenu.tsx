@@ -2,7 +2,7 @@ import { Portal } from "@gorhom/portal";
 import { Fragment, useState } from "react";
 import { Dimensions, Platform, Pressable, StyleSheet } from "react-native";
 import Animated, {
-  MeasuredDimensions,
+  type MeasuredDimensions,
   measure,
   runOnJS,
   useAnimatedRef,
@@ -15,8 +15,8 @@ import { FullWindowOverlay } from "react-native-screens";
 
 import { BlurView } from "expo-blur";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import IconButton, { IconButtonProps } from "../IconButton";
-import MenuItem, { MenuItemProps } from "./MenuItem";
+import IconButton, { type IconButtonProps } from "../IconButton";
+import MenuItem, { type MenuItemProps } from "./MenuItem";
 import {
   MENU_WIDTH,
   SPRING_CONFIGURATION,
