@@ -35,7 +35,7 @@ function SelectRecipe() {
     <RecipeSelectList
       date={date}
       onSave={() => mutation.mutate(itemsToSave)}
-      isLoading={mutation.isLoading}
+      isLoading={mutation.isPending}
       selectedRecipes={selectedRecipes}
       onRecipeSelect={handleRecipeSelect}
     />

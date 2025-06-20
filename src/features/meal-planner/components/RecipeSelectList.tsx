@@ -1,9 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { FlatList, type ListRenderItemInfo, Pressable, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  FlatList,
+  type ListRenderItemInfo,
+  Pressable,
+  View,
+} from "react-native";
 
 import Button from "~/components/Button";
 import Check from "~/components/Check";
+import InputBase from "~/components/Inputs/TextInputBase";
 import Text from "~/components/Text";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
@@ -31,7 +38,18 @@ function RecipeSelectList({
   onSave,
 }: RecipeSelectListProps) {
   const insets = useSafeAreaInsets();
-  const { data } = useQuery(recipeKeys.all, () => getRecipes());
+  const router = useRouter();
+  const params = useLocalSearchParams<{ q?: string }>();
+  const { data } = useQuery(recipeKeys.all, () => getRecipes(), {
+    select: (data) => {
+      if (params.q) {
+        return data.filter((recipe) =>
+          recipe.name?.toLowerCase().startsWith(params?.q?.toLowerCase() ?? "")
+        );
+      }
+      return data;
+    },
+  });
 
   function renderRecipe({ item }: ListRenderItemInfo<Recipe>) {
     return (
@@ -61,12 +79,21 @@ function RecipeSelectList({
           keyExtractor={keyExtractor}
           contentContainerClassName="gap-4 px-5 pb-20"
           ListHeaderComponent={
-            <Text className="mb-2 mt-2 text-3xl" type="header">
-              Select Recipes for{" "}
-              <Text className="text-acapulco-400 font-display text-3xl">
-                {format(date, "EEEE")}
+            <>
+              <Text className="mb-2 mt-2 text-3xl" type="header">
+                Select Recipes for{" "}
+                <Text className="text-acapulco-400 font-display text-3xl">
+                  {format(date, "EEEE")}
+                </Text>
               </Text>
-            </Text>
+              <InputBase
+                className="text-sm"
+                onChangeText={(text) => {
+                  router.setParams({ q: text });
+                }}
+                placeholder="Search recipes"
+              />
+            </>
           }
         />
       ) : (
