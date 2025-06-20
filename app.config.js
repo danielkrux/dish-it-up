@@ -9,6 +9,7 @@ module.exports = {
   version: "1.0.2",
   orientation: "portrait",
   icon: "./assets/icon.png",
+  newArchEnabled: true,
   userInterfaceStyle: "automatic",
   scheme: "dish-it-up",
   splash: {

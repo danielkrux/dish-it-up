@@ -1,11 +1,15 @@
 import { Header as HeaderElement } from "@react-navigation/elements";
-import type { StackHeaderProps } from "@react-navigation/stack";
-import IconButton from "./IconButton";
-import theme from "../theme";
-import { View } from "react-native";
 import { usePathname, useRouter } from "expo-router";
+import type { ReactNode } from "react";
+import { View } from "react-native";
+import theme from "../theme";
+import IconButton from "./IconButton";
 
-export default function Header({ options }: StackHeaderProps) {
+export default function Header({
+  options,
+}: {
+  options: { title: string; headerRight: ReactNode };
+}) {
   const router = useRouter();
   const pathName = usePathname();
 
