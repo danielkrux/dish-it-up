@@ -1,4 +1,4 @@
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, View } from "react-native";
 
