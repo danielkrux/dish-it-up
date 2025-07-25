@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams , useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 import { Image } from "expo-image";
 import {
@@ -11,6 +11,8 @@ import {
   View,
 } from "react-native";
 
+import { useShareIntentContext } from "expo-share-intent";
+import { useEffect } from "react";
 import BlurButton from "~/components/BlurButton";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
@@ -25,12 +27,18 @@ import { isValidUrl } from "~/utils/url";
 export default function AddRecipeConfirmScreen() {
   const { mutate } = useCreateRecipe();
   const { url: urlParam } = useLocalSearchParams();
+  const { resetShareIntent } = useShareIntentContext();
   const statusBarHeight = StatusBar.currentHeight;
 
   const router = useRouter();
   const url = decodeURIComponent(urlParam as string);
 
   const urlValid = isValidUrl(url);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    resetShareIntent();
+  }, []);
 
   const { data, isError, isLoading } = useQuery(
     ["parse-recipe", url],

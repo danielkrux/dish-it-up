@@ -76,8 +76,6 @@ function Home() {
     }
   }, [isUpdatePending]);
 
-  useHandleUrlShare();
-
   if (isWeb && isDesktop) {
     return (
       <Navigator router={TabRouter}>

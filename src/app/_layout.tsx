@@ -13,8 +13,9 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as NavigationBar from "expo-navigation-bar";
-import { Slot } from "expo-router";
+import { Slot, router } from "expo-router";
 import Head from "expo-router/head";
+import { ShareIntentProvider } from "expo-share-intent";
 import { StatusBar } from "expo-status-bar";
 import { cssInterop } from "nativewind";
 import { useEffect } from "react";
@@ -22,6 +23,7 @@ import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
+
 import AuthProvider from "~/AuthContext";
 import Logo from "~/assets/logo.svg";
 import Modal from "~/components/Modal";
@@ -86,35 +88,44 @@ export default function Root() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={theme}>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{ persister: clientPersister }}
-        >
-          <PortalProvider>
-            <KeyboardProvider>
-              <BottomSheetModalProvider>
-                <AuthProvider>
-                  <StatusBar
-                    backgroundColor={
-                      theme.dark ? colors.gray[950] : colors.white
-                    }
-                    style="auto"
-                  />
-                  <Head>
-                    <meta property="expo:handoff" content="true" />
-                    <meta name="apple-itunes-app" content="app-id=6474765614" />
-                    <link rel="manifest" href="/manifest.json" />
-                  </Head>
-                  <Slot />
-                  <Toast config={toastConfig} topOffset={0} />
-                  <Modal />
-                </AuthProvider>
-              </BottomSheetModalProvider>
-            </KeyboardProvider>
-          </PortalProvider>
-        </PersistQueryClientProvider>
-      </ThemeProvider>
+      <ShareIntentProvider
+        options={{
+          resetOnBackground: true,
+        }}
+      >
+        <ThemeProvider value={theme}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister: clientPersister }}
+          >
+            <PortalProvider>
+              <KeyboardProvider>
+                <BottomSheetModalProvider>
+                  <AuthProvider>
+                    <StatusBar
+                      backgroundColor={
+                        theme.dark ? colors.gray[950] : colors.white
+                      }
+                      style="auto"
+                    />
+                    <Head>
+                      <meta property="expo:handoff" content="true" />
+                      <meta
+                        name="apple-itunes-app"
+                        content="app-id=6474765614"
+                      />
+                      <link rel="manifest" href="/manifest.json" />
+                    </Head>
+                    <Slot />
+                    <Toast config={toastConfig} topOffset={0} />
+                    <Modal />
+                  </AuthProvider>
+                </BottomSheetModalProvider>
+              </KeyboardProvider>
+            </PortalProvider>
+          </PersistQueryClientProvider>
+        </ThemeProvider>
+      </ShareIntentProvider>
     </GestureHandlerRootView>
   );
 }

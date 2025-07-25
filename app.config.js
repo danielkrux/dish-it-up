@@ -6,10 +6,9 @@ const URL = `${DOMAIN}.app`;
 module.exports = {
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.0.2",
+  version: "1.0.3",
   orientation: "portrait",
   icon: "./assets/icon.png",
-  newArchEnabled: true,
   userInterfaceStyle: "automatic",
   scheme: "dish-it-up",
   splash: {
@@ -59,19 +58,21 @@ module.exports = {
     "expo-secure-store",
     "./modules/react-native-ocr/app.plugin.js",
     [
+      "expo-share-intent",
+      {
+        iosActivationRules: {
+          NSExtensionActivationSupportsWebURLWithMaxCount: 1,
+          NSExtensionActivationSupportsWebPageWithMaxCount: 1,
+        },
+        androidIntentFilters: ["text/*", "image/*"],
+      },
+    ],
+    [
       "expo-router",
       {
         headOrigin: `https://${URL}`,
       },
     ],
-    // [
-    //   "expo-config-plugin-ios-share-extension",
-    //   {
-    //     activationRules: {
-    //       NSExtensionActivationSupportsWebURLWithMaxCount: 1,
-    //     },
-    //   },
-    // ],
     [
       "expo-build-properties",
       {
@@ -82,12 +83,6 @@ module.exports = {
           buildToolsVersion: "33.0.0",
           kotlinVersion: "1.8.0",
         },
-      },
-    ],
-    [
-      "./src/plugins/withAndroidShareExtension/index.js",
-      {
-        androidIntentFilters: ["text/*", "image/*"],
       },
     ],
   ],

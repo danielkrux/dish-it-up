@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback } from "react";
+import { useShareIntentContext } from "expo-share-intent";
+import { useCallback, useEffect } from "react";
 import { Platform, View } from "react-native";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -22,6 +23,7 @@ function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
 }
 
 export default function Home() {
+  const { shareIntent } = useShareIntentContext();
   const router = useRouter();
   const { q, c, s, recipe } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
@@ -41,6 +43,13 @@ export default function Home() {
   );
 
   useRefreshOnFocus(refetch);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (shareIntent?.webUrl) {
+      router.push(`/recipe/add/${encodeURIComponent(shareIntent.webUrl)}`);
+    }
+  }, []);
 
   useFocusEffect(
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
