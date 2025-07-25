@@ -44,12 +44,11 @@ export default function Home() {
 
   useRefreshOnFocus(refetch);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (shareIntent?.webUrl) {
       router.push(`/recipe/add/${encodeURIComponent(shareIntent.webUrl)}`);
     }
-  }, []);
+  }, [router, shareIntent]);
 
   useFocusEffect(
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
