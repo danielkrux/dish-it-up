@@ -1,0 +1,56 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "version": "1.0.3",
+    "copyright": "Daniel Krux - danielmartijn@gmail.com",
+    "release": {
+      "automaticRelease": true
+    },
+    "info": {
+      "en-US": {
+        "description": "Introducing \"Dish It Up\" - the recipe manager app for iOS!\n\n\nTired of juggling countless recipe websites, notes, and cookbooks? Look no further! With \"Dish It Up\", your culinary journey just got a whole lot easier.\n\n\nEffortlessly import recipes from your favorite websites and organize them in one convenient place. Say goodbye to messy bookmarks and scattered notes - now you can manage all your recipes with ease.\n\n\nBut \"Dish It Up\" is more than just a recipe manager. Our smart features make meal planning a breeze. Create personalized grocery lists directly from your recipes, ensuring you never miss an ingredient again. Plan your meals ahead with our intuitive meal-planning feature, allowing you to organize your recipes into weekly or monthly plans.\n\n\nNot only that, but \"Dish It Up\" lets you log your recipes with ratings and dates, so you can track your culinary adventures and never forget a successful dish. Share your favorite recipes with friends and family, and discover new culinary delights from other passionate foodies.\n\n\nWith its sleek design, user-friendly interface, and powerful features, \"Dish It Up\" is the ultimate companion for any cooking enthusiast. Whether you're a seasoned chef or just starting out, this app will revolutionize the way you manage and enjoy your recipes.\n\n\nSo why wait? Download \"Dish It Up\" today and unlock a world of culinary possibilities. Simplify your cooking experience and let \"Dish It Up\" take care of the rest!",
+        "keywords": [
+          "Recipe Manager",
+          "Grocery List",
+          "Meal Planner",
+          "Personal Cookbook"
+        ],
+        "releaseNotes": "Minor bug fixes and performance improvements.\n\nThank you for using Dish It Up! We appreciate your feedback and support.",
+        "supportUrl": "https://github.com/danielkrux",
+        "title": "Dish It Up",
+        "subtitle": "Your digital cookbook!",
+        "privacyPolicyUrl": "https://gist.github.com/danielkrux/ebc331b3d4eef4a459a703d8afdcd71e"
+      }
+    },
+    "categories": ["FOOD_AND_DRINK", "PRODUCTIVITY"],
+    "advisory": {
+      "ageRatingOverride": "NONE",
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gambling": false,
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "kidsAgeBand": null,
+      "koreaAgeRatingOverride": "NONE",
+      "lootBox": false,
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "unrestrictedWebAccess": false,
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE"
+    },
+    "review": {
+      "firstName": "Daniël",
+      "lastName": "Krux",
+      "email": "danielmartijn@gmail.com",
+      "phone": "+31643260564",
+      "demoUsername": "danielmartijn@gmail.com",
+      "demoPassword": "testpass",
+      "demoRequired": true
+    }
+  }
+}
