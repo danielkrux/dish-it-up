@@ -51,6 +51,9 @@ module.exports = {
       `activitycontinuation:${URL}`,
       `webcredentials:${URL}`,
     ],
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+    },
   },
   plugins: [
     "expo-font",
