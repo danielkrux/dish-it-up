@@ -27,7 +27,10 @@ function Instruction({
     if (ingredient) {
       words.filter((w) => w !== word);
       instructionWithHighlights[i] = (
-        <Text className="font-body-bold text-2xl leading-relaxed lg:text-3xl text-acapulco-400 dark:text-acapulco-500">
+        <Text
+          key={ingredient.id}
+          className="font-body-bold text-2xl leading-relaxed lg:text-3xl text-acapulco-400 dark:text-acapulco-500"
+        >
           {word}{" "}
         </Text>
       );

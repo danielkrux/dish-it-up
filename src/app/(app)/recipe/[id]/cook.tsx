@@ -1,36 +1,28 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useKeepAwake } from "expo-keep-awake";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useCallback, useRef } from "react";
-import { type ListRenderItemInfo, Platform, View } from "react-native";
-import Animated, {
+import React, { useRef } from "react";
+import { Platform, View } from "react-native";
+import type Animated from "react-native-reanimated";
+import {
   runOnJS,
   useAnimatedReaction,
-  useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
 import Button from "~/components/Button";
 import IconButton from "~/components/IconButton";
-import ActionsRow from "~/features/cook-mode/components/ActionsRow";
 import IngredientsList from "~/features/cook-mode/components/IngredientsList";
-import Instruction from "~/features/cook-mode/components/Instruction";
-import { ITEM_SIZE, ITEM_SPACING } from "~/features/cook-mode/constants";
+import StepsList from "~/features/cook-mode/components/StepsList";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 import useSafeAreaInsets from "~/hooks/useSafeAreaInsets";
-import { SCREEN_HEIGHT } from "~/theme";
-
-function keyExtractor(item: string, index: number) {
-  return `${item}-${index}`;
-}
 
 function Cook() {
   const params = useLocalSearchParams();
   const id = Number(params.id);
   const { data } = useFetchRecipe(id);
-  const instructionsLength = data?.instructions?.length ?? 0;
 
   const ref = useRef<Animated.FlatList<string>>(null);
   const logRecipeRef = useRef<BottomSheetModal>(null);
@@ -55,11 +47,6 @@ function Cook() {
     }
   );
 
-  const handleScroll = useAnimatedScrollHandler((e) => {
-    index.value =
-      e.contentOffset.x / (e.layoutMeasurement.width - ITEM_SPACING);
-  });
-
   function handleLogSave() {
     router.back();
     Toast.show({
@@ -67,13 +54,6 @@ function Cook() {
       text1: "Recipe logged!",
     });
   }
-
-  const renderInstruction = useCallback(
-    ({ item, index }: ListRenderItemInfo<string>) => (
-      <Instruction data={data} item={item} index={index} />
-    ),
-    [data]
-  );
 
   return (
     <View
@@ -90,35 +70,13 @@ function Cook() {
         </Button>
       </View>
       <View className="flex-1 md:flex-row">
-        <View className="flex-1 md:items-center">
-          <Animated.FlatList
-            ref={ref}
-            data={data?.instructions}
-            horizontal
-            onScroll={handleScroll}
-            renderItem={renderInstruction}
-            showsHorizontalScrollIndicator={false}
-            style={{
-              marginTop: 30,
-              maxHeight: SCREEN_HEIGHT * 0.65,
-              maxWidth: ITEM_SIZE,
-            }}
-            contentContainerStyle={{ marginBottom: 50 }}
-            keyExtractor={keyExtractor}
-            showsVerticalScrollIndicator={false}
-            snapToInterval={ITEM_SIZE + ITEM_SPACING}
-            decelerationRate="fast"
-            scrollEventThrottle={16}
-          />
-          <ActionsRow
-            animatedIndex={index}
-            bottomSheetPosition={bottomSheetPosition}
-            index={currentIndex}
-            instructionsLength={instructionsLength}
-            stepsListRef={ref}
-            className="md:left-0 md:top-[unset] md:bottom-12 md:right-0"
-          />
-        </View>
+        <StepsList
+          ref={ref}
+          index={index}
+          data={data}
+          bottomSheetPosition={bottomSheetPosition}
+          currentIndex={currentIndex}
+        />
         <IngredientsList
           currentInstruction={data?.instructions?.[currentIndex] ?? ""}
           position={bottomSheetPosition}

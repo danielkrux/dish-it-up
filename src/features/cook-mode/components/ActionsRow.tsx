@@ -1,8 +1,10 @@
+import * as Haptics from "expo-haptics";
 import React from "react";
 import { View } from "react-native";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   interpolate,
+  type SharedValue,
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
@@ -17,8 +19,8 @@ export type ActionsRowProps = {
   index: number;
   instructionsLength: number;
   animatedIndex: Animated.SharedValue<number>;
-  stepsListRef: React.RefObject<Animated.FlatList<string>>;
-  bottomSheetPosition: Animated.SharedValue<number>;
+  stepsListRef: React.RefObject<Animated.FlatList<string> | null>;
+  bottomSheetPosition: SharedValue<number>;
   className?: string;
 };
 
@@ -45,7 +47,7 @@ function ActionsRow({
       animatedIndex.value,
       [0, instructionsLength - 1],
       [-progressBarWidth, 0],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
   });
 
@@ -54,6 +56,14 @@ function ActionsRow({
       transform: [{ translateX: progressBarTranslate.value }],
     };
   });
+
+  function handleIconButtonPress(direction: "left" | "right") {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    stepsListRef.current?.scrollToOffset({
+      offset: ITEM_SIZE * (index + (direction === "left" ? -1 : 1)),
+      animated: true,
+    });
+  }
 
   return (
     <Animated.View
@@ -65,12 +75,7 @@ function ActionsRow({
     >
       <View className="flex-row gap-3 w-full">
         <IconButton
-          onPress={() =>
-            stepsListRef.current?.scrollToOffset({
-              offset: ITEM_SIZE * (index - 1),
-              animated: true,
-            })
-          }
+          onPress={() => handleIconButtonPress("left")}
           size="large"
           icon="ChevronLeft"
         />
@@ -85,13 +90,7 @@ function ActionsRow({
           </Text>
         </View>
         <IconButton
-          onPress={() =>
-            // @ts-ignore
-            stepsListRef.current?.scrollToOffset({
-              offset: ITEM_SIZE * (index + 1),
-              animated: true,
-            })
-          }
+          onPress={() => handleIconButtonPress("right")}
           size="large"
           icon="ChevronRight"
         />
