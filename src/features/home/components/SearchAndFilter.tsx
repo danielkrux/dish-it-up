@@ -1,4 +1,3 @@
-import { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Keyboard, View } from "react-native";

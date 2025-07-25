@@ -1,7 +1,9 @@
+import type { SortOptionValue } from "~/features/recipe/recipe.service";
+
 const recipeKeys = {
   all: ["recipes"] as const,
   count: ["recipes", "count"] as const,
-  list: (filters?: string, order?: string) =>
+  list: (filters?: string, order?: SortOptionValue) =>
     [...recipeKeys.all, { filters, order }] as const,
   detail: (id?: number) => [...recipeKeys.all, id] as const,
   mealPlan: () => [...recipeKeys.all, "meal-plan"] as const,

@@ -7,20 +7,13 @@ import { Platform, View } from "react-native";
 import FloatingButton from "~/components/FloatingButton";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
-import { DEFAULT_FILTER } from "~/features/home/components/RecipeFilters";
 import RecipeList from "~/features/home/components/RecipeList";
+import { filterRecipesByCategory } from "~/features/home/home.utils";
 import type { HomeSearchParams } from "~/features/home/types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes, getRecipesCount } from "~/features/recipe/recipe.service";
 import type { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
-
-function filterRecipesByCategory(recipes: Recipe[], categoryId?: string) {
-  if (!categoryId || categoryId === DEFAULT_FILTER) return recipes;
-  return recipes.filter((recipe) => {
-    return recipe.categories.find((c) => c.id === Number(categoryId));
-  });
-}
 
 export default function Home() {
   const { shareIntent } = useShareIntentContext();

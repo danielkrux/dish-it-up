@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import { useLocalSearchParams } from "expo-router";
+import { useCallback } from "react";
 import {
   FlatList,
   type ListRenderItemInfo,
@@ -10,6 +12,8 @@ import {
 import Button from "~/components/Button";
 import Check from "~/components/Check";
 import Text from "~/components/Text";
+import SearchAndFilter from "~/features/home/components/SearchAndFilter";
+import { filterRecipesByCategory } from "~/features/home/home.utils";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes } from "~/features/recipe/recipe.service";
@@ -30,13 +34,25 @@ export type RecipeSelectListProps = {
 
 function RecipeSelectList({
   date,
-  isLoading,
+  isLoading: mutationLoading,
   selectedRecipes,
   onRecipeSelect,
   onSave,
 }: RecipeSelectListProps) {
   const insets = useSafeAreaInsets();
-  const { data } = useQuery(recipeKeys.all, () => getRecipes());
+  const searchParams = useLocalSearchParams<{ q: string; c: string }>();
+
+  const { data, isLoading } = useQuery(
+    recipeKeys.list(searchParams.q, "created_at:desc"),
+    () => getRecipes(searchParams.q, "created_at:desc"),
+    {
+      keepPreviousData: true,
+      select: useCallback(
+        (data: Recipe[]) => filterRecipesByCategory(data, searchParams.c),
+        [searchParams.c]
+      ),
+    }
+  );
 
   function renderRecipe({ item }: ListRenderItemInfo<Recipe>) {
     return (
@@ -59,19 +75,22 @@ function RecipeSelectList({
 
   return (
     <View className="flex-1 py-6">
-      {data?.length ? (
+      {data?.length || !isLoading ? (
         <FlatList
           data={data}
           renderItem={renderRecipe}
           keyExtractor={keyExtractor}
           contentContainerClassName="gap-4 px-5 pb-20"
           ListHeaderComponent={
-            <Text className="mb-2 mt-2 text-3xl" type="header">
-              Select Recipes for{" "}
-              <Text className="text-acapulco-400 font-display text-3xl">
-                {format(date, "EEEE")}
+            <>
+              <Text className="mb-2 mt-2 text-3xl" type="header">
+                Select Recipes for{" "}
+                <Text className="text-acapulco-400 font-display text-3xl">
+                  {format(date, "EEEE")}
+                </Text>
               </Text>
-            </Text>
+              <SearchAndFilter />
+            </>
           }
         />
       ) : (
@@ -84,7 +103,7 @@ function RecipeSelectList({
         style={{ bottom: insets.bottom }}
         onPress={onSave}
         size="large"
-        loading={isLoading}
+        loading={mutationLoading}
       >
         Save
       </Button>

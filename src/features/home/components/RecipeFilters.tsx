@@ -3,10 +3,9 @@ import { router, useLocalSearchParams } from "expo-router";
 
 import ChipList from "~/components/ChipList";
 import { CATEGORIES_QUERY_KEY } from "~/features/app/app.constants";
+import { DEFAULT_FILTER } from "~/features/home/home.constants";
 import { getCategories } from "~/features/recipe/recipe.service";
 import type { HomeSearchParams } from "../types";
-
-export const DEFAULT_FILTER = "all";
 
 function RecipeQuickFilter() {
   const params = useLocalSearchParams<HomeSearchParams>();
@@ -28,8 +27,8 @@ function RecipeQuickFilter() {
 
   function updateParams(value: string) {
     if (value === DEFAULT_FILTER)
-      return router.setParams<HomeSearchParams>({ c: DEFAULT_FILTER });
-    router.setParams<HomeSearchParams>({ c: value });
+      return router.setParams({ c: DEFAULT_FILTER });
+    router.setParams({ c: value });
   }
 
   if (isLoading)
