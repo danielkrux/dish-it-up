@@ -30,6 +30,7 @@ function ChipList({
     >
       {data?.map((item, index) => (
         <Chip
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           key={`${item}-${index}`}
           {...item}
           isSelected={selectedValues.includes(item.value)}

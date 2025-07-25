@@ -13,7 +13,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as NavigationBar from "expo-navigation-bar";
-import { Slot, router } from "expo-router";
+import { Slot } from "expo-router";
 import Head from "expo-router/head";
 import { ShareIntentProvider } from "expo-share-intent";
 import { StatusBar } from "expo-status-bar";
