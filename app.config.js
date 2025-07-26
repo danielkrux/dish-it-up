@@ -88,7 +88,6 @@ module.exports = {
         },
       },
     ],
-    "./src/plugins/withShareExtensionOnlyActiveArchFix.ts",
   ],
   extra: {
     ios: {
