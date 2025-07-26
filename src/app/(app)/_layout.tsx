@@ -91,6 +91,17 @@ function Layout() {
           }}
         />
         <Stack.Screen
+          name="cook"
+          options={{
+            presentation: "containedTransparentModal",
+            headerShown: false,
+            animation: Platform.select({
+              android: "fade_from_bottom",
+              ios: "default",
+            }),
+          }}
+        />
+        <Stack.Screen
           name="settings/index"
           options={{
             title: "Settings",

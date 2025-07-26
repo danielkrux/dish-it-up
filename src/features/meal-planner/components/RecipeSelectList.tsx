@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import {
   FlatList,
+  type FlatListProps,
   type ListRenderItemInfo,
   Pressable,
   View,
@@ -12,7 +12,6 @@ import {
 import Button from "~/components/Button";
 import Check from "~/components/Check";
 import Text from "~/components/Text";
-import SearchAndFilter from "~/features/home/components/SearchAndFilter";
 import { filterRecipesByCategory } from "~/features/home/home.utils";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
@@ -25,17 +24,17 @@ function keyExtractor(recipe: Recipe) {
 }
 
 export type RecipeSelectListProps = {
-  date: Date;
-  isLoading: boolean;
+  isLoading?: boolean;
   selectedRecipes: number[];
+  headerComponent?: FlatListProps<unknown>["ListHeaderComponent"];
   onRecipeSelect: (recipe: Recipe) => void;
-  onSave: () => void;
+  onSave?: () => void;
 };
 
 function RecipeSelectList({
-  date,
   isLoading: mutationLoading,
   selectedRecipes,
+  headerComponent,
   onRecipeSelect,
   onSave,
 }: RecipeSelectListProps) {
@@ -81,32 +80,24 @@ function RecipeSelectList({
           renderItem={renderRecipe}
           keyExtractor={keyExtractor}
           contentContainerClassName="gap-4 px-5 pb-20"
-          ListHeaderComponent={
-            <>
-              <Text className="mb-2 mt-2 text-3xl" type="header">
-                Select Recipes for{" "}
-                <Text className="text-acapulco-400 font-display text-3xl">
-                  {format(date, "EEEE")}
-                </Text>
-              </Text>
-              <SearchAndFilter />
-            </>
-          }
+          ListHeaderComponent={headerComponent}
         />
       ) : (
         <Text size="l" className="text-gray-300 self-center">
           You don&apos;t have any recipes yet!
         </Text>
       )}
-      <Button
-        className="absolute mx-5 left-0 right-0"
-        style={{ bottom: insets.bottom }}
-        onPress={onSave}
-        size="large"
-        loading={mutationLoading}
-      >
-        Save
-      </Button>
+      {onSave && (
+        <Button
+          className="absolute mx-5 left-0 right-0"
+          style={{ bottom: insets.bottom }}
+          onPress={onSave}
+          size="large"
+          loading={mutationLoading}
+        >
+          Save
+        </Button>
+      )}
     </View>
   );
 }

@@ -1,29 +1,15 @@
-import { format } from "date-fns";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import Text from "~/components/Text";
 import SearchAndFilter from "~/features/home/components/SearchAndFilter";
 
 import RecipeSelectList from "~/features/meal-planner/components/RecipeSelectList";
-import { useCreateMealPlan } from "~/features/meal-planner/hooks/useCreateMealPlan";
 
 import type { Recipe } from "~/features/recipe/recipe.types";
 
 function SelectRecipe() {
-  const params = useLocalSearchParams<{ date: string }>();
-  const date = params.date ? new Date(params.date) : new Date();
+  const params = useLocalSearchParams<{ ids: string | string[] }>();
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
-
-  const itemsToSave = selectedRecipes.map((recipeId) => ({
-    recipe_id: recipeId,
-    date: date.toDateString(),
-  }));
-
-  const mutation = useCreateMealPlan({
-    onCompleted: () => {
-      router.dismiss();
-    },
-  });
 
   function handleRecipeSelect(recipe: Recipe) {
     setSelectedRecipes((prev) => {
@@ -36,21 +22,17 @@ function SelectRecipe() {
 
   return (
     <RecipeSelectList
-      headerComponent={
+      onSave={router.back}
+      selectedRecipes={selectedRecipes}
+      onRecipeSelect={handleRecipeSelect}
+      headerComponent={() => (
         <>
           <Text className="mb-2 mt-2 text-3xl" type="header">
-            Select Recipes for{" "}
-            <Text className="text-acapulco-400 font-display text-3xl">
-              {format(date, "EEEE")}
-            </Text>
+            Select Recipes
           </Text>
           <SearchAndFilter />
         </>
-      }
-      onSave={() => mutation.mutate(itemsToSave)}
-      isLoading={mutation.isLoading}
-      selectedRecipes={selectedRecipes}
-      onRecipeSelect={handleRecipeSelect}
+      )}
     />
   );
 }
