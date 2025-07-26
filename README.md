@@ -60,3 +60,12 @@ Now you are ready to run the app, run the following commands:
 2. `yarn generate` - generate types based on supabase tables
 3. `yarn api:deploy` - deploy edge functions
 4. `yarn ios` or `yarn android` - run app
+
+### Can't build app 'ShareExtension.appex' not found:
+
+If you’re using a Share Extension in your iOS app, you may encounter the following error when building for the simulator: 'error: .../Build/Products/Debug-iphonesimulator/ShareExtension.appex: No such file or directory'
+
+In Build Settings:
+
+- Search for Build Active Architecture Only
+- For Debug and Release, set to NO
