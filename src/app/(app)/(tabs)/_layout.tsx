@@ -7,7 +7,6 @@ import Toast from "react-native-toast-message";
 import Icon, { type IconName } from "~/components/Icon";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
-import { useHandleUrlShare } from "~/features/home/hooks/useHandleUrlShare";
 import { useAppState } from "~/hooks/useAppState";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
 import theme, { isDesktop, isTablet, isWeb } from "~/theme";

@@ -23,7 +23,6 @@ function Cook({ id }: { id?: number }) {
   const { data } = useFetchRecipe(id);
 
   const ref = useRef<Animated.FlatList<string>>(null);
-  const logRecipeRef = useRef<BottomSheetModal>(null);
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const index = useSharedValue(0);
@@ -44,14 +43,6 @@ function Cook({ id }: { id?: number }) {
       return runOnJS(setCurrentIndex)(Math.round(clampedIndex));
     }
   );
-
-  function handleLogSave() {
-    router.back();
-    Toast.show({
-      type: "success",
-      text1: "Recipe logged!",
-    });
-  }
 
   return (
     <View

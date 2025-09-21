@@ -34,28 +34,19 @@ function ActionsRow({
 }: ActionsRowProps) {
   const [progressBarWidth, setProgressBarWidth] = React.useState(0);
 
-  const actionsStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(bottomSheetPosition.value > 400 ? 1 : 0),
-      transform: [{ translateY: bottomSheetPosition.value - 50 }],
-    };
-  });
+  const actionsStyle = useAnimatedStyle(() => ({
+    opacity: withTiming(bottomSheetPosition.value > 400 ? 1 : 0),
+    transform: [{ translateY: bottomSheetPosition.value - 50 }],
+  }));
 
-  const progressBarTranslate = useDerivedValue(() => {
-    // SCREEN_WIDTH - OUTER_PADDING - LEFT_ARROW - RIGHT_ARROW - INNER_PADDING
-    return interpolate(
+  const progressBarTranslate = useDerivedValue(() =>
+    interpolate(
       animatedIndex.value,
       [0, instructionsLength - 1],
       [-progressBarWidth, 0],
       Extrapolation.CLAMP
-    );
-  });
-
-  const progressBarStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: progressBarTranslate.value }],
-    };
-  });
+    )
+  );
 
   function handleIconButtonPress(direction: "left" | "right") {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -82,7 +73,7 @@ function ActionsRow({
         <View className="bg-gray-100 dark:bg-gray-900 rounded-full flex-1 overflow-hidden">
           <Animated.View
             onLayout={(e) => setProgressBarWidth(e.nativeEvent.layout.width)}
-            style={progressBarStyle}
+            style={{ transform: [{ translateX: progressBarTranslate }] }}
             className="absolute left-0 top-0 bottom-0 right-0 bg-acapulco-400/70 pointer-events-none"
           />
           <Text className="mt-3 font-body-bold self-center text-gray-800 dark:text-gray-50">

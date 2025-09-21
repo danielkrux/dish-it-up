@@ -1,6 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import Text from "~/components/Text";
+import { useCookModeContext } from "~/features/cook-mode/CookModeContext";
 import SearchAndFilter from "~/features/home/components/SearchAndFilter";
 
 import RecipeSelectList from "~/features/meal-planner/components/RecipeSelectList";
@@ -8,6 +9,7 @@ import RecipeSelectList from "~/features/meal-planner/components/RecipeSelectLis
 import type { Recipe } from "~/features/recipe/recipe.types";
 
 function SelectRecipe() {
+  const { setRecipeSelectionIds } = useCookModeContext();
   const params = useLocalSearchParams<{ ids: string | string[] }>();
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
 
@@ -20,9 +22,17 @@ function SelectRecipe() {
     });
   }
 
+  function handleSaveSelection() {
+    const idsFromParams = Array.isArray(params.ids)
+      ? params.ids.map(Number)
+      : [Number(params.ids)];
+    setRecipeSelectionIds([...idsFromParams, ...selectedRecipes]);
+    router.back();
+  }
+
   return (
     <RecipeSelectList
-      onSave={router.back}
+      onSave={handleSaveSelection}
       selectedRecipes={selectedRecipes}
       onRecipeSelect={handleRecipeSelect}
       headerComponent={() => (

@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { View } from "react-native";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   FadeIn,
   FadeOut,
   interpolate,
-  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
@@ -70,13 +69,9 @@ function IngredientsList({
       sheetIndex.value,
       [0, 1],
       [SCREEN_HEIGHT * 0.35 - 70, SCREEN_HEIGHT * 0.85],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
   });
-
-  const flatListStyle = useAnimatedStyle(() => ({
-    height: height.value,
-  }));
 
   function toggleIngredient(id: number) {
     setCompleteIngredientIds((prev) => {
@@ -101,7 +96,7 @@ function IngredientsList({
         All Ingredients
       </Text>
       <Animated.FlatList
-        style={flatListStyle}
+        style={{ height: height }}
         contentContainerStyle={{ paddingBottom: 100 }}
         keyExtractor={(item, index) => `${item}-${index}`}
         data={sortedIngredients}
@@ -152,6 +147,7 @@ function IngredientsList({
       animatedPosition={position}
       animatedIndex={sheetIndex}
       contentHeight={height}
+      enablePanDownToClose
     >
       {children}
     </BottomSheet>
