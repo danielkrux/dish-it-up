@@ -44,14 +44,14 @@ export default function RecipeDetailPage() {
               size="medium"
             />
           ),
-          headerRight: () => (
-            <RecipeDetailMenu
-              onShowLogRecipe={ref.current?.present}
-              onDeleteSucces={handleDeleteSuccess}
-              onAddToMealPlan={handleAddToMealPlan}
-              recipeId={id}
-            />
-          ),
+          // headerRight: () => (
+          //   <RecipeDetailMenu
+          //     onShowLogRecipe={ref.current?.present}
+          //     onDeleteSucces={handleDeleteSuccess}
+          //     onAddToMealPlan={handleAddToMealPlan}
+          //     recipeId={id}
+          //   />
+          // ),
         }}
       />
       <RecipeDetail id={id} logRecipeRef={ref} />

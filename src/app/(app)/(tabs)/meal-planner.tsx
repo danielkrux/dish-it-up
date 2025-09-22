@@ -9,7 +9,7 @@ import {
 import { useRouter } from "expo-router";
 import { groupBy } from "lodash";
 import React, { useState } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
@@ -80,7 +80,7 @@ function MealPlanner() {
 
     if (isWeb) {
       return router.navigate({
-        pathname: "/meal-planner/",
+        pathname: "/meal-planner",
         params: { date: date.toDateString(), note: "false" },
       });
     }
@@ -93,7 +93,7 @@ function MealPlanner() {
 
   function handleSelectNote(date: Date) {
     router.navigate({
-      pathname: "/meal-planner/",
+      pathname: "/meal-planner",
       params: { date: date.toDateString(), note: "true" },
     });
   }
@@ -102,7 +102,7 @@ function MealPlanner() {
     setSelectedMealPlan(plan);
     if (plan.note) {
       router.navigate({
-        pathname: "/meal-planner/",
+        pathname: "/meal-planner",
         params: { date: date.toDateString(), note: "true" },
       });
     } else {
@@ -146,10 +146,10 @@ function MealPlanner() {
                   <Text type="header" size="xl">
                     {format(date, "EEEE")}
                   </Text>
-                  <MealPlanAddMenu
+                  {/* <MealPlanAddMenu
                     onSelectNote={() => handleSelectNote(date)}
                     onSelectRecipe={() => handleSelectRecipe(date)}
-                  />
+                  /> */}
                 </View>
                 <View className="gap-4">
                   {mealPlans?.map((item) => (

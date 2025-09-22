@@ -30,7 +30,14 @@ function GroceryList() {
 
   function handleAddGroceryItem(input: string) {
     addRef.current?.clear();
-    addMutation.mutate([{ name: input, amount: null, unit: null }]);
+    addMutation.mutate([
+      {
+        name: input,
+        amount: null,
+        unit: null,
+        order: groceries.data?.length ?? 0,
+      },
+    ]);
     addRef.current?.focus();
   }
 
@@ -48,9 +55,11 @@ function GroceryList() {
   return (
     <View className="flex-1">
       <Tabs.Screen
-        options={{
-          headerRight: () => <GroceryListMenu />,
-        }}
+        options={
+          {
+            // headerRight: () => <GroceryListMenu />,
+          }
+        }
       />
       <KeyboardAwareScrollView bottomOffset={20} className="px-4 md:px-8">
         {groceries.data?.map((grocery) => (
