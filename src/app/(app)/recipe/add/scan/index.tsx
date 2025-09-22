@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-import { Pressable, TouchableOpacity, View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import {
   Canvas,
   Group,
@@ -11,20 +8,23 @@ import {
   Image as SkImage,
   Skia,
 } from "@shopify/react-native-skia";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import * as OCR from "modules/react-native-ocr";
+// import * as OCR from "modules/react-native-ocr";
 import { SaveFormat, manipulateAsync } from "expo-image-manipulator";
-import Animated, { runOnJS } from "react-native-reanimated";
+import * as ImagePicker from "expo-image-picker";
 import { nanoid } from "nanoid";
+import React, { useState } from "react";
+import { Pressable, TouchableOpacity, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, { runOnJS } from "react-native-reanimated";
 
-import Button from "~/components/Button";
-import { SCREEN_WIDTH, colors } from "~/theme";
 import { router } from "expo-router";
+import Button from "~/components/Button";
+import Icon from "~/components/Icon";
+import Text from "~/components/Text";
 import TypeMenu from "~/features/scan/components/TypeMenu";
 import type { RecipeFieldType, TextBlock } from "~/features/scan/types";
-import Icon from "~/components/Icon";
 import { prepareTextBlocksForForm } from "~/features/scan/utils";
-import Text from "~/components/Text";
+import { SCREEN_WIDTH, colors } from "~/theme";
 
 function Scan() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>();
@@ -39,35 +39,34 @@ function Scan() {
   const scaledImageHeight = (imageHeight * SCREEN_WIDTH) / imageWidth;
 
   async function openImagePicker() {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      base64: true,
-    });
-
-    if (!result.canceled) {
-      const pickedImage = result.assets[0];
-      const manipResult = await manipulateAsync(pickedImage.uri, [], {
-        format: SaveFormat.JPEG,
-        base64: true,
-      });
-      if (!manipResult.base64) return;
-      setImage(manipResult);
-      const scaleRatio = SCREEN_WIDTH / manipResult.width;
-      const textBlocks = await OCR.getTextFromImage(manipResult.base64);
-      const scaledBlocks = textBlocks.map((block) => ({
-        ...block,
-        id: nanoid(),
-        boundingBox: {
-          x: block.boundingBox.x * scaleRatio,
-          y: block.boundingBox.y * scaleRatio,
-          width: block.boundingBox.width * scaleRatio,
-          height: block.boundingBox.height * scaleRatio,
-        },
-      }));
-      setTextBlocks([]);
-      setTextBlocks(scaledBlocks);
-    }
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //   quality: 1,
+    //   base64: true,
+    // });
+    // if (!result.canceled) {
+    //   const pickedImage = result.assets[0];
+    //   const manipResult = await manipulateAsync(pickedImage.uri, [], {
+    //     format: SaveFormat.JPEG,
+    //     base64: true,
+    //   });
+    //   if (!manipResult.base64) return;
+    //   setImage(manipResult);
+    //   const scaleRatio = SCREEN_WIDTH / manipResult.width;
+    //   const textBlocks = await OCR.getTextFromImage(manipResult.base64);
+    //   const scaledBlocks = textBlocks.map((block) => ({
+    //     ...block,
+    //     id: nanoid(),
+    //     boundingBox: {
+    //       x: block.boundingBox.x * scaleRatio,
+    //       y: block.boundingBox.y * scaleRatio,
+    //       width: block.boundingBox.width * scaleRatio,
+    //       height: block.boundingBox.height * scaleRatio,
+    //     },
+    //   }));
+    //   setTextBlocks([]);
+    //   setTextBlocks(scaledBlocks);
+    // }
   }
 
   const gesture = Gesture.Tap().onEnd((event) => {

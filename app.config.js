@@ -10,6 +10,7 @@ module.exports = {
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
+  newArchEnabled: true,
   scheme: "dish-it-up",
   splash: {
     image: "./assets/splash.png",
@@ -43,6 +44,7 @@ module.exports = {
     favicon: "./assets/favicon.png",
   },
   ios: {
+    appleTeamId: "J4U764FR4Z",
     buildNumber: "11",
     supportsTablet: true,
     bundleIdentifier: "com.danielkrux.dishitup",
@@ -59,17 +61,6 @@ module.exports = {
     "expo-font",
     "expo-asset",
     "expo-secure-store",
-    "./modules/react-native-ocr/app.plugin.js",
-    [
-      "expo-share-intent",
-      {
-        iosActivationRules: {
-          NSExtensionActivationSupportsWebURLWithMaxCount: 1,
-          NSExtensionActivationSupportsWebPageWithMaxCount: 1,
-        },
-        androidIntentFilters: ["text/*", "image/*"],
-      },
-    ],
     [
       "expo-router",
       {
@@ -90,9 +81,6 @@ module.exports = {
     ],
   ],
   extra: {
-    ios: {
-      teamId: "J4U764FR4Z",
-    },
     router: {
       origin: false,
     },

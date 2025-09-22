@@ -1,9 +1,0 @@
-{
-  "platforms": ["ios", "android"],
-  "ios": {
-    "modules": ["ReactNativeOcrModule"]
-  },
-  "android": {
-    "modules": ["com.danielkrux.reactnativeocr.ReactNativeOcrModule"]
-  }
-}

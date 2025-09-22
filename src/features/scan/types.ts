@@ -1,4 +1,4 @@
-import type * as OCR from "modules/react-native-ocr";
+// import type * as OCR from "modules/react-native-ocr";
 
 export type RecipeFieldType =
   | "title"
@@ -9,4 +9,5 @@ export type RecipeFieldType =
 export type TextBlock = {
   id: string;
   type?: RecipeFieldType;
-} & OCR.TextBlock;
+  // } & OCR.TextBlock;
+};
