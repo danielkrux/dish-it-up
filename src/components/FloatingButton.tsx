@@ -1,12 +1,12 @@
-import clsx from "clsx";
 import React from "react";
 import { ActivityIndicator, Pressable } from "react-native";
+import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
 
-import { cn } from "~/utils/tailwind";
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
-import theme, { colors } from "../theme";
+import { colors } from "../theme";
 import Icon, { type IconName } from "./Icon";
 import Text from "./Text";
+import { cn } from "~/utils/tailwind";
 
 type FloatingButtonProps = {
   children: string;
@@ -30,29 +30,42 @@ export default function FloatingButton({
   return (
     <Pressable
       onPress={onPress}
-      className={cn(
-        "absolute self-center flex-row items-center gap-3 bg-primary rounded-full px-10 py-2",
-        className
-      )}
+      className={cn("absolute self-center items-center", className)}
       style={{
         bottom: useSafeArea ? insets.bottom : 20,
       }}
     >
-      {loading ? (
-        <ActivityIndicator color={colors.gray[500]} />
-      ) : (
-        <>
-          {icon && (
-            <Icon
-              name={icon}
-              className="text-white"
-              strokeWidth={3}
-              size={16}
-            />
-          )}
-          <Text className="text-white font-body-bold text-lg">{children}</Text>
-        </>
-      )}
+      <GlassView
+        isInteractive
+        glassEffectStyle="clear"
+        tintColor={colors.primary[400]}
+        style={{
+          paddingHorizontal: 24,
+          paddingVertical: 12,
+          borderRadius: 9999,
+          backgroundColor: isLiquidGlassAvailable()
+            ? "transparent"
+            : colors.primary[400],
+        }}
+      >
+        {loading ? (
+          <ActivityIndicator color={colors.gray[500]} />
+        ) : (
+          <>
+            {icon && (
+              <Icon
+                name={icon}
+                className="text-white"
+                strokeWidth={3}
+                size={16}
+              />
+            )}
+            <Text className="text-white font-body-bold text-lg">
+              {children}
+            </Text>
+          </>
+        )}
+      </GlassView>
     </Pressable>
   );
 }
