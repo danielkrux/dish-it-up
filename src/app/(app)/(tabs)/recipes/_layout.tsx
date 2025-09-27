@@ -1,7 +1,8 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
+import Icon from "~/components/Icon";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
@@ -10,7 +11,7 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import { isTablet, isWeb } from "~/theme";
+import theme, { isTablet, isWeb } from "~/theme";
 
 export default function HomeTabLayout() {
   const ref = useRef<BottomSheetModal>(null);
@@ -23,6 +24,28 @@ export default function HomeTabLayout() {
     <View className="flex-1 flex-row">
       <View className="flex-1 max-w-xl md:border-r md:border-r-gray-100 md:dark:border-r-gray-800">
         <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShadowVisible: false,
+              headerTransparent: true,
+              headerTitle: "Recipes",
+              title: "Recipes",
+              headerTitleStyle: {
+                fontFamily: "Heading",
+                fontSize: theme.fontSize.xxl,
+                fontWeight: "bold",
+              },
+              headerRight: () => (
+                <Pressable
+                  onPress={() => router.push("/recipes/add")}
+                  className="ml-1.5"
+                >
+                  <Icon name="Plus" />
+                </Pressable>
+              ),
+            }}
+          />
           <Stack.Screen
             name="add"
             options={{

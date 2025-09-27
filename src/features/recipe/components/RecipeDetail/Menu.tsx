@@ -1,7 +1,16 @@
 import { useRouter } from "expo-router";
+
+import {
+  Button,
+  ContextMenu,
+  Host,
+  Image,
+  Section,
+  Submenu,
+  Switch,
+} from "@expo/ui/swift-ui";
 import React from "react";
-import { Linking } from "react-native";
-import * as Menu from "zeego/dropdown-menu";
+import { Linking, View } from "react-native";
 
 import IconButton from "~/components/IconButton";
 import {
@@ -36,69 +45,104 @@ function RecipeDetailMenu({
 
   const nextSevenDays = getNextSevenDays();
 
+  function handleNavigateToEdit() {
+    router.push({
+      pathname: `/recipes/[id]/edit`,
+      params: {
+        id: recipeId,
+      },
+    });
+  }
+
   return (
-    <Menu.Root>
-      <Menu.Trigger>
-        <IconButton size="medium" icon="EllipsisVertical" />
-      </Menu.Trigger>
-      <Menu.Content>
-        <Menu.Item
-          key="edit"
-          onSelect={() => router.push(`/recipe/${recipeId}/edit`)}
-        >
-          <Menu.ItemTitle>Edit</Menu.ItemTitle>
-        </Menu.Item>
-        <Menu.Group>
-          <Menu.Item key="cooked" onSelect={onShowLogRecipe}>
-            <Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
-            <Menu.ItemTitle>Log recipe</Menu.ItemTitle>
-          </Menu.Item>
-          <Menu.Item
-            key="add-to-grocery-list"
-            onSelect={() => router.push(`/recipe/${recipeId}/select-groceries`)}
+    <Host>
+      <ContextMenu>
+        <ContextMenu.Trigger>
+          <View>
+            <Host style={{ width: 35, height: 35 }}>
+              <Image systemName="ellipsis" />
+            </Host>
+          </View>
+        </ContextMenu.Trigger>
+        <ContextMenu.Items>
+          <Button systemImage="pencil" onPress={handleNavigateToEdit}>
+            Edit
+          </Button>
+          <Button systemImage="cart">Add to groceries</Button>
+          <Button
+            systemImage="globe"
+            onPress={() => Linking.openURL(data?.source_url ?? "")}
           >
-            <Menu.ItemIcon ios={{ name: "cart" }} />
-            <Menu.ItemTitle>Add to groceries</Menu.ItemTitle>
-          </Menu.Item>
-          {data?.source_url && (
-            <Menu.Item
-              key="visit-website"
-              onSelect={() => Linking.openURL(data.source_url ?? "")}
-            >
-              <Menu.ItemIcon ios={{ name: "globe" }} />
-              <Menu.ItemTitle>Visit website</Menu.ItemTitle>
-            </Menu.Item>
-          )}
-          <Menu.Sub>
-            <Menu.SubTrigger key="plan">
-              <Menu.ItemTitle>Add to mealplan</Menu.ItemTitle>
-              <Menu.ItemIcon ios={{ name: "book" }} />
-            </Menu.SubTrigger>
-            <Menu.SubContent>
-              {nextSevenDays.map((day) => (
-                <Menu.Item
-                  onSelect={() =>
-                    createMealPlanMutation.mutate([
-                      { recipe_id: recipeId, date: day.toDateString() },
-                    ])
-                  }
-                  key={day.toISOString()}
-                >
-                  <Menu.ItemTitle>
-                    {formatRelativeWithoutTime(day)}
-                  </Menu.ItemTitle>
-                </Menu.Item>
-              ))}
-            </Menu.SubContent>
-          </Menu.Sub>
-        </Menu.Group>
-        <Menu.Item key="delete" onSelect={deleteMutation.mutate} destructive>
-          <Menu.ItemIcon ios={{ name: "trash" }} />
-          <Menu.ItemTitle>Delete</Menu.ItemTitle>
-        </Menu.Item>
-      </Menu.Content>
-    </Menu.Root>
+            Visit website
+          </Button>
+        </ContextMenu.Items>
+      </ContextMenu>
+    </Host>
   );
+
+  // return (
+  //   <Menu.Root>
+  //     <Menu.Trigger>
+  //       <IconButton size="medium" icon="EllipsisVertical" />
+  //     </Menu.Trigger>
+  //     <Menu.Content>
+  //       <Menu.Item
+  //         key="edit"
+  //         onSelect={() => router.push(`/recipe/${recipeId}/edit`)}
+  //       >
+  //         <Menu.ItemTitle>Edit</Menu.ItemTitle>
+  //       </Menu.Item>
+  //       <Menu.Group>
+  //         <Menu.Item key="cooked" onSelect={onShowLogRecipe}>
+  //           <Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
+  //           <Menu.ItemTitle>Log recipe</Menu.ItemTitle>
+  //         </Menu.Item>
+  //         <Menu.Item
+  //           key="add-to-grocery-list"
+  //           onSelect={() => router.push(`/recipe/${recipeId}/select-groceries`)}
+  //         >
+  //           <Menu.ItemIcon ios={{ name: "cart" }} />
+  //           <Menu.ItemTitle>Add to groceries</Menu.ItemTitle>
+  //         </Menu.Item>
+  //         {data?.source_url && (
+  //           <Menu.Item
+  //             key="visit-website"
+  //             onSelect={() => Linking.openURL(data.source_url ?? "")}
+  //           >
+  //             <Menu.ItemIcon ios={{ name: "globe" }} />
+  //             <Menu.ItemTitle>Visit website</Menu.ItemTitle>
+  //           </Menu.Item>
+  //         )}
+  //         <Menu.Sub>
+  //           <Menu.SubTrigger key="plan">
+  //             <Menu.ItemTitle>Add to mealplan</Menu.ItemTitle>
+  //             <Menu.ItemIcon ios={{ name: "book" }} />
+  //           </Menu.SubTrigger>
+  //           <Menu.SubContent>
+  //             {nextSevenDays.map((day) => (
+  //               <Menu.Item
+  //                 onSelect={() =>
+  //                   createMealPlanMutation.mutate([
+  //                     { recipe_id: recipeId, date: day.toDateString() },
+  //                   ])
+  //                 }
+  //                 key={day.toISOString()}
+  //               >
+  //                 <Menu.ItemTitle>
+  //                   {formatRelativeWithoutTime(day)}
+  //                 </Menu.ItemTitle>
+  //               </Menu.Item>
+  //             ))}
+  //           </Menu.SubContent>
+  //         </Menu.Sub>
+  //       </Menu.Group>
+  //       <Menu.Item key="delete" onSelect={deleteMutation.mutate} destructive>
+  //         <Menu.ItemIcon ios={{ name: "trash" }} />
+  //         <Menu.ItemTitle>Delete</Menu.ItemTitle>
+  //       </Menu.Item>
+  //     </Menu.Content>
+  //   </Menu.Root>
+  // );
 }
 
 export default RecipeDetailMenu;

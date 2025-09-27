@@ -40,6 +40,10 @@ export default function FloatingButton({
         glassEffectStyle="clear"
         tintColor={colors.primary[400]}
         style={{
+          flexDirection: "row",
+          gap: 8,
+          alignItems: "center",
+          justifyContent: "center",
           paddingHorizontal: 24,
           paddingVertical: 12,
           borderRadius: 9999,

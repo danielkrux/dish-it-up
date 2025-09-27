@@ -4,10 +4,10 @@ import { useRef } from "react";
 import Toast from "react-native-toast-message";
 
 import FloatingButton from "~/components/FloatingButton";
-import IconButton from "~/components/IconButton";
 import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 
 export default function RecipeDetailPage() {
   const ref = useRef<BottomSheetModal>(null);
@@ -15,6 +15,8 @@ export default function RecipeDetailPage() {
   const params = useLocalSearchParams();
   const id = Number(params.id);
   const router = useRouter();
+
+  const { data } = useFetchRecipe(id);
 
   function handleDeleteSuccess() {
     router.back();
@@ -35,17 +37,25 @@ export default function RecipeDetailPage() {
     <>
       <Stack.Screen
         options={{
-          title: "Recipe",
-          headerTitleAlign: "center",
+          title: data?.name ?? "Recipe Detail",
           headerShadowVisible: false,
-          // headerRight: () => (
-          //   <RecipeDetailMenu
-          //     onShowLogRecipe={ref.current?.present}
-          //     onDeleteSucces={handleDeleteSuccess}
-          //     onAddToMealPlan={handleAddToMealPlan}
-          //     recipeId={id}
-          //   />
-          // ),
+          headerBackButtonDisplayMode: "minimal",
+          headerTransparent: true,
+          headerLargeTitle: true,
+          headerTitleStyle: {
+            fontFamily: "Heading",
+          },
+          headerLargeTitleStyle: {
+            fontFamily: "Heading",
+          },
+          headerRight: () => (
+            <RecipeDetailMenu
+              onShowLogRecipe={ref.current?.present}
+              onDeleteSucces={handleDeleteSuccess}
+              onAddToMealPlan={handleAddToMealPlan}
+              recipeId={id}
+            />
+          ),
         }}
       />
       <RecipeDetail id={id} logRecipeRef={ref} />

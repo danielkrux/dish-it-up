@@ -66,6 +66,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
 
   return (
     <FlatList
+      contentInsetAdjustmentBehavior="automatic"
       testID="recipe-list"
       data={data ?? (skeletonData as unknown as Recipe[])}
       renderItem={renderItem}

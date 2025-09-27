@@ -28,7 +28,7 @@ export default function RecipeDetail({
   id?: number;
   formData?: Partial<RecipeUpdate>;
   header?: ReactNode;
-  logRecipeRef?: React.RefObject<BottomSheetModalMethods>;
+  logRecipeRef?: React.RefObject<BottomSheetModalMethods | null>;
   testID?: string;
 }) {
   const fetchRecipe = useFetchRecipe(id);
@@ -83,16 +83,13 @@ export default function RecipeDetail({
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 gap-4 hidden native:flex">
-          <Text className="font-display text-4xl native:md:hidden">
-            {data?.name}
-          </Text>
+        <View className="flex-row justify-between items-end mb-4 ios:mb-0 gap-4 hidden native:flex">
           {!isWeb && (
             <StarRating
               onPress={() => logRecipeRef?.current?.present()}
               initialValue={data?.rating}
               short
-              className="mb-1.5"
+              className="ml-auto"
             />
           )}
         </View>

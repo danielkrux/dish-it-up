@@ -1,14 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { isLiquidGlassAvailable } from "expo-glass-effect";
-import {
-  Stack,
-  useFocusEffect,
-  useLocalSearchParams,
-  useRouter,
-} from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useShareIntentContext } from "expo-share-intent";
 import { useCallback, useEffect } from "react";
-import { Platform, Pressable, View } from "react-native";
+import { Platform, View } from "react-native";
 
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
@@ -19,7 +13,6 @@ import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes, getRecipesCount } from "~/features/recipe/recipe.service";
 import type { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
-import theme from "~/theme";
 
 export default function Home() {
   const { shareIntent } = useShareIntentContext();
@@ -58,51 +51,23 @@ export default function Home() {
     }, [data])
   );
 
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          headerShadowVisible: false,
-          headerTransparent: true,
-          headerTitle: "Recipes",
-          title: "Recipes",
-          headerLargeStyle: { backgroundColor: "transparent" },
-          headerBlurEffect: isLiquidGlassAvailable()
-            ? undefined
-            : "systemMaterialLight",
-          headerTitleStyle: {
-            fontFamily: "Heading",
-            fontSize: theme.fontSize.xxl,
-            fontWeight: "bold",
-          },
-
-          headerRight: () => (
-            <Pressable
-              onPress={() => router.push("/recipes/add")}
-              className="ml-1.5"
-            >
-              <Icon name="Plus" />
-            </Pressable>
-          ),
-        }}
-      />
+  if (!count && !isLoading) {
+    return (
       <View className="flex-1">
-        {!count && !isLoading ? (
-          <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
-            <Icon name="BookDashed" size={64} />
-            <Text type="header" size="l" className="text-center mt-5 mb-2">
-              You have not added any recipes yet.
-            </Text>
-            <Text className="text-center">
-              {Platform.OS === "web"
-                ? "Add a recipe with the button below!"
-                : "Add a recipe with the button below or open recipe in a browser and share it to Dish It Up!"}
-            </Text>
-          </View>
-        ) : (
-          <RecipeList data={data} isLoading={isLoading} />
-        )}
+        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
+          <Icon name="BookDashed" size={64} />
+          <Text type="header" size="l" className="text-center mt-5 mb-2">
+            You have not added any recipes yet.
+          </Text>
+          <Text className="text-center">
+            {Platform.OS === "web"
+              ? "Add a recipe with the button below!"
+              : "Add a recipe with the button below or open recipe in a browser and share it to Dish It Up!"}
+          </Text>
+        </View>
       </View>
-    </>
-  );
+    );
+  }
+
+  return <RecipeList data={data} isLoading={isLoading} />;
 }
