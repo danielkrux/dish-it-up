@@ -1,8 +1,7 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
-import { Platform, Pressable, View } from "react-native";
-import Icon from "~/components/Icon";
+import { View } from "react-native";
 
 import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
