@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { isLiquidGlassAvailable } from "expo-glass-effect";
 import {
   Stack,
   useFocusEffect,
@@ -62,7 +63,13 @@ export default function Home() {
       <Stack.Screen
         options={{
           headerShadowVisible: false,
+          headerTransparent: true,
           headerTitle: "Recipes",
+          title: "Recipes",
+          headerLargeStyle: { backgroundColor: "transparent" },
+          headerBlurEffect: isLiquidGlassAvailable()
+            ? undefined
+            : "systemMaterialLight",
           headerTitleStyle: {
             fontFamily: "Heading",
             fontSize: theme.fontSize.xxl,
