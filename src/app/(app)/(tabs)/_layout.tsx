@@ -1,5 +1,11 @@
 import { TabRouter } from "@react-navigation/native";
 import { Link, Navigator, Slot, Tabs, usePathname } from "expo-router";
+import {
+  NativeTabs,
+  Icon as TabIcon,
+  Label,
+} from "expo-router/unstable-native-tabs";
+
 import * as Updates from "expo-updates";
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
@@ -9,7 +15,7 @@ import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
 import { useAppState } from "~/hooks/useAppState";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
-import theme, { isDesktop, isTablet, isWeb } from "~/theme";
+import theme, { colors, isDesktop, isTablet, isWeb } from "~/theme";
 import { cn } from "~/utils/tailwind";
 
 const links: {
@@ -127,69 +133,89 @@ function Home() {
   }
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: true,
-        tabBarActiveTintColor: currentTheme.colors.primary,
-        tabBarInactiveTintColor: currentTheme.colors.text,
-        headerTitle: "",
-        headerShadowVisible: false,
-        headerRightContainerStyle: {
-          paddingRight: theme.spacing.m,
-        },
-        headerTitleAlign: "left",
-        headerTitleContainerStyle: {
-          paddingLeft: isTablet ? theme.spacing.m : 0,
-        },
-        headerTitleStyle: {
-          fontFamily: "Heading",
-          fontSize: theme.fontSize.xxl,
-          fontWeight: "bold",
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          title: "Home",
-          headerTitle: "Your Recipes",
-          tabBarIcon: ({ color }) => (
-            <Icon name="BookText" size={24} style={{ color: color }} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="grocery-list"
-        options={{
-          title: "Groceries",
-          headerTitle: "Groceries",
-          tabBarIcon: ({ color }) => (
-            <Icon name="ShoppingCart" size={24} style={{ color: color }} />
-          ),
-        }}
-      />
-      <Tabs.Screen
+    <NativeTabs iconColor={colors.primary[400]}>
+      <NativeTabs.Trigger name="(home)" options={{ title: "Home" }}>
+        <TabIcon sf="house.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="grocery-list" options={{ title: "Groceries" }}>
+        <TabIcon sf="cart" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger
         name="meal-planner"
-        options={{
-          title: "Meal Planner",
-          headerTitle: "Plan your meals",
-          tabBarIcon: ({ color }) => (
-            <Icon name="BookOpen" size={24} style={{ color: color }} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="account"
-        options={{
-          title: "Account",
-          headerTitle: "Account",
-          tabBarIcon: ({ color }) => (
-            <Icon name="User" size={24} style={{ color: color }} />
-          ),
-        }}
-      />
-    </Tabs>
+        options={{ title: "Meal Planner" }}
+      >
+        <TabIcon sf="book" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="account" options={{ title: "Account" }}>
+        <TabIcon sf="person.circle" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
+
+  // return (
+  //   <Tabs
+  //     screenOptions={{
+  //       headerShown: true,
+  //       tabBarActiveTintColor: currentTheme.colors.primary,
+  //       tabBarInactiveTintColor: currentTheme.colors.text,
+  //       headerTitle: "",
+  //       headerShadowVisible: false,
+  //       headerRightContainerStyle: {
+  //         paddingRight: theme.spacing.m,
+  //       },
+  //       headerTitleAlign: "left",
+  //       headerTitleContainerStyle: {
+  //         paddingLeft: isTablet ? theme.spacing.m : 0,
+  //       },
+  //       headerTitleStyle: {
+  //         fontFamily: "Heading",
+  //         fontSize: theme.fontSize.xxl,
+  //         fontWeight: "bold",
+  //       },
+  //     }}
+  //   >
+  //     <Tabs.Screen
+  //       name="(home)"
+  //       options={{
+  //         title: "Home",
+  //         headerTitle: "Your Recipes",
+  //         tabBarIcon: ({ color }) => (
+  //           <Icon name="BookText" size={24} style={{ color: color }} />
+  //         ),
+  //       }}
+  //     />
+  //     <Tabs.Screen
+  //       name="grocery-list"
+  //       options={{
+  //         title: "Groceries",
+  //         headerTitle: "Groceries",
+  //         tabBarIcon: ({ color }) => (
+  //           <Icon name="ShoppingCart" size={24} style={{ color: color }} />
+  //         ),
+  //       }}
+  //     />
+  //     <Tabs.Screen
+  //       name="meal-planner"
+  //       options={{
+  //         title: "Meal Planner",
+  //         headerTitle: "Plan your meals",
+  //         tabBarIcon: ({ color }) => (
+  //           <Icon name="BookOpen" size={24} style={{ color: color }} />
+  //         ),
+  //       }}
+  //     />
+  //     <Tabs.Screen
+  //       name="account"
+  //       options={{
+  //         title: "Account",
+  //         headerTitle: "Account",
+  //         tabBarIcon: ({ color }) => (
+  //           <Icon name="User" size={24} style={{ color: color }} />
+  //         ),
+  //       }}
+  //     />
+  //   </Tabs>
+  // );
 }
 
 export default Home;

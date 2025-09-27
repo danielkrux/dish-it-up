@@ -4,7 +4,6 @@ import { useShareIntentContext } from "expo-share-intent";
 import { useCallback, useEffect } from "react";
 import { Platform, View } from "react-native";
 
-import FloatingButton from "~/components/FloatingButton";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import RecipeList from "~/features/home/components/RecipeList";
@@ -18,7 +17,7 @@ import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 export default function Home() {
   const { shareIntent } = useShareIntentContext();
   const router = useRouter();
-  const { q, c, s, recipe } = useLocalSearchParams<HomeSearchParams>();
+  const { q, c, s } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
   const sortBy = s;
 
@@ -54,29 +53,32 @@ export default function Home() {
   );
 
   return (
-    <View className="flex-1">
-      {!count && !isLoading ? (
-        <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
-          <Icon name="BookDashed" size={64} />
-          <Text type="header" size="l" className="text-center mt-5 mb-2">
-            You have not added any recipes yet.
-          </Text>
-          <Text className="text-center">
-            {Platform.OS === "web"
-              ? "Add a recipe with the button below!"
-              : "Add a recipe with the button below or open recipe in a browser and share it to Dish It Up!"}
-          </Text>
-        </View>
-      ) : (
-        <RecipeList data={data} isLoading={isLoading} />
-      )}
-      <FloatingButton
-        onPress={() =>
-          router.navigate({ pathname: "/recipe/add", params: { recipe } })
-        }
-      >
-        Add recipe
-      </FloatingButton>
-    </View>
+    <>
+      <View className="flex-1">
+        {!count && !isLoading ? (
+          <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
+            <Icon name="BookDashed" size={64} />
+            <Text type="header" size="l" className="text-center mt-5 mb-2">
+              You have not added any recipes yet.
+            </Text>
+            <Text className="text-center">
+              {Platform.OS === "web"
+                ? "Add a recipe with the button below!"
+                : "Add a recipe with the button below or open recipe in a browser and share it to Dish It Up!"}
+            </Text>
+          </View>
+        ) : (
+          <RecipeList data={data} isLoading={isLoading} />
+        )}
+        {/* <FloatingButton
+          useSafeArea
+          onPress={() =>
+            router.navigate({ pathname: "/recipe/add", params: { recipe } })
+          }
+        >
+          Add recipe
+        </FloatingButton> */}
+      </View>
+    </>
   );
 }

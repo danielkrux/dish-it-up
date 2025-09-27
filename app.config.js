@@ -67,18 +67,6 @@ module.exports = {
         headOrigin: `https://${URL}`,
       },
     ],
-    [
-      "expo-build-properties",
-      {
-        android: {
-          compileSdkVersion: 34,
-          targetSdkVersion: 33,
-          minSdkVersion: 23,
-          buildToolsVersion: "33.0.0",
-          kotlinVersion: "1.8.0",
-        },
-      },
-    ],
   ],
   extra: {
     router: {
