@@ -65,7 +65,6 @@ function AddRecipe() {
         options={{
           title: "Create Recipe",
           headerRight: renderHeaderRight,
-          headerBackTitleVisible: false,
         }}
       />
       <View className="mt-4">

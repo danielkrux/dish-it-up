@@ -35,8 +35,8 @@ function Layout() {
             headerTitle: "",
           }}
         />
-        <Stack.Screen
-          name="recipe/[id]/cook"
+        {/* <Stack.Screen
+          name="collection/[id]/cook"
           options={{
             presentation: "containedTransparentModal",
             headerShown: false,
@@ -45,9 +45,9 @@ function Layout() {
               ios: "default",
             }),
           }}
-        />
-        <Stack.Screen
-          name="recipe/add"
+        /> */}
+        {/* <Stack.Screen
+          name="collection/[id]/select-groceries"
           options={{
             presentation: "modal",
             headerShown: false,
@@ -56,18 +56,7 @@ function Layout() {
               ios: "default",
             }),
           }}
-        />
-        <Stack.Screen
-          name="recipe/[id]/select-groceries"
-          options={{
-            presentation: "modal",
-            headerShown: false,
-            animation: Platform.select({
-              android: "fade_from_bottom",
-              ios: "default",
-            }),
-          }}
-        />
+        /> */}
         <Stack.Screen
           name="meal-planner/select-recipe"
           options={{

@@ -37,13 +37,7 @@ export default function RecipeDetailPage() {
         options={{
           title: "Recipe",
           headerTitleAlign: "center",
-          headerLeft: () => (
-            <IconButton
-              onPress={router.back}
-              icon="ChevronLeft"
-              size="medium"
-            />
-          ),
+          headerShadowVisible: false,
           // headerRight: () => (
           //   <RecipeDetailMenu
           //     onShowLogRecipe={ref.current?.present}
@@ -56,7 +50,7 @@ export default function RecipeDetailPage() {
       />
       <RecipeDetail id={id} logRecipeRef={ref} />
       <FloatingButton
-        onPress={() => router.push(`/recipe/${id}/cook`)}
+        onPress={() => router.push(`/recipes/${id}/cook`)}
         useSafeArea
         icon="Play"
         className="md:mb-2"

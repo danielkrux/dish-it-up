@@ -1,8 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import { useShareIntentContext } from "expo-share-intent";
 import { useCallback, useEffect } from "react";
-import { Platform, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
@@ -13,6 +18,7 @@ import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getRecipes, getRecipesCount } from "~/features/recipe/recipe.service";
 import type { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
+import theme from "~/theme";
 
 export default function Home() {
   const { shareIntent } = useShareIntentContext();
@@ -38,12 +44,11 @@ export default function Home() {
 
   useEffect(() => {
     if (shareIntent?.webUrl) {
-      router.push(`/recipe/add/${encodeURIComponent(shareIntent.webUrl)}`);
+      router.push(`/recipes/add/${encodeURIComponent(shareIntent.webUrl)}`);
     }
   }, [router, shareIntent]);
 
   useFocusEffect(
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useCallback(() => {
       if (!data?.length) return;
       router.setParams({
@@ -54,6 +59,26 @@ export default function Home() {
 
   return (
     <>
+      <Stack.Screen
+        options={{
+          headerShadowVisible: false,
+          headerTitle: "Recipes",
+          headerTitleStyle: {
+            fontFamily: "Heading",
+            fontSize: theme.fontSize.xxl,
+            fontWeight: "bold",
+          },
+
+          headerRight: () => (
+            <Pressable
+              onPress={() => router.push("/recipes/add")}
+              className="ml-1.5"
+            >
+              <Icon name="Plus" />
+            </Pressable>
+          ),
+        }}
+      />
       <View className="flex-1">
         {!count && !isLoading ? (
           <View className="bg-gray-100 dark:bg-gray-900 rounded-lg mx-3 p-10 py-12 mt-12 items-center">
@@ -70,14 +95,6 @@ export default function Home() {
         ) : (
           <RecipeList data={data} isLoading={isLoading} />
         )}
-        {/* <FloatingButton
-          useSafeArea
-          onPress={() =>
-            router.navigate({ pathname: "/recipe/add", params: { recipe } })
-          }
-        >
-          Add recipe
-        </FloatingButton> */}
       </View>
     </>
   );

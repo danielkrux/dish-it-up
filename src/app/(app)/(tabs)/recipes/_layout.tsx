@@ -1,7 +1,7 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
-import { Pressable, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 import Icon from "~/components/Icon";
 
 import IconButton from "~/components/IconButton";
@@ -11,7 +11,7 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme, { isTablet, isWeb } from "~/theme";
+import { isTablet, isWeb } from "~/theme";
 
 export default function HomeTabLayout() {
   const ref = useRef<BottomSheetModal>(null);
@@ -23,26 +23,21 @@ export default function HomeTabLayout() {
   return (
     <View className="flex-1 flex-row">
       <View className="flex-1 max-w-xl md:border-r md:border-r-gray-100 md:dark:border-r-gray-800">
-        <Stack
-          screenOptions={{
-            headerShadowVisible: false,
-            headerTitle: "Home",
-            headerTitleStyle: {
-              fontFamily: "Heading",
-              fontSize: theme.fontSize.xxl,
-              fontWeight: "bold",
-            },
-
-            headerRight: () => (
-              <Pressable
-                onPress={() => router.push("/recipe/add")}
-                className="ml-1.5"
-              >
-                <Icon name="Plus" />
-              </Pressable>
-            ),
-          }}
-        />
+        <Stack>
+          <Stack.Screen
+            name="add"
+            options={{
+              headerTitle: "Add Recipe",
+              presentation: "modal",
+              headerShadowVisible: false,
+              headerLargeTitle: true,
+              headerTransparent: true,
+              headerLargeTitleStyle: {
+                fontFamily: "Heading",
+              },
+            }}
+          />
+        </Stack>
       </View>
       {recipeId && isTablet && (
         <View
@@ -60,7 +55,7 @@ export default function HomeTabLayout() {
               <IconButton
                 size="medium"
                 icon="Maximize2"
-                onPress={() => router.navigate(`/recipe/${recipeId}/`)}
+                onPress={() => router.navigate(`/recipes/${recipeId}/`)}
               />
               <RecipeDetailMenu
                 recipeId={Number(recipeId)}

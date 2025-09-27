@@ -134,7 +134,7 @@ function Home() {
 
   return (
     <NativeTabs iconColor={colors.primary[400]}>
-      <NativeTabs.Trigger name="(home)" options={{ title: "Home" }}>
+      <NativeTabs.Trigger name="recipes" options={{ title: "Recipes" }}>
         <TabIcon sf="house.fill" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="grocery-list" options={{ title: "Groceries" }}>

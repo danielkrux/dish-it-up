@@ -37,7 +37,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
             } satisfies HomeSearchParams,
           });
         } else {
-          router.navigate(`/recipe/${item.id}/`);
+          router.navigate(`/recipes/${item.id}/`);
         }
       };
 

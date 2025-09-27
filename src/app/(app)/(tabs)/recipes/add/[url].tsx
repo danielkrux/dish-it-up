@@ -67,7 +67,11 @@ export default function AddRecipeConfirmScreen() {
   }
 
   return (
-    <ScrollView className="pb-6" contentContainerStyle={styles.container}>
+    <ScrollView
+      className="pb-6"
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={styles.container}
+    >
       {data.images?.length ? (
         <Image className="h-72 mb-5" source={data.images[0]} />
       ) : null}
