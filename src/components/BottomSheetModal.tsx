@@ -12,10 +12,11 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { Keyboard, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   interpolate,
+  SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
 import useKeyboardVisible from "~/hooks/useIsKeyboardVisible";
@@ -29,7 +30,7 @@ type Props = Omit<BottomSheetModalProps, "children"> & {
 };
 
 type BackDropProps = {
-  animatedIndex: Animated.SharedValue<number>;
+  animatedIndex: SharedValue<number>;
   onPress: () => void;
 };
 
@@ -39,7 +40,7 @@ function BackdropComponent({ animatedIndex, onPress }: BackDropProps) {
       animatedIndex.value,
       [-1, 0],
       [0, 1],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     ),
   }));
 
@@ -85,14 +86,12 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
 
     const renderHandle = useCallback(() => <HandleComponent />, []);
 
-    const insetPadding = isKeyboardVisible ? 20 : 5;
-
     return (
       <_BottomSheetModal
         ref={innerRef}
         detached
         snapPoints={snapPoints}
-        bottomInset={insets.bottom + insetPadding}
+        bottomInset={insets.bottom - 30}
         backdropComponent={renderBackDrop}
         style={styles.bottomSheet}
         handleComponent={renderHandle}
@@ -107,9 +106,9 @@ const BottomSheetModal = forwardRef<_BottomSheetModal, Props>(
         }
         {...props}
       >
-        <View className="flex-1 bg-white dark:bg-gray-950 py-2 px-6">
+        <BottomSheetView className="flex-1 bg-white dark:bg-gray-950 py-2 px-6">
           {children}
-        </View>
+        </BottomSheetView>
       </_BottomSheetModal>
     );
   }

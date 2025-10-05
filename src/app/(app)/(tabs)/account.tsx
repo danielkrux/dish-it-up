@@ -38,7 +38,7 @@ function Account() {
         <View className=" bg-gray-100 dark:bg-gray-900 rounded-xl p-4 gap-4">
           {data?.map((r) => (
             <Pressable
-              onPress={() => router.push(`/recipe/${r.id}/`)}
+              onPress={() => router.push(`/recipes/${r.id}/`)}
               className="flex-row gap-3"
               key={r.id}
             >

@@ -71,7 +71,7 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       data={data ?? (skeletonData as unknown as Recipe[])}
       renderItem={renderItem}
       keyExtractor={extractKey}
-      ListHeaderComponent={SeachAndFilter}
+      // ListHeaderComponent={SeachAndFilter}
       contentContainerClassName="gap-y-4 pb-24"
       className="px-3 md:px-8 md:pt-10 native:md:pt-0"
     />

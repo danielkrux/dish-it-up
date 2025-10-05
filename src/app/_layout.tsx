@@ -36,6 +36,7 @@ import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
 import "../../styles.css";
+import { GlassContainer, GlassView } from "expo-glass-effect";
 
 export const supabase = initSupabase();
 
@@ -44,6 +45,8 @@ cssInterop(Logo, {
   className: "style",
 });
 cssInterop(LinearGradient, { className: "style" });
+cssInterop(GlassView, { className: "style" });
+cssInterop(GlassContainer, { className: "style" });
 
 export default function Root() {
   // useReactQueryDevTools(queryClient);
@@ -88,11 +91,7 @@ export default function Root() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ShareIntentProvider
-        options={{
-          resetOnBackground: true,
-        }}
-      >
+      <ShareIntentProvider options={{ resetOnBackground: true }}>
         <ThemeProvider value={theme}>
           <PersistQueryClientProvider
             client={queryClient}

@@ -7,6 +7,7 @@ import { Platform, View } from "react-native";
 import Icon from "~/components/Icon";
 import Text from "~/components/Text";
 import RecipeList from "~/features/home/components/RecipeList";
+import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import { filterRecipesByCategory } from "~/features/home/home.utils";
 import type { HomeSearchParams } from "~/features/home/types";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
@@ -69,5 +70,10 @@ export default function Home() {
     );
   }
 
-  return <RecipeList data={data} isLoading={isLoading} />;
+  return (
+    <>
+      <RecipeList data={data} isLoading={isLoading} />
+      <SeachAndFilter />
+    </>
+  );
 }

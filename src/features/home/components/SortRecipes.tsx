@@ -1,28 +1,24 @@
-import type { BottomSheetModal as _BotomSheetModal } from "@gorhom/bottom-sheet";
-
-import React, { useRef } from "react";
+import React from "react";
 import { Pressable, View } from "react-native";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 import BottomSheetModal from "~/components/BottomSheetModal";
 import Text from "~/components/Text";
 
 import useSortRecipes from "../hooks/useSortRecipes";
 
-function SortRecipes() {
-  const bottomSheetRef = useRef<_BotomSheetModal>(null);
-
+function SortRecipes({
+  ref,
+}: {
+  ref: React.RefObject<BottomSheetModalMethods | null>;
+}) {
   const { sortOptions, handleSort, isSelected } = useSortRecipes({
-    onSortComplete: () => bottomSheetRef.current?.dismiss(),
+    onSortComplete: () => ref.current?.dismiss(),
   });
 
   return (
     <>
-      <Pressable onPress={() => bottomSheetRef.current?.present()}>
-        <Text className="font-body-bold text-gray-600 dark:text-gray-300 ">
-          SORT
-        </Text>
-      </Pressable>
-      <BottomSheetModal ref={bottomSheetRef}>
+      <BottomSheetModal ref={ref}>
         <Text className="font-display text-3xl mt-2 mb-4">Sort recipes by</Text>
         {sortOptions.map((sortOption) => (
           <Pressable
