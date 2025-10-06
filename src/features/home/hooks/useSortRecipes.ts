@@ -21,15 +21,15 @@ const sortOptions: SortOption[] = [
   { icon: "Timer", label: "Total time (shortest)", value: "total_time:asc" },
 ];
 
-function useSortRecipes({ onSortComplete }: { onSortComplete: () => void }) {
+function useSortRecipes(opts?: { onSortComplete: () => void }) {
   const { s } = useLocalSearchParams<HomeSearchParams>();
 
   function handleSort(value: SortOptionValue) {
     if (Platform.OS !== "web") {
       impactAsync(ImpactFeedbackStyle.Light);
     }
-    router.setParams<HomeSearchParams>({ s: value });
-    onSortComplete();
+    router.setParams({ s: value });
+    opts?.onSortComplete();
   }
 
   function isSelected(sortOption: SortOption) {

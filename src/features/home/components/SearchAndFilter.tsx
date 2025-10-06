@@ -1,25 +1,23 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Keyboard, Pressable, TextInput, View } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-
-import InputBase from "~/components/Inputs/TextInputBase";
-import RecipeQuickFilter from "./RecipeFilters";
-
-import type { HomeSearchParams } from "../types";
-import SortRecipes from "./SortRecipes";
 import { GlassContainer, GlassView } from "expo-glass-effect";
+import { ContextMenu, Host, Button, Submenu } from "@expo/ui/swift-ui";
+
 import { colors } from "~/theme";
 import Icon from "~/components/Icon";
-import { ContextMenu, Host, Image, Button } from "@expo/ui/swift-ui";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+
+import useSortRecipes from "~/features/home/hooks/useSortRecipes";
+import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
 
 function SeachAndFilter() {
-  const ref = useRef<TextInput>(null);
-  const sortSheetRef = useRef<BottomSheetModalMethods>(null);
   const router = useRouter();
-  const { q } = useLocalSearchParams<HomeSearchParams>();
+
+  const ref = useRef<TextInput>(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  const { sortOptions, handleSort, isSelected } = useSortRecipes();
+  const filter = useFilterRecipes();
 
   function cancelSearch() {
     setIsSearching(false);
@@ -51,7 +49,7 @@ function SeachAndFilter() {
           />
         </GlassView>
         {isSearching && (
-          <Pressable onPress={sortSheetRef.current?.present}>
+          <Pressable onPress={cancelSearch}>
             <GlassView className="p-4 rounded-full" isInteractive>
               <Icon name="X" />
             </GlassView>
@@ -66,30 +64,45 @@ function SeachAndFilter() {
                 </GlassView>
               </ContextMenu.Trigger>
               <ContextMenu.Items>
-                <Button
-                  systemImage="arrow.up.arrow.down"
-                  onPress={() => {
-                    console.log("here");
-                    sortSheetRef.current?.present();
-                  }}
+                <Submenu
+                  button={
+                    <Button systemImage="arrow.up.arrow.down">Sort...</Button>
+                  }
                 >
-                  Sort
-                </Button>
-                <Button
-                  systemImage="line.horizontal.3.decrease"
-                  // onPress={sortSheetRef.current?.present}
+                  {sortOptions.map((option) => (
+                    <Button
+                      key={option.value}
+                      systemImage={isSelected(option) ? "checkmark" : undefined}
+                      onPress={() => handleSort(option.value)}
+                    >
+                      {option.label}
+                    </Button>
+                  ))}
+                </Submenu>
+                <Submenu
+                  button={
+                    <Button systemImage="line.horizontal.3.decrease">
+                      Filter...
+                    </Button>
+                  }
                 >
-                  Filter
-                </Button>
+                  {filter.data?.map((category) => (
+                    <Button
+                      key={category.value}
+                      onPress={() => filter.onFilter(category)}
+                      systemImage={
+                        filter.isSelected(category) ? "checkmark" : undefined
+                      }
+                    >
+                      {category.label}
+                    </Button>
+                  ))}
+                </Submenu>
               </ContextMenu.Items>
             </ContextMenu>
           </Host>
         )}
       </GlassContainer>
-      <SortRecipes ref={sortSheetRef} />
-      {/* <View className="flex-row items-center gap-4 mt-1 ">
-        <RecipeQuickFilter />
-      </View> */}
     </View>
   );
 }
