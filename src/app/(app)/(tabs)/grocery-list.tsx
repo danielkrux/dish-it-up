@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Icon from "~/components/Icon";
 import ListButton from "~/components/ListButton";
@@ -53,14 +54,7 @@ function GroceryList() {
   }
 
   return (
-    <View className="flex-1">
-      <Tabs.Screen
-        options={
-          {
-            // headerRight: () => <GroceryListMenu />,
-          }
-        }
-      />
+    <SafeAreaView className="flex-1">
       <KeyboardAwareScrollView bottomOffset={20} className="px-4 md:px-8">
         {groceries.data?.map((grocery) => (
           // <SwipeableRow
@@ -94,7 +88,7 @@ function GroceryList() {
           />
         </View>
       </KeyboardAwareScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -11,6 +11,7 @@ import { groupBy } from "lodash";
 import React, { useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -112,7 +113,7 @@ function MealPlanner() {
 
   return (
     <>
-      <View className="flex-1">
+      <SafeAreaView className="flex-1">
         <View className="flex-row justify-between items-center m-4 md:mx-8">
           <IconButton
             onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
@@ -167,7 +168,7 @@ function MealPlanner() {
         <FloatingButton useSafeArea onPress={handleCreateGroceryList}>
           Create Grocery List
         </FloatingButton>
-      </View>
+      </SafeAreaView>
       <RecipeSelectDialog />
       <MealPlanNoteModal
         onDismiss={() => {

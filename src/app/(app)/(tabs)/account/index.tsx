@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 
-import IconButton from "~/components/IconButton";
 import Text from "~/components/Text";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
 import { getLastMadeRecipes } from "~/features/recipe/recipe.service";
@@ -18,18 +17,10 @@ function Account() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerRight: () => (
-            <IconButton
-              onPress={() => router.push("/settings")}
-              icon="Settings"
-              size="medium"
-            />
-          ),
-        }}
-      />
-      <View className="mx-4 md:mx-8">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        className="mx-4 md:mx-8"
+      >
         <Text className="mb-8">{session?.user.email}</Text>
 
         <View className="flex-row justify-between">
@@ -64,7 +55,7 @@ function Account() {
             </Text>
           )}
         </View>
-      </View>
+      </ScrollView>
     </>
   );
 }
