@@ -24,7 +24,7 @@ function useFilterRecipes() {
   });
 
   function onFilter(selected: { label: string; value: string }) {
-    if (params.c === DEFAULT_FILTER) {
+    if (selected.value === DEFAULT_FILTER) {
       return router.setParams({ c: DEFAULT_FILTER });
     }
 
