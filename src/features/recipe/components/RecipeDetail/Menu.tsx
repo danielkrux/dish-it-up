@@ -1,25 +1,13 @@
 import { useRouter } from "expo-router";
 
-import {
-  Button,
-  ContextMenu,
-  Host,
-  Image,
-  Section,
-  Submenu,
-  Switch,
-} from "@expo/ui/swift-ui";
+import { Button, ContextMenu, Host, Image, Submenu } from "@expo/ui/swift-ui";
 import React from "react";
 import { Linking, View } from "react-native";
 
-import IconButton from "~/components/IconButton";
-import {
-  formatRelativeWithoutTime,
-  getNextSevenDays,
-} from "../../../../utils/date";
-import { useCreateMealPlan } from "../../../meal-planner/hooks/useCreateMealPlan";
-import useDeleteRecipe from "../../hooks/useDeleteRecipe";
-import useFetchRecipe from "../../hooks/useFetchRecipe";
+import { formatRelativeWithoutTime, getNextSevenDays } from "~/utils/date";
+import { useCreateMealPlan } from "~/features/meal-planner/hooks/useCreateMealPlan";
+import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
+import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
 
 type RecipeDetailMenuProps = {
   recipeId: number;
@@ -55,12 +43,12 @@ function RecipeDetailMenu({
   }
 
   return (
-    <Host>
+    <Host style={{ width: 35, height: 35 }}>
       <ContextMenu>
         <ContextMenu.Trigger>
           <View>
             <Host style={{ width: 35, height: 35 }}>
-              <Image systemName="ellipsis" />
+              <Image systemName="ellipsis" color="black" />
             </Host>
           </View>
         </ContextMenu.Trigger>
@@ -75,74 +63,40 @@ function RecipeDetailMenu({
           >
             Visit website
           </Button>
+          <Button
+            systemImage="cart"
+            onPress={() => router.push(`/recipes/${recipeId}/select-groceries`)}
+          >
+            On grocery list
+          </Button>
+          <Submenu button={<Button systemImage="book">Add to mealplan</Button>}>
+            {nextSevenDays.map((day) => (
+              <Button
+                onPress={() =>
+                  createMealPlanMutation.mutate([
+                    { recipe_id: recipeId, date: day.toDateString() },
+                  ])
+                }
+                key={day.toISOString()}
+              >
+                {formatRelativeWithoutTime(day)}
+              </Button>
+            ))}
+          </Submenu>
+          <Button systemImage="checkmark.circle" onPress={onShowLogRecipe}>
+            Log recipe
+          </Button>
+          <Button
+            role="destructive"
+            systemImage="trash"
+            onPress={deleteMutation.mutate}
+          >
+            Delete
+          </Button>
         </ContextMenu.Items>
       </ContextMenu>
     </Host>
   );
-
-  // return (
-  //   <Menu.Root>
-  //     <Menu.Trigger>
-  //       <IconButton size="medium" icon="EllipsisVertical" />
-  //     </Menu.Trigger>
-  //     <Menu.Content>
-  //       <Menu.Item
-  //         key="edit"
-  //         onSelect={() => router.push(`/recipe/${recipeId}/edit`)}
-  //       >
-  //         <Menu.ItemTitle>Edit</Menu.ItemTitle>
-  //       </Menu.Item>
-  //       <Menu.Group>
-  //         <Menu.Item key="cooked" onSelect={onShowLogRecipe}>
-  //           <Menu.ItemIcon ios={{ name: "checkmark.circle" }} />
-  //           <Menu.ItemTitle>Log recipe</Menu.ItemTitle>
-  //         </Menu.Item>
-  //         <Menu.Item
-  //           key="add-to-grocery-list"
-  //           onSelect={() => router.push(`/recipe/${recipeId}/select-groceries`)}
-  //         >
-  //           <Menu.ItemIcon ios={{ name: "cart" }} />
-  //           <Menu.ItemTitle>Add to groceries</Menu.ItemTitle>
-  //         </Menu.Item>
-  //         {data?.source_url && (
-  //           <Menu.Item
-  //             key="visit-website"
-  //             onSelect={() => Linking.openURL(data.source_url ?? "")}
-  //           >
-  //             <Menu.ItemIcon ios={{ name: "globe" }} />
-  //             <Menu.ItemTitle>Visit website</Menu.ItemTitle>
-  //           </Menu.Item>
-  //         )}
-  //         <Menu.Sub>
-  //           <Menu.SubTrigger key="plan">
-  //             <Menu.ItemTitle>Add to mealplan</Menu.ItemTitle>
-  //             <Menu.ItemIcon ios={{ name: "book" }} />
-  //           </Menu.SubTrigger>
-  //           <Menu.SubContent>
-  //             {nextSevenDays.map((day) => (
-  //               <Menu.Item
-  //                 onSelect={() =>
-  //                   createMealPlanMutation.mutate([
-  //                     { recipe_id: recipeId, date: day.toDateString() },
-  //                   ])
-  //                 }
-  //                 key={day.toISOString()}
-  //               >
-  //                 <Menu.ItemTitle>
-  //                   {formatRelativeWithoutTime(day)}
-  //                 </Menu.ItemTitle>
-  //               </Menu.Item>
-  //             ))}
-  //           </Menu.SubContent>
-  //         </Menu.Sub>
-  //       </Menu.Group>
-  //       <Menu.Item key="delete" onSelect={deleteMutation.mutate} destructive>
-  //         <Menu.ItemIcon ios={{ name: "trash" }} />
-  //         <Menu.ItemTitle>Delete</Menu.ItemTitle>
-  //       </Menu.Item>
-  //     </Menu.Content>
-  //   </Menu.Root>
-  // );
 }
 
 export default RecipeDetailMenu;
