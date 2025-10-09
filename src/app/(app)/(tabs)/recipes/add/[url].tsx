@@ -80,7 +80,7 @@ export default function AddRecipeConfirmScreen() {
         style={[
           {
             top: Platform.select({
-              ios: theme.spacing.l,
+              ios: theme.spacing.xl,
               android: (statusBarHeight ?? 0) + theme.spacing.m,
             }),
           },

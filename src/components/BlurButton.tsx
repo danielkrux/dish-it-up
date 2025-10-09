@@ -26,14 +26,14 @@ function BlurButton({
       className="overflow-hidden rounded-full self-start"
     >
       <BlurView
-        intensity={100}
+        intensity={60}
         tint={isDark ? "dark" : "light"}
         className={clsx("px-3 py-1 flex-row items-center gap-2", {
-          "p-1": iconOnly,
+          "p-0 h-8 w-8": iconOnly,
         })}
       >
         {icon && <Icon name={icon} size={18} />}
-        {label && <Text size="m">{label}</Text>}
+        {label && <Text size="l">{label}</Text>}
       </BlurView>
     </Pressable>
   );

@@ -1,3 +1,4 @@
+import { Button, Host } from "@expo/ui/swift-ui";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
@@ -11,7 +12,7 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme, { isTablet, isWeb } from "~/theme";
+import theme, { colors, isTablet, isWeb } from "~/theme";
 
 export default function HomeTabLayout() {
   const ref = useRef<BottomSheetModal>(null);
@@ -47,16 +48,43 @@ export default function HomeTabLayout() {
             }}
           />
           <Stack.Screen
-            name="add"
+            name="add/index"
             options={{
-              headerTitle: "Add Recipe",
-              presentation: "modal",
+              headerShown: false,
+              presentation: "formSheet",
+              sheetAllowedDetents: "fitToContents",
+              sheetGrabberVisible: true,
               headerShadowVisible: false,
-              headerLargeTitle: true,
-              headerTransparent: true,
-              headerLargeTitleStyle: {
+              headerTitleStyle: {
                 fontFamily: "Heading",
+                fontSize: theme.fontSize.xxl,
+                fontWeight: "bold",
               },
+            }}
+          />
+          <Stack.Screen
+            name="add/custom"
+            options={{
+              headerTitle: "Create Recipe",
+              presentation: "formSheet",
+              sheetAllowedDetents: "fitToContents",
+              sheetGrabberVisible: true,
+              headerShadowVisible: false,
+              headerTitleStyle: {
+                fontFamily: "Heading",
+                fontSize: theme.fontSize.xxl,
+                fontWeight: "bold",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="add/[url]"
+            options={{
+              headerShown: false,
+              presentation: "formSheet",
+              sheetAllowedDetents: "fitToContents",
+              headerTransparent: true,
+              headerShadowVisible: false,
             }}
           />
         </Stack>

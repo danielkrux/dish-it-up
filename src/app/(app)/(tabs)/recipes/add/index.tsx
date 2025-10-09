@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 
 import Button from "~/components/Button";
 import InputBase from "~/components/Inputs/TextInputBase";
@@ -21,40 +21,35 @@ export default function Add() {
       return;
     }
 
-    router.push(`/recipes/add/${encodeURIComponent(url)}`);
+    router.dismissTo(`/recipes/add/${encodeURIComponent(url)}`);
   }
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      className="my-8 mx-4 max-w-xl"
-    >
-      <View className="bg-gray-100 dark:bg-gray-900 p-4 rounded-2xl">
-        <Text className="mb-2" type="body">
-          Enter a URL to import a recipe from
-        </Text>
-        <InputBase
-          containerClassName="mb-2"
-          className="dark:px-0 text-gray-950"
-          placeholder="e.g. https://example.com"
-          onChangeText={setUrl}
-          value={url}
-          error={error}
-        />
-        <Button size="large" className="mt-2 mb-2" onPress={handleImportRecipe}>
-          Import recipe
-        </Button>
-      </View>
+    <View className="flex-1 my-12 mx-8 max-w-xl">
+      <Text className="mb-2" type="body">
+        Enter a URL to import a recipe from
+      </Text>
+      <InputBase
+        containerClassName="mb-2"
+        className="dark:px-0 text-gray-950"
+        placeholder="e.g. https://example.com"
+        onChangeText={setUrl}
+        value={url}
+        error={error}
+      />
+      <Button size="large" className="mt-2 mb-2" onPress={handleImportRecipe}>
+        Import recipe
+      </Button>
       <Text className="mb-2 mt-4" type="body">
         Or create a custom recipe.
       </Text>
       <Button
         variant="secondary"
         size="large"
-        onPress={() => router.push("/recipes/add/custom")}
+        onPress={() => router.dismissTo("/recipes/add/custom")}
       >
         Custom recipe
       </Button>
-    </ScrollView>
+    </View>
   );
 }

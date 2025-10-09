@@ -63,7 +63,6 @@ function AddRecipe() {
     <FormProvider {...form}>
       <Stack.Screen
         options={{
-          title: "Create Recipe",
           headerRight: renderHeaderRight,
         }}
       />
