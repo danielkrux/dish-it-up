@@ -1,14 +1,14 @@
+import { Button, ContextMenu, Host, Image, Submenu } from "@expo/ui/swift-ui";
+import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import { Keyboard, Pressable, TextInput, View } from "react-native";
-import { GlassContainer, GlassView } from "expo-glass-effect";
-import { ContextMenu, Host, Button, Submenu } from "@expo/ui/swift-ui";
 
-import { colors } from "~/theme";
 import Icon from "~/components/Icon";
+import { colors } from "~/theme";
 
-import useSortRecipes from "~/features/home/hooks/useSortRecipes";
 import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
+import useSortRecipes from "~/features/home/hooks/useSortRecipes";
 
 function SeachAndFilter() {
   const router = useRouter();
@@ -32,7 +32,7 @@ function SeachAndFilter() {
           isInteractive
         >
           <Pressable onPress={() => ref.current?.focus()} className="pl-5">
-            <Icon name="Search" className=" text-gray-900" />
+            <Icon name="Search" className=" text-black" />
           </Pressable>
           <TextInput
             ref={ref}
@@ -50,8 +50,16 @@ function SeachAndFilter() {
         </GlassView>
         {isSearching && (
           <Pressable onPress={cancelSearch}>
-            <GlassView className="p-4 rounded-full" isInteractive>
-              <Icon name="X" />
+            <GlassView className="p-3 rounded-full" isInteractive>
+              <Host
+                style={{
+                  width: 35,
+                  height: 35,
+                  transform: [{ rotate: "90deg" }],
+                }}
+              >
+                <Image systemName="xmark" color="black" />
+              </Host>
             </GlassView>
           </Pressable>
         )}
@@ -59,8 +67,16 @@ function SeachAndFilter() {
           <Host>
             <ContextMenu>
               <ContextMenu.Trigger>
-                <GlassView className="p-4 rounded-full" isInteractive>
-                  <Icon name="List" />
+                <GlassView className="p-3 rounded-full" isInteractive>
+                  <Host
+                    style={{
+                      width: 35,
+                      height: 35,
+                      transform: [{ rotate: "90deg" }],
+                    }}
+                  >
+                    <Image systemName="ellipsis" color="black" />
+                  </Host>
                 </GlassView>
               </ContextMenu.Trigger>
               <ContextMenu.Items>

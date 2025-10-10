@@ -2,12 +2,12 @@ import { useRouter } from "expo-router";
 
 import { Button, ContextMenu, Host, Image, Submenu } from "@expo/ui/swift-ui";
 import React from "react";
-import { Linking, View } from "react-native";
+import { Linking } from "react-native";
 
-import { formatRelativeWithoutTime, getNextSevenDays } from "~/utils/date";
 import { useCreateMealPlan } from "~/features/meal-planner/hooks/useCreateMealPlan";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
+import { formatRelativeWithoutTime, getNextSevenDays } from "~/utils/date";
 
 type RecipeDetailMenuProps = {
   recipeId: number;
@@ -46,11 +46,11 @@ function RecipeDetailMenu({
     <Host style={{ width: 35, height: 35 }}>
       <ContextMenu>
         <ContextMenu.Trigger>
-          <View>
-            <Host style={{ width: 35, height: 35 }}>
-              <Image systemName="ellipsis" color="black" />
-            </Host>
-          </View>
+          <Host
+            style={{ width: 35, height: 35, transform: [{ rotate: "90deg" }] }}
+          >
+            <Image systemName="ellipsis" color="black" />
+          </Host>
         </ContextMenu.Trigger>
         <ContextMenu.Items>
           <Button systemImage="pencil" onPress={handleNavigateToEdit}>

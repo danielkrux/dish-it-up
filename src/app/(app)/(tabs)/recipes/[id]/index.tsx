@@ -39,7 +39,6 @@ export default function RecipeDetailPage() {
         options={{
           title: data?.name ?? "Recipe Detail",
           headerShadowVisible: false,
-          headerBackButtonDisplayMode: "minimal",
           headerTransparent: true,
           headerLargeTitle: true,
           headerTitleStyle: {
