@@ -4,12 +4,9 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useRef } from "react";
 import { Platform, View } from "react-native";
 import type Animated from "react-native-reanimated";
-import {
-  runOnJS,
-  useAnimatedReaction,
-  useSharedValue,
-} from "react-native-reanimated";
+import { useAnimatedReaction, useSharedValue } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
+import { scheduleOnRN } from "react-native-worklets";
 
 import Button from "~/components/Button";
 import IconButton from "~/components/IconButton";
@@ -43,7 +40,7 @@ function Cook() {
         0,
         Math.min(value, (data?.instructions?.length ?? 0) - 1)
       );
-      return runOnJS(setCurrentIndex)(Math.round(clampedIndex));
+      return scheduleOnRN(setCurrentIndex, Math.round(clampedIndex));
     }
   );
 
