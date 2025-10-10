@@ -87,7 +87,9 @@ export default function HomeTabLayout() {
           <Stack.Screen
             name="[id]/cook"
             options={{
-              headerShown: false,
+              headerShadowVisible: false,
+              headerTitle: "",
+              headerTransparent: true,
               presentation: "fullScreenModal",
             }}
           />
