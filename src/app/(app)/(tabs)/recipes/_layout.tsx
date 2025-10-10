@@ -1,4 +1,3 @@
-import { Button, Host } from "@expo/ui/swift-ui";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Stack, router, useGlobalSearchParams } from "expo-router";
 import { useRef } from "react";
@@ -12,7 +11,7 @@ import LogRecipe from "~/features/recipe/components/LogRecipe";
 import RecipeDetailMenu from "~/features/recipe/components/RecipeDetail/Menu";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import useFetchRecipe from "~/features/recipe/hooks/useFetchRecipe";
-import theme, { colors, isTablet, isWeb } from "~/theme";
+import theme, { isTablet, isWeb } from "~/theme";
 
 export default function HomeTabLayout() {
   const ref = useRef<BottomSheetModal>(null);
@@ -83,8 +82,13 @@ export default function HomeTabLayout() {
               headerShown: false,
               presentation: "formSheet",
               sheetAllowedDetents: "fitToContents",
-              headerTransparent: true,
-              headerShadowVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="[id]/cook"
+            options={{
+              headerShown: false,
+              presentation: "fullScreenModal",
             }}
           />
         </Stack>

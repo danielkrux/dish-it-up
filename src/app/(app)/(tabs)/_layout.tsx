@@ -10,7 +10,6 @@ import Icon, { type IconName } from "~/components/Icon";
 import { init } from "~/features/app/app.utils";
 import Header from "~/features/home/components/Header.web";
 import { useAppState } from "~/hooks/useAppState";
-import { useThemeConfig } from "~/hooks/useThemeConfig";
 import { colors, isDesktop, isWeb } from "~/theme";
 import { cn } from "~/utils/tailwind";
 
@@ -44,7 +43,6 @@ const links: {
 ];
 
 function Home() {
-  const currentTheme = useThemeConfig();
   const path = usePathname();
   const { isUpdateAvailable, isUpdatePending } = Updates.useUpdates();
 

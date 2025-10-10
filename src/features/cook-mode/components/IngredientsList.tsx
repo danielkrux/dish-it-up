@@ -1,20 +1,21 @@
 import React, { useMemo, useState } from "react";
-import { View } from "react-native";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   FadeIn,
   FadeOut,
   interpolate,
-  useAnimatedStyle,
+  SharedValue,
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
 
+import { BottomSheetView } from "@gorhom/bottom-sheet";
+import { ContainerLayoutState } from "@gorhom/bottom-sheet/lib/typescript/types";
 import BottomSheet from "~/components/BottomSheet";
 import Check from "~/components/Check";
 import Text from "~/components/Text";
 import type { Ingredient } from "~/features/recipe/recipe.types";
-import { SCREEN_HEIGHT, isTablet } from "~/theme";
+import { isTablet, SCREEN_HEIGHT } from "~/theme";
 import { cn } from "~/utils/tailwind";
 import { findMatchingIngredient } from "../utils";
 
@@ -38,7 +39,7 @@ export function getMatchedIngredients(
 }
 
 export type IngredientsSheetProps = {
-  position: Animated.SharedValue<number>;
+  position: SharedValue<number>;
   currentInstruction: string;
   ingredients?: Ingredient[];
   className?: string;
@@ -53,7 +54,12 @@ function IngredientsList({
   const [completeIngredientIds, setCompleteIngredientIds] = useState<number[]>(
     []
   );
+
   const sheetIndex = useSharedValue(0);
+  const containerLayoutState = useSharedValue<ContainerLayoutState>({
+    height: 0,
+    offset: { top: 0, bottom: 0, left: 0, right: 0 },
+  });
 
   const matchedIngredients = getMatchedIngredients(
     currentInstruction,
@@ -66,17 +72,15 @@ function IngredientsList({
   );
 
   const height = useDerivedValue(() => {
-    return interpolate(
+    const result = interpolate(
       sheetIndex.value,
       [0, 1],
-      [SCREEN_HEIGHT * 0.35 - 70, SCREEN_HEIGHT * 0.85],
-      Extrapolate.CLAMP
+      [SCREEN_HEIGHT * 0.25, SCREEN_HEIGHT * 0.75],
+      Extrapolation.CLAMP
     );
+    containerLayoutState.value.height = result;
+    return result;
   });
-
-  const flatListStyle = useAnimatedStyle(() => ({
-    height: height.value,
-  }));
 
   function toggleIngredient(id: number) {
     setCompleteIngredientIds((prev) => {
@@ -96,12 +100,14 @@ function IngredientsList({
   }, [ingredients, matchedIngredients]);
 
   const children = (
-    <View className={cn("bg-gray-100 dark:bg-gray-900 flex-1", className)}>
+    <BottomSheetView
+      className={cn("bg-gray-100 dark:bg-gray-900 flex-1", className)}
+    >
       <Text className="font-display text-2xl mx-4 mt-3 mb-4">
         All Ingredients
       </Text>
       <Animated.FlatList
-        style={flatListStyle}
+        style={{ height: height }}
         contentContainerStyle={{ paddingBottom: 100 }}
         keyExtractor={(item, index) => `${item}-${index}`}
         data={sortedIngredients}
@@ -135,7 +141,7 @@ function IngredientsList({
           );
         }}
       />
-    </View>
+    </BottomSheetView>
   );
 
   if (isTablet) {
@@ -144,14 +150,13 @@ function IngredientsList({
 
   return (
     <BottomSheet
-      animateOnMount={false}
       snapPoints={snapPoints}
       handleClassName="bg-gray-100 dark:bg-gray-900"
       handleIndicatorClassName="bg-gray-200 dark:bg-gray-600"
       backgroundClassName="flex-1"
       animatedPosition={position}
       animatedIndex={sheetIndex}
-      contentHeight={height}
+      containerLayoutState={containerLayoutState}
     >
       {children}
     </BottomSheet>

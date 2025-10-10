@@ -35,28 +35,6 @@ function Layout() {
             headerTitle: "",
           }}
         />
-        {/* <Stack.Screen
-          name="collection/[id]/cook"
-          options={{
-            presentation: "containedTransparentModal",
-            headerShown: false,
-            animation: Platform.select({
-              android: "fade_from_bottom",
-              ios: "default",
-            }),
-          }}
-        /> */}
-        {/* <Stack.Screen
-          name="collection/[id]/select-groceries"
-          options={{
-            presentation: "modal",
-            headerShown: false,
-            animation: Platform.select({
-              android: "fade_from_bottom",
-              ios: "default",
-            }),
-          }}
-        /> */}
         <Stack.Screen
           name="meal-planner/select-recipe"
           options={{
