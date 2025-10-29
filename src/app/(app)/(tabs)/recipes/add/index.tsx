@@ -26,6 +26,9 @@ export default function Add() {
 
   return (
     <View className="flex-1 my-12 mx-8 max-w-xl">
+      <Text className="mb-2" type="header" size="2xl">
+        Add a recipe
+      </Text>
       <Text className="mb-2" type="body">
         Enter a URL to import a recipe from
       </Text>
