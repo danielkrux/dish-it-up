@@ -67,6 +67,15 @@ module.exports = {
         headOrigin: `https://${URL}`,
       },
     ],
+    [
+      "expo-share-intent",
+      {
+        iosActivationRules: {
+          NSExtensionActivationSupportsWebURLWithMaxCount: 1,
+        },
+        androidIntentFilters: ["text/*"],
+      },
+    ],
   ],
   extra: {
     router: {
