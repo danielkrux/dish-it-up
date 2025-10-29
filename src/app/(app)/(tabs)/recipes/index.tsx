@@ -39,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     if (shareIntent?.webUrl) {
-      router.push(`/recipes/add/${encodeURIComponent(shareIntent.webUrl)}`);
+      router.navigate(`/recipes/add/${encodeURIComponent(shareIntent.webUrl)}`);
     }
   }, [router, shareIntent]);
 
