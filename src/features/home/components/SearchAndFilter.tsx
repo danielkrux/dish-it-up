@@ -2,11 +2,12 @@ import { Button, ContextMenu, Host, Image, Submenu } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
-import { Keyboard, Pressable, TextInput, View } from "react-native";
+import { Keyboard, Pressable, TextInput } from "react-native";
 
 import Icon from "~/components/Icon";
 import { colors } from "~/theme";
 
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
 import useSortRecipes from "~/features/home/hooks/useSortRecipes";
 
@@ -25,7 +26,11 @@ function SeachAndFilter() {
   }
 
   return (
-    <View className="absolute bottom-[95px] w-screen px-6">
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={10}
+      className="absolute bottom-[95px] w-screen px-6"
+    >
       <GlassContainer className="flex-row items-center gap-1" spacing={10}>
         <GlassView
           className="flex-1 rounded-full flex-row gap-6 items-center"
@@ -55,6 +60,7 @@ function SeachAndFilter() {
                 style={{
                   width: 35,
                   height: 35,
+                  left: -15,
                   transform: [{ rotate: "90deg" }],
                 }}
               >
@@ -119,7 +125,7 @@ function SeachAndFilter() {
           </Host>
         )}
       </GlassContainer>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

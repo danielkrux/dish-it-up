@@ -6,7 +6,7 @@ const URL = `${DOMAIN}.app`;
 module.exports = {
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.0.3",
+  version: "1.1.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
