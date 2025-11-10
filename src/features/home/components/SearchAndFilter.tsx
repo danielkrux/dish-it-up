@@ -1,4 +1,4 @@
-import { Button, ContextMenu, Host, Image, Submenu } from "@expo/ui/swift-ui";
+import { Button, ContextMenu, Host, Image } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
@@ -86,40 +86,44 @@ function SeachAndFilter() {
                 </GlassView>
               </ContextMenu.Trigger>
               <ContextMenu.Items>
-                <Submenu
-                  button={
+                <ContextMenu>
+                  <ContextMenu.Trigger>
                     <Button systemImage="arrow.up.arrow.down">Sort...</Button>
-                  }
-                >
-                  {sortOptions.map((option) => (
-                    <Button
-                      key={option.value}
-                      systemImage={isSelected(option) ? "checkmark" : undefined}
-                      onPress={() => handleSort(option.value)}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
-                </Submenu>
-                <Submenu
-                  button={
+                  </ContextMenu.Trigger>
+                  <ContextMenu.Items>
+                    {sortOptions.map((option) => (
+                      <Button
+                        key={option.value}
+                        systemImage={
+                          isSelected(option) ? "checkmark" : undefined
+                        }
+                        onPress={() => handleSort(option.value)}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
+                  </ContextMenu.Items>
+                </ContextMenu>
+                <ContextMenu>
+                  <ContextMenu.Trigger>
                     <Button systemImage="line.horizontal.3.decrease">
                       Filter...
                     </Button>
-                  }
-                >
-                  {filter.data?.map((category) => (
-                    <Button
-                      key={category.value}
-                      onPress={() => filter.onFilter(category)}
-                      systemImage={
-                        filter.isSelected(category) ? "checkmark" : undefined
-                      }
-                    >
-                      {category.label}
-                    </Button>
-                  ))}
-                </Submenu>
+                  </ContextMenu.Trigger>
+                  <ContextMenu.Items>
+                    {filter.data?.map((category) => (
+                      <Button
+                        key={category.value}
+                        onPress={() => filter.onFilter(category)}
+                        systemImage={
+                          filter.isSelected(category) ? "checkmark" : undefined
+                        }
+                      >
+                        {category.label}
+                      </Button>
+                    ))}
+                  </ContextMenu.Items>
+                </ContextMenu>
               </ContextMenu.Items>
             </ContextMenu>
           </Host>
