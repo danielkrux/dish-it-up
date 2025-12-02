@@ -18,6 +18,7 @@ import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
+import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import MealPlanNoteModal from "~/features/meal-planner/components/MealPlanNoteModal";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
@@ -132,7 +133,7 @@ function MealPlanner() {
         </View>
         <ScrollView
           className="flex-1"
-          contentContainerClassName="mx-4 lg:mx-8 pb-16 lg:mt-8 lg:flex-row lg:justify-between lg:gap-6"
+          contentContainerClassName="mx-4 mr-6 lg:mx-8 pb-16 lg:mt-8 lg:flex-row lg:justify-between lg:gap-6"
         >
           {datesOfWeek.map((date) => {
             const mealPlans = data?.[format(date, "yyyy-MM-dd")];
@@ -148,10 +149,10 @@ function MealPlanner() {
                   <Text type="header" size="xl">
                     {format(date, "EEEE")}
                   </Text>
-                  {/* <MealPlanAddMenu
+                  <MealPlanAddMenu
                     onSelectNote={() => handleSelectNote(date)}
                     onSelectRecipe={() => handleSelectRecipe(date)}
-                  /> */}
+                  />
                 </View>
                 <View className="gap-4">
                   {mealPlans?.map((item) => (

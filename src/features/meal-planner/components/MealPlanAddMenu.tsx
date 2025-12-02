@@ -1,6 +1,5 @@
+import { Button, ContextMenu, Host, Image } from "@expo/ui/swift-ui";
 import React from "react";
-import * as Menu from "zeego/dropdown-menu";
-import IconButton from "~/components/IconButton";
 
 export type MealPlanAddMenuProps = {
   onSelectRecipe: () => void;
@@ -12,23 +11,25 @@ function MealPlanAddMenu({
   onSelectRecipe,
 }: MealPlanAddMenuProps) {
   return (
-    <>
-      <Menu.Root>
-        <Menu.Trigger>
-          <IconButton icon="Plus" />
-        </Menu.Trigger>
-        <Menu.Content align="end">
-          <Menu.Item key="recipe" onSelect={onSelectRecipe}>
-            <Menu.ItemIcon ios={{}} />
-            <Menu.ItemTitle>Recipe</Menu.ItemTitle>
-          </Menu.Item>
-          <Menu.Item key="note" onSelect={onSelectNote}>
-            <Menu.ItemIcon ios={{}} />
-            <Menu.ItemTitle>Note</Menu.ItemTitle>
-          </Menu.Item>
-        </Menu.Content>
-      </Menu.Root>
-    </>
+    <Host>
+      <ContextMenu>
+        <ContextMenu.Trigger>
+          <Host
+            style={{
+              width: 10,
+              height: 10,
+              transform: [{ rotate: "90deg" }],
+            }}
+          >
+            <Image size={16} systemName="plus" color="black" />
+          </Host>
+        </ContextMenu.Trigger>
+        <ContextMenu.Items>
+          <Button onPress={onSelectRecipe}>Recipe</Button>
+          <Button onPress={onSelectNote}>Note</Button>
+        </ContextMenu.Items>
+      </ContextMenu>
+    </Host>
   );
 }
 
