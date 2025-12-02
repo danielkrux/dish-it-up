@@ -28,7 +28,7 @@
     "@expo-google-fonts/josefin-sans": "^0.2.3",
     "@expo-google-fonts/noto-sans": "^0.2.3",
     "@expo/config-plugins": "~54.0.2",
-    "@expo/ui": "~0.2.0-canary-20251031-b135dff",
+    "@expo/ui": "0.2.0-beta.7",
     "@expo/vector-icons": "^15.0.3",
     "@gorhom/bottom-sheet": "^5.2.6",
     "@gorhom/portal": "^1.0.14",

@@ -11,7 +11,6 @@ import { groupBy } from "lodash";
 import React, { useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
 import FloatingButton from "~/components/FloatingButton";
@@ -19,7 +18,6 @@ import IconButton from "~/components/IconButton";
 import ScrollView from "~/components/ScrollView";
 import Text from "~/components/Text";
 import { MEAL_PLAN_QUERY_KEY } from "~/features/app/app.constants";
-import MealPlanAddMenu from "~/features/meal-planner/components/MealPlanAddMenu";
 import MealPlanItem from "~/features/meal-planner/components/MealPlanItem";
 import MealPlanNoteModal from "~/features/meal-planner/components/MealPlanNoteModal";
 import RecipeSelectDialog from "~/features/meal-planner/components/RecipeSelectDialog.web";
@@ -107,13 +105,16 @@ function MealPlanner() {
         params: { date: date.toDateString(), note: "true" },
       });
     } else {
-      router.navigate(`/recipe/${plan.recipe_id}/`);
+      router.navigate({
+        pathname: "/meal-planner/select-recipe",
+        params: { date: date.toDateString() },
+      });
     }
   }
 
   return (
     <>
-      <SafeAreaView className="flex-1">
+      <>
         <View className="flex-row justify-between items-center m-4 md:mx-8">
           <IconButton
             onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
@@ -168,7 +169,7 @@ function MealPlanner() {
         <FloatingButton useSafeArea onPress={handleCreateGroceryList}>
           Create Grocery List
         </FloatingButton>
-      </SafeAreaView>
+      </>
       <RecipeSelectDialog />
       <MealPlanNoteModal
         onDismiss={() => {
