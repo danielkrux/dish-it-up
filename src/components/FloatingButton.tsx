@@ -1,18 +1,19 @@
+import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
 import React from "react";
 import { ActivityIndicator, Pressable } from "react-native";
-import { GlassView, isLiquidGlassAvailable } from "expo-glass-effect";
 
+import { cn } from "~/utils/tailwind";
 import useSafeAreaInsets from "../hooks/useSafeAreaInsets";
 import { colors } from "../theme";
 import Icon, { type IconName } from "./Icon";
 import Text from "./Text";
-import { cn } from "~/utils/tailwind";
 
 type FloatingButtonProps = {
   children: string;
   loading?: boolean;
   icon?: IconName;
   useSafeArea?: boolean;
+  useBottomTabsSafeArea?: boolean;
   className?: string;
   onPress?: () => void;
 };
@@ -22,6 +23,7 @@ export default function FloatingButton({
   loading,
   icon,
   useSafeArea,
+  useBottomTabsSafeArea,
   className,
   onPress,
 }: FloatingButtonProps) {
@@ -32,7 +34,7 @@ export default function FloatingButton({
       onPress={onPress}
       className={cn("absolute self-center items-center", className)}
       style={{
-        bottom: useSafeArea ? insets.bottom : 20,
+        bottom: useSafeArea ? insets.bottom : useBottomTabsSafeArea ? 100 : 20,
       }}
     >
       <GlassView

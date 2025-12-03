@@ -167,7 +167,7 @@ function MealPlanner() {
             );
           })}
         </ScrollView>
-        <FloatingButton useSafeArea onPress={handleCreateGroceryList}>
+        <FloatingButton useBottomTabsSafeArea onPress={handleCreateGroceryList}>
           Create Grocery List
         </FloatingButton>
       </>
