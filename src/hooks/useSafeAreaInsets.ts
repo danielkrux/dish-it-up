@@ -1,6 +1,5 @@
 import { useSafeAreaInsets as useDefaultSafeAreaInsets } from "react-native-safe-area-context";
 import theme from "../theme";
-import { Platform } from "react-native";
 
 type Options = {
   bottomSpacing: number;
@@ -18,7 +17,7 @@ const useSafeAreaInsets = (options: Options = defaultOptions) => {
     bottom = options.bottomSpacing;
   }
 
-  return { ...insets, bottom: Platform.OS === "ios" ? bottom + 70 : bottom };
+  return { ...insets, bottom };
 };
 
 export default useSafeAreaInsets;

@@ -4,7 +4,6 @@ import type { ListRenderItemInfo } from "react-native";
 import { FlatList } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import SeachAndFilter from "~/features/home/components/SearchAndFilter";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import type { Recipe } from "~/features/recipe/recipe.types";
 import { isTablet } from "~/theme";
@@ -71,7 +70,6 @@ function RecipeList({ data, isLoading }: RecipeListProps) {
       data={data ?? (skeletonData as unknown as Recipe[])}
       renderItem={renderItem}
       keyExtractor={extractKey}
-      // ListHeaderComponent={SeachAndFilter}
       contentContainerClassName="gap-y-4 pb-24"
       className="px-3 md:px-8 md:pt-10 native:md:pt-0"
     />
