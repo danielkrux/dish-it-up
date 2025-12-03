@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <>
       <RecipeList data={data} isLoading={isLoading} />
-      <SeachAndFilter />
+      <SeachAndFilter className="absolute bottom-[95px] w-screen px-6" />
     </>
   );
 }

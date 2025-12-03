@@ -10,8 +10,9 @@ import { colors } from "~/theme";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
 import useSortRecipes from "~/features/home/hooks/useSortRecipes";
+import { cn } from "~/utils/tailwind";
 
-function SeachAndFilter() {
+function SeachAndFilter({ className }: { className?: string }) {
   const router = useRouter();
 
   const ref = useRef<TextInput>(null);
@@ -29,7 +30,7 @@ function SeachAndFilter() {
     <KeyboardAvoidingView
       behavior="padding"
       keyboardVerticalOffset={10}
-      className="absolute bottom-[95px] w-screen px-6"
+      className={cn(className)}
     >
       <GlassContainer className="flex-row items-center gap-1" spacing={10}>
         <GlassView
