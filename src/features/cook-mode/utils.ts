@@ -1,4 +1,4 @@
-import { Ingredient, type Recipe } from "../recipe/recipe.types";
+import { type Recipe } from "../recipe/recipe.types";
 
 const parenthesisRegex = new RegExp(/\([^)]*\)/, "g");
 const dotsAndCommasRegex = new RegExp(/[.,]/, "g");

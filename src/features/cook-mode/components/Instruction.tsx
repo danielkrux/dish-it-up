@@ -43,15 +43,15 @@ function Instruction({
   });
 
   return (
-    <View className="px-5" style={{ width: ITEM_SIZE }}>
-      <View className="mx-auto lg:max-w-2xl">
+    <View className="px-5 flex-1" style={{ width: ITEM_SIZE }}>
+      <View className="mx-auto lg:max-w-2xl flex-1">
         <Text className="font-display mb-4 text-6xl text-gray-300 dark:text-gray-400">
           Step {index + 1}
         </Text>
-        <ScrollView showsVerticalScrollIndicator={false} className="flex">
+        <ScrollView showsVerticalScrollIndicator={false} className="">
           <Text
-            style={{ lineHeight: 50 }}
-            className="font-body text-2xl leading-relaxed lg:text-3xl"
+            style={{ lineHeight: 40 }}
+            className="font-body text-2xl lg:text-3xl"
           >
             {instruction}
           </Text>

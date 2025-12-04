@@ -13,8 +13,7 @@ import InstructionsInputModal from "./InstructionsInputModal";
 import type { RecipeUpdateForm } from "./types";
 
 export type IngredientsInputProps = {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  form: UseFormReturn<RecipeUpdateForm, any, undefined>;
+  form: UseFormReturn<RecipeUpdateForm, any, RecipeUpdateForm>;
   fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "instructions", "fieldId">;
   className?: string;
 };

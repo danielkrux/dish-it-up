@@ -60,7 +60,7 @@ export default function RecipeDetailPage() {
       <RecipeDetail id={id} logRecipeRef={ref} />
       <FloatingButton
         onPress={() => router.push(`/recipes/${id}/cook`)}
-        useSafeArea
+        useBottomTabsSafeArea
         icon="Play"
         className="md:mb-2"
       >

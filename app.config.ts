@@ -1,9 +1,10 @@
-const DOMAIN = "dish-it-up";
+import { ExpoConfig } from "expo/config";
+
+const DOMAIN = "dishitup";
 
 const URL = `${DOMAIN}.app`;
 
-/** @type {import('expo/config').ExpoConfig} */
-module.exports = {
+export default (): ExpoConfig => ({
   name: "Dish It Up",
   slug: "dish-it-up",
   version: "1.2.0",
@@ -11,7 +12,7 @@ module.exports = {
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
   newArchEnabled: true,
-  scheme: "dish-it-up",
+  scheme: "dishitup",
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
@@ -85,6 +86,7 @@ module.exports = {
       projectId: "b56a0bb4-b7e6-4823-b7cc-048af43d7698",
     },
   },
+  buildCacheProvider: "eas",
   experiments: {
     typedRoutes: true,
     tsconfigPaths: true,
@@ -96,4 +98,4 @@ module.exports = {
   updates: {
     url: "https://u.expo.dev/b56a0bb4-b7e6-4823-b7cc-048af43d7698",
   },
-};
+});

@@ -1,19 +1,18 @@
+import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import type { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import { View } from "react-native";
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 
+import Button from "~/components/Button";
+import IconButton from "~/components/IconButton";
 import ControlledInput from "~/components/Inputs/ControlledInputs";
 import Label from "~/components/Inputs/Label";
-import type { RecipeUpdateForm } from "./types";
 import { cn } from "~/utils/tailwind";
-import IconButton from "~/components/IconButton";
 import IngredientInputModal from "./IngredientInputModal";
-import Button from "~/components/Button";
+import type { RecipeUpdateForm } from "./types";
 
 export type IngredientsInputProps = {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  form: UseFormReturn<RecipeUpdateForm, any, undefined>;
+  form: UseFormReturn<RecipeUpdateForm, any, RecipeUpdateForm>;
   fieldArray: UseFieldArrayReturn<RecipeUpdateForm, "ingredients", "fieldId">;
   className?: string;
 };
