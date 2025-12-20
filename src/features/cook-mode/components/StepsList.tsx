@@ -52,10 +52,10 @@ function StepsList({
         showsHorizontalScrollIndicator={false}
         style={{
           marginTop: 30,
-          maxHeight: SCREEN_HEIGHT * 0.65,
+          maxHeight: SCREEN_HEIGHT * 0.68,
           maxWidth: ITEM_SIZE,
         }}
-        contentContainerStyle={{ marginBottom: 50 }}
+        contentContainerStyle={{ paddingBottom: 200 }}
         keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
         snapToInterval={ITEM_SIZE + ITEM_SPACING}
