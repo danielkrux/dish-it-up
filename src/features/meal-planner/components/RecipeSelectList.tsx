@@ -12,7 +12,6 @@ import {
 import Button from "~/components/Button";
 import Check from "~/components/Check";
 import Text from "~/components/Text";
-import SearchAndFilter from "~/features/home/components/SearchAndFilter";
 import { filterRecipesByCategory } from "~/features/home/home.utils";
 import RecipeImageCard from "~/features/recipe/components/RecipeImageCard";
 import recipeKeys from "~/features/recipe/recipe.queryKeys";
@@ -49,9 +48,9 @@ function RecipeSelectList({
       keepPreviousData: true,
       select: useCallback(
         (data: Recipe[]) => filterRecipesByCategory(data, searchParams.c),
-        [searchParams.c]
+        [searchParams.c],
       ),
-    }
+    },
   );
 
   function renderRecipe({ item }: ListRenderItemInfo<Recipe>) {
@@ -89,7 +88,7 @@ function RecipeSelectList({
                   {format(date, "EEEE")}
                 </Text>
               </Text>
-              <SearchAndFilter />
+              {/* <SearchAndFilter /> */}
             </>
           }
         />

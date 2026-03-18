@@ -1,4 +1,4 @@
-import { Button, ContextMenu, Host, Image } from "@expo/ui/swift-ui";
+import { Button, Host, Image, Menu } from "@expo/ui/swift-ui";
 import React from "react";
 
 export type MealPlanAddMenuProps = {
@@ -11,24 +11,11 @@ function MealPlanAddMenu({
   onSelectRecipe,
 }: MealPlanAddMenuProps) {
   return (
-    <Host>
-      <ContextMenu>
-        <ContextMenu.Trigger>
-          <Host
-            style={{
-              width: 10,
-              height: 10,
-              transform: [{ rotate: "90deg" }],
-            }}
-          >
-            <Image size={16} systemName="plus" color="black" />
-          </Host>
-        </ContextMenu.Trigger>
-        <ContextMenu.Items>
-          <Button onPress={onSelectRecipe}>Recipe</Button>
-          <Button onPress={onSelectNote}>Note</Button>
-        </ContextMenu.Items>
-      </ContextMenu>
+    <Host style={{ width: 16, height: 16 }}>
+      <Menu label={<Image size={16} systemName="plus" color="black" />}>
+        <Button label="Recipe" onPress={onSelectRecipe} />
+        <Button label="Note" onPress={onSelectNote} />
+      </Menu>
     </Host>
   );
 }

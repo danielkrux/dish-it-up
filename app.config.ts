@@ -11,7 +11,6 @@ export default (): ExpoConfig => ({
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
-  newArchEnabled: true,
   scheme: "dishitup",
   splash: {
     image: "./assets/splash.png",
@@ -62,6 +61,9 @@ export default (): ExpoConfig => ({
     "expo-font",
     "expo-asset",
     "expo-secure-store",
+    "@react-native-community/datetimepicker",
+    "expo-build-properties",
+    "expo-image",
     [
       "expo-router",
       {
@@ -90,7 +92,7 @@ export default (): ExpoConfig => ({
   experiments: {
     typedRoutes: true,
     tsconfigPaths: true,
-    reactCompiler: false,
+    reactCompiler: true,
   },
   runtimeVersion: {
     policy: "appVersion",

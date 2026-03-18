@@ -1,6 +1,6 @@
 import { TabRouter } from "@react-navigation/native";
 import { Link, Navigator, Slot, usePathname } from "expo-router";
-import { NativeTabs, Icon as TabIcon } from "expo-router/unstable-native-tabs";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 
 import * as Updates from "expo-updates";
 import { useEffect } from "react";
@@ -102,7 +102,7 @@ function Home() {
                         "bg-acapulco-400 text-white hover:bg-acapulco-400 dark:hover:bg-acapulco-400":
                           path === l.href,
                         "mt-auto": isLast,
-                      }
+                      },
                     )}
                   >
                     <Icon
@@ -133,20 +133,27 @@ function Home() {
       backgroundColor={theme.colors.background}
       iconColor={colors.primary[400]}
     >
-      <NativeTabs.Trigger name="recipes" options={{ title: "Recipes" }}>
-        <TabIcon sf="house.fill" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="recipes">
+        <NativeTabs.Trigger.Label>Recipes</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          sf="house.fill"
+          drawable="custom_android_drawable"
+        />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="grocery-list" options={{ title: "Groceries" }}>
-        <TabIcon sf="cart" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="grocery-list">
+        <NativeTabs.Trigger.Label>Groceries</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="cart" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger
-        name="meal-planner"
-        options={{ title: "Meal Planner" }}
-      >
-        <TabIcon sf="book" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="meal-planner">
+        <NativeTabs.Trigger.Label>Meal Planner</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="book" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="account" options={{ title: "Account" }}>
-        <TabIcon sf="person.circle" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="account">
+        <NativeTabs.Trigger.Label>Account</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          sf="person.circle"
+          drawable="custom_android_drawable"
+        />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

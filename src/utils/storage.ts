@@ -1,19 +1,19 @@
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import { MMKV } from "react-native-mmkv";
+import { createMMKV } from "react-native-mmkv";
 
-export const storage = new MMKV();
+export const storage = createMMKV();
 
 export function getItem<T>(key: string): T | null {
   const value = storage.getString(key);
   return value ? JSON.parse(value) : null;
 }
 
-export async function setItem<T>(key: string, value: T) {
+export function setItem<T>(key: string, value: T) {
   storage.set(key, JSON.stringify(value));
 }
 
-export async function removeItem(key: string) {
-  storage.delete(key);
+export function removeItem(key: string) {
+  storage.remove(key);
 }
 
 export async function fetchFile(uri: string) {

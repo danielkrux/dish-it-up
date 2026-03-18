@@ -1,4 +1,4 @@
-import { Button, ContextMenu, Host, Image } from "@expo/ui/swift-ui";
+import { Button, Host, Image, Menu } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
@@ -12,7 +12,7 @@ import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
 import useSortRecipes from "~/features/home/hooks/useSortRecipes";
 import { cn } from "~/utils/tailwind";
 
-function SeachAndFilter({ className }: { className?: string }) {
+function SearchAndFilter({ className }: { className?: string }) {
   const router = useRouter();
 
   const ref = useRef<TextInput>(null);
@@ -72,8 +72,8 @@ function SeachAndFilter({ className }: { className?: string }) {
         )}
         {!isSearching && (
           <Host>
-            <ContextMenu>
-              <ContextMenu.Trigger>
+            <Menu
+              label={
                 <GlassView className="p-3 rounded-full" isInteractive>
                   <Host
                     style={{
@@ -85,48 +85,33 @@ function SeachAndFilter({ className }: { className?: string }) {
                     <Image systemName="ellipsis" color="black" />
                   </Host>
                 </GlassView>
-              </ContextMenu.Trigger>
-              <ContextMenu.Items>
-                <ContextMenu>
-                  <ContextMenu.Trigger>
-                    <Button systemImage="arrow.up.arrow.down">Sort...</Button>
-                  </ContextMenu.Trigger>
-                  <ContextMenu.Items>
-                    {sortOptions.map((option) => (
-                      <Button
-                        key={option.value}
-                        systemImage={
-                          isSelected(option) ? "checkmark" : undefined
-                        }
-                        onPress={() => handleSort(option.value)}
-                      >
-                        {option.label}
-                      </Button>
-                    ))}
-                  </ContextMenu.Items>
-                </ContextMenu>
-                <ContextMenu>
-                  <ContextMenu.Trigger>
-                    <Button systemImage="line.horizontal.3.decrease">
-                      Filter...
-                    </Button>
-                  </ContextMenu.Trigger>
-                  <ContextMenu.Items>
-                    {filter.data?.map((category) => (
-                      <Button
-                        key={category.value}
-                        onPress={() => filter.onFilter(category)}
-                        systemImage={
-                          filter.isSelected(category) ? "checkmark" : undefined
-                        }
-                      >
-                        {category.label}
-                      </Button>
-                    ))}
-                  </ContextMenu.Items>
-                </ContextMenu>
-              </ContextMenu.Items>
-            </ContextMenu>
+              }
+            >
+              <Menu systemImage="arrow.up.arrow.down" label="Sort...">
+                {sortOptions.map((option) => (
+                  <Button
+                    key={option.value}
+                    label={option.label}
+                    systemImage={
+                      isSelected(option) ? "checkmark" : undefined
+                    }
+                    onPress={() => handleSort(option.value)}
+                  />
+                ))}
+              </Menu>
+              <Menu systemImage="line.horizontal.3.decrease" label="Filter...">
+                {filter.data?.map((category) => (
+                  <Button
+                    key={category.value}
+                    label={category.label}
+                    onPress={() => filter.onFilter(category)}
+                    systemImage={
+                      filter.isSelected(category) ? "checkmark" : undefined
+                    }
+                  />
+                ))}
+              </Menu>
+            </Menu>
           </Host>
         )}
       </GlassContainer>
@@ -134,4 +119,4 @@ function SeachAndFilter({ className }: { className?: string }) {
   );
 }
 
-export default SeachAndFilter;
+export default SearchAndFilter;
