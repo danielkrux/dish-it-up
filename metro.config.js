@@ -19,7 +19,6 @@ config.resolver = {
 
 // Remove all console logs in production...
 config.transformer.minifierConfig.compress.drop_console = true;
-config.resolver.sourceExts = [...config.resolver.sourceExts, "mjs", "cjs"];
 
 module.exports = withNativeWind(config, {
   input: "./styles.css",
