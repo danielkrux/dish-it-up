@@ -1,4 +1,4 @@
-import { Button, ContextMenu, Host, Image } from "@expo/ui/swift-ui";
+import { Button, Menu, Host, Image } from "@expo/ui/swift-ui";
 import React from "react";
 import useGroceryListMenu from "../hooks/useGroceryListMenu";
 
@@ -7,8 +7,8 @@ function GroceryListMenu() {
 
   return (
     <Host>
-      <ContextMenu>
-        <ContextMenu.Trigger>
+      <Menu
+        label={
           <Host
             style={{
               width: 35,
@@ -18,19 +18,15 @@ function GroceryListMenu() {
           >
             <Image systemName="ellipsis" color="black" />
           </Host>
-        </ContextMenu.Trigger>
-        <ContextMenu.Items>
-          <Button
-            systemImage="checkmark.circle"
-            onPress={() => handleDelete(true)}
-          >
-            Delete completed
-          </Button>
-          <Button systemImage="trash" role="destructive" onPress={handleDelete}>
-            Delete all
-          </Button>
-        </ContextMenu.Items>
-      </ContextMenu>
+        }
+      >
+        <Button
+          systemImage="checkmark.circle"
+          onPress={() => handleDelete(true)}
+          label="Delete completed"
+        />
+        <Button systemImage="trash" role="destructive" onPress={handleDelete} label="Delete all" />
+      </Menu>
     </Host>
   );
 }

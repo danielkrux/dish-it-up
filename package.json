@@ -69,6 +69,7 @@
     "expo-router": "~55.0.0-preview.7",
     "expo-secure-store": "~55.0.5",
     "expo-share-intent": "^5.1.1",
+    "expo-sharing": "~55.0.18",
     "expo-splash-screen": "~55.0.5",
     "expo-status-bar": "~55.0.2",
     "expo-system-ui": "~55.0.5",
@@ -132,5 +133,8 @@
   "patchedDependencies": {
     "react-native-ios-context-menu@3.1.0": "patches/react-native-ios-context-menu@3.1.0.patch",
     "react-native-ios-utilities@5.1.2": "patches/react-native-ios-utilities@5.1.2.patch"
-  }
+  },
+  "trustedDependencies": [
+    "@shopify/react-native-skia"
+  ]
 }
