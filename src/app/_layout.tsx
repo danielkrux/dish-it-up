@@ -15,7 +15,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import Head from "expo-router/head";
-import { ShareIntentProvider } from "expo-share-intent";
+
 import { StatusBar } from "expo-status-bar";
 import { cssInterop } from "nativewind";
 import { useEffect } from "react";
@@ -91,40 +91,38 @@ export default function Root() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ShareIntentProvider options={{ resetOnBackground: true }}>
-        <ThemeProvider value={theme}>
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister: clientPersister }}
-          >
-            <PortalProvider>
-              <KeyboardProvider>
-                <BottomSheetModalProvider>
-                  <AuthProvider>
-                    <StatusBar
-                      backgroundColor={
-                        theme.dark ? colors.gray[950] : colors.white
-                      }
-                      style="auto"
+      <ThemeProvider value={theme}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: clientPersister }}
+        >
+          <PortalProvider>
+            <KeyboardProvider>
+              <BottomSheetModalProvider>
+                <AuthProvider>
+                  <StatusBar
+                    backgroundColor={
+                      theme.dark ? colors.gray[950] : colors.white
+                    }
+                    style="auto"
+                  />
+                  <Head>
+                    <meta property="expo:handoff" content="true" />
+                    <meta
+                      name="apple-itunes-app"
+                      content="app-id=6474765614"
                     />
-                    <Head>
-                      <meta property="expo:handoff" content="true" />
-                      <meta
-                        name="apple-itunes-app"
-                        content="app-id=6474765614"
-                      />
-                      <link rel="manifest" href="/manifest.json" />
-                    </Head>
-                    <Slot />
-                    <Toast config={toastConfig} topOffset={0} />
-                    <Modal />
-                  </AuthProvider>
-                </BottomSheetModalProvider>
-              </KeyboardProvider>
-            </PortalProvider>
-          </PersistQueryClientProvider>
-        </ThemeProvider>
-      </ShareIntentProvider>
+                    <link rel="manifest" href="/manifest.json" />
+                  </Head>
+                  <Slot />
+                  <Toast config={toastConfig} topOffset={0} />
+                  <Modal />
+                </AuthProvider>
+              </BottomSheetModalProvider>
+            </KeyboardProvider>
+          </PortalProvider>
+        </PersistQueryClientProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }

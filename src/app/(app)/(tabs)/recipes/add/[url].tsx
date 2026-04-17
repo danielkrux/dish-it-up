@@ -7,12 +7,9 @@ import {
   Platform,
   ScrollView,
   StatusBar,
-  StyleSheet,
   View,
 } from "react-native";
 
-import { useShareIntentContext } from "expo-share-intent";
-import { useEffect } from "react";
 import BlurButton from "~/components/BlurButton";
 import Button from "~/components/Button";
 import Icon from "~/components/Icon";
@@ -27,7 +24,6 @@ import { isValidUrl } from "~/utils/url";
 export default function AddRecipeConfirmScreen() {
   const { mutate } = useCreateRecipe();
   const { url: urlParam } = useLocalSearchParams();
-  const { resetShareIntent } = useShareIntentContext();
   const statusBarHeight = StatusBar.currentHeight;
 
   const router = useRouter();
@@ -35,24 +31,20 @@ export default function AddRecipeConfirmScreen() {
 
   const urlValid = isValidUrl(url);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    resetShareIntent();
-  }, []);
-
   const { data, isError, isLoading } = useQuery(
     ["parse-recipe", url],
     () => parseRecipe(url as string),
     {
       enabled: urlValid,
-    }
+      retry: false,
+    },
   );
 
   if (isError) {
     return (
-      <View className="flex-1 justify-center items-center max-w-xl mx-auto w-full">
-        <Icon name="CircleAlert" size={48} className="mb-4" />
-        <Text className="mb-4" type="body">
+      <View className="flex-1 justify-center items-center max-w-xl mx-auto w-full h-screen">
+        <Icon name="CircleAlert" size={48} />
+        <Text className="mb-6 mt-6" type="body">
           Something went wrong importing the recipe
         </Text>
         <Button className="self-center" onPress={() => router.back()}>
@@ -63,14 +55,18 @@ export default function AddRecipeConfirmScreen() {
   }
 
   if (isLoading || !data) {
-    return <ActivityIndicator className="flex-1" size={48} />;
+    return (
+      <View className="flex-1 justify-center items-center h-screen">
+        <ActivityIndicator className="flex-1" size={48} />
+      </View>
+    );
   }
 
   return (
     <ScrollView
       className="pb-6"
       contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={styles.container}
+      contentContainerClassName="pb-6"
     >
       {data.images?.length ? (
         <Image className="h-72 mb-5" source={data.images[0]} />
@@ -105,9 +101,3 @@ export default function AddRecipeConfirmScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: theme.spacing.xl,
-  },
-});

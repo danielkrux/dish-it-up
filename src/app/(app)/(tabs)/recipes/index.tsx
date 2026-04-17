@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useShareIntentContext } from "expo-share-intent";
+import { useIncomingShare } from "expo-sharing";
 import { useCallback, useEffect } from "react";
 import { Platform, View } from "react-native";
 
@@ -16,7 +16,7 @@ import type { Recipe } from "~/features/recipe/recipe.types";
 import { useRefreshOnFocus } from "~/hooks/useRefreshOnFocus";
 
 export default function Home() {
-  const { shareIntent } = useShareIntentContext();
+  const { sharedPayloads, clearSharedPayloads } = useIncomingShare();
   const router = useRouter();
   const { q, c, s } = useLocalSearchParams<HomeSearchParams>();
   const query = q;
@@ -30,18 +30,21 @@ export default function Home() {
     {
       select: useCallback(
         (data: Recipe[]) => filterRecipesByCategory(data, c),
-        [c]
+        [c],
       ),
-    }
+    },
   );
 
   useRefreshOnFocus(refetch);
 
   useEffect(() => {
-    if (shareIntent?.webUrl) {
-      router.navigate(`/recipes/add/${encodeURIComponent(shareIntent.webUrl)}`);
+    const urlPayload = sharedPayloads.find((p) => p.shareType === "url");
+    if (urlPayload?.value) {
+      console.log(sharedPayloads);
+      router.navigate(`/recipes/add/${encodeURIComponent(urlPayload.value)}`);
+      clearSharedPayloads();
     }
-  }, [router, shareIntent]);
+  }, [router, sharedPayloads, clearSharedPayloads]);
 
   useFocusEffect(
     useCallback(() => {
@@ -49,7 +52,7 @@ export default function Home() {
       router.setParams({
         recipe: data?.[0].id.toString(),
       });
-    }, [data])
+    }, [data]),
   );
 
   if (!count && !isLoading) {

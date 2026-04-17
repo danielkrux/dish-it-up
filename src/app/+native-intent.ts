@@ -8,8 +8,9 @@ export async function redirectSystemPath({
     const url = new URL(path);
 
     if (url.hostname === "expo-sharing") {
-      return "/handle-share";
+      return "/";
     }
+
     return path;
   } catch {
     return "/";

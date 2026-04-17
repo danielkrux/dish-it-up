@@ -70,16 +70,19 @@ export default (): ExpoConfig => ({
         headOrigin: `https://${URL}`,
       },
     ],
-    "expo-sharing",
-    // [
-    //   "expo-share-intent",
-    //   {
-    //     iosActivationRules: {
-    //       NSExtensionActivationSupportsWebURLWithMaxCount: 1,
-    //     },
-    //     androidIntentFilters: ["text/*"],
-    //   },
-    // ],
+    [
+      "expo-sharing",
+      {
+        ios: {
+          enabled: true,
+          activationRule: {
+            supportsWebUrlWithMaxCount: 1,
+            supportsWebPageWithMaxCount: 1,
+            supportsText: true,
+          },
+        },
+      },
+    ],
   ],
   extra: {
     router: {
