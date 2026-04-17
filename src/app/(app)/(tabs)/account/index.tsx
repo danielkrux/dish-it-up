@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, ScrollView, View } from "react-native";
 
@@ -17,6 +17,12 @@ function Account() {
 
   return (
     <>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button
+          icon="gearshape"
+          onPress={() => router.push("/settings")}
+        />
+      </Stack.Toolbar>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         className="mx-4 md:mx-8"

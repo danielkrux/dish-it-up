@@ -2,9 +2,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { FormProvider } from "react-hook-form";
 import { View } from "react-native";
-import Button from "~/components/Button";
 
-import IconButton from "~/components/IconButton";
 import RecipeDetail from "~/features/recipe/components/RecipeDetail/RecipeDetail";
 import RecipeForm from "~/features/recipe/components/RecipeForm";
 import useRecipeForm from "~/features/recipe/components/RecipeForm/useRecipeForm";
@@ -36,32 +34,6 @@ export default function EditRecipe() {
     })();
   }, [data, mutate, handleSubmit]);
 
-  const renderHeaderLeft = useCallback(
-    () => (
-      <IconButton
-        onPress={() => router.back()}
-        icon="ChevronLeft"
-        size="medium"
-      />
-    ),
-    [router]
-  );
-
-  const renderHeaderRight = useCallback(
-    () => (
-      <Button
-        size="small"
-        variant="secondary"
-        loading={isLoading}
-        onPress={handleSave}
-        className="ml-auto"
-      >
-        Save
-      </Button>
-    ),
-    [isLoading, handleSave]
-  );
-
   if (!data) return null;
 
   const currentValues = isTablet ? form.watch() : null;
@@ -71,10 +43,19 @@ export default function EditRecipe() {
       <Stack.Screen
         options={{
           title: "Edit Recipe",
-          headerLeft: renderHeaderLeft,
-          headerRight: renderHeaderRight,
+          headerShadowVisible: false,
         }}
       />
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button onPress={router.back}>
+          <Stack.Toolbar.Icon sf="chevron.left" />
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button onPress={handleSave} disabled={isLoading}>
+          <Stack.Toolbar.Label>Save</Stack.Toolbar.Label>
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
       <View className="flex flex-row h-[calc(100vh-64px)] overflow-scroll">
         <RecipeForm className="max-w-4xl" />
         {isTablet && (
@@ -88,7 +69,7 @@ export default function EditRecipe() {
               total_time: currentValues?.total_time,
               images: currentValues?.images,
               ingredients: parseIngredients(
-                currentValues?.ingredients.map((i) => i)
+                currentValues?.ingredients.map((i) => i),
               ),
             }}
           />

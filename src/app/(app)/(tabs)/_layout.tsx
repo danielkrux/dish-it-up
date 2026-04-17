@@ -102,7 +102,7 @@ function Home() {
                         "bg-acapulco-400 text-white hover:bg-acapulco-400 dark:hover:bg-acapulco-400":
                           path === l.href,
                         "mt-auto": isLast,
-                      }
+                      },
                     )}
                   >
                     <Icon
@@ -133,20 +133,27 @@ function Home() {
       backgroundColor={theme.colors.background}
       iconColor={colors.primary[400]}
     >
-      <NativeTabs.Trigger name="recipes" options={{ title: "Recipes" }}>
-        <NativeTabs.Trigger.Icon sf="house.fill" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="recipes">
+        <NativeTabs.Trigger.Icon
+          sf="house.fill"
+          drawable="custom_android_drawable"
+        />
+        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="grocery-list" options={{ title: "Groceries" }}>
+      <NativeTabs.Trigger name="grocery-list">
         <NativeTabs.Trigger.Icon sf="cart" drawable="custom_android_drawable" />
+        <NativeTabs.Trigger.Label>Groceries</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger
-        name="meal-planner"
-        options={{ title: "Meal Planner" }}
-      >
+      <NativeTabs.Trigger name="meal-planner">
         <NativeTabs.Trigger.Icon sf="book" drawable="custom_android_drawable" />
+        <NativeTabs.Trigger.Label>Meal Planner</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="account" options={{ title: "Account" }}>
-        <NativeTabs.Trigger.Icon sf="person.circle" drawable="custom_android_drawable" />
+      <NativeTabs.Trigger name="account">
+        <NativeTabs.Trigger.Icon
+          sf="person.circle"
+          drawable="custom_android_drawable"
+        />
+        <NativeTabs.Trigger.Label>Account</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );

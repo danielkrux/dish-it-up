@@ -1,4 +1,4 @@
-import { Button, Menu, Host, Image } from "@expo/ui/swift-ui";
+import { Button, Host, Image, Menu } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
@@ -43,7 +43,7 @@ function SeachAndFilter({ className }: { className?: string }) {
           <TextInput
             ref={ref}
             placeholder="Search recipes"
-            className="pr-5 py-4 text-base font-body"
+            className="pr-5 py-4 text-base font-body w-full "
             onFocus={() => setIsSearching(true)}
             onBlur={() => setIsSearching(false)}
             placeholderTextColor={colors.gray[900]}
@@ -61,7 +61,7 @@ function SeachAndFilter({ className }: { className?: string }) {
                 style={{
                   width: 35,
                   height: 35,
-                  left: -15,
+                  left: -20,
                   transform: [{ rotate: "90deg" }],
                 }}
               >
@@ -91,9 +91,7 @@ function SeachAndFilter({ className }: { className?: string }) {
                 {sortOptions.map((option) => (
                   <Button
                     key={option.value}
-                    systemImage={
-                      isSelected(option) ? "checkmark" : undefined
-                    }
+                    systemImage={isSelected(option) ? "checkmark" : undefined}
                     onPress={() => handleSort(option.value)}
                     label={option.label}
                   />

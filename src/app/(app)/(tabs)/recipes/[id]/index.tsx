@@ -47,15 +47,13 @@ export default function RecipeDetailPage() {
           headerLargeTitleStyle: {
             fontFamily: "Heading",
           },
-          headerRight: () => (
-            <RecipeDetailMenu
-              onShowLogRecipe={ref.current?.present}
-              onDeleteSucces={handleDeleteSuccess}
-              onAddToMealPlan={handleAddToMealPlan}
-              recipeId={id}
-            />
-          ),
         }}
+      />
+      <RecipeDetailMenu
+        onShowLogRecipe={ref.current?.present}
+        onDeleteSucces={handleDeleteSuccess}
+        onAddToMealPlan={handleAddToMealPlan}
+        recipeId={id}
       />
       <RecipeDetail id={id} logRecipeRef={ref} />
       <FloatingButton

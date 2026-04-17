@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { FormProvider } from "react-hook-form";
 import { View } from "react-native";
@@ -34,7 +34,7 @@ function AddRecipe() {
   function handleSave() {
     handleSubmit(async (values) => {
       const parsedIngredients = parseIngredients(
-        values.ingredients.map((i) => ({ name: i.name }))
+        values.ingredients.map((i) => ({ name: i.name })),
       );
       return mutate({
         ...values,
@@ -56,16 +56,16 @@ function AddRecipe() {
         Save
       </Button>
     ),
-    [isLoading]
+    [isLoading],
   );
 
   return (
     <FormProvider {...form}>
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{
           headerRight: renderHeaderRight,
         }}
-      />
+      /> */}
       <View className="mt-4">
         <RecipeForm />
       </View>

@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 import { useIncomingShare } from "expo-sharing";
 import { useCallback, useEffect } from "react";
 import { Platform, View } from "react-native";
@@ -75,8 +80,14 @@ export default function Home() {
 
   return (
     <>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button
+          icon="plus"
+          onPress={() => router.push("/recipes/add")}
+        />
+      </Stack.Toolbar>
       <RecipeList data={data} isLoading={isLoading} />
-      <SeachAndFilter className="absolute bottom-[95px] w-screen px-6" />
+      <SeachAndFilter className="absolute bottom-[90px] w-screen px-6" />
     </>
   );
 }

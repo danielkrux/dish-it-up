@@ -1,8 +1,7 @@
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
-import { Button, Menu, Host, Image } from "@expo/ui/swift-ui";
 import React from "react";
-import { Linking } from "react-native";
+import { Alert, Linking } from "react-native";
 
 import { useCreateMealPlan } from "~/features/meal-planner/hooks/useCreateMealPlan";
 import useDeleteRecipe from "~/features/recipe/hooks/useDeleteRecipe";
@@ -42,51 +41,78 @@ function RecipeDetailMenu({
     });
   }
 
+  function handleDelete() {
+    Alert.alert(
+      "Delete recipe",
+      "Are you sure you want to delete this recipe?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => deleteMutation.mutate(),
+        },
+      ],
+    );
+  }
+
   return (
-    <Host style={{ width: 35, height: 35 }}>
-      <Menu
-        label={
-          <Host
-            style={{ width: 35, height: 35, transform: [{ rotate: "90deg" }] }}
+    <Stack.Toolbar placement="right">
+      <Stack.Toolbar.Menu icon="ellipsis">
+        <Stack.Toolbar.Menu inline>
+          <Stack.Toolbar.MenuAction
+            onPress={handleNavigateToEdit}
+            icon="pencil"
           >
-            <Image systemName="ellipsis" color="black" />
-          </Host>
-        }
-      >
-        <Button systemImage="pencil" onPress={handleNavigateToEdit} label="Edit" />
-        <Button systemImage="cart" label="Add to groceries" />
-        <Button
-          systemImage="globe"
-          onPress={() => Linking.openURL(data?.source_url ?? "")}
-          label="Visit website"
-        />
-        <Button
-          systemImage="cart"
-          onPress={() => router.push(`/recipes/${recipeId}/select-groceries`)}
-          label="On grocery list"
-        />
-        <Menu label="Add to mealplan" systemImage="book">
+            Edit
+          </Stack.Toolbar.MenuAction>
+          <Stack.Toolbar.MenuAction
+            icon="globe"
+            onPress={() => Linking.openURL(data?.source_url ?? "")}
+          >
+            Visit website
+          </Stack.Toolbar.MenuAction>
+          <Stack.Toolbar.MenuAction
+            icon="cart"
+            onPress={() => router.push(`/recipes/${recipeId}/select-groceries`)}
+          >
+            Add to groceries
+          </Stack.Toolbar.MenuAction>
+          <Stack.Toolbar.MenuAction
+            icon="checkmark.circle"
+            onPress={onShowLogRecipe}
+          >
+            Log recipe
+          </Stack.Toolbar.MenuAction>
+        </Stack.Toolbar.Menu>
+        <Stack.Toolbar.Menu title="Add to mealplan" icon="book">
           {nextSevenDays.map((day) => (
-            <Button
+            <Stack.Toolbar.MenuAction
               onPress={() =>
                 createMealPlanMutation.mutate([
                   { recipe_id: recipeId, date: day.toDateString() },
                 ])
               }
               key={day.toISOString()}
-              label={formatRelativeWithoutTime(day)}
-            />
+            >
+              {formatRelativeWithoutTime(day)}
+            </Stack.Toolbar.MenuAction>
           ))}
-        </Menu>
-        <Button systemImage="checkmark.circle" onPress={onShowLogRecipe} label="Log recipe" />
-        <Button
-          role="destructive"
-          systemImage="trash"
-          onPress={deleteMutation.mutate}
-          label="Delete"
-        />
-      </Menu>
-    </Host>
+        </Stack.Toolbar.Menu>
+        <Stack.Toolbar.Menu inline>
+          <Stack.Toolbar.MenuAction
+            icon="trash"
+            onPress={handleDelete}
+            destructive
+          >
+            Delete
+          </Stack.Toolbar.MenuAction>
+        </Stack.Toolbar.Menu>
+      </Stack.Toolbar.Menu>
+    </Stack.Toolbar>
   );
 }
 
