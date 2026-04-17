@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 
@@ -23,7 +23,7 @@ function SelectGroceries() {
   const recipeYieldAmount = findRecipeYieldAmount(data?.recipe_yield ?? "");
 
   const [selected, setSelected] = useState<Ingredient[]>(
-    data?.ingredients ?? []
+    data?.ingredients ?? [],
   );
   const { mutate, isLoading } = useCreateGroceryListItem({
     onSuccess: router.back,
@@ -32,7 +32,7 @@ function SelectGroceries() {
   function handleIngredientPress(ingredient: Ingredient) {
     if (selected.find((item) => item.id === ingredient.id)) {
       return setSelected((prev) =>
-        prev.filter((item) => item.id !== ingredient.id)
+        prev.filter((item) => item.id !== ingredient.id),
       );
     }
     return setSelected((prev) => [...prev, ingredient]);
@@ -65,20 +65,20 @@ function SelectGroceries() {
   }
 
   return (
-    <View className="flex-1 py-6">
-      <Text className="mx-4 font-display text-3xl">Add to groceries</Text>
-      <Text className="mx-4 mb-4 text-bold text-lg text-gray-400">
+    <View className="flex-1 py-12">
+      <Text className="mx-6 font-display text-3xl">Add to groceries</Text>
+      <Text className="mx-6 mb-4 text-bold text-lg text-gray-400">
         {data?.name}
       </Text>
       {recipeYieldAmount && (
-        <View className="flex-row items-center gap-3 mb-4 mx-4">
+        <View className="flex-row items-center gap-3 mb-4 mx-6">
           <IconButton size="small" icon="Minus" onPress={removePerson} />
           <Text>{recipeYieldAmount * yieldMultiplier} persons</Text>
           <IconButton size="small" icon="Plus" onPress={addPerson} />
         </View>
       )}
       <ScrollView
-        className="px-4"
+        className="px-6"
         contentContainerStyle={{ paddingBottom: 75 }}
       >
         {data?.ingredients?.map((ingredient, index) => {
@@ -101,7 +101,7 @@ function SelectGroceries() {
           );
         })}
       </ScrollView>
-      <FloatingButton loading={isLoading} useSafeArea onPress={handleSave}>
+      <FloatingButton loading={isLoading} onPress={handleSave}>
         Save
       </FloatingButton>
     </View>

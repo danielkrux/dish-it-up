@@ -84,6 +84,15 @@ export default function HomeTabLayout() {
               presentation: "fullScreenModal",
             }}
           />
+          <Stack.Screen
+            name="[id]/select-groceries"
+            options={{
+              headerShadowVisible: false,
+              headerTitle: "",
+              headerTransparent: true,
+              presentation: "modal",
+            }}
+          />
         </Stack>
       </View>
       {recipeId && isTablet && (
