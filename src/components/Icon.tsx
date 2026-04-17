@@ -1,6 +1,5 @@
 import { icons } from "lucide-react-native";
 import { cssInterop } from "nativewind";
-import { useMemo } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 
 import Logo from "~/assets/logo.svg";
@@ -21,15 +20,12 @@ function Icon({ name, size = 24, strokeWidth, style, className }: IconProps) {
   // eslint-disable-next-line import/namespace
   const LucideIcon = icons[name as string];
 
-  useMemo(
-    () => LucideIcon && cssInterop(LucideIcon, { className: "style" }),
-    [LucideIcon]
-  );
-
   if (name === "logo")
     return <Logo width={size} height={size} className={className} />;
 
   if (!LucideIcon) return null;
+
+  cssInterop(LucideIcon, { className: "style" });
 
   return (
     <LucideIcon
