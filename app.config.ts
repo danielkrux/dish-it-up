@@ -7,7 +7,7 @@ const URL = `${DOMAIN}.app`;
 export default (): ExpoConfig => ({
   name: "Dish It Up",
   slug: "dish-it-up",
-  version: "1.2.0",
+  version: "1.3.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
@@ -45,7 +45,7 @@ export default (): ExpoConfig => ({
   },
   ios: {
     appleTeamId: "J4U764FR4Z",
-    buildNumber: "11",
+    buildNumber: "12",
     supportsTablet: true,
     bundleIdentifier: "com.danielkrux.dishitup",
     associatedDomains: [
