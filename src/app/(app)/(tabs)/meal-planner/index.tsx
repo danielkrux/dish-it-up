@@ -105,10 +105,12 @@ function MealPlanner() {
         pathname: "/meal-planner",
         params: { date: date.toDateString(), note: "true" },
       });
-    } else {
+    }
+
+    if (plan.recipe_id) {
       router.navigate({
-        pathname: "/meal-planner/select-recipe",
-        params: { date: date.toDateString() },
+        pathname: "/recipes/[id]",
+        params: { id: plan.recipe_id },
       });
     }
   }
