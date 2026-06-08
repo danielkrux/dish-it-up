@@ -8,13 +8,13 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
-import { ThemeProvider } from "@react-navigation/native";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as NavigationBar from "expo-navigation-bar";
 import { Slot } from "expo-router";
 import Head from "expo-router/head";
+import { ThemeProvider } from "expo-router/react-navigation";
 
 import { StatusBar } from "expo-status-bar";
 import { cssInterop } from "nativewind";
@@ -24,19 +24,19 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import Toast from "react-native-toast-message";
 
+import { GlassContainer, GlassView } from "expo-glass-effect";
 import AuthProvider from "~/AuthContext";
 import Logo from "~/assets/logo.svg";
 import Modal from "~/components/Modal";
 import toastConfig from "~/configs/toastConfig";
 import { useThemeConfig } from "~/hooks/useThemeConfig";
-import { colors, isWeb } from "~/theme";
+import { isWeb } from "~/theme";
 import { clientPersister } from "~/utils/storage";
+import "../../styles.css";
 import { queryClient, setQueryClientFocus } from "../clients/reactQuery";
 import { initSupabase } from "../clients/supabase";
 import { useAppState } from "../hooks/useAppState";
 import { useOnlineManager } from "../hooks/useOnlineManager";
-import "../../styles.css";
-import { GlassContainer, GlassView } from "expo-glass-effect";
 
 export const supabase = initSupabase();
 
@@ -56,9 +56,7 @@ export default function Root() {
 
   useEffect(() => {
     if (Platform.OS !== "android") return;
-    NavigationBar.setBackgroundColorAsync(
-      theme.dark ? colors.gray[950] : colors.white
-    );
+    NavigationBar.setStyle(theme.dark ? "light" : "dark");
   }, [theme.dark]);
 
   useAppState(async (state) => {
@@ -100,18 +98,10 @@ export default function Root() {
             <KeyboardProvider>
               <BottomSheetModalProvider>
                 <AuthProvider>
-                  <StatusBar
-                    backgroundColor={
-                      theme.dark ? colors.gray[950] : colors.white
-                    }
-                    style="auto"
-                  />
+                  <StatusBar style="auto" />
                   <Head>
                     <meta property="expo:handoff" content="true" />
-                    <meta
-                      name="apple-itunes-app"
-                      content="app-id=6474765614"
-                    />
+                    <meta name="apple-itunes-app" content="app-id=6474765614" />
                     <link rel="manifest" href="/manifest.json" />
                   </Head>
                   <Slot />

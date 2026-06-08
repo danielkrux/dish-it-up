@@ -1,4 +1,7 @@
-import { NativeWindStyleSheet, useColorScheme } from "nativewind";
+import {
+  colorScheme as nativeWindColorScheme,
+  useColorScheme,
+} from "nativewind";
 import React from "react";
 import { useMMKVString } from "react-native-mmkv";
 import { storage } from "~/utils/storage";
@@ -21,7 +24,7 @@ export const useSelectedTheme = () => {
       setColorScheme(t);
       _setTheme(t);
     },
-    [setColorScheme, _setTheme]
+    [setColorScheme, _setTheme],
   );
 
   const selectedTheme = (theme ?? "system") as ColorSchemeType;
@@ -31,6 +34,6 @@ export const useSelectedTheme = () => {
 export const loadSelectedTheme = () => {
   const theme = storage.getString(SELECTED_THEME);
   if (theme !== undefined) {
-    NativeWindStyleSheet.setColorScheme(theme as ColorSchemeType);
+    nativeWindColorScheme.set(theme as ColorSchemeType);
   }
 };

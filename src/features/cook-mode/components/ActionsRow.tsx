@@ -18,7 +18,7 @@ import { ITEM_SIZE } from "../constants";
 export type ActionsRowProps = {
   index: number;
   instructionsLength: number;
-  animatedIndex: Animated.SharedValue<number>;
+  animatedIndex: SharedValue<number>;
   stepsListRef: React.RefObject<Animated.FlatList<string> | null>;
   bottomSheetPosition: SharedValue<number>;
   className?: string;
@@ -47,7 +47,7 @@ function ActionsRow({
       animatedIndex.value,
       [0, instructionsLength - 1],
       [-progressBarWidth, 0],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
   });
 
@@ -70,7 +70,7 @@ function ActionsRow({
       style={isTablet ? undefined : actionsStyle}
       className={cn(
         "absolute top-0 flex-row mx-4 gap-3 items-center",
-        className
+        className,
       )}
     >
       <View className="flex-row gap-3 w-full">

@@ -12,11 +12,7 @@ export default (): ExpoConfig => ({
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
   scheme: "dishitup",
-  splash: {
-    image: "./assets/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#68A691",
-  },
+
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
@@ -64,6 +60,15 @@ export default (): ExpoConfig => ({
     "expo-image",
     "expo-build-properties",
     "@react-native-community/datetimepicker",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/splash.png",
+        resizeMode: "contain",
+        backgroundColor: "#68A691",
+      },
+    ],
+    "expo-status-bar",
     [
       "expo-router",
       {

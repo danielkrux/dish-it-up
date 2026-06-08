@@ -1,8 +1,8 @@
-import type { Theme } from "@react-navigation/native";
 import {
+  type Theme,
   DarkTheme as _DarkTheme,
   DefaultTheme,
-} from "@react-navigation/native";
+} from "expo-router/react-navigation";
 import { useColorScheme as useNativeWindColorScheme } from "nativewind";
 import { useEffect } from "react";
 import { AppState, useColorScheme } from "react-native";
@@ -38,7 +38,8 @@ export function useThemeConfig() {
     const subscription = AppState.addEventListener("change", (state) => {
       const isActive = state === "active";
       if (!isActive) return;
-      currentColorScheme && setColorScheme(currentColorScheme);
+      if (currentColorScheme)
+        setColorScheme(currentColorScheme as "light" | "dark" | "system");
     });
     return () => subscription.remove();
   }, [currentColorScheme, setColorScheme]);

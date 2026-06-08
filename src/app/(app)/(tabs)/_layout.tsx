@@ -1,4 +1,4 @@
-import { TabRouter } from "@react-navigation/native";
+import { TabRouter } from "expo-router/react-navigation";
 import { Link, Navigator, Slot, usePathname } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 

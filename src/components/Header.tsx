@@ -1,5 +1,5 @@
-import { Header as HeaderElement } from "@react-navigation/elements";
 import { usePathname, useRouter } from "expo-router";
+import { Header as HeaderElement } from "expo-router/react-navigation";
 import type { ReactNode } from "react";
 import { View } from "react-native";
 import theme from "../theme";
@@ -8,7 +8,7 @@ import IconButton from "./IconButton";
 export default function Header({
   options,
 }: {
-  options: { title: string; headerRight: ReactNode };
+  options: { title: string; headerRight: () => ReactNode };
 }) {
   const router = useRouter();
   const pathName = usePathname();
@@ -18,8 +18,8 @@ export default function Header({
       <HeaderElement
         title={options.title ?? ""}
         headerShadowVisible={false}
-        headerLeft={() => {
-          if (pathName === "/") return null;
+        headerLeft={({ canGoBack }) => {
+          if (pathName === "/" || !canGoBack) return null;
 
           return (
             <IconButton
