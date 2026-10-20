@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { TextInput, View } from "react-native";
+import { TextInput, type TextInputInstance, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import Icon from "~/components/Icon";
@@ -11,7 +11,7 @@ import useUpdateGroceryListItem from "~/features/grocery-list/hooks/useUpdateGro
 import { colors } from "~/theme";
 
 function GroceryList() {
-  const addRef = useRef<TextInput>(null);
+  const addRef = useRef<TextInputInstance>(null);
   const groceries = useFetchGroceryList();
   const completeMutation = useUpdateGroceryListItem();
   const addMutation = useCreateGroceryListItem();

@@ -1,4 +1,4 @@
-import { Header as HeaderElement } from "@react-navigation/elements";
+import { Header as HeaderElement } from "expo-router/react-navigation";
 import { usePathname, useRouter } from "expo-router";
 import type { ReactNode } from "react";
 import { View } from "react-native";
@@ -25,7 +25,7 @@ export default function Header({
             <IconButton
               style={{ marginLeft: theme.spacing.s }}
               icon="ArrowLeft"
-              onPress={router.back}
+              onPress={() => router.back()}
               size="medium"
             />
           );

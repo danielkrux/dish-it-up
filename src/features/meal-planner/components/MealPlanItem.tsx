@@ -2,7 +2,7 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import type { Swipeable } from "react-native-gesture-handler";
+import type { SwipeableMethods } from "react-native-gesture-handler/ReanimatedSwipeable";
 
 import Icon from "~/components/Icon";
 import SwipeableRow from "~/components/SwipeableRow";
@@ -20,7 +20,7 @@ function MealPlanItem({
   onPress: () => void;
 }) {
   const router = useRouter();
-  const swipeableRef = useRef<Swipeable>(null);
+  const swipeableRef = useRef<SwipeableMethods>(null);
   const recipe = mealPlan.recipes;
 
   const deleteMutation = useDeleteMealPlan({

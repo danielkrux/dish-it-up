@@ -95,7 +95,7 @@ export default function SignUp() {
         loading={loading}
         className="self-stretch mb-2"
         size="large"
-        onPress={handleSubmit(signUp)}
+        onPress={() => handleSubmit(signUp)()}
       >
         Sign Up
       </Button>

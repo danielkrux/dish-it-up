@@ -2,7 +2,12 @@ import { Button, Host, Image, Menu } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
-import { Keyboard, Pressable, TextInput } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  TextInput,
+  type TextInputInstance,
+} from "react-native";
 
 import Icon from "~/components/Icon";
 import { colors } from "~/theme";
@@ -15,7 +20,7 @@ import { cn } from "~/utils/tailwind";
 function SeachAndFilter({ className }: { className?: string }) {
   const router = useRouter();
 
-  const ref = useRef<TextInput>(null);
+  const ref = useRef<TextInputInstance>(null);
   const [isSearching, setIsSearching] = useState(false);
 
   const { sortOptions, handleSort, isSelected } = useSortRecipes();

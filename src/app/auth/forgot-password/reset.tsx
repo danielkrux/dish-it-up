@@ -75,7 +75,7 @@ function Reset() {
         loading={isLoading}
         className="self-stretch mb-2"
         size="large"
-        onPress={handleSubmit((values) => mutate(values))}
+        onPress={() => handleSubmit((values) => mutate(values))()}
       >
         Reset Password
       </Button>

@@ -1,5 +1,5 @@
 import { decode } from "base64-arraybuffer";
-import type { Tables } from "supabase/database.types";
+import type { Tables } from "../../../supabase/database.types";
 import { supabase } from "~/app/_layout";
 import type { TableUpdate } from "~/clients/supabase";
 import { isTruthy } from "~/utils/typescript";

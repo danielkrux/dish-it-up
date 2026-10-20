@@ -1,12 +1,10 @@
 import { useState } from "react";
 import {
-  type NativeSyntheticEvent,
   StyleSheet,
   TextInput,
-  type TextInputKeyPressEventData,
-  type TextInputSubmitEditingEventData,
+  type TextInputKeyPressEvent,
+  type TextInputSubmitEditingEvent,
   View,
-  ViewProps,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -53,15 +51,13 @@ function ChipInput({
     onRemove?.(item);
   }
 
-  function handleAddChip(
-    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
-  ) {
+  function handleAddChip(e: TextInputSubmitEditingEvent) {
     const value = e.nativeEvent.text;
     onAdd?.({ label: value, value: nanoid() });
     setInputValue("");
   }
 
-  function handleKeyPress(e: NativeSyntheticEvent<TextInputKeyPressEventData>) {
+  function handleKeyPress(e: TextInputKeyPressEvent) {
     if (e.nativeEvent.key === Key.Backspace && inputValue?.length === 0) {
       const lastItem = value[value.length - 1];
       onRemove?.(lastItem);

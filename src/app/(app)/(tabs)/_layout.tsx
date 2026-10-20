@@ -1,6 +1,5 @@
-import { TabRouter } from "@react-navigation/native";
-import { Link, Navigator, Slot, usePathname } from "expo-router";
-import { NativeTabs } from "expo-router/unstable-native-tabs";
+import { Link, Navigator, Slot, TabRouter, usePathname } from "expo-router";
+import { NativeTabs } from "expo-router/native-tabs";
 
 import * as Updates from "expo-updates";
 import { useEffect } from "react";

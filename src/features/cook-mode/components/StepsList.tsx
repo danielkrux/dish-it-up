@@ -45,7 +45,7 @@ function StepsList({
     <View className="flex-1 md:items-center">
       <Animated.FlatList
         ref={ref}
-        data={data?.instructions}
+        data={data?.instructions ?? undefined}
         horizontal
         onScroll={handleScroll}
         renderItem={renderInstruction}

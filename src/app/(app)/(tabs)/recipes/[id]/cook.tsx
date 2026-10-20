@@ -58,7 +58,7 @@ function Cook() {
       style={{ paddingTop: insets.top + extraPadding }}
     >
       <View className="flex-row mx-4 lg:mx-8 lg:mt-2 items-center justify-between ">
-        <IconButton icon="X" size="medium" onPress={router.back} />
+        <IconButton icon="X" size="medium" onPress={() => router.back()} />
         <Button
           onPress={() => logRecipeRef.current?.present()}
           variant="secondary"
