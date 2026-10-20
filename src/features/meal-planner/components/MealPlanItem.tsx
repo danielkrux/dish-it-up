@@ -75,7 +75,7 @@ function MealPlanItem({
             <Text className="font-body text-xs text-gray-600 dark:text-gray-300">
               {recipe?.last_cooked
                 ? `Last made ${formatDistanceToNowInDays(
-                    new Date(recipe?.last_cooked)
+                    new Date(recipe?.last_cooked),
                   )}`
                 : "New recipe!"}
             </Text>
