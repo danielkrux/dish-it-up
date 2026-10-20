@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "reanimated-dnd": {
+      "source": "entropyconquers/react-native-reanimated-dnd",
+      "sourceType": "github",
+      "skillPath": "skills/reanimated-dnd/SKILL.md",
+      "computedHash": "bad9ca3cf7038d96a3fd1558f07742ec3e4b4f9526e907cef99dfb655017bd7b"
+    }
+  }
+}
