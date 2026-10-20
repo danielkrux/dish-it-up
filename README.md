@@ -56,10 +56,10 @@ EXPO_PUBLIC_SUPABASE_KEY=YOUR_SUPABASE_PROJECT_KEY
 
 Now you are ready to run the app, run the following commands:
 
-1. `yarn` - install packages
-2. `yarn generate` - generate types based on supabase tables
-3. `yarn api:deploy` - deploy edge functions
-4. `yarn ios` or `yarn android` - run app
+1. `bun` - install packages
+2. `bun generate` - generate types based on supabase tables
+3. `bun prebuild --clean` - generate native directories (/ios and /android)
+4. `bun ios` or `bun android` - run app
 
 ### Can't build app 'ShareExtension.appex' not found:
 
