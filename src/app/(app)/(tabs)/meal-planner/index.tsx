@@ -118,25 +118,26 @@ function MealPlanner() {
   return (
     <>
       <>
-        <View className="flex-row justify-between items-center m-4 md:mx-8">
-          <IconButton
-            onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
-            icon="ChevronLeft"
-            size="medium"
-          />
-          <Text size="l">
-            {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
-          </Text>
-          <IconButton
-            onPress={() => setSelectedWeekDate(addDays(selectedWeekDate, 7))}
-            icon="ChevronRight"
-            size="medium"
-          />
-        </View>
         <ScrollView
           className="flex-1"
           contentContainerClassName="mx-4 mr-6 lg:mx-8 pb-16 lg:mt-8 lg:flex-row lg:justify-between lg:gap-6"
+          contentInsetAdjustmentBehavior="automatic"
         >
+          <View className="flex-row justify-between items-center m-4 md:mx-8">
+            <IconButton
+              onPress={() => setSelectedWeekDate(subDays(selectedWeekDate, 7))}
+              icon="ChevronLeft"
+              size="medium"
+            />
+            <Text size="l">
+              {format(firstDay, "d MMM")} - {format(lastDay, "d MMM")}
+            </Text>
+            <IconButton
+              onPress={() => setSelectedWeekDate(addDays(selectedWeekDate, 7))}
+              icon="ChevronRight"
+              size="medium"
+            />
+          </View>
           {datesOfWeek.map((date) => {
             const mealPlans = data?.[format(date, "yyyy-MM-dd")];
 
