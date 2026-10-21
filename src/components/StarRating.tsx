@@ -28,7 +28,7 @@ function StarRating({
   ...props
 }: RatingStarsProps) {
   const [selectedStarIndex, setSelectedStarIndex] = React.useState(
-    initialValue ?? -1
+    initialValue ?? -1,
   );
   const SIZE_MARGIN = SIZE + 2;
   const CONTAINER_WIDTH = SIZE_MARGIN * 5;
@@ -54,7 +54,7 @@ function StarRating({
   }, [selectedStarIndex]);
 
   if (short) {
-    if (selectedStarIndex < 0) return;
+    if (!initialValue) return;
 
     return (
       <Pressable
@@ -62,7 +62,7 @@ function StarRating({
         className={clsx("flex-row items-center gap-1.5", props.className)}
       >
         <Canvas style={{ width: SIZE, height: SIZE }}>
-          <Star selected={Boolean(selectedStarIndex)} />
+          <Star selected />
         </Canvas>
         <Text className="font-body-bold text-base text-gray-700 dark:text-gray-200">
           {initialValue}

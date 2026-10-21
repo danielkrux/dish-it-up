@@ -50,7 +50,7 @@ export default function RecipeDetailPage() {
         }}
       />
       <RecipeDetailMenu
-        onShowLogRecipe={ref.current?.present}
+        onShowLogRecipe={() => ref.current?.present()}
         onDeleteSucces={handleDeleteSuccess}
         onAddToMealPlan={handleAddToMealPlan}
         recipeId={id}
