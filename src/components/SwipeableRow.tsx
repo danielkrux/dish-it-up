@@ -4,10 +4,12 @@ import Swipeable, {
   type SwipeableMethods,
   SwipeDirection,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
+
 import Animated, {
   Extrapolation,
   interpolate,
   type SharedValue,
+  useAnimatedReaction,
   useAnimatedStyle,
 } from "react-native-reanimated";
 
@@ -28,49 +30,43 @@ function SwipeAction({
   side,
   icon,
   style,
-  translation,
+  progress,
 }: {
   side: "left" | "right";
   icon?: IconName;
   style?: StyleProp<ViewStyle>;
-  translation: SharedValue<number>;
+  progress: SharedValue<number>;
 }) {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
       {
         scale:
           side === "right"
-            ? interpolate(
-                translation.value,
-                [-80, -75],
-                [1, 0.75],
-                Extrapolation.CLAMP
-              )
-            : interpolate(
-                translation.value,
-                [75, 80],
-                [0.75, 1],
-                Extrapolation.CLAMP
-              ),
+            ? interpolate(progress.value, [0, 0.2, 1], [0.75, 0.9, 1])
+            : interpolate(progress.value, [0, 0.2, 1], [0.75, 0.9, 1]),
       },
     ],
   }));
 
+  const containerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 0.2, 1], [0, 0.8, 1]),
+  }));
+
   return (
-    <View
+    <Animated.View
       className={
         side === "right"
-          ? "items-center flex-row flex-1 justify-end rounded-2xl"
-          : "items-center flex-row-reverse flex-1 justify-end rounded-2xl"
+          ? "items-center flex-row justify-end flex-1 rounded-2xl"
+          : "items-center flex-row-reverse justify-end flex-1 rounded-2xl"
       }
-      style={style}
+      style={[style, containerStyle]}
     >
       <View className={side === "right" ? "mr-7" : "ml-7"}>
         <Animated.View style={animatedStyle}>
           <Icon name={icon ?? "Trash2"} className="text-white" size={24} />
         </Animated.View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -85,7 +81,7 @@ const SwipeableRow = forwardRef<SwipeableMethods, Props>(function SwipeableRow(
     onPress,
     children,
   },
-  ref
+  ref,
 ) {
   // ReanimatedSwipeable reports the swipe direction: swiping left reveals the right actions.
   function handleOpen(direction: SwipeDirection) {
@@ -103,23 +99,23 @@ const SwipeableRow = forwardRef<SwipeableMethods, Props>(function SwipeableRow(
         ref={ref}
         friction={1}
         enableTrackpadTwoFingerGesture
-        renderRightActions={(_progress, translation) => (
+        renderRightActions={(progress) => (
           <SwipeAction
             side="right"
             icon={rightIcon}
             style={rightStyle}
-            translation={translation}
+            progress={progress}
           />
         )}
         onSwipeableWillOpen={handleOpen}
         renderLeftActions={
           onLeftOpen
-            ? (_progress, translation) => (
+            ? (progress) => (
                 <SwipeAction
                   side="left"
                   icon={leftIcon}
                   style={leftStyle}
-                  translation={translation}
+                  progress={progress}
                 />
               )
             : undefined
