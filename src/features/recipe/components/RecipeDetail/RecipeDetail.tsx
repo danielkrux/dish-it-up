@@ -2,6 +2,7 @@ import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescrip
 import { Image } from "expo-image";
 import type { ReactNode } from "react";
 import { View } from "react-native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import { LinearGradient } from "expo-linear-gradient";
 import ChipList from "~/components/ChipList";
@@ -28,7 +29,7 @@ export default function RecipeDetail({
   id?: number;
   formData?: Partial<RecipeUpdate>;
   header?: ReactNode;
-  logRecipeRef?: React.RefObject<BottomSheetModalMethods | null>;
+  logRecipeRef?: React.RefObject<BottomSheetModal | null>;
   testID?: string;
 }) {
   const fetchRecipe = useFetchRecipe(id);
@@ -83,20 +84,10 @@ export default function RecipeDetail({
     >
       {header}
       <View className="mb-4">
-        <View className="flex-row justify-between items-end mb-4 ios:mb-0 gap-4 hidden native:flex">
-          {!isWeb && (
-            <StarRating
-              onPress={() => logRecipeRef?.current?.present()}
-              initialValue={data?.rating}
-              short
-              className="ml-auto"
-            />
-          )}
-        </View>
         <View>
           <Image
             source={data?.images?.[0]}
-            className="bg-primary aspect-video rounded-2xl overflow-hidden"
+            className="bg-primary aspect-video rounded-2xl overflow-hidden z-0"
           />
           {data.categories?.length ? (
             <LinearGradient
@@ -112,13 +103,27 @@ export default function RecipeDetail({
               />
             </LinearGradient>
           ) : null}
+          {!isWeb && (
+            <StarRating
+              onPress={() => logRecipeRef?.current?.present()}
+              initialValue={data?.rating}
+              short
+              className="top-0 left-0 mt-4 ml-4 absolute"
+            />
+          )}
         </View>
       </View>
       {data?.description && (
         <Text className="mb-4 max-w-3xl">{data?.description}</Text>
       )}
       <Meta recipe={data} className="mb-5" />
-      <Ingredients recipe={data} className="mb-7" />
+      <Text type="header" size="xl">
+        Ingredients
+      </Text>
+      <Ingredients recipe={data} className="mb-7 pl-4" />
+      <Text type="header" size="xl">
+        Instructions
+      </Text>
       <Instructions recipe={data} className="mb-5" />
     </ScrollView>
   );

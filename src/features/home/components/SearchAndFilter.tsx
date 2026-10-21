@@ -1,5 +1,6 @@
-import { Button, Host, Image, Menu } from "@expo/ui/swift-ui";
+import { Button, Host, Menu } from "@expo/ui/swift-ui";
 import { GlassContainer, GlassView } from "expo-glass-effect";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef, useState } from "react";
 import {
@@ -16,6 +17,36 @@ import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import useFilterRecipes from "~/features/home/hooks/useFilterRecipes";
 import useSortRecipes from "~/features/home/hooks/useSortRecipes";
 import { cn } from "~/utils/tailwind";
+
+type GlassIconButtonProps = {
+  icon: string;
+  rotation?: number;
+};
+
+function GlassIconButton({ icon, rotation = 0 }: GlassIconButtonProps) {
+  return (
+    <GlassView
+      className="p-3 rounded-full"
+      style={{
+        width: 48,
+        height: 48,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      isInteractive
+    >
+      <Image
+        source={icon}
+        style={{
+          height: 20,
+          width: 20,
+          color: "black",
+          ...(rotation && { transform: [{ rotate: `${rotation}deg` }] }),
+        }}
+      />
+    </GlassView>
+  );
+}
 
 function SeachAndFilter({ className }: { className?: string }) {
   const router = useRouter();
@@ -61,37 +92,17 @@ function SeachAndFilter({ className }: { className?: string }) {
         </GlassView>
         {isSearching && (
           <Pressable onPress={cancelSearch}>
-            <GlassView className="p-3 rounded-full" isInteractive>
-              <Host
-                style={{
-                  width: 35,
-                  height: 35,
-                  left: -20,
-                  transform: [{ rotate: "90deg" }],
-                }}
-              >
-                <Image systemName="xmark" color="black" />
-              </Host>
-            </GlassView>
+            <GlassIconButton icon="sf:xmark" />
           </Pressable>
         )}
         {!isSearching && (
-          <Host>
-            <Menu
-              label={
-                <GlassView className="p-3 rounded-full" isInteractive>
-                  <Host
-                    style={{
-                      width: 35,
-                      height: 35,
-                      transform: [{ rotate: "90deg" }],
-                    }}
-                  >
-                    <Image systemName="ellipsis" color="black" />
-                  </Host>
-                </GlassView>
-              }
-            >
+          <Host
+            style={{
+              width: 48,
+              height: 48,
+            }}
+          >
+            <Menu label={<GlassIconButton icon="sf:ellipsis" rotation={90} />}>
               <Menu label="Sort..." systemImage="arrow.up.arrow.down">
                 {sortOptions.map((option) => (
                   <Button
