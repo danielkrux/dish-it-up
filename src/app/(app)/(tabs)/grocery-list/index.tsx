@@ -50,7 +50,7 @@ function GroceryList() {
   // }
 
   return (
-    <KeyboardAwareScrollView bottomOffset={20} className="px-4 md:px-8">
+    <KeyboardAwareScrollView className="px-4 md:px-8">
       {groceries.data?.map((grocery) => (
         <ListButton
           key={grocery.id}
